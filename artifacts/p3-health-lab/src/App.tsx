@@ -43,6 +43,15 @@ const researchAreas = [
   { title: 'Global health & sustainable cities', text: 'Learning with communities to make urban health solutions locally useful and globally relevant.', meta: 'Cities · Collaboration' },
 ];
 
+const researchTopics = [
+  { id: 'air-pollution', title: 'Air Pollution & Exposure Science', text: 'Measuring air pollution and other environmental exposures across the places where people live, learn, work, and move.', meta: 'Exposure · Measurement' },
+  { id: 'climate', title: 'Climate Change, Wildfires & Heat', text: 'Examining how climate change, wildfire smoke, and extreme heat shape environmental health and preparedness.', meta: 'Climate health · Resilience' },
+  { id: 'children', title: 'Children’s Environmental Health', text: 'Studying environmental conditions in the everyday settings that support children’s health and development.', meta: 'Early life · Equity' },
+  { id: 'environmental-justice', title: 'Environmental Justice', text: 'Attending to how environmental risks, protections, and the ability to shape decisions are distributed across communities.', meta: 'Equity · Place' },
+  { id: 'one-health', title: 'One Health, Bioaerosols & AMR', text: 'Connecting human, animal, and environmental health through bioaerosols and antimicrobial resistance.', meta: 'One Health · Microbiology' },
+  { id: 'sustainable-transport', title: 'Sustainable Transport & Cities', text: 'Exploring how transport systems and urban form influence environmental exposures and health.', meta: 'Cities · Mobility' },
+];
+
 const homeFocuses = [
   { label: 'Environmental exposures', text: 'Air pollution, household energy use, and environmental contaminants in the places people live, learn, work, and move.' },
   { label: 'Climate and changing places', text: 'Wildfire smoke, extreme heat, and changing urban environments understood through a health lens.' },
@@ -97,12 +106,7 @@ function Shell({ children }: { children: ReactNode }) {
       href: '/research',
       children: [
         ['Research overview', '/research'],
-        ['Air pollution & exposure science', '/research#air-pollution'],
-        ['Environmental microbiology & AMR', '/research#microbiology'],
-        ['Climate, wildfires & extreme heat', '/research#climate'],
-        ['Children’s environmental health', '/research#children'],
-        ['Clinical trials & interventions', '/research#interventions'],
-        ['Global health & sustainable cities', '/research#global-health'],
+        ...researchTopics.map((topic) => [topic.title, `/research#${topic.id}`] as [string, string]),
       ],
     },
     {
@@ -320,11 +324,10 @@ function PageHero({ eyebrow, title, text, action }: { eyebrow: string; title: Re
 }
 
 function Research() {
-  const areaIds = ['air-pollution', 'microbiology', 'climate', 'children', 'interventions', 'global-health'];
   const evidenceFlow = [
-    { number: '01', label: 'Exposure', text: researchAreas[0].text },
-    { number: '02', label: 'Evidence', text: 'We pair measurement with meaning — sensors with stories, trials with trust, and global questions with local knowledge.' },
-    { number: '03', label: 'Intervention', text: researchAreas[4].text },
+    { number: '01', label: 'Exposure', text: 'We begin with the environmental conditions and exposures that shape everyday health.' },
+    { number: '02', label: 'Evidence', text: 'We bring measurement into conversation with lived experience, context, and the questions communities carry.' },
+    { number: '03', label: 'Intervention', text: 'We study practical ways to reduce risk, strengthen health, and support change in real places.' },
   ];
 
   return <div className="research-page">
@@ -336,7 +339,7 @@ function Research() {
         <nav className="research-anchor-nav" aria-label="Research sections">
           <a href="#research-overview" data-testid="link-research-overview"><span>01</span><strong>Overview</strong></a>
           <a href="#research-method" data-testid="link-research-method"><span>02</span><strong>From question to action</strong></a>
-          {researchAreas.map((area, index) => <a href={`#${areaIds[index]}`} key={area.title} data-testid={`link-research-anchor-${index}`}><span>{String(index + 1).padStart(2, '0')}</span><strong>{area.title}</strong></a>)}
+          {researchTopics.map((topic, index) => <a href={`#${topic.id}`} key={topic.title} data-testid={`link-research-anchor-${index}`}><span>{String(index + 3).padStart(2, '0')}</span><strong>{topic.title}</strong></a>)}
         </nav>
       </div>
     </section>
@@ -347,6 +350,11 @@ function Research() {
         <div>
           <div className="section-head research-section-head"><div><span className="eyebrow">Our areas</span><h2>From a particle in the air to a city’s big decision.</h2></div><p>Our questions are deliberately porous. The strongest work often sits at the boundary of two disciplines — or two communities.</p></div>
           <p className="research-overview-lede">Understanding exposures. Designing <em>interventions.</em> Improving health.</p>
+          <div className="research-lenses" aria-label="Connections across the research programme">
+            <div><span>01</span><strong>Exposures</strong><p>What people encounter in the environments around them.</p></div>
+            <div><span>02</span><strong>Environments</strong><p>How homes, cities, climate, and shared spaces shape risk.</p></div>
+            <div><span>03</span><strong>Health &amp; action</strong><p>Evidence that can inform care, policy, and practical change.</p></div>
+          </div>
         </div>
       </div>
     </section>
@@ -367,13 +375,13 @@ function Research() {
 
     <section className="section research-record" aria-labelledby="research-record-title" data-reveal="up">
       <div className="container-wide">
-        <div className="section-head"><div><span className="eyebrow">The research record</span><h2 id="research-record-title">Six routes into a healthier tomorrow.</h2></div><p>Different questions, one connected lens: how environments shape health — and how better choices can shape environments.</p></div>
+        <div className="section-head"><div><span className="eyebrow">The research record</span><h2 id="research-record-title">Six areas of inquiry.</h2></div><p>Different questions, one connected lens: how environments shape health, and how evidence can inform healthier places.</p></div>
         <div className="research-grid">
-          {researchAreas.map((area, index) => <article className="research-card research-card-anchor" id={areaIds[index]} key={area.title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-research-${index}`}>
+          {researchTopics.map((topic, index) => <article className="research-card research-card-anchor" id={topic.id} key={topic.title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-research-${index}`}>
             <div className="card-number"><span>0{index + 1}</span><CircleArrowUp size={17} aria-hidden="true" /></div>
-            <h3>{area.title}</h3>
-            <p>{area.text}</p>
-            <span className="card-meta">{area.meta}</span>
+            <h3>{topic.title}</h3>
+            <p>{topic.text}</p>
+            <span className="card-meta">{topic.meta}</span>
           </article>)}
         </div>
       </div>
@@ -383,6 +391,7 @@ function Research() {
       <div className="container-wide research-return-grid">
         <div><span className="eyebrow">A connected record</span><h2>Research is shared through questions, scholarship, teaching, and community practice.</h2></div>
         <div className="research-return-links">
+          <Link href="/people" className="research-return-link" data-testid="link-research-people"><span>01 · People</span><strong>Meet the lab</strong><small>See the people who carry these questions.</small><ArrowUpRight size={17} aria-hidden="true" /></Link>
           <Link href="/publications" className="research-return-link" data-testid="link-research-publications"><span>02 · Scholarship</span><strong>Selected publications</strong><small>Read the evidence behind the questions.</small><ArrowUpRight size={17} aria-hidden="true" /></Link>
           <Link href="/humekaneza" className="research-return-link" data-testid="link-research-community"><span>03 · Community</span><strong>HumekaNeza</strong><small>Learning, measuring, communicating, and acting.</small><ArrowUpRight size={17} aria-hidden="true" /></Link>
         </div>
