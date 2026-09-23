@@ -553,6 +553,34 @@ body {
   line-height: 1.7;
 }
 
+.hero-byline {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  max-width: 500px;
+  margin-top: 24px;
+  padding-top: 15px;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.hero-byline strong {
+  min-width: 150px;
+  color: hsl(var(--primary));
+  font-family: var(--app-font-serif);
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: -.02em;
+}
+
+.hero-byline span {
+  color: hsl(var(--muted-foreground));
+  font-family: var(--app-font-mono);
+  font-size: .62rem;
+  line-height: 1.55;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
 .hero-actions {
   margin-top: 32px;
 }
@@ -650,6 +678,50 @@ body {
   background: hsl(var(--secondary) / .72);
 }
 
+.focus-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-block: 1px solid hsl(var(--border));
+}
+
+.focus-item {
+  min-height: 238px;
+  padding: 22px 22px 25px;
+  border-right: 1px solid hsl(var(--border));
+}
+
+.focus-item:last-child {
+  border-right: 0;
+}
+
+.focus-number,
+.record-kicker {
+  display: block;
+  color: hsl(var(--primary));
+  font-family: var(--app-font-mono);
+  font-size: .64rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.focus-item h3 {
+  max-width: 210px;
+  margin: 48px 0 12px;
+  font-family: var(--app-font-serif);
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -.03em;
+}
+
+.focus-item p {
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .78rem;
+  line-height: 1.6;
+}
+
 .research-grid {
   gap: 0;
   background: hsl(var(--border));
@@ -694,6 +766,82 @@ body {
 
 .quote-section cite {
   color: hsl(var(--primary));
+}
+
+.home-record-section {
+  border-top: 1px solid hsl(var(--border));
+}
+
+.home-record-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: hsl(var(--border));
+  border: 1px solid hsl(var(--border));
+}
+
+.record-link {
+  position: relative;
+  display: flex;
+  min-height: 205px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 25px;
+  background: hsl(var(--card));
+  transition: background var(--motion-normal) ease;
+}
+
+.record-link:hover,
+.record-link:focus-visible {
+  background: hsl(var(--primary) / .045);
+}
+
+.record-link strong {
+  margin-top: 42px;
+  font-family: var(--app-font-serif);
+  font-size: 1.45rem;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -.04em;
+}
+
+.record-link > span:not(.record-kicker) {
+  max-width: 220px;
+  margin-top: 10px;
+  color: hsl(var(--muted-foreground));
+  font-size: .78rem;
+  line-height: 1.5;
+}
+
+.record-link > svg {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  color: hsl(var(--primary));
+  transition: transform var(--motion-fast) var(--motion-ease);
+}
+
+.record-link:hover > svg,
+.record-link:focus-visible > svg {
+  transform: translate(3px, -3px);
+}
+
+.home-join-section {
+  background: hsl(var(--muted) / .55);
+  border-top: 1px solid hsl(var(--border));
+}
+
+.home-join-section .section-head {
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.home-join-section .section-head > div:last-child {
+  max-width: 365px;
+}
+
+.home-join-section .button-primary {
+  margin-top: 20px;
 }
 
 .page-hero {
@@ -851,6 +999,18 @@ body {
   .section {
     padding: 88px 0;
   }
+
+  .focus-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .focus-item:nth-child(2) {
+    border-right: 0;
+  }
+
+  .focus-item:nth-child(-n + 2) {
+    border-bottom: 1px solid hsl(var(--border));
+  }
 }
 
 @media (max-width: 760px) {
@@ -879,6 +1039,15 @@ body {
     font-size: .98rem;
   }
 
+  .hero-byline {
+    display: block;
+  }
+
+  .hero-byline strong {
+    display: block;
+    margin-bottom: 7px;
+  }
+
   .hero-art {
     min-height: 300px;
   }
@@ -893,6 +1062,22 @@ body {
 
   .intro-grid {
     gap: 54px;
+  }
+
+  .focus-grid,
+  .home-record-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .focus-item,
+  .focus-item:nth-child(2) {
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .focus-item:last-child {
+    border-bottom: 0;
   }
 
   .page-hero {
