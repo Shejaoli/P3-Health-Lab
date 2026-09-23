@@ -320,7 +320,75 @@ function PageHero({ eyebrow, title, text, action }: { eyebrow: string; title: Re
 }
 
 function Research() {
-  return <><PageHero eyebrow="Research / 01" title={<>Questions that start <em>close to home.</em></>} text="We study the exposures people encounter, the environments they move through, and the interventions that make healthier choices possible." action={<Link href="/get-involved" className="button-secondary" data-testid="link-research-collaborate">Work with us <ArrowUpRight size={15} aria-hidden="true" /></Link>} /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Our areas</span><h2>From a particle in the air to a city’s big decision.</h2></div><p>Our questions are deliberately porous. The strongest work often sits at the boundary of two disciplines — or two communities.</p></div><div className="research-grid">{researchAreas.map((area, index) => <article className="research-card" key={area.title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-research-${index}`}><div className="card-number"><span>0{index + 1}</span><CircleArrowUp size={17} aria-hidden="true" /></div><h3>{area.title}</h3><p>{area.text}</p><span className="card-meta">{area.meta}</span></article>)}</div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">How we work</span><h2 className="display" style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)', lineHeight: 1 }}>Evidence with a return address.</h2></div><div><p className="intro-copy">We pair <mark>measurement</mark> with meaning — sensors with stories, trials with trust, and global questions with local knowledge.</p><p className="tiny-copy">P3 projects are built to be shared. We publish, teach, test, translate, and listen again. That loop is how research earns its way into everyday places.</p></div></div></section></>;
+  const areaIds = ['air-pollution', 'microbiology', 'climate', 'children', 'interventions', 'global-health'];
+  const evidenceFlow = [
+    { number: '01', label: 'Exposure', text: researchAreas[0].text },
+    { number: '02', label: 'Evidence', text: 'We pair measurement with meaning — sensors with stories, trials with trust, and global questions with local knowledge.' },
+    { number: '03', label: 'Intervention', text: researchAreas[4].text },
+  ];
+
+  return <div className="research-page">
+    <PageHero eyebrow="Research / 01" title={<>Questions that start <em>close to home.</em></>} text="We study the exposures people encounter, the environments they move through, and the interventions that make healthier choices possible." action={<Link href="/get-involved" className="button-secondary" data-testid="link-research-collaborate">Work with us <ArrowUpRight size={15} aria-hidden="true" /></Link>} />
+
+    <section className="research-index" aria-label="Research page navigation" data-reveal="up">
+      <div className="container-wide research-index-inner">
+        <div className="research-index-label"><span className="eyebrow">On this page</span><span className="research-index-note">A connected record of inquiry</span></div>
+        <nav className="research-anchor-nav" aria-label="Research sections">
+          <a href="#research-overview" data-testid="link-research-overview"><span>01</span><strong>Overview</strong></a>
+          <a href="#research-method" data-testid="link-research-method"><span>02</span><strong>From question to action</strong></a>
+          {researchAreas.map((area, index) => <a href={`#${areaIds[index]}`} key={area.title} data-testid={`link-research-anchor-${index}`}><span>{String(index + 1).padStart(2, '0')}</span><strong>{area.title}</strong></a>)}
+        </nav>
+      </div>
+    </section>
+
+    <section className="section research-overview" id="research-overview" data-reveal="up">
+      <div className="container-wide research-overview-grid">
+        <div className="research-overview-mark" aria-hidden="true"><span>01</span><i /><i /><i /></div>
+        <div>
+          <div className="section-head research-section-head"><div><span className="eyebrow">Our areas</span><h2>From a particle in the air to a city’s big decision.</h2></div><p>Our questions are deliberately porous. The strongest work often sits at the boundary of two disciplines — or two communities.</p></div>
+          <p className="research-overview-lede">Understanding exposures. Designing <em>interventions.</em> Improving health.</p>
+        </div>
+      </div>
+    </section>
+
+    <section className="section section-tinted research-method" id="research-method" data-reveal="up">
+      <div className="container-wide">
+        <div className="research-method-head"><div><span className="eyebrow">How we work</span><h2 className="display">Evidence with a return address.</h2></div><p>We pair <mark>measurement</mark> with meaning — sensors with stories, trials with trust, and global questions with local knowledge.</p></div>
+        <div className="evidence-flow" aria-label="How research moves from exposure to intervention">
+          {evidenceFlow.map((step, index) => <article className="evidence-step" key={step.label} data-reveal="up" style={{ transitionDelay: `${index * 100}ms` }} data-testid={`step-research-flow-${step.label.toLowerCase()}`}>
+            <div className="evidence-step-top"><span>{step.number}</span>{index < evidenceFlow.length - 1 && <span className="evidence-connector" aria-hidden="true" />}</div>
+            <h3>{step.label}</h3>
+            <p>{step.text}</p>
+          </article>)}
+        </div>
+        <p className="research-method-foot">P3 projects are built to be shared. We publish, teach, test, translate, and listen again. That loop is how research earns its way into everyday places.</p>
+      </div>
+    </section>
+
+    <section className="section research-record" aria-labelledby="research-record-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head"><div><span className="eyebrow">The research record</span><h2 id="research-record-title">Six routes into a healthier tomorrow.</h2></div><p>Different questions, one connected lens: how environments shape health — and how better choices can shape environments.</p></div>
+        <div className="research-grid">
+          {researchAreas.map((area, index) => <article className="research-card research-card-anchor" id={areaIds[index]} key={area.title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-research-${index}`}>
+            <div className="card-number"><span>0{index + 1}</span><CircleArrowUp size={17} aria-hidden="true" /></div>
+            <h3>{area.title}</h3>
+            <p>{area.text}</p>
+            <span className="card-meta">{area.meta}</span>
+          </article>)}
+        </div>
+      </div>
+    </section>
+
+    <section className="section section-tinted research-return" data-reveal="up">
+      <div className="container-wide research-return-grid">
+        <div><span className="eyebrow">A connected record</span><h2>Research is shared through questions, scholarship, teaching, and community practice.</h2></div>
+        <div className="research-return-links">
+          <Link href="/publications" className="research-return-link" data-testid="link-research-publications"><span>02 · Scholarship</span><strong>Selected publications</strong><small>Read the evidence behind the questions.</small><ArrowUpRight size={17} aria-hidden="true" /></Link>
+          <Link href="/humekaneza" className="research-return-link" data-testid="link-research-community"><span>03 · Community</span><strong>HumekaNeza</strong><small>Learning, measuring, communicating, and acting.</small><ArrowUpRight size={17} aria-hidden="true" /></Link>
+        </div>
+      </div>
+    </section>
+  </div>;
 }
 
 function People() {
