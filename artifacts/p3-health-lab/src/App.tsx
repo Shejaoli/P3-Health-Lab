@@ -71,14 +71,17 @@ const homeFocuses = [
 ];
 
 const people = [
-  { initials: 'EK', name: 'Dr. Egide Kalisa', role: 'Principal investigator', text: 'Exposure scientist and global health researcher at Western University.' },
-  { initials: 'AM', name: 'Aline Mukamana', role: 'PhD researcher', text: 'Studying household air quality and healthy homes across climate contexts.' },
-  { initials: 'JT', name: 'Jamal Thompson', role: 'Research associate', text: 'Translating environmental measurements into community-facing tools.' },
-  { initials: 'NR', name: 'Nadia Rahman', role: 'Graduate trainee', text: 'Exploring the links between heat, air quality, and children’s health.' },
-  { initials: 'SC', name: 'Sofia Chen', role: 'MSc researcher', text: 'Mapping environmental microbiology across shared urban spaces.' },
-  { initials: 'DM', name: 'Daniel Mutesa', role: 'Alumni · 2023', text: 'Now building evidence-informed climate programs in East Africa.' },
-  { initials: 'LP', name: 'Léa Pelletier', role: 'Research coordinator', text: 'Supporting thoughtful, accessible research partnerships.' },
-  { initials: 'OB', name: 'Owen Bennett', role: 'Undergraduate trainee', text: 'Learning how data can help communities ask better questions.' },
+  { initials: 'EK', name: 'Dr. Egide Kalisa', role: 'Principal Investigator · Director', institution: 'Assistant Professor · Western University', text: 'Director, P3 Health Lab / HELTH Lab.' },
+];
+
+const peopleCategories = [
+  ['postdoctoral', 'Postdoctoral Fellows'],
+  ['phd', 'PhD Students'],
+  ['masters', 'MSc Students'],
+  ['undergraduate', 'Undergraduate Researchers'],
+  ['visiting', 'Visiting Researchers & Students'],
+  ['staff', 'Research Assistants & Staff'],
+  ['alumni', 'Alumni'],
 ];
 
 const publications = [
@@ -441,10 +444,7 @@ function Projects() {
 }
 
 function People() {
-  const [group, setGroup] = useState('All');
-  const groups = ['All', 'Researchers', 'Trainees', 'Alumni'];
-  const filtered = people.filter((person) => group === 'All' || person.role.toLowerCase().includes(group.slice(0, -1).toLowerCase()) || (group === 'Researchers' && person.role.includes('coordinator')));
-  return <><PageHero eyebrow="People / 02" title={<>A lab is a <em>collective.</em></>} text="We are researchers, students, collaborators, and alumni — connected by curiosity, care, and the belief that good health evidence should travel." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">The P3 community</span><h2>Many routes in. Shared responsibility out.</h2></div><p>Meet the people making space for better questions and more useful answers.</p></div><div className="filter-bar">{groups.map((item) => <button className={`filter-btn ${group === item ? 'active' : ''}`} key={item} onClick={() => setGroup(item)} data-testid={`button-filter-people-${item.toLowerCase()}`}>{item}</button>)}</div><div className="people-grid">{filtered.map((person, index) => <article className="person-card" key={person.name} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-person-${index}`}><div className="person-initial" aria-label={`${person.name} initials`}>{person.initials}</div><h3>{person.name}</h3><span className="person-role">{person.role}</span><p>{person.text}</p></article>)}</div>{filtered.length === 0 && <div className="success-note" role="status">No people in this view yet. Try another pathway.</div>}</div></section><section className="contact-band" data-reveal="up"><div className="container-wide contact-grid"><h2>Good research is a team sport.</h2><Link href="/get-involved" className="button-primary" data-testid="link-people-join">Find your pathway <ArrowUpRight size={15} aria-hidden="true" /></Link></div></section></>;
+  return <><PageHero eyebrow="People / 02" title={<>The people behind the <em>work.</em></>} text="P3 Health Lab / HELTH Lab is directed by Dr. Egide Kalisa at Western University. Additional team profiles will be published as verified information becomes available." /><section className="section people-section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Current leadership</span><h2>A careful record of the lab team.</h2></div><p>Only confirmed team information is listed here. This page will grow without filling gaps with assumptions.</p></div><div className="people-grid people-grid-featured">{people.map((person, index) => <article className="person-card person-card-featured" key={person.name} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-person-${index}`}><div className="person-initial" aria-hidden="true">{person.initials}</div><div className="person-card-copy"><span className="eyebrow">Principal Investigator</span><h3>{person.name}</h3><span className="person-role">{person.role}</span><p className="person-institution">{person.institution}</p><p>{person.text}</p></div></article>)}</div></div></section><section className="section section-tinted people-categories" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Team categories</span><h2>Profiles will be added with care.</h2></div><p>Names, positions, and biographies are shown only when they have been verified for publication.</p></div><div className="team-category-list">{peopleCategories.map(([id, label], index) => <article className="team-category" id={id} key={id} data-testid={`category-people-${id}`}><span className="team-category-number">{String(index + 1).padStart(2, '0')}</span><h3>{label}</h3><span className="team-category-status">No verified profiles published yet.</span></article>)}</div></div></section><section className="contact-band" id="join" data-reveal="up"><div className="container-wide contact-grid"><div><span className="eyebrow">Join the lab</span><h2>Bring a question, not a template.</h2></div><Link href="/get-involved" className="button-primary" data-testid="link-people-join">Find your pathway <ArrowUpRight size={15} aria-hidden="true" /></Link></div></section></>;
 }
 
 function Publications() {
