@@ -1,0 +1,1152 @@
+MASTER PROMPT — P3 HEALTH LAB PREMIUM ANIMATION SYSTEM
+
+I want you to upgrade the existing P3 Health Lab website with a sophisticated, highly polished animation system.
+
+IMPORTANT:
+Do NOT rebuild the website from scratch.
+Do NOT change the existing content, branding, structure, colors, logo, typography, navigation functionality, or page layout unless specifically required below for the animations.
+
+The goal is to make the website feel alive, premium, modern, scientific, human, and memorable while remaining extremely fast.
+
+The central creative concept is:
+
+“THE WEBSITE BREATHES.”
+
+The organization's motto is:
+
+“Breathe Well”
+“Umekaneza”
+
+Use breathing, airflow, rhythm, movement, and subtle organic motion as the visual language of the website.
+
+The animations should feel appropriate for a medical/health organization — NOT like a gaming website, cryptocurrency website, or flashy marketing landing page.
+
+==================================================
+1. CORE CREATIVE DIRECTION
+==================================================
+
+Create one unified animation language throughout the website.
+
+The animation system should communicate:
+
+- breathing
+- health
+- life
+- movement
+- connection
+- people
+- planet
+- place
+- scientific thinking
+- calmness
+- trust
+- professionalism
+
+The animations should be subtle enough that a visitor does not immediately think:
+
+“Wow, this website has lots of animations.”
+
+Instead, they should subconsciously feel:
+
+“This website feels alive, calm, intelligent, and different.”
+
+Avoid excessive movement.
+
+Every animation must have a purpose.
+
+==================================================
+2. THE SIGNATURE “BREATHING WEBSITE” EFFECT
+==================================================
+
+Create a subtle breathing animation that becomes the signature visual identity.
+
+Use lightweight CSS/SVG techniques.
+
+DO NOT use video, GIF, WebGL, or heavy animation libraries.
+
+The breathing effect should behave approximately like:
+
+INHALE
+→ element gently expands
+
+SHORT PAUSE
+→ element holds
+
+EXHALE
+→ element gently contracts
+
+SHORT PAUSE
+→ repeat
+
+The movement must be slow and calm.
+
+Suggested timing:
+5–7 seconds per complete breathing cycle.
+
+Suggested scale:
+1.00 → 1.025 → 1.00
+
+Do NOT make it visually obvious or distracting.
+
+Possible applications:
+
+- subtle background circles
+- abstract airflow elements
+- hero decorative shapes
+- soft radial gradients
+- SVG paths
+- small elements around the P3 branding
+
+The breathing effect should never move important text enough to affect readability.
+
+==================================================
+3. HERO SECTION
+==================================================
+
+Upgrade the hero section with the strongest version of the breathing concept.
+
+The hero should feel calm and alive.
+
+Create a subtle animated background element representing airflow.
+
+Possible design:
+
+- extremely soft circular/radial forms
+- thin curved SVG airflow lines
+- gentle expansion/contraction
+- very subtle movement behind the hero content
+
+The hero content itself should remain stable.
+
+Do NOT animate everything simultaneously.
+
+Animation order:
+
+1. Background appears
+2. Logo/visual identity appears softly
+3. Main heading reveals
+4. Supporting text appears
+5. CTA/buttons appear
+6. Ambient breathing animation continues
+
+Use staggered timing, approximately:
+
+Background:
+0ms
+
+Brand/visual:
+100ms
+
+Heading:
+180ms
+
+Description:
+280ms
+
+CTA:
+380ms
+
+Keep the entire entrance sequence fast.
+
+Target:
+approximately 600–1000ms total.
+
+==================================================
+4. “BREATHE WELL / UMEKANEZA” MOMENT
+==================================================
+
+Create one memorable visual moment around the motto:
+
+“Breathe Well”
+“Umekaneza”
+
+Do NOT make this look like a normal text fade.
+
+Use the breathing concept.
+
+Example:
+
+The text initially appears slightly soft/subtle.
+
+A gentle expanding circular/airflow element passes behind it.
+
+As the element expands:
+
+“Breathe Well”
+
+comes into focus.
+
+Then:
+
+“Umekaneza”
+
+appears subtly beneath or beside it depending on the existing layout.
+
+The effect must remain elegant and professional.
+
+Do not over-animate the text.
+
+==================================================
+5. AIRFLOW SVG ANIMATION
+==================================================
+
+Create lightweight SVG airflow lines.
+
+The lines should resemble flowing air rather than decorative waves.
+
+Example conceptual movement:
+
+~~~~~~~>
+~~~~~~~~~~~~>
+~~~~~~>
+
+Use the P3 Health Lab brand colors where appropriate.
+
+The airflow should move slowly.
+
+Use SVG path animation, CSS transforms, or similarly lightweight techniques.
+
+DO NOT use animated raster images.
+
+The airflow should appear only in selected sections, not everywhere.
+
+Good locations:
+
+- Hero
+- Breathe Well section
+- selected transition sections
+- potentially around P3 People / Planet / Place
+
+Avoid putting airflow behind dense paragraphs.
+
+==================================================
+6. SCROLL-BASED REVEAL SYSTEM
+==================================================
+
+Implement a professional scroll reveal system.
+
+Use IntersectionObserver rather than expensive scroll event listeners wherever possible.
+
+Elements should reveal when they enter the viewport.
+
+Preferred reveal behavior:
+
+opacity:
+0 → 1
+
+transform:
+translateY(20px) → translateY(0)
+
+optionally:
+
+filter:
+blur(4px) → blur(0)
+
+BUT:
+
+Keep the movement small.
+
+Do NOT make sections fly in from huge distances.
+
+Do NOT animate every individual word.
+
+Do NOT animate every paragraph separately.
+
+Group related content together.
+
+Suggested timing:
+
+300–700ms
+
+with smooth easing.
+
+Example:
+
+cubic-bezier(0.22, 1, 0.36, 1)
+
+Use staggered animation only when multiple cards/items appear together.
+
+Example:
+
+Card 1:
+0ms
+
+Card 2:
+80ms
+
+Card 3:
+160ms
+
+Card 4:
+240ms
+
+Do not exceed approximately 100ms stagger between normal items.
+
+==================================================
+7. PEOPLE • PLANET • PLACE
+==================================================
+
+This section should receive special treatment.
+
+The existing concepts are:
+
+PEOPLE
+PLANET
+PLACE
+
+Create a subtle scroll-driven storytelling effect.
+
+As the user scrolls:
+
+PEOPLE
+
+appears naturally.
+
+Then:
+
+PLANET
+
+enters.
+
+Then:
+
+PLACE
+
+enters.
+
+The transitions should feel connected rather than like three unrelated animations.
+
+Use:
+
+- opacity
+- slight vertical movement
+- subtle scale
+- very subtle color/line transitions
+
+Do NOT create dramatic sliding panels.
+
+The final visual relationship should communicate:
+
+People → Planet → Place
+
+These three concepts should feel like parts of one system.
+
+If technically appropriate, allow a subtle connecting line/airflow path to visually connect the three concepts.
+
+==================================================
+8. P3 APPROACH / NUMBERED SECTIONS
+==================================================
+
+If the website contains numbered sections such as:
+
+01
+02
+03
+etc.
+
+Give those numbers subtle entrance animations.
+
+For example:
+
+The number can appear through:
+
+opacity:
+0 → 1
+
+scale:
+0.94 → 1
+
+and a small vertical movement.
+
+The animation should make the number feel editorial and intentional.
+
+Do NOT make the numbers bounce.
+
+Do NOT use exaggerated effects.
+
+==================================================
+9. CARDS
+==================================================
+
+For service cards, research cards, project cards, publication cards, team cards, or similar components:
+
+Default state:
+stable and clean.
+
+On hover:
+
+- very slight lift
+- tiny scale increase
+- subtle shadow enhancement
+- optional thin accent-line movement
+
+Suggested:
+
+transform:
+translateY(-3px) scale(1.01)
+
+Do NOT use:
+
+scale(1.1)
+
+Do NOT make cards jump.
+
+Do NOT cause layout shifts.
+
+On mobile, replace hover interactions with appropriate touch-friendly behavior or simply keep cards static.
+
+==================================================
+10. BUTTON ANIMATIONS
+==================================================
+
+Buttons should have subtle micro-interactions.
+
+On hover:
+
+- slight movement
+- background transition
+- subtle arrow/icon movement if an arrow exists
+
+Example:
+
+Arrow:
+translateX(0) → translateX(3px)
+
+Button:
+translateY(0) → translateY(-1px)
+
+Keep duration around:
+200–250ms
+
+Do not create glowing neon buttons.
+
+The website must remain medical/professional.
+
+==================================================
+11. NAVIGATION ANIMATION
+==================================================
+
+Keep the existing navigation functionality.
+
+Add subtle animation to the mobile hamburger menu.
+
+When opened:
+
+- hamburger transforms smoothly into close icon
+- navigation panel appears smoothly
+- menu items stagger slightly
+
+Example:
+
+Menu panel:
+opacity 0 → 1
+
+transform:
+translateY(-8px) → translateY(0)
+
+Menu items:
+small stagger
+
+Do NOT use a slow full-screen animation.
+
+Target:
+250–400ms.
+
+==================================================
+12. MOBILE NAVBAR
+==================================================
+
+IMPORTANT:
+The previously requested P3 Health Lab mobile navbar changes remain MOBILE-ONLY.
+
+DO NOT modify the desktop navbar.
+
+On mobile:
+
+- Keep the existing P3 Health Lab logo.
+- Put the logo on the LEFT.
+- Put the text “P3 Health Lab” immediately beside the logo.
+- Hamburger menu remains on the RIGHT.
+- White pill-shaped navbar.
+- Subtle shadow.
+- Rounded corners.
+- Vertically centered content.
+
+Use the P3 Health Lab brand colors.
+
+The text “P3 Health Lab” must be real HTML text, not baked into an image.
+
+Desktop navbar must remain unchanged.
+
+==================================================
+13. PAGE TRANSITIONS
+==================================================
+
+If the website has multiple pages/routes, implement a lightweight page transition.
+
+DO NOT create a long loading screen.
+
+Target:
+250–450ms.
+
+Preferred transition:
+
+Current page:
+slight fade
+
+New page:
+fade + very small upward movement
+
+Optionally use the breathing concept:
+
+A soft circular element can briefly expand during the transition.
+
+But keep this extremely subtle.
+
+Navigation must remain responsive.
+
+Never make the visitor wait for an animation.
+
+==================================================
+14. LOADING ANIMATION
+==================================================
+
+Create a premium lightweight loading animation if a loading state is actually necessary.
+
+Do NOT use a traditional spinning circle.
+
+Use the P3 concept.
+
+Possible sequence:
+
+P3 logo/mark appears.
+
+A subtle airflow line moves around or through it.
+
+A soft breathing expansion occurs.
+
+Then the page becomes visible.
+
+Maximum visual duration:
+approximately 800–1200ms.
+
+IMPORTANT:
+
+If the page has already loaded before the animation finishes, immediately finish the animation.
+
+Never artificially delay page rendering.
+
+Never force users to watch a loader.
+
+==================================================
+15. LOGO MICRO-ANIMATION
+==================================================
+
+If technically safe, add a very subtle logo entrance animation.
+
+Do not continuously animate the logo.
+
+Only animate it:
+
+- on initial page load
+- optionally during a relevant transition
+
+Possible effect:
+
+opacity:
+0 → 1
+
+scale:
+0.97 → 1
+
+with a very subtle upward movement.
+
+Do NOT distort the logo.
+
+Do NOT recolor the logo.
+
+Do NOT redraw the logo.
+
+==================================================
+16. BREATHING CURSOR — DESKTOP ONLY
+==================================================
+
+Consider implementing a very subtle cursor halo on desktop.
+
+When the mouse is moving:
+the halo follows subtly.
+
+When the mouse becomes still:
+the halo gently expands/contracts like breathing.
+
+This must NOT interfere with normal cursor functionality.
+
+Do NOT hide the actual cursor.
+
+Do NOT implement this on mobile.
+
+If this effect has any noticeable performance cost, SKIP IT.
+
+Performance takes priority.
+
+==================================================
+17. IMAGE REVEALS
+==================================================
+
+For large images:
+
+Use a lightweight reveal.
+
+Example:
+
+container:
+overflow hidden
+
+image:
+opacity 0 → 1
+
+transform:
+scale(1.03) → scale(1)
+
+This should feel like the image is gently coming into focus.
+
+Duration:
+500–800ms.
+
+Do not use heavy blur effects on large images if they hurt performance.
+
+==================================================
+18. SECTION TRANSITIONS
+==================================================
+
+Use subtle visual continuity between major sections.
+
+Possible techniques:
+
+- thin animated lines
+- soft airflow paths
+- expanding circles
+- subtle gradient movement
+- tiny vertical shifts
+
+The transition should communicate that one section flows into another.
+
+Do NOT add decorative animation simply because space exists.
+
+==================================================
+19. “LUNG / AIR / LIFE” CONCEPT
+==================================================
+
+If the website's existing content is related to respiratory health, create an abstract breathing/lung-inspired visual.
+
+IMPORTANT:
+
+Do NOT create a medically inaccurate anatomical lung animation.
+
+Prefer an abstract representation:
+
+- two soft organic shapes
+- airflow lines
+- expanding/contracting forms
+- subtle connection in the center
+
+The visual should communicate breathing without pretending to be a scientific anatomical diagram.
+
+If the website is not specifically respiratory-focused, use generic airflow instead.
+
+==================================================
+20. P3 VISUAL STORY
+==================================================
+
+The overall animation story should follow:
+
+BREATH
+↓
+PEOPLE
+↓
+PLANET
+↓
+PLACE
+↓
+ACTION
+↓
+IMPACT
+
+Animations should reinforce this progression.
+
+Do not explain this with excessive text.
+
+Let the motion communicate the relationship.
+
+==================================================
+21. PERFORMANCE REQUIREMENTS — EXTREMELY IMPORTANT
+==================================================
+
+Performance is more important than visual complexity.
+
+The website must remain fast on:
+
+- budget Android phones
+- mid-range Android phones
+- older iPhones
+- slow mobile networks
+- desktop browsers
+
+Use:
+
+- CSS transforms
+- opacity
+- CSS keyframes
+- SVG
+- IntersectionObserver
+- lightweight JavaScript
+
+Avoid:
+
+- large animation libraries unless already required
+- heavy GSAP usage unless absolutely necessary
+- WebGL
+- Three.js
+- video backgrounds
+- GIF animations
+- huge Lottie files
+- canvas-heavy animations
+- continuous expensive JavaScript
+- scroll handlers running on every frame
+- unnecessary DOM manipulation
+
+Prefer GPU-friendly properties:
+
+transform
+opacity
+
+Avoid animating:
+
+width
+height
+top
+left
+margin
+padding
+
+when transform can achieve the same effect.
+
+Avoid layout thrashing.
+
+Avoid unnecessary re-renders.
+
+==================================================
+22. SCROLL PERFORMANCE
+==================================================
+
+Do NOT attach expensive animation logic directly to:
+
+window.onscroll
+
+for every scroll event.
+
+Use IntersectionObserver for reveal animations.
+
+If scroll position is genuinely required for a specific effect:
+
+- use requestAnimationFrame
+- throttle appropriately
+- avoid repeated DOM reads/writes
+- stop animations when elements are not visible
+
+The page should remain smooth while scrolling.
+
+==================================================
+23. ACCESSIBILITY
+==================================================
+
+Respect:
+
+prefers-reduced-motion
+
+If the user has reduced motion enabled:
+
+- disable breathing loops
+- disable decorative movement
+- remove large transitions
+- keep simple opacity transitions or no animation
+- preserve all content and functionality
+
+Animations must never be required to understand the website.
+
+Do not hide essential content until JavaScript executes.
+
+The website must remain usable if animations fail.
+
+==================================================
+24. MOBILE PERFORMANCE
+==================================================
+
+Mobile is the priority.
+
+At mobile widths:
+
+320px
+360px
+375px
+390px
+412px
+430px
+
+verify:
+
+- no horizontal overflow
+- no text clipping
+- no navbar overlap
+- no animation causing layout shifts
+- no buttons moving unexpectedly
+- no excessive CPU usage
+- no elements extending outside the viewport
+
+Reduce decorative animations on smaller screens if necessary.
+
+The animation system should automatically become lighter on weaker devices.
+
+==================================================
+25. DESKTOP PERFORMANCE
+==================================================
+
+Desktop can have slightly richer effects.
+
+However:
+
+Do NOT add animations merely because desktop hardware can handle them.
+
+The design must remain calm.
+
+==================================================
+26. COLOR USAGE
+==================================================
+
+Use the existing P3 Health Lab brand palette.
+
+Do not introduce random colors.
+
+Use existing:
+
+- teal/blue tones
+- green tones
+- navy/dark blue
+- existing orange/gold accent where already present
+
+Animation colors should feel like extensions of the existing brand.
+
+Do NOT copy the colors from the WirfonCloud reference.
+
+==================================================
+27. TIMING PRINCIPLES
+==================================================
+
+Use different timing based on purpose.
+
+Micro-interactions:
+150–250ms
+
+Buttons:
+200–250ms
+
+Cards:
+200–350ms
+
+Content reveals:
+400–700ms
+
+Images:
+500–800ms
+
+Page transitions:
+250–450ms
+
+Breathing:
+5–7 seconds
+
+Avoid making normal UI interactions slower than necessary.
+
+==================================================
+28. EASING
+==================================================
+
+Prefer modern smooth easing.
+
+Good default:
+
+cubic-bezier(0.22, 1, 0.36, 1)
+
+For subtle ambient movement:
+
+ease-in-out
+
+Avoid excessive:
+
+bounce
+elastic
+spring
+rubber-band
+
+The visual language must remain professional.
+
+==================================================
+29. DO NOT OVER-ANIMATE
+==================================================
+
+This is extremely important.
+
+Do NOT animate:
+
+- every paragraph
+- every word
+- every icon
+- every border
+- every section
+- every button
+- every image simultaneously
+
+Animation hierarchy:
+
+LEVEL 1:
+Hero / major visual storytelling
+
+LEVEL 2:
+Section reveals
+
+LEVEL 3:
+Cards and buttons
+
+LEVEL 4:
+Tiny micro-interactions
+
+Not everything needs animation.
+
+==================================================
+30. NO LAYOUT SHIFT
+==================================================
+
+Animations must never cause content to jump.
+
+Reserve image dimensions.
+
+Avoid animations that change document flow.
+
+Use:
+
+transform
+opacity
+
+where possible.
+
+The user should never see the page moving around because an animation loaded.
+
+==================================================
+31. JAVASCRIPT SAFETY
+==================================================
+
+Do not introduce unnecessary dependencies.
+
+Before adding a package:
+
+check whether the existing project already supports the required effect.
+
+Prefer native CSS and browser APIs.
+
+If a library is already installed and appropriate, reuse it rather than adding another dependency.
+
+Keep the implementation maintainable.
+
+Use reusable animation classes/components rather than duplicating animation code throughout the project.
+
+==================================================
+32. CREATE A REUSABLE ANIMATION SYSTEM
+==================================================
+
+Instead of hardcoding individual animations everywhere, create reusable patterns such as:
+
+.reveal
+
+.reveal-up
+
+.reveal-scale
+
+.fade-in
+
+.stagger
+
+.breathe
+
+.airflow
+
+.image-reveal
+
+.card-hover
+
+.button-hover
+
+.page-transition
+
+Use CSS variables for timing where appropriate.
+
+Example concept:
+
+--motion-fast
+--motion-normal
+--motion-slow
+
+Keep the system organized.
+
+==================================================
+33. TESTING
+==================================================
+
+After implementation, test the website thoroughly.
+
+Test:
+
+- initial load
+- page refresh
+- navigation
+- mobile menu
+- scrolling
+- cards
+- buttons
+- images
+- page transitions
+- desktop
+- mobile
+- reduced-motion mode
+
+Test mobile widths:
+
+320px
+360px
+375px
+390px
+412px
+430px
+
+Test desktop widths:
+
+768px
+1024px
+1280px
+1440px
+
+Check for:
+
+- horizontal scrolling
+- overlapping elements
+- broken animations
+- animation flickering
+- content disappearing
+- delayed interaction
+- excessive CPU usage
+- visual glitches
+- layout shifts
+
+==================================================
+34. IMPORTANT MOBILE NAVBAR RESTRICTION
+==================================================
+
+Again:
+
+The new P3 Health Lab logo + text navbar treatment is MOBILE ONLY.
+
+Desktop must NOT be changed.
+
+Do not accidentally apply the mobile navbar styling to desktop.
+
+Use proper responsive breakpoints.
+
+==================================================
+35. FINAL QUALITY BAR
+==================================================
+
+The final result should feel like:
+
+A premium modern health/research organization website.
+
+It should NOT feel like:
+
+- a template
+- a gaming website
+- a crypto landing page
+- a portfolio overloaded with animations
+- an AI-generated website full of random effects
+
+The animation should communicate:
+
+CALM
+SCIENCE
+LIFE
+BREATH
+HUMANITY
+CONNECTION
+MOVEMENT
+
+The most important signature should be:
+
+THE WEBSITE FEELS LIKE IT BREATHES.
+
+==================================================
+36. FINAL IMPLEMENTATION RULE
+==================================================
+
+Before changing anything:
+
+1. Inspect the existing project structure.
+2. Identify the current framework and animation setup.
+3. Identify existing components and CSS architecture.
+4. Reuse existing components wherever possible.
+5. Do not duplicate components unnecessarily.
+6. Do not replace working functionality.
+7. Do not remove existing content.
+8. Do not change desktop navbar styling.
+9. Implement the animation system incrementally.
+10. Test after implementation.
+
+Do not simply add random animations.
+
+Design the motion system as one coherent visual language.
+
+If an animation conflicts with performance, accessibility, readability, or usability:
+
+REMOVE THE ANIMATION.
+
+Performance and usability always win.
+
+==================================================
+FINAL RESULT
+==================================================
+
+I want the finished P3 Health Lab website to have a distinctive motion identity centered around:
+
+“Breathe Well”
+“Umekaneza”
+
+with:
+
+- breathing ambient motion
+- airflow SVG animations
+- elegant hero entrance
+- scroll reveals
+- People → Planet → Place storytelling
+- numbered-section reveals
+- card micro-interactions
+- button micro-interactions
+- mobile menu animation
+- lightweight page transitions
+- premium loading state
+- subtle image reveals
+- optional desktop breathing cursor
+- reduced-motion accessibility
+- excellent mobile performance
+
+Keep everything sophisticated, restrained, lightweight, responsive, and medically professional.
+
+DO NOT sacrifice website speed for visual effects.
+DO NOT change unrelated parts of the website.
+DO NOT change the desktop navbar.
+DO NOT introduce unnecessary dependencies.

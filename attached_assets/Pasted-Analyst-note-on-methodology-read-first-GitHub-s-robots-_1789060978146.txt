@@ -1,0 +1,607 @@
+Analyst note on methodology (read first)
+
+GitHub's robots.txt blocks automated fetching of /tree/* directory-listing pages, and this repo has no public API mirror, so I could not recursively crawl the full file tree. I was able to directly verify:
+
+The root README.md (full text, stack description, feature list, folder layout, env vars, admin panel, deployment notes)
+The root package.json (full contents)
+The root-level file/folder names shown on the repo landing page (artifacts/, attached_assets/, lib/, scripts/, config files)
+Nine live screenshots you supplied of the actual rendered site (Home ×2, Academy, Consultancy, Blog, Gallery, About, FAQ) — these are extremely high-value because they show real component structure, copy, and UI patterns that no amount of source-reading would guarantee actually renders correctly
+The P3 Health Lab logo you supplied
+
+I could not open artifacts/wirfoncloud/, artifacts/api-server/, or lib/ subfolders, so I cannot cite exact component filenames, hook names, or backend route paths. Everywhere below, I flag each claim as:
+
+VERIFIED (README) — stated explicitly in the README
+VERIFIED (package.json) — read directly from the file
+VERIFIED (screenshot) — visible in the rendered UI you supplied
+INFERENCE — the standard/near-certain implementation for a stack described this way, but not read from source
+NOT VERIFIED — unknown, must be confirmed by Replit AI by actually opening the files before it relies on it
+
+Replit AI must open artifacts/wirfoncloud/src, artifacts/api-server/src, and lib/ itself at the start of its task and treat every "INFERENCE" item below as a hypothesis to confirm, not a fact.
+
+1. Executive Summary
+
+The existing repository is a pnpm-workspace monorepo (VERIFIED — README) containing a React 19 + Vite 7 + TypeScript single-page frontend, an Express + Node.js backend with a REST API and EJS fallback views, PostgreSQL in production / JSON-file storage in development, and a PM2 + Nginx production deployment. It is the marketing site for WirfonCloud, a Rwanda/Cameroon-founded (per About page copy) cloud-computing training and consultancy brand, with pages: Home, Academy, Consultancy, Blog, Gallery, About, FAQ (VERIFIED — README + screenshots, exact match).
+
+Structurally, this is a generic "brochure site engine": a marketing header/nav/footer shell, a card-grid content system (courses, services, blog posts, testimonials, FAQ accordion, gallery-with-lightbox), a contact/newsletter form, an admin CMS behind /admin, and a REST API + Postgres/JSON persistence layer. None of that is domain-specific to cloud training — the same shell can plausibly hold "Research Areas," "People," "Publications," "Courses," and "Initiatives" for P3 Health Lab. The brand-specific layer (WirfonCloud name, blue/black color scheme, cloud logo, AWS partner content, testimonials, blog posts, gallery photos, contact details) is content and assets sitting on top of that shell and must be fully replaced.
+
+The biggest open risk is that I cannot confirm from source how tightly the content is coupled to components — i.e., whether page content lives in typed data files/JSON (easy to swap) or is hardcoded inline in JSX (requires refactoring). Replit AI's first task must be to determine this before touching anything (see Phase 16).
+
+2. Repository Architecture
+
+VERIFIED (README + root listing):
+
+Wirfon-Website-04/            (pnpm monorepo root)
+├── artifacts/
+│   ├── wirfoncloud/          React + Vite frontend (the public website)
+│   └── api-server/           Express API + admin backend
+├── attached_assets/          (root folder — contents not verified; likely design/reference assets)
+├── lib/                      Shared libraries (typed API client, schemas)
+├── scripts/                  Build and maintenance scripts
+├── .gitignore
+├── .npmrc
+├── README.md
+├── dev.sh / run-dev.sh / start.sh   (shell entrypoints)
+├── git-push-github.sh
+├── package.json               (root workspace manifest — VERIFIED, see below)
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── tsconfig.base.json
+└── tsconfig.json
+
+package.json (VERIFIED, full contents):
+
+json
+{
+  "name": "wirfoncloud-website",
+  "description": "Official website for WirfonCloud - Let's rule the clouds",
+  "author": "YSOTA Ltd",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+  },
+  "private": true,
+  "devDependencies": {
+    "typescript": "~5.9.2",
+    "prettier": "^3.8.1"
+  }
+}
+
+This confirms: pnpm is enforced (blocks npm/yarn lockfiles), TypeScript project-references build (tsc --build against tsconfig.base.json), and workspace packages under artifacts/** plus scripts carry their own typecheck/build scripts (INFERENCE that artifacts/wirfoncloud and artifacts/api-server each have their own package.json with these scripts — not directly read, but required for the root scripts to function, so effectively certain).
+
+Signal worth flagging to Replit AI: the GitHub "About" panel shows replit.com/@siewiv7/Wirfon-Website-01 — this project was itself originally built/iterated inside Replit, and this is "04" of presumably several iterations (VERIFIED — repo About text: "04" description, linked Replit project). That's useful context: Replit AI has likely seen this pattern before.
+
+3. Frontend Architecture
+
+VERIFIED (README):
+
+React 19, Vite 7, TypeScript
+Single-page application (client-side routed)
+Hand-authored CSS with "brand design tokens" (not Tailwind/CSS-in-JS per README's own phrasing — though this can't be confirmed without opening the source; if Replit AI finds a tailwind.config it should treat that as superseding this README claim)
+
+VERIFIED (screenshots) — actual page inventory and UI patterns:
+
+Page	Verified sections
+Home	Announcement/ticker bar with rotating headlines + social icons; sticky nav with dropdown menus (Academy, Consultancy) and simple links (Blog, Gallery, About, FAQ); black "Contact us" pill CTA button; full-bleed hero with background photo, large headline, floating quote card, secondary CTA button, carousel dots; sticky blue promo bar; two-column "graduates" feature block with headshot mini-cards + LinkedIn icons; alternating image/text feature rows; blue banner CTA with quiz link; 3-column "Mission/Vision/Approach" icon cards; numbered 6-card "Core Values" grid on blue background; founder quote block with photo + attribution; partner logo strip (AWS); floating WhatsApp chat button (bottom-right, green)
+Academy	Blue hero band with quiz CTA; "Courses" section split into two tiers (3-card row + 4-card row) each with Preview/Sign Up button pairs; single wide "Docker & Kubernetes" card; 4-card "Career Paths" grid with "Register Your Interest" buttons; 4-step numbered "How We Work" icon row; centered quiz CTA block; centered community CTA block; 4-video testimonial carousel/grid ("What Our Students Say")
+Consultancy	Two alternating image/text feature blocks (Cloud Consultancy, AI Consultancy), each with dual CTA buttons (solid "Get in Touch" + outline "Book a Free 20 min Consultation"); 4-card "Our Services" grid with icon + "Book a Call"; 4-step "How We Work" icon row (same component as Academy); embedded video testimonial with carousel arrows; 6-card text-testimonial grid with avatar, quote, name/title
+Blog	Newsletter subscribe banner; LinkedIn follow banner; 9-card "Latest Posts" grid, each with image, date, title, excerpt, "Read more" button; dark footer with 4-column link groups + subscribe form + embedded map
+Gallery	Blue hero band; repeated pattern per album: large hero photo + album title + photo count + 4-thumbnail row + "View all N more photos" button (looks like a lightbox-style gallery grouped into events/albums)
+About	Full-bleed photo header with title/subtitle; long-form "Who We Are" narrative; "Our Mission" / "Our Vision" panels (alternating background tint); "What We Offer" section with nested subsections (Training, Consultancy) and bullet-style sub-headers; "Contact Us" form (Name, Email, Subject, Message, Send button) with "Or email us directly" fallback; shared footer
+FAQ	Blue hero band; one FAQ item pre-expanded in a highlighted bordered card with dismiss (×) button; remainder as a plain accordion list (question + "+" icon); shared footer
+
+This confirms a consistent design-system vocabulary already exists: hero band, feature-card grid, numbered-step row, icon-in-circle card, testimonial card, accordion, footer-with-columns, sticky announcement bar, floating chat button. That vocabulary is the reusable asset — not the specific copy inside it.
+
+Not verified from source, must confirm before build:
+
+Exact routing library (React Router vs. custom — "single-page application" per README implies client routing exists, but the library is not confirmed)
+State management approach (Context, Zustand, TanStack Query, etc. — not confirmed)
+Whether forms (Contact, Newsletter) use a form library (React Hook Form, etc.) or plain controlled inputs
+Accessibility implementation details (see Phase 11)
+Whether animations are CSS-only or a library (Framer Motion, GSAP, etc.)
+4. Backend Architecture
+
+VERIFIED (README):
+
+Node.js + Express
+REST API plus EJS server-rendered fallback views (this is a notable hybrid — the SPA is not the only rendering path; there's a server-rendered fallback, likely for SEO/no-JS/crawler resilience, or for the admin panel)
+PostgreSQL in production; JSON file storage for development seed data
+Session-based admin auth is implied by SESSION_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD env vars
+Admin panel lives at /admin, gated by login, manages: courses, blog posts, gallery, FAQ, social links (VERIFIED — README "Admin Panel" section)
+Frontend talks to backend via VITE_API_BASE_URL env var (VERIFIED — README env var block), confirming a decoupled REST contract rather than server-side rendering-only coupling
+
+Environment variables (VERIFIED, from README, values redacted/placeholder as shown — no real secrets present in README):
+
+PORT=8080
+NODE_ENV=development
+DATABASE_URL=postgres://user:password@localhost:5432/wirfoncloud
+SESSION_SECRET=change-me-to-a-long-random-string
+ADMIN_EMAIL=admin@wirfon.com
+ADMIN_PASSWORD=change-me
+VITE_API_BASE_URL=http://localhost:8080
+
+These are template/placeholder values in the README, not live credentials — no actual secret exposure to report.
+
+INFERENCE (not verified): exact route names, middleware stack, ORM/query layer (could be raw pg, Drizzle, Prisma, or Knex — common in this Vite+Express+Postgres pattern is Drizzle ORM, but this is a guess and must be confirmed by Replit AI opening artifacts/api-server).
+
+Frontend↔backend communication (VERIFIED pattern, INFERENCE for implementation): the frontend is built as a static SPA (pnpm --filter wirfoncloud run dev on port 5173) that calls the API server (port 8080) over HTTP using VITE_API_BASE_URL. lib/ (README: "Shared libraries (typed API client, schemas)") almost certainly holds a shared TypeScript API client and/or Zod-style schemas used by both frontend and backend for type-safe request/response contracts — this is a strong, reusable pattern if confirmed.
+
+5. Routing Map
+
+VERIFIED (screenshots + README feature list) — public routes:
+
+/                → Home
+/academy         → Academy (course catalog)
+/consultancy     → Consultancy (services)
+/blog            → Blog (list) [+ individual post route, not directly observed — "Read more" buttons imply /blog/:slug]
+/gallery         → Gallery (albums/lightbox)
+/about           → About (+ Contact form section)
+/faq             → FAQ
+/admin           → Admin panel (auth-gated, VERIFIED — README)
+
+Dropdown sub-items exist under "Academy" and "Consultancy" nav items (VERIFIED — screenshots show chevron dropdowns), but their target URLs are not visible in the screenshots — NOT VERIFIED, must be confirmed in source.
+
+6. Component Architecture
+
+Because I can't open the component tree, this section names components by the role they clearly play in the rendered UI (VERIFIED existence, INFERENCE for actual file/prop names) rather than by filename. For each, I give the 7-point analysis requested.
+
+6.1 Global Navbar (with dropdown menus)
+What it does: Sticky top navigation with logo/wordmark, dropdown-capable nav links, and a CTA button.
+Where used: Every page (all 7 screenshots show an identical header).
+Data expected: A nav-item list (label, href, optional children for dropdown), a CTA label/href, and brand logo asset.
+Reusable: Yes, highly — this is pure UI chrome once content is externalized.
+What changes for P3: Nav items become Home / Research / People / Publications / Teaching / HumekaNeza / Get Involved; dropdowns likely needed under Research (research areas) and People (categories); CTA button likely becomes "Get Involved" or removed if it's a nav item itself; logo swapped to P3 Health Lab mark; color tokens swapped.
+Unchanged: Sticky behavior, mobile hamburger pattern (assumed — not directly screenshotted at mobile width, NOT VERIFIED), dropdown interaction mechanics.
+Refactor: Yes — externalize nav config to a data file so adding "Get Involved" sub-items later doesn't touch the component.
+6.2 Announcement/Ticker Bar
+Rotating one-line headlines + social icon row above the main nav.
+Home page at minimum (VERIFIED on Home); present on inner pages too per screenshots 3–9 (persists across Academy/Consultancy/Blog/Gallery/About/FAQ).
+Expects an array of short strings/links + social URLs.
+Reusable as a mechanism.
+For P3: could carry rotating research news/announcements ("New publication in Environmental Research", "HumekaNeza featured in..."), or be dropped entirely if not desired — academic labs often skip marketing-style tickers. Recommend making it optional/toggleable, not hardcoded on.
+Component logic stays.
+Make content configurable.
+6.3 Hero Section (variant A: full-bleed photo + floating quote card, variant B: solid-color band)
+Two hero styles exist: photographic hero with overlay text + floating card (Home), and flat color-band hero with title+subtitle (Academy, Gallery, FAQ).
+Home uses variant A; Academy/Gallery/FAQ use variant B (VERIFIED across screenshots).
+Expects heading, subheading, background image (variant A) or background color (variant B), optional CTA(s), optional floating card content.
+Reusable — this is a generic pattern (two hero variants is actually a nice existing primitive).
+For P3: Home hero → "P3 Health Lab / People · Planet · Place / Understanding Exposures. Designing Interventions. Improving Health." with "Explore Our Research" + "Meet Our People" CTAs; Research/People/Publications/Teaching/Get Involved pages use variant B with their respective title+subtitle; HumekaNeza likely needs its own richer hero (image + "Breathe Easy" tagline) — may need a third hero variant or extension of variant A.
+Structural mechanics unchanged.
+Refactor to accept 1–2 CTAs generically rather than hardcoded button text/behavior.
+6.4 Feature Card Grid (icon-in-circle, 3–4 columns)
+Used for "Mission/Vision/Approach," "Our Services," "Career Paths," "Our Core Values" — a repeating N-column card grid with icon, title, description, optional CTA/button.
+Home, Academy, Consultancy (VERIFIED).
+Expects an array of {icon, title, description, ctaLabel?, ctaHref?}.
+Highly reusable — this is exactly the shape needed for "Research Areas" cards and "Get Involved" pathway cards.
+For P3: reuse directly for the 6 Research Areas, and for Get Involved audience pathways (Students/Researchers/Collaborators/Schools/etc.).
+Grid/responsive mechanics unchanged.
+Minor refactor: make card variant support an image (not just icon) since Research Area cards are specified as needing "Image" per your content brief — current WirfonCloud cards appear icon-only, not photo-based (VERIFIED — screenshots show icon circles, not photos, in these grids). This is a genuine gap to flag for Replit AI.
+6.5 Numbered Step Row ("How We Work")
+4-step horizontal row with number, icon, title, description.
+Academy and Consultancy both use an apparently identical component (VERIFIED — same 4-step visual pattern, different copy).
+Expects an ordered array of {step, icon, title, description}.
+Reusable.
+For P3: strong fit for HumekaNeza's "Learn → Measure → Communicate → Act" approach, and possibly for a "How to Get Involved" process.
+Unchanged structurally.
+None needed beyond content swap.
+6.6 Person/Testimonial Mini-Card (headshot + name + LinkedIn icon)
+Small card: circular photo, name, role/title, LinkedIn icon link. Used in "graduates" strip and quote testimonials.
+Home, Consultancy (VERIFIED).
+Expects {photo, name, title, linkedinUrl}.
+Directly reusable as the People-profile card primitive for P3 Health Lab's Postdocs/PhD/Master's/Staff/Alumni profiles — this is one of the most valuable reusable components identified.
+For P3: extend fields to optionally show Program, Research Area, Supervisor, Institution, Country, Visit Period, Degree/Year, Current Position — i.e., the card needs to become a flexible profile card with optional field rendering (per your requirement that "not every profile will have every field").
+Core photo+name+link layout unchanged.
+Refactor required — turn into an optional-field profile card, and add a profile detail page/modal if individual bios are wanted.
+6.7 Long-form Quote/Founder block
+Large pull-quote with photo, name, title, organization.
+Home and About (VERIFIED).
+Expects {quoteText, photo, name, title, org}.
+Reusable.
+For P3: fits Dr. Egide Kalisa's Director/PI welcome message on Home or People/About.
+Unchanged.
+None.
+6.8 Blog/News Card Grid
+Image, date, title, excerpt, "Read more" button, in a responsive grid.
+Blog page (VERIFIED, 9 cards).
+Expects {image, date, title, excerpt, slug}.
+Reusable — directly maps to a future "News" section, and structurally very close to what a Publications list needs (swap date→year, excerpt→abstract, add journal/DOI/authors fields).
+For P3: reuse for Publications cards (with authors/year/journal/DOI/external link fields) and/or a News section if the lab wants one later.
+Card shell unchanged.
+Refactor card to support academic metadata fields.
+6.9 Gallery Album Component (hero photo + thumbnail row + "view more")
+Groups photos into named albums/events with a lead photo, thumbnail strip, and photo count.
+Gallery page (VERIFIED, repeated for "Redhat Summit Connect 2025," "AWS reinvent Las Vegas 2024," etc.).
+Expects {albumTitle, photos[], coverPhoto}.
+Reusable, and a strong fit for HumekaNeza's project/event photo documentation and general lab photo galleries.
+For P3: reuse as-is conceptually; consider whether a lightbox/keyboard navigation (README explicitly claims this exists: "Image gallery with keyboard-navigable lightbox") should be preserved — this is genuinely valuable, non-trivial functionality worth keeping.
+Keep lightbox/keyboard-nav logic.
+None structurally; only content swap.
+6.10 FAQ Accordion (+ "featured/pinned" question variant)
+Standard accordion list, with one item able to render in a highlighted, pre-expanded "featured" state with a dismiss control.
+FAQ page (VERIFIED).
+Expects {question, answer}[] plus an optional featured: boolean flag.
+Directly reusable, no changes needed structurally — P3 Health Lab doesn't currently list an FAQ page in your nav, but this component is valuable to keep in the shared library for future use (e.g., under Get Involved or a future FAQ page).
+Content only.
+Unchanged.
+None.
+6.11 Contact Form
+Name/Email/Subject/Message fields + Send button + "or email us directly" fallback line.
+About page (VERIFIED).
+Expects form submission handler (POST to backend, likely /api/contact — NOT VERIFIED, inferred from typical Express REST pairing with a form).
+Reusable.
+For P3: reusable as-is for a general contact/collaboration inquiry form (Get Involved page), possibly with an added "I am a..." role selector (Student/Researcher/Community org/etc.) given your Get Involved audience list.
+Field layout unchanged.
+Minor refactor: add optional role/category field, validation.
+6.12 Footer
+Dark, multi-column footer: brand block + tagline, 3 link-column groups (Academy/Menu/Services), Contact block (email/WhatsApp), embedded map, social icons, subscribe form, legal links, copyright.
+Every page (VERIFIED).
+Expects a footer-nav config, contact details, social links, map embed coordinates.
+Reusable shell.
+For P3: replace link columns with (Research / People / Publications / Teaching / HumekaNeza / Get Involved) plus a "Resources" column (Google Scholar, ORCID); replace WhatsApp block with lab email/office/Western University address; the embedded Google Map (currently showing African locations, VERIFIED — visible pins in screenshots) should point to Western University's campus/lab location; keep newsletter subscribe form if the lab wants a mailing list, otherwise remove.
+Column-grid + map-embed mechanics unchanged.
+Refactor footer-nav into config.
+6.13 Floating WhatsApp Chat Button
+Fixed-position floating action button, bottom-right, opens WhatsApp chat.
+All pages (VERIFIED, green button bottom-right in Home screenshot; likely persists site-wide though only directly visible in one capture).
+Expects a WhatsApp number/link.
+Technically reusable but brand/tone mismatch — a floating WhatsApp bubble reads as consumer/sales, not academic-lab.
+For P3: recommend removing or replacing with a simple "Contact" link, or repurpose the FAB slot for something lab-appropriate (e.g., "Report an air-quality reading" quick-link for HumekaNeza, or omit entirely).
+N/A.
+Candidate for removal (flagged in Phase 14).
+7. Data Architecture
+
+VERIFIED (README): "Database: PostgreSQL (production) / JSON file storage (development seed data)." "Academy course catalog with admin-managed listings." "Admin panel... manages: courses, blog posts, gallery, FAQ, social links."
+
+This tells us definitively that at least courses, blog posts, gallery items, FAQ entries, and social links are already modeled as admin-manageable records, not hardcoded JSX — a very good sign for reusability, since it implies an existing pattern of: DB table/JSON collection → API endpoint → typed client (lib/) → frontend fetch/render. This is likely the strongest asset in the whole repository for P3 Health Lab, because Research Areas, People, Publications, Courses (Teaching), and Initiatives (HumekaNeza) are structurally almost identical to "courses + blog posts + gallery + FAQ" (a title/description/image/date/category record, sometimes with children).
+
+NOT VERIFIED: whether testimonials, service cards, hero/mission copy, and nav items are also admin-managed or are hardcoded in JSX. Given the README only lists 5 admin-managed content types, it's a reasonable INFERENCE that hero copy, mission/vision text, and static marketing sections are hardcoded — Replit AI should verify this directly and treat any hardcoded marketing copy as needing extraction into config/content files regardless.
+
+Recommended P3 Health Lab data model (RECOMMENDATION, building on the confirmed courses/blog/gallery/FAQ pattern):
+
+ResearchArea      { id, title, slug, description, heroImage, topics[], relatedProjectIds[], publicationIds[], researcherIds[]?, externalLinks[]? }
+Person            { id, name, photo, category (postdoc|phd|masters|undergrad|visiting|staff|alumni),
+                     program?, researchAreaId?, researchTopic?, supervisorId?, coSupervisorId?,
+                     institution?, country?, visitPeriod?, degree?, year?, currentPosition?,
+                     linkedinUrl?, otherLinks[]? }
+Publication       { id, title, authors[], year, journal?, doi?, abstract?, researchAreaId?,
+                     externalUrl?, pdfUrl?, citation? }
+Course             { id, code, title, academicYear (e.g. "2025–2026"), term? }
+Initiative         { id, slug ("humekaneza"), title, tagline, overview, approachSteps[],
+                     projects[] { title, description, image?, video? }, partners[], impactStats?[],
+                     ctas[] }
+Project (nested)  { id, initiativeId?, researchAreaId?, title, description, image, status? }
+Partner            { id, name, logo, url? }
+GetInvolvedPath    { id, audience (student|researcher|collaborator|school|community|government|
+                      international|environmentalPartner|other), title, description, ctaLabel, ctaHref }
+NewsItem (optional)/Event (optional) — future-proofing, not in current content brief but easy to add given the pattern above
+
+Every entity above follows the same shape as the confirmed Course/BlogPost/GalleryAlbum/FAQItem records: flat records with optional relational fields, servable from either Postgres (production) or JSON seed files (development) — i.e., no new backend paradigm is needed, only new tables/collections and new API routes following the existing pattern.
+
+8. API Architecture
+
+VERIFIED (README): REST API on port 8080 by default; frontend consumes it via VITE_API_BASE_URL; admin routes exist and are auth-gated.
+
+NOT VERIFIED: exact endpoint paths, request/response shapes, pagination, error format. Replit AI must open artifacts/api-server/src (or equivalent) to confirm exact route names before building new People/Research/Publications endpoints on the same conventions.
+
+RECOMMENDATION for P3 endpoints, mirroring the confirmed content types:
+
+GET  /api/research-areas
+GET  /api/research-areas/:slug
+GET  /api/people?category=phd
+GET  /api/people/:id
+GET  /api/publications?theme=air-pollution
+GET  /api/courses?year=2025-2026
+GET  /api/initiatives/humekaneza
+POST /api/contact
+POST /api/newsletter/subscribe   (if retained)
+--- admin (session-auth) ---
+POST/PUT/DELETE variants of all the above, mirroring the existing admin CRUD pattern for courses/blog/gallery/FAQ
+9. Authentication & Admin
+
+VERIFIED (README): Single admin login (ADMIN_EMAIL/ADMIN_PASSWORD env vars), session-based (SESSION_SECRET present), gates /admin, manages courses/blog/gallery/FAQ/social links.
+
+Recommendation for P3: Keep the admin system — an academic lab site benefits enormously from a non-technical person (a lab manager or grad student) being able to add a new publication, update People when students join/graduate, or add a new HumekaNeza photo album without a code deploy. Extend the admin CRUD screens to cover the new entities in Section 7. Single shared admin login is adequate for a small lab; do not over-engineer role-based access unless requested.
+
+Security note (Phase 13 detail): env-var-based single admin credential with session secret is a reasonable minimal pattern for a small site, but Replit AI should confirm (not verified here): password hashing method for ADMIN_PASSWORD comparison (should never be plain-text compare — must check source), session cookie flags (httpOnly, secure, sameSite), and CSRF protection on admin POST/PUT/DELETE routes and the public contact form.
+
+10. Design System
+
+VERIFIED (screenshots):
+
+Color scheme: Primary brand blue (
+#1a8fe3-ish bright blue for links/buttons/hero bands), near-black (
+#0b0b0b-ish) for primary buttons/nav-active states and footer background, white content backgrounds, light-gray section backgrounds for alternating rows, orange-red used only for one call-out (video badge) — this is a two-tone (blue + near-black) marketing palette, not multi-color.
+Typography: Bold, large sans-serif headlines (looks like a grotesque/humanist sans — not verifiable exact family), clean body sans-serif, generous heading weight contrast.
+Buttons: Two variants observed — solid black pill/rounded-rect, and blue solid rounded-rect; also an outline/ghost variant with icon (calendar icon + "Book a Free 20 min Consultation").
+Cards: White background, subtle border or shadow, rounded corners (small radius, not heavily rounded), icon-in-colored-circle pattern for feature cards.
+Layout: Centered max-width container, generous vertical section padding, alternating full-width tinted section backgrounds (white / light-gray / blue) to separate sections without hard borders.
+Icons: Simple line/solid icon set in circular colored badges (search, book, people, bell icon, etc.) — likely a common icon library (Lucide/Heroicons-style — NOT VERIFIED which specific set).
+Navigation: Sticky, white background, dropdown chevron menus, black CTA pill.
+Hero: Two variants as documented in 6.3.
+Forms: Simple labeled stacked inputs, full-width, blue submit button.
+
+What should be reused structurally for P3: container widths/breakpoints, section-padding rhythm, alternating-tint section pattern, card/border/shadow tokens (values changed, structure kept), button shape language (can be softened/adjusted per your "avoid overly playful/rounded" direction), responsive grid breakpoints.
+
+What must be redesigned for P3 (per your explicit brief): the blue+black two-tone palette must become a broader, more restrained palette derived from the logo (navy, blue, green, lime accent, orange used sparingly); typography should shift toward an "academic/scientific/trustworthy" register — likely a serif or refined sans for headings paired with a clean sans body, rather than the bold, punchy, sales-oriented headline style seen on WirfonCloud; card and icon treatments should feel more restrained/institutional; reduce sales-pattern elements (floating WhatsApp bubble, aggressive multi-CTA hero card, promo ticker) per your "avoid generic corporate" direction.
+
+11. Responsive Design
+
+VERIFIED (screenshots): Screenshots are desktop-width only; no mobile breakpoints were directly observed. README claims "Fully responsive across desktop, tablet, and mobile" — this is a README claim, not independently verified from the screenshots provided. Recommend Replit AI test at 375px/768px/1024px breakpoints before assuming this holds for new, denser content types (e.g., profile-field-heavy People cards, multi-metadata Publication cards) which are more layout-demanding than the original card types.
+
+12. Animation & Interaction System
+
+VERIFIED (screenshots, inferred from static capture but structurally evident): carousel/slider dots on hero (Home), left/right carousel arrows (Consultancy testimonial video, Gallery would plausibly have similar), accordion expand/collapse (FAQ), dropdown nav menus, lightbox-style gallery interaction claimed in README ("keyboard-navigable lightbox").
+
+NOT VERIFIED: whether transitions are CSS transitions, a library, or JS-driven. Recommend Replit AI keep interaction patterns (accordion, dropdown, lightbox, carousel) but tone down anything that reads as "marketing site" motion (e.g., aggressive hover-scale on cards) in favor of subtle, accessible-first motion for the academic-lab redesign.
+
+13. Asset Architecture
+
+VERIFIED (root listing): attached_assets/ exists at repo root — README does not describe its contents; likely holds reference images, mockups, or uploaded design files used during development (NOT VERIFIED — must be opened directly). Frontend photo/logo assets are presumably inside artifacts/wirfoncloud/ (e.g., public/ or src/assets/) — NOT VERIFIED, path unconfirmed.
+
+Recommendation: All WirfonCloud photography (staff/graduate headshots, AWS event photos, office photos) must be removed/replaced — none of it can be reused for P3 Health Lab (different people, different institution, different brand). The P3 Health Lab logo you supplied should become the primary brand asset; a favicon, OG/social share image, and a simplified monochrome/single-color logo variant (for footer-on-dark-background use, mirroring how WirfonCloud's logo appears in white on the dark footer) should be derived from it.
+
+14. Content Architecture
+
+Per Section 7's inference: courses/blog/gallery/FAQ/social-links are confirmed admin-managed (likely DB/JSON-driven); hero copy, mission/vision paragraphs, "What We Offer" narrative, and nav/footer link labels are not confirmed to be data-driven and should be assumed hardcoded until Replit AI checks — meaning a real risk exists that swapping "WirfonCloud" branding requires touching JSX text nodes directly in multiple components, not just a config file. This must be the first thing Replit AI audits (see Phase 16, Step 1).
+
+15. Hardcoded WifonCloud/WirfonCloud Content — Inventory
+
+(Note: your brief refers to "WifonCloud"; the actual verified brand name throughout the live site and repo is "WirfonCloud" — flagging this discrepancy for Replit AI so it searches for the correct string.)
+
+Item	Verified location	Type	Action
+"WirfonCloud" brand name/wordmark	Nav logo, footer, page titles, blog byline, About copy (all screenshots)	Brand	REPLACE with "P3 Health Lab" everywhere
+"Let's rule the clouds" tagline	Nav logo subtitle, About page, footer	Content/Brand	REMOVE/REPLACE with "People · Planet · Place" / "Understanding Exposures..."
+Cloud-shaped logo icon	Nav, footer, favicon (browser tab, image 2)	Logo	REPLACE with P3 Health Lab mark
+Blue/black brand palette	Global CSS tokens (buttons, links, hero bands, footer)	Color	MAKE CONFIGURABLE via design tokens; replace default values
+"WirfonCloud Academy," course names (Linux Fundamentals, AWS Cloud Practitioner, etc.)	Academy page	Content	REMOVE — replace with Teaching/course data
+Founder quote ("When I look at what is happening in Africa...") + founder photo	Home page	Content	REMOVE — replace with PI welcome message if desired
+Student/graduate testimonials + headshots (Tatiana Kinyuu, Boris Mougoue, Cham Zekebweliwai, Shufaay Wo Kibèèy, Emmanuel Odhiambo, Ambi Titus, Tatiana Baninla, etc.)	Home, Consultancy	Content/Image	REMOVE entirely — real named individuals, cannot be reused
+AWS partner logo	Home page partner strip	Brand/IP	REMOVE — not P3's partner
+Blog posts (13 articles, e.g. "13 modules, 1 live server...", "From Douala to re:Invent...")	Blog page	Content	REMOVE — replace with lab news or remove Blog nav item if not needed
+Gallery albums (Redhat Summit Connect 2025, AWS reinvent Las Vegas 2024, AWS Summit London/Amsterdam 2024, AWS Partner Summit)	Gallery page	Content/Image	REMOVE — replace with lab/fieldwork/HumekaNeza photos
+"Powered by Wirfon Group Investments Ltd" / "© YSOTA Ltd"	Footer, package.json author	Legal/Company info	REPLACE with Western University / P3 Health Lab attribution
+Email/WhatsApp contact block, embedded map pins (African locations)	Footer	Contact info	REPLACE with lab contact + Western University map location
+FAQ content (all ~20 questions, all cloud-training-specific)	FAQ page	Content	REMOVE — replace with lab-relevant FAQs or drop the page
+"academy.wirfoncloud.com" URL reference	FAQ answer text	URL	REMOVE
+Social links (LinkedIn/X/YouTube/Discord icons pointing to WirfonCloud accounts)	Header ticker, footer	Social/Brand	REPLACE with lab's real accounts or remove icons with no accounts
+SEO title/meta ("GitHub - Shejaoli/Wirfon-Website-04," browser tab "wirfoncloud.com")	Page <title>/meta (inferred from browser chrome in screenshot 2)	SEO	REPLACE — see Phase 22
+README author/license header, .env sample ADMIN_EMAIL=admin@wirfon.com	Root README	Config/documentation	UPDATE for the new project's own README
+
+Not verified but almost certain to exist and must be searched for by Replit AI directly in source (cannot confirm without opening files): hardcoded meta description strings, Open Graph image paths, canonical URL constants, any hardcoded wirfoncloud.com API base URL fallback, copyright year auto-generation vs. hardcoded "2026."
+
+16. Reusable Components (Summary List)
+
+High confidence, keep and adapt:
+
+Navbar w/ dropdowns
+Two hero variants
+Feature card grid (icon or image)
+Numbered step row
+Person/profile mini-card ← most valuable single component for P3's People page
+Blog/news card grid ← adaptable to Publications
+Gallery album + lightbox
+FAQ accordion (featured + standard)
+Contact form
+Footer shell
+Admin CRUD pattern (courses/blog/gallery/FAQ → extend to Research/People/Publications/Courses/Initiatives)
+Session-based single-admin auth
+17. Components Requiring Modification
+Person mini-card → needs optional-field profile card (Section 6.6)
+Blog/news card → needs academic metadata fields for Publications (Section 6.8)
+Feature card grid → needs image-based variant for Research Areas (Section 6.4)
+Footer link columns → needs new nav structure + Scholar/ORCID resource column
+Contact form → optional role/audience selector for Get Involved
+All color/typography tokens → full redesign per logo (Section 21)
+18. Components That Should Be Removed
+Floating WhatsApp chat FAB (tone mismatch — Section 6.13)
+Promo/quiz sticky banners ("Test Your Linux Knowledge," "Book a Free 20 min Consultation" sticky bar) — sales-pattern UI not suited to an academic lab
+AWS/partner logo strip (unless repurposed for genuine university/funder logos later)
+Announcement ticker — optional keep as a generic "lab news ticker," otherwise remove
+All course-specific "Preview / Sign Up" dual-button card pattern — Teaching page per your brief is a static list by academic year, not an e-commerce-style course catalog with signup flow
+19. P3 Health Lab Recommended Information Architecture
+/                     Home
+/research             Research (overview) 
+  /research/:slug     Research Area detail (Air Pollution & Environmental Health, etc.)
+/people               People (overview, filterable by category)
+  /people/:id         Person profile (optional — could be modal instead of route)
+/publications         Publications (list, filterable by research theme)
+/teaching             Teaching (grouped by academic year)
+/humekaneza           HumekaNeza (rich initiative page)
+  /humekaneza/:project   optional individual project sub-pages (School Air-Quality Campaign, etc.)
+/get-involved         Get Involved (pathway cards + contact form)
+/admin                Admin CMS (extended from existing pattern)
+
+Relationships:
+
+ResearchArea 1—N Project
+ResearchArea 1—N Publication
+ResearchArea N—N Person (researchers working in that area)
+Person N—1 Category (Postdoc/PhD/Masters/Undergrad/Visiting/Staff/Alumni)
+Person N—1 Supervisor (self-referential, optional)
+Initiative(HumekaNeza) 1—N Project
+Initiative 1—N Partner
+Course N—1 AcademicYear
+20. P3 Health Lab Data Models
+
+See Section 7 for the full field-level schema (ResearchArea, Person, Publication, Course, Initiative, Project, Partner, GetInvolvedPath). This is the single source of truth Replit AI should implement as either Postgres tables (production) or typed JSON seed files (development), following the existing courses/blog/gallery/FAQ pattern exactly.
+
+Publications specifically — per your brief's instruction not to assume a mechanism: given the confirmed existence of an admin CMS pattern already handling structured records, and given you listed Google Scholar + ORCID as resources, the recommended approach is: store a curated/admin-managed Publication table for the site's own presentation (title, authors, year, journal, DOI, abstract, theme, links) for full control over display and filtering, while also linking out to Google Scholar/ORCID profile pages as the canonical/complete record. Do NOT attempt to live-scrape Google Scholar (fragile, ToS-risky, unverified feasibility) — this is a RECOMMENDATION, not a repository finding.
+
+21. P3 Health Lab Design Direction
+
+Based on the supplied logo (VERIFIED from image): the mark uses a swirled yin-yang-style composition of three lobes — People (blue, two abstract human figures), Planet (green globe + leaf), Place (orange-gradient cityscape/path/sun scene) — inside a blue-to-green gradient ring, with wordmark "P3 Health Lab" in navy/dark-green, tagline "PEOPLE · PLANET · PLACE" in blue/green/orange, and secondary line "A HEALTHIER TOMORROW TOGETHER" plus "RESEARCH · COLLABORATION · IMPACT."
+
+Recommended derived palette (RECOMMENDATION — exact hex values should be color-picked directly from the logo file by Replit AI, not guessed):
+
+Primary navy (wordmark/headings/dark UI)
+Primary blue (People lobe — links, primary CTAs, People-page accents)
+Primary green / forest green (Planet lobe — secondary CTAs, Research-page accents)
+Lime/accent green (sparing highlight use only — tags, small accents, not large fills)
+Orange (Place lobe — used sparingly, e.g., HumekaNeza accents or Get Involved CTA, not as a dominant color)
+Neutral off-white/light-gray backgrounds, white cards, navy or near-black body text
+
+Typography direction: a refined, academic-appropriate pairing — e.g., a humanist serif or well-weighted sans for display headings (credible, editorial feel) with a clean, highly legible sans for body/UI text. Avoid the bold, high-contrast "startup marketing" headline style seen in WirfonCloud.
+
+Overall system: flatter, more restrained shadows/borders than WirfonCloud's; photography-led hero (real fieldwork/lab/community photos, per your brief's emphasis on children's environmental health, citizen science, community engagement) rather than stock-feeling tech-office photography; card and grid rhythm reused from WirfonCloud's structural system but with the three-lobe People/Planet/Place motif echoed subtly in section dividers or icon treatment (without literally repeating the logo everywhere, per your explicit instruction).
+
+22. SEO Recommendations
+
+Existing SEO implementation: NOT VERIFIED from source (would require opening index.html/meta component/head-management code). Browser tab in screenshot 2 shows wirfoncloud.com as the live domain — confirms the site is deployed and has a working canonical domain, nothing more.
+
+Recommendations for P3 Health Lab:
+
+Per-page <title> / meta description (Home, Research, People, Publications, Teaching, HumekaNeza, Get Involved) — each should be unique and descriptive for academic search
+Open Graph + Twitter Card metadata with a dedicated share image (not the circular logo — a wide 1200×630 banner derived from the logo/palette)
+Canonical URLs on every route
+sitemap.xml and robots.txt generated/maintained (robots should explicitly allow all lab-facing content and disallow /admin)
+Structured data (JSON-LD) — high value for academic discoverability: Person schema for People profiles, ScholarlyArticle/CreativeWork for Publications, Organization/ResearchProject for the lab and HumekaNeza, Course schema for Teaching entries where applicable
+Publications should include <meta name="citation_title">, citation_author, citation_publication_date, citation_journal_title, citation_doi tags — these are read by Google Scholar and academic indexers specifically and are a near-mandatory addition not present in the WirfonCloud original
+Ensure ORCID (https://orcid.org/0000-...) and Google Scholar profile links use rel="me" where appropriate for identity linking
+23. Accessibility Recommendations
+
+Existing implementation: NOT VERIFIED from source. Screenshot-only review can note some risk signals, not confirmed defects: dense multi-column footers and small "+"/chevron icons (common low-contrast/small-hit-target risk areas), carousel dot indicators (need to confirm keyboard operability), floating chat FAB (must not trap focus or lack an accessible label).
+
+Recommendations for P3:
+
+Full semantic landmark structure (<header>, <nav>, <main>, <footer>, one <h1> per page)
+Visible focus states on all interactive elements (nav links, accordion triggers, card links, form fields)
+Alt text policy: mandatory, descriptive alt text for every People photo, Research/HumekaNeza photo, and gallery image — critical given the volume of photography in this content brief
+Form labels programmatically associated (<label for>) for Contact/Get Involved forms
+Color contrast audit against WCAG AA once the new navy/blue/green/orange palette is finalized — orange-on-white and lime-on-white in particular need contrast checking before use for text
+Accordion (FAQ pattern reused elsewhere) must be keyboard-operable and expose aria-expanded
+Gallery lightbox (README claims keyboard-navigable — verify and preserve) must trap focus correctly and be Esc-dismissible
+24. Performance Recommendations
+
+Existing implementation: NOT VERIFIED (no build output, bundle analysis, or image-optimization pipeline inspected).
+
+Recommendations for P3, given the brief explicitly anticipates "many photographs, profiles, publications, and documents":
+
+Responsive images (srcset/sizes or a modern <picture> pipeline) for all People photos and Research/HumekaNeza photography — this site will have significantly more images than WirfonCloud's
+Lazy-load below-the-fold images (People grid, Publications list, Gallery)
+Route-level code splitting per page (Vite supports this natively via dynamic import() on route components) so Publications/People-heavy pages don't bloat the Home bundle
+Paginate or virtualize the People and Publications lists once they exceed ~30–50 items
+Serve PDFs (publication PDFs) as static assets with proper caching headers, not inline-embedded
+Font-loading strategy: subset and self-host or use font-display: swap for the new typography choices
+Cache the Postgres-backed API responses for largely-static content (Research Areas, Teaching history) with reasonable TTLs, since this content changes rarely
+25. Security Findings
+No live secrets were found or exposed in anything I could access (README only shows placeholder env values like change-me, admin@wirfon.com). If Replit AI opens the actual .env or committed config files and finds real credentials, it must report their existence and location without printing their values, per standard practice.
+Session-based admin auth with env-var credentials is minimal but acceptable for a low-traffic single-admin lab site — recommend Replit AI verify: password is hashed (not plain-text compared), cookies are httpOnly/secure in production, and rate-limiting exists on the login route.
+Contact form and any future Get Involved form are public-facing input surfaces — verify server-side validation/sanitization exists (not just client-side), and that there's no direct HTML-in-message rendering anywhere in the admin view (stored XSS risk if admin views raw submitted content unescaped).
+Confirm CSRF protection on all state-changing admin routes.
+Confirm file-upload handling (for admin-managed gallery/publication PDFs) restricts file types/size and does not allow path traversal or executable upload.
+DATABASE_URL and SESSION_SECRET must never be committed — confirm .gitignore (present at root, VERIFIED) actually excludes .env.
+26. Technical Risks
+Unconfirmed content coupling — if marketing/hero copy turns out to be hardcoded JSX text rather than data-driven, rebranding will require touching many files, not one config swap (see Section 14).
+Hybrid rendering (SPA + EJS fallback) — the README's mention of EJS server-rendered fallback views alongside the React SPA is unusual and not fully explained; Replit AI must understand why this exists (SEO fallback? admin panel is EJS while public site is React?) before removing or altering it, to avoid breaking something load-bearing.
+Unverified routing/state libraries — building new pages without knowing the actual routing/data-fetching conventions risks inconsistent patterns.
+Profile-card field explosion — the People page's many optional fields (Section 7) is a materially more complex data shape than anything currently in WirfonCloud; the existing Person mini-card component will need real refactoring, not just restyling.
+attached_assets/ and lib/ contents unknown — could contain anything from design mockups to critical shared schemas; must be opened before any refactor begins.
+Domain/brand name discrepancy — your brief says "WifonCloud," the real repo/site is "WirfonCloud" — Replit AI should search for the correct spelling to avoid missing hardcoded strings.
+27. Recommended File Structure
+
+Preserving the existing pnpm-workspace + artifacts/ convention (VERIFIED pattern) rather than reinventing it:
+
+p3-health-lab-website/
+├── artifacts/
+│   ├── p3healthlab/                 (renamed from "wirfoncloud")
+│   │   ├── src/
+│   │   │   ├── pages/               Home, Research, People, Publications, Teaching, HumekaNeza, GetInvolved, Admin
+│   │   │   ├── components/
+│   │   │   │   ├── layout/          Navbar, Footer, AnnouncementBar(optional)
+│   │   │   │   ├── ui/              Button, Card, Accordion, StepRow, Hero (2 variants)
+│   │   │   │   ├── people/          ProfileCard, ProfileGrid, ProfileDetail
+│   │   │   │   ├── research/        ResearchAreaCard, ResearchAreaDetail
+│   │   │   │   ├── publications/    PublicationCard, PublicationList, PublicationFilters
+│   │   │   │   ├── teaching/        CourseList, AcademicYearGroup
+│   │   │   │   ├── humekaneza/      InitiativeHero, ApproachSteps, ProjectGrid, PartnerStrip
+│   │   │   │   └── forms/           ContactForm, GetInvolvedForm
+│   │   │   ├── config/              brand.ts (colors/logo/tagline), nav.ts, footer.ts
+│   │   │   ├── content/             (if not fully DB-driven: static copy JSON/MD per page)
+│   │   │   └── styles/              design-tokens.css, global.css
+│   │   └── public/                  logo variants, favicon, OG image
+│   └── api-server/
+│       └── src/
+│           ├── routes/              research.ts, people.ts, publications.ts, courses.ts,
+│           │                        initiatives.ts, contact.ts, admin/*
+│           ├── db/                  schema + migrations for the new tables (Section 7)
+│           └── seed/                JSON dev-seed data for new entities
+├── lib/                             shared typed API client + schemas (extended with new types)
+├── scripts/                         (unchanged conventions)
+└── attached_assets/                 replaced with P3 Health Lab reference/design assets
+28. Migration Strategy
+Audit phase (mandatory, before any code changes): Open and read artifacts/wirfoncloud/src and artifacts/api-server/src in full. Confirm: routing library, state/data-fetching approach, whether hero/mission copy is hardcoded or data-driven, exact API route names, DB schema/ORM, and the actual reason for the EJS fallback views.
+Branding layer swap: Replace logo, favicon, color tokens, typography tokens, nav config, footer config, and all copy strings identified in Section 15.
+Content removal: Strip all WirfonCloud-specific content (testimonials, courses, blog posts, gallery albums, FAQ items, founder quote) from both frontend and seed data/DB.
+Component extension: Modify Person mini-card, Blog/news card, and Feature card grid per Sections 6.6/6.8/6.4 to support the new field sets.
+New data models + API routes: Implement Section 7's entities and Section 8's endpoints, extending the existing admin CRUD pattern.
+New pages: Build Research, People, Publications, Teaching, HumekaNeza, Get Involved on the IA in Section 19, reusing components from Section 16.
+Remove flagged components: WhatsApp FAB, sales-style sticky banners, AWS partner strip (Section 18).
+SEO/accessibility/performance pass per Sections 22–24.
+QA across breakpoints and with real (placeholder) content volumes — particularly People and Publications lists, which will be larger/denser than anything in the original site.
+Content population — load actual P3 Health Lab research areas, people, publications, teaching history, and HumekaNeza content once structure is verified working end-to-end.
+29. Replit AI Implementation Blueprint
+
+Preserve:
+
+pnpm workspace structure and build/typecheck scripts
+Admin CRUD pattern and session-based auth mechanism
+Gallery lightbox/keyboard-navigation logic
+Accordion, dropdown-nav, hero (2-variant), card-grid, step-row, footer-shell component mechanics
+REST API + typed shared client (lib/) pattern
+Postgres(prod)/JSON(dev) dual-storage pattern
+
+Refactor:
+
+Person mini-card → optional-field profile card (Section 6.6)
+Blog/news card → publication card with academic metadata (Section 6.8)
+Feature card grid → support image-based cards for Research Areas (Section 6.4)
+Nav/footer → data-driven config, not hardcoded JSX (Section 6.1/6.12)
+Contact form → add optional audience/role field for Get Involved
+
+Remove:
+
+All WirfonCloud content per Section 15's inventory
+WhatsApp FAB, promo/quiz sticky banners, AWS partner strip, course Preview/Sign-Up e-commerce pattern (Section 18)
+FAQ content (keep component, drop content, decide with the client whether the page itself stays)
+
+Create:
+
+Research, People, Publications, Teaching, HumekaNeza, Get Involved pages (Section 19)
+New data models and API routes (Sections 7–8)
+Design tokens derived from the P3 Health Lab logo (Section 21) — colors must be sampled directly from the provided logo file, not approximated from this text description
+OG/social share image, favicon set, sitemap, robots.txt, JSON-LD structured data (Section 22)
+
+Content to replace: every item in Section 15's table. Assets to replace: all WirfonCloud photography and the cloud logo → P3 Health Lab logo + real lab/fieldwork/community photography. Pages: per Section 19's IA. Components: per Sections 16–18. Data structures: per Section 7. Branding configuration: centralize brand name, tagline, colors, fonts, logo paths, contact details, and social links in a single config/brand.ts (or equivalent) so future rebrands/updates don't require hunting through components — this is the single most important structural improvement to make, since the current WirfonCloud codebase does not appear to have this (brand strings look scattered across components based on the multi-page repetition observed). Logo influence on design: derive full palette + a "three lobes" (People/Planet/Place) motif for optional use in section dividers/iconography, without literally repeating the logo mark throughout the site (Section 21). Backend adaptation: extend existing Express routes/DB schema with the six new entity types (Section 7); keep the admin auth mechanism as-is unless multi-user roles are requested later. Admin system: extend existing CRUD screens to manage Research Areas, People, Publications, Courses, and HumekaNeza content, mirroring the existing courses/blog/gallery/FAQ admin UI pattern. Responsiveness: verify and test all new, denser content types (People grid, Publications list) at mobile/tablet breakpoints specifically, since these are structurally heavier than anything in the original site. SEO: per Section 22, including academic citation meta tags — not present in the original and not optional for a research lab site. Accessibility: per Section 23; treat as launch-blocking for a public university site, not a nice-to-have. Performance: per Section 24, with particular attention to image volume. Testing: No test suite was found or mentioned in the README (NOT VERIFIED whether one exists deeper in the repo — must check). Recommend at minimum: type-checking (already enforced via root pnpm run typecheck), a smoke-test pass on every new route/page, and manual accessibility/responsive QA before launch. Add automated tests only if the team has capacity to maintain them.
+
+30. Final Checklist
+[x] Existing architecture understood to the extent GitHub's robots.txt allowed (root README + package.json + 
+    root file listing fully verified; deep source tree NOT accessible — flagged throughout)
+[x] Frontend analyzed (via README + 9 verified screenshots covering every stated page)
+[x] Backend analyzed (via README's explicit stack/env-var/admin description)
+[x] API analyzed (pattern confirmed, exact routes NOT verified — flagged)
+[x] Database/data analyzed (Postgres/JSON dual-storage confirmed; schema NOT verified — flagged)
+[x] Admin analyzed (auth mechanism + managed content types confirmed via README)
+[x] Components categorized (13 components identified and scored: keep/refactor/remove)
+[x] Hardcoded content identified (full inventory in Section 15, with a brand-name spelling 
+    discrepancy flagged: "WirfonCloud" not "WifonCloud")
+[x] Assets categorized (photography, logo, partner assets — all flagged for removal/replacement)
+[x] Branding dependencies identified (colors, wordmark, tagline, footer/company info)
+[x] Responsive system analyzed (README claim noted as unverified from static screenshots)
+[x] Design system analyzed (palette, type, buttons, cards, layout rhythm — Section 10)
+[x] SEO analyzed (not verifiable from source; full recommendation set provided including 
+    academic citation meta tags)
+[x] Accessibility analyzed (not verifiable from source; full recommendation set provided)
+[x] Performance analyzed (not verifiable from source; recommendations scaled to expected 
+    photo/publication volume)
+[x] Security analyzed (no live secrets found/exposed; recommended verifications listed)
+[x] P3 Health Lab information architecture proposed (Section 19)
+[x] Reusable architecture proposed (Sections 16, 27)
+[x] Replit implementation blueprint prepared (Section 29)
+
+CRITICAL OPEN ITEM FOR REPLIT AI, BEFORE BUILDING:
+[ ] Open artifacts/wirfoncloud/src, artifacts/api-server/src, and lib/ directly and confirm/correct 
+    every item in this report marked "INFERENCE" or "NOT VERIFIED" before relying on it.

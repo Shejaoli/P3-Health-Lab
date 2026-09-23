@@ -1,0 +1,1074 @@
+You are acting as a senior software architect, full-stack engineer, UI/UX engineer, React/TypeScript specialist, codebase auditor, and technical documentation expert.
+
+I need you to perform a COMPLETE and DEEP analysis of an existing GitHub repository.
+
+IMPORTANT:
+
+You are NOT the AI that will build the final website.
+
+You are only responsible for:
+
+1. Fully understanding the existing repository.
+2. Reverse-engineering its architecture.
+3. Identifying reusable components and systems.
+4. Identifying what is specific to the existing brand/project.
+5. Identifying what can be extracted into a reusable website foundation.
+6. Identifying technical problems, risks, and improvements.
+7. Designing a detailed implementation blueprint for another AI coding agent.
+
+The actual new website will be built later by a DIFFERENT AI coding agent called Replit AI.
+
+Therefore, DO NOT build the new website now.
+
+DO NOT start making major code changes.
+
+DO NOT rewrite the repository.
+
+DO NOT modify the existing project unless I explicitly ask you to do so later.
+
+Your output must be a detailed technical analysis and implementation specification that I can give directly to Replit AI.
+
+==================================================
+SOURCE REPOSITORY
+==================================================
+
+Repository:
+
+https://github.com/Shejaoli/Wirfon-Website-04
+
+The existing project is the WifonCloud/WirfonCloud website.
+
+You must inspect the ACTUAL repository and use the code as the source of truth.
+
+Do not assume that something exists simply because a README says it exists.
+
+Verify important functionality by inspecting the implementation.
+
+Follow imports, dependencies, routes, components, API calls, data structures, and configuration files wherever necessary.
+
+==================================================
+THE NEW WEBSITE
+==================================================
+
+The existing project will be used as a technical/design foundation for a completely different website.
+
+The new website is:
+
+P3 Health Lab
+
+Brand:
+
+P3 Health Lab
+
+Core identity:
+
+People · Planet · Place
+
+Main tagline:
+
+Understanding Exposures. Designing Interventions. Improving Health.
+
+Vision/message:
+
+A healthier tomorrow together.
+
+The new website will be an academic/environmental-health research laboratory website led by Dr. Egide Kalisa at Western University.
+
+The website will communicate research, people, publications, teaching, community initiatives, and opportunities for collaboration.
+
+The new website must NOT look like WifonCloud with words replaced.
+
+It must become a professional, modern, credible academic research-lab website with its own identity.
+
+==================================================
+NEW WEBSITE NAVIGATION
+==================================================
+
+The initial main navigation is:
+
+Home
+Research
+People
+Publications
+Teaching
+HumekaNeza
+Get Involved
+
+There may be additional pages or sections later as more content is provided.
+
+Therefore, the architecture must make adding future pages and content straightforward.
+
+==================================================
+NEW WEBSITE CONTENT REQUIREMENTS
+==================================================
+
+The following is the content currently planned for the new website.
+
+Do not rewrite or creatively alter this content during the audit.
+
+Use it only to understand the types of content, pages, components, and data structures that the reusable architecture must support.
+
+------------------------------------------
+HOME
+------------------------------------------
+
+P3 Health Lab
+
+People · Planet · Place
+
+Understanding Exposures. Designing Interventions. Improving Health.
+
+We study how environmental exposures, climate change, and the places where people live, learn, work, and move influence health—and design interventions to reduce those risks.
+
+Primary calls to action:
+
+Explore Our Research
+Meet Our People
+
+The homepage will also communicate:
+
+- Environmental exposures
+- Climate change
+- Air pollution
+- Wildfire smoke
+- Extreme heat
+- Household energy use
+- Environmental contaminants
+- Changing urban environments
+- Children’s environmental health
+- Environmental microbiology
+- Antimicrobial resistance
+- Citizen science
+- Artificial intelligence
+- Epidemiology
+- Intervention science
+- Global health
+- One Health
+- Sustainable cities
+- Environmental justice
+- Community engagement
+- Global partnerships
+
+------------------------------------------
+RESEARCH
+------------------------------------------
+
+Title:
+
+Our Research
+
+Subtitle:
+
+From Exposure Science to Intervention
+
+Research areas:
+
+1. Air Pollution & Environmental Health
+
+2. Exposure Science, Environmental Microbiology & AMR
+
+3. Climate Change, Wildfires & Extreme Heat
+
+4. Children’s Environmental Health
+
+5. Clinical Trials & Environmental Health Interventions
+
+6. Global Health, One Health & Sustainable Cities
+
+The architecture must support research-area cards/pages with:
+
+- Title
+- Description
+- Image
+- Research topics
+- Related projects
+- Publications
+- Optional researchers
+- Optional external links
+
+The exact final content may be expanded later.
+
+------------------------------------------
+PEOPLE
+------------------------------------------
+
+Title:
+
+Our People
+
+Subtitle:
+
+Students, Trainees & Research Team
+
+The website must support profiles for:
+
+1. Postdoctoral Fellows
+2. PhD Students
+3. Master’s Students
+4. Undergraduate & Research Students
+5. Visiting International Students & Scholars
+6. Research Assistants & Staff
+7. Alumni
+
+Profile data may include:
+
+- Photo
+- Name
+- Role
+- Program
+- Research Area
+- Research Topic
+- Supervisor
+- Co-supervisor
+- Institution
+- Country
+- Visit Period
+- Degree
+- Year
+- Current Position
+- LinkedIn
+- Other professional links
+
+Not every profile will have every field.
+
+The architecture should therefore support optional fields.
+
+------------------------------------------
+PUBLICATIONS
+------------------------------------------
+
+Title:
+
+Publications
+
+Subtitle:
+
+Research & Scholarship
+
+The site will include links/resources such as:
+
+Google Scholar
+ORCID
+
+The publication architecture should be flexible enough to support:
+
+- Publication title
+- Authors
+- Year
+- Journal
+- DOI
+- Abstract
+- Research theme
+- External URL
+- PDF
+- Citation information
+
+However, determine from your repository analysis whether these should be managed through a backend, static data, an external scholarly source, or another appropriate mechanism.
+
+Do not assume.
+
+------------------------------------------
+HUMEKA NEZA
+------------------------------------------
+
+HumekaNeza
+
+Breathe Easy
+
+Empowering children and communities to understand, monitor, and improve the air they breathe.
+
+HumekaNeza is a child- and youth-centred environmental-health initiative founded by Dr. Egide Kalisa.
+
+The initiative includes:
+
+- Environmental-health education
+- Citizen science
+- Behaviour change
+- Youth leadership
+- Community engagement
+- Practical interventions
+
+Approach:
+
+Learn
+Measure
+Communicate
+Act
+
+Featured initiatives include:
+
+- HumekaNeza School Air-Quality Campaign
+- I Am an Air Quality Scientist
+- One Sensor Per School
+- Classroom Clean-Air Interventions
+- Clean Air School Zones
+- Shared Skies
+- Making the Invisible Visible
+- Equitable Air-Quality Communication & Preparedness
+
+The architecture should support a rich initiative/project page with:
+
+- Hero
+- Overview
+- Approach
+- Projects
+- Images
+- Video if available
+- Research information
+- Community impact
+- Partners
+- Calls to action
+
+------------------------------------------
+TEACHING
+------------------------------------------
+
+Teaching/course history currently includes:
+
+2026–2027
+
+GHS 9100: Foundations of Global Health
+GHS 9112: International Field School
+
+2025–2026
+
+GHS 9100: Foundations of Global Health
+OH 3300A: Foundations in One Health
+OH 3600: One Health in Action
+GHS 9112: International Field School
+MPH 9015: Issues in Global Health
+
+2024–2025
+
+GHS 9100: Foundations of Global Health
+OH 3600: One Health in Action
+
+The architecture should support teaching/course entries organized by academic year.
+
+------------------------------------------
+GET INVOLVED
+------------------------------------------
+
+The new website should eventually support pathways for:
+
+- Students
+- Researchers
+- Collaborators
+- Schools
+- Community organizations
+- Government agencies
+- International partners
+- Environmental-health partners
+- Other stakeholders
+
+The exact final content will be supplied later.
+
+==================================================
+BRAND / LOGO
+==================================================
+
+I have provided a logo for P3 Health Lab.
+
+The logo is based around the concepts:
+
+People
+Planet
+Place
+
+It contains a visual identity using:
+
+- Blue
+- Green
+- Lime/green
+- Orange
+- Dark navy
+- White
+
+The final website must take visual inspiration from the logo.
+
+However:
+
+DO NOT simply copy the logo colors everywhere.
+
+Develop a professional visual system derived from the logo.
+
+The final design should feel:
+
+- Academic
+- Scientific
+- Professional
+- Modern
+- Human-centered
+- Environmental
+- Trustworthy
+- Research-oriented
+- Clean
+- Accessible
+- International
+
+Avoid making it look like a generic corporate website.
+
+Avoid excessive gradients, excessive animations, excessive rounded cards, or overly playful design.
+
+The logo should be treated as the primary visual identity reference.
+
+If you need exact colors, inspect the supplied logo rather than inventing arbitrary colors.
+
+==================================================
+CORE OBJECTIVE
+==================================================
+
+The fundamental goal is to determine how the existing WifonCloud project can be transformed into a reusable website foundation for P3 Health Lab.
+
+Think of the project as:
+
+EXISTING WEBSITE ENGINE
++
+NEW BRAND
++
+NEW CONTENT
++
+NEW ASSETS
++
+NEW INFORMATION ARCHITECTURE
+=
+P3 HEALTH LAB WEBSITE
+
+The reusable technical foundation may include:
+
+- React components
+- Layouts
+- Navigation
+- Footer
+- Routing
+- Forms
+- Responsive system
+- UI primitives
+- Animation system
+- API utilities
+- Authentication
+- Admin architecture
+- Data management
+- Content management
+- Image handling
+- Gallery system
+- SEO system
+- Utility functions
+
+But only recommend preserving something if your analysis confirms that it is useful.
+
+==================================================
+PHASE 1 — FULL REPOSITORY REVERSE ENGINEERING
+==================================================
+
+Perform a comprehensive analysis of the entire repository.
+
+Inspect:
+
+- Root files
+- Workspace configuration
+- Package configuration
+- Frontend
+- Backend
+- Shared libraries
+- Scripts
+- Public assets
+- Attached assets
+- Configuration
+- Development tools
+- Mockups
+- Tests if any
+- Deployment configuration
+- Environment configuration
+
+Follow the dependency graph.
+
+I want you to understand how the entire application works, not merely list filenames.
+
+==================================================
+PHASE 2 — FRONTEND ARCHITECTURE
+==================================================
+
+Analyze:
+
+- Framework
+- React version
+- TypeScript configuration
+- Vite configuration
+- Routing
+- Pages
+- Components
+- Layouts
+- Hooks
+- State management
+- Data flow
+- API calls
+- Forms
+- Error handling
+- Loading states
+- Responsive behavior
+- Accessibility
+- Animations
+- Reusable UI
+
+Identify the most reusable components.
+
+For each important component explain:
+
+1. What it does
+2. Where it is used
+3. What data it expects
+4. Whether it is reusable
+5. What should change for P3 Health Lab
+6. Whether it should remain unchanged
+7. Whether it should be refactored
+
+==================================================
+PHASE 3 — BACKEND ARCHITECTURE
+==================================================
+
+Analyze:
+
+- Server
+- Express configuration
+- Routes
+- Middleware
+- Authentication
+- Authorization
+- Sessions
+- Database
+- JSON storage
+- File storage
+- Uploads
+- Admin API
+- Newsletter/subscriber functionality
+- Error handling
+- Security
+
+Explain how the frontend and backend communicate.
+
+Identify what backend functionality can support P3 Health Lab.
+
+==================================================
+PHASE 4 — DATA ARCHITECTURE
+==================================================
+
+Identify all data models and content structures.
+
+Determine whether content is:
+
+- Hardcoded
+- JSON
+- Database-driven
+- API-driven
+- External
+- Configuration-based
+
+Then recommend the best structure for P3 Health Lab.
+
+The architecture should make it easy to add:
+
+- Research areas
+- Researchers
+- Students
+- Alumni
+- Publications
+- Courses
+- Initiatives
+- Events
+- News
+- FAQs
+- Gallery items
+- Partners
+- Collaborators
+
+without rewriting components.
+
+==================================================
+PHASE 5 — DESIGN SYSTEM
+==================================================
+
+Analyze the current website's:
+
+- Colors
+- Typography
+- Font loading
+- Spacing
+- Layout
+- Containers
+- Breakpoints
+- Buttons
+- Cards
+- Shadows
+- Borders
+- Icons
+- Navigation
+- Footer
+- Hero sections
+- Forms
+- Images
+- Animations
+- Hover states
+- Mobile behavior
+
+Explain which design patterns can be reused structurally and which should be redesigned for P3 Health Lab.
+
+==================================================
+PHASE 6 — CONTENT / BRAND SEPARATION
+==================================================
+
+Create a detailed inventory separating:
+
+### REUSABLE TECHNICAL SYSTEM
+
+from:
+
+### WIFONCLOUD-SPECIFIC BRAND/CONTENT
+
+For every important WifonCloud-specific item identify whether it is:
+
+- Brand
+- Content
+- Image
+- Logo
+- Color
+- Contact information
+- Social media
+- SEO
+- API/data
+- Database record
+- Component
+- Technical identifier
+
+This is extremely important.
+
+We want Replit AI to know exactly what must disappear from the new website.
+
+==================================================
+PHASE 7 — HARDCODED CONTENT AUDIT
+==================================================
+
+Search the repository for hardcoded:
+
+- Brand names
+- Taglines
+- Company descriptions
+- Email addresses
+- Phone numbers
+- Addresses
+- Social media URLs
+- Images
+- Logo paths
+- SEO titles
+- Meta descriptions
+- API URLs
+- Website URLs
+- Copyright text
+- Testimonials
+- Services
+- Blog content
+- FAQ content
+- Admin references
+
+Create a report.
+
+For each one explain where it is located and whether it should become configurable.
+
+==================================================
+PHASE 8 — REUSABILITY ANALYSIS
+==================================================
+
+Determine how to convert the current project into a reusable foundation.
+
+Recommend a separation between:
+
+### ENGINE
+
+Reusable code and functionality.
+
+### BRAND CONFIGURATION
+
+Examples:
+
+- Brand name
+- Logo
+- Colors
+- Fonts
+- Tagline
+- Contact details
+- Social links
+
+### CONTENT
+
+Examples:
+
+- Research
+- People
+- Publications
+- Teaching
+- Initiatives
+- FAQs
+- News
+
+### ASSETS
+
+Examples:
+
+- Photos
+- Logos
+- Icons
+- Videos
+- Documents
+
+Explain exactly how this separation should be implemented in the existing architecture.
+
+==================================================
+PHASE 9 — P3 HEALTH LAB INFORMATION ARCHITECTURE
+==================================================
+
+Based on the new content requirements above, recommend the best website structure.
+
+Propose:
+
+- Pages
+- Routes
+- Sections
+- Components
+- Data models
+- Relationships between content
+
+For example:
+
+Research
+→ Research Area
+→ Projects
+→ Publications
+→ Researchers
+
+People
+→ Category
+→ Person Profile
+
+Teaching
+→ Academic Year
+→ Course
+
+HumekaNeza
+→ Initiative
+→ Project
+→ Activity
+
+But use your own expert judgment and improve this where necessary.
+
+==================================================
+PHASE 10 — SEO
+==================================================
+
+Analyze the existing SEO implementation.
+
+Then recommend what P3 Health Lab will need:
+
+- Page titles
+- Meta descriptions
+- Open Graph metadata
+- Canonical URLs
+- Structured data where appropriate
+- Research/person/publication metadata
+- Sitemap
+- Robots configuration
+- Social sharing images
+
+Pay particular attention to academic/research discoverability.
+
+==================================================
+PHASE 11 — ACCESSIBILITY
+==================================================
+
+Analyze the current accessibility implementation.
+
+Identify issues involving:
+
+- Semantic HTML
+- Keyboard navigation
+- Focus states
+- Color contrast
+- Images
+- Alt text
+- Forms
+- Headings
+- Links
+- Buttons
+- Mobile navigation
+- Screen readers
+
+Provide recommendations for the new site.
+
+==================================================
+PHASE 12 — PERFORMANCE
+==================================================
+
+Analyze:
+
+- Image handling
+- Lazy loading
+- Code splitting
+- Bundle size
+- Fonts
+- API calls
+- Rendering
+- Caching
+- Asset optimization
+
+Recommend improvements appropriate for a research laboratory website with potentially many photographs, profiles, publications, and documents.
+
+==================================================
+PHASE 13 — SECURITY
+==================================================
+
+Perform a security review.
+
+Pay attention to:
+
+- Authentication
+- Sessions
+- Password handling
+- Environment variables
+- API authorization
+- File uploads
+- Input validation
+- XSS
+- CSRF
+- SQL injection
+- Public/private data
+- Admin routes
+
+Do not expose or reproduce any actual secrets.
+
+If you find sensitive credentials in the repository, report the existence and location without exposing their values.
+
+==================================================
+PHASE 14 — WHAT SHOULD BE KEPT / CHANGED / REMOVED
+==================================================
+
+Create a clear classification:
+
+KEEP
+REFACTOR
+REPLACE
+REMOVE
+MAKE CONFIGURABLE
+
+For example:
+
+KEEP:
+Reusable navigation architecture.
+
+REFACTOR:
+Hardcoded site content.
+
+REPLACE:
+WifonCloud branding.
+
+REMOVE:
+Old project-specific assets.
+
+MAKE CONFIGURABLE:
+Theme colors.
+
+Use the actual repository findings.
+
+==================================================
+PHASE 15 — RECOMMENDED FILE STRUCTURE
+==================================================
+
+Propose the ideal file/folder architecture for the P3 Health Lab version.
+
+Do not blindly redesign the architecture.
+
+Preserve useful existing conventions where they make sense.
+
+Show the proposed structure in a tree.
+
+Explain the purpose of every important new directory.
+
+==================================================
+PHASE 16 — REPLIT AI IMPLEMENTATION BLUEPRINT
+==================================================
+
+This is one of the most important parts of your response.
+
+Prepare a detailed implementation specification specifically for another AI coding agent called Replit AI.
+
+The specification should explain:
+
+1. What Replit AI should preserve.
+2. What it should refactor.
+3. What it should remove.
+4. What it should create.
+5. What content should be replaced.
+6. What assets should be replaced.
+7. What pages should exist.
+8. What components should exist.
+9. What data structures should exist.
+10. How branding should be configured.
+11. How the logo should influence the design.
+12. How the backend should be adapted.
+13. How the admin system should work if retained.
+14. How responsiveness should work.
+15. How SEO should work.
+16. How accessibility should work.
+17. How performance should be handled.
+18. How the application should be tested.
+
+The blueprint must be actionable enough that Replit AI can use it as a technical specification.
+
+==================================================
+PHASE 17 — DO NOT HALLUCINATE
+==================================================
+
+This is critical.
+
+Never say:
+
+"The project has X"
+
+unless you have actually verified it.
+
+Distinguish between:
+
+VERIFIED FROM CODE
+
+and:
+
+RECOMMENDATION
+
+and:
+
+INFERENCE
+
+If something cannot be determined from the repository, explicitly say:
+
+"Not verified from the repository."
+
+==================================================
+PHASE 18 — DO NOT BUILD
+==================================================
+
+Again:
+
+DO NOT build the P3 Health Lab website.
+
+DO NOT perform a large refactor.
+
+DO NOT replace the existing project.
+
+DO NOT generate the final implementation.
+
+Your task is analysis and planning.
+
+The output will be handed to Replit AI later.
+
+==================================================
+FINAL DELIVERABLE
+==================================================
+
+At the end, provide a comprehensive report using this structure:
+
+# P3 HEALTH LAB — EXISTING REPOSITORY ANALYSIS
+
+## 1. Executive Summary
+
+## 2. Repository Architecture
+
+## 3. Frontend Architecture
+
+## 4. Backend Architecture
+
+## 5. Routing Map
+
+## 6. Component Architecture
+
+## 7. Data Architecture
+
+## 8. API Architecture
+
+## 9. Authentication & Admin
+
+## 10. Design System
+
+## 11. Responsive Design
+
+## 12. Animation & Interaction System
+
+## 13. Asset Architecture
+
+## 14. Content Architecture
+
+## 15. Hardcoded WifonCloud Content
+
+## 16. Reusable Components
+
+## 17. Components Requiring Modification
+
+## 18. Components That Should Be Removed
+
+## 19. P3 Health Lab Recommended Information Architecture
+
+## 20. P3 Health Lab Data Models
+
+## 21. P3 Health Lab Design Direction
+
+## 22. SEO Recommendations
+
+## 23. Accessibility Recommendations
+
+## 24. Performance Recommendations
+
+## 25. Security Findings
+
+## 26. Technical Risks
+
+## 27. Recommended File Structure
+
+## 28. Migration Strategy
+
+## 29. Replit AI Implementation Blueprint
+
+## 30. Final Checklist
+
+==================================================
+FINAL CHECKLIST
+==================================================
+
+Finish with a concise checklist like:
+
+[ ] Existing architecture fully understood
+[ ] Frontend analyzed
+[ ] Backend analyzed
+[ ] API analyzed
+[ ] Database/data analyzed
+[ ] Admin analyzed
+[ ] Components categorized
+[ ] Hardcoded content identified
+[ ] Assets categorized
+[ ] Branding dependencies identified
+[ ] Responsive system analyzed
+[ ] Design system analyzed
+[ ] SEO analyzed
+[ ] Accessibility analyzed
+[ ] Performance analyzed
+[ ] Security analyzed
+[ ] P3 Health Lab information architecture proposed
+[ ] Reusable architecture proposed
+[ ] Replit implementation blueprint prepared
+
+Remember:
+
+YOU ARE THE ANALYST AND ARCHITECT.
+
+REPLIT AI WILL BE THE IMPLEMENTER.
+
+Your job is to understand the existing codebase deeply enough that another AI can confidently transform it into the P3 Health Lab website without breaking useful functionality or carrying unnecessary WifonCloud branding and content into the new project.
+
+Start by inspecting the repository.
+Do not modify anything.

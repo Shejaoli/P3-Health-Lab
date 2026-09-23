@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "P3 Health Lab"
+description = "A modern academic and environmental-health research laboratory website for P3 Health Lab, sharing research, people, teaching, the HumekaNeza community initiative, and ways to collaborate."
+version = "1.0.0"
+id = "artifacts/p3-health-lab"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19746
+
+[services.development]
+run = "pnpm --filter @workspace/p3-health-lab run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/p3-health-lab", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/p3-health-lab/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19746"
+BASE_PATH = "/"

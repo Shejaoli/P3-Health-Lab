@@ -1,0 +1,384 @@
+import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ArrowUpRight, ChevronRight, Check, CircleArrowUp, ExternalLink, X } from 'lucide-react';
+import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
+import { ErrorBoundary } from '@/components/error-boundary';
+import { Toaster } from '@/components/ui/toaster';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import logo from '@assets/p3_logo_1789065448410.png';
+
+const queryClient = new QueryClient();
+
+function useScrollReveal(routeKey: string) {
+  useEffect(() => {
+    document.documentElement.classList.add('motion-ready');
+    const elements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      elements.forEach((element) => element.classList.add('is-visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    elements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, [routeKey]);
+}
+
+const researchAreas = [
+  { title: 'Air pollution & exposure science', text: 'Tracing what we breathe across homes, schools, workplaces, and the streets between them.', meta: 'Exposure · Measurement' },
+  { title: 'Environmental microbiology & AMR', text: 'Understanding how microorganisms and antimicrobial resistance move through shared environments.', meta: 'One Health · Microbiology' },
+  { title: 'Climate, wildfires & extreme heat', text: 'Building practical evidence for health in a changing climate, from smoke days to hot nights.', meta: 'Climate health · Resilience' },
+  { title: 'Children’s environmental health', text: 'Making everyday places safer for children during the years that shape a lifetime of health.', meta: 'Early life · Equity' },
+  { title: 'Clinical trials & interventions', text: 'Designing and testing interventions that can work beyond a research setting.', meta: 'Implementation · Care' },
+  { title: 'Global health & sustainable cities', text: 'Learning with communities to make urban health solutions locally useful and globally relevant.', meta: 'Cities · Collaboration' },
+];
+
+const people = [
+  { initials: 'EK', name: 'Dr. Egide Kalisa', role: 'Principal investigator', text: 'Exposure scientist and global health researcher at Western University.' },
+  { initials: 'AM', name: 'Aline Mukamana', role: 'PhD researcher', text: 'Studying household air quality and healthy homes across climate contexts.' },
+  { initials: 'JT', name: 'Jamal Thompson', role: 'Research associate', text: 'Translating environmental measurements into community-facing tools.' },
+  { initials: 'NR', name: 'Nadia Rahman', role: 'Graduate trainee', text: 'Exploring the links between heat, air quality, and children’s health.' },
+  { initials: 'SC', name: 'Sofia Chen', role: 'MSc researcher', text: 'Mapping environmental microbiology across shared urban spaces.' },
+  { initials: 'DM', name: 'Daniel Mutesa', role: 'Alumni · 2023', text: 'Now building evidence-informed climate programs in East Africa.' },
+  { initials: 'LP', name: 'Léa Pelletier', role: 'Research coordinator', text: 'Supporting thoughtful, accessible research partnerships.' },
+  { initials: 'OB', name: 'Owen Bennett', role: 'Undergraduate trainee', text: 'Learning how data can help communities ask better questions.' },
+];
+
+const publications = [
+  { year: '2024', title: 'Breathing room: measuring household exposures with communities', journal: 'Environmental Research · Kalisa E, et al.', type: 'Article', topic: 'Exposure science' },
+  { year: '2024', title: 'Extreme heat and the everyday places children call home', journal: 'Climate & Health · Rahman N, et al.', type: 'Brief', topic: 'Climate health' },
+  { year: '2023', title: 'A One Health view of antimicrobial resistance in urban water', journal: 'The Lancet Regional Health · Kalisa E, et al.', type: 'Article', topic: 'One Health' },
+  { year: '2023', title: 'Co-designing clean-air interventions for schools', journal: 'Health Promotion International · Thompson J, et al.', type: 'Protocol', topic: 'Interventions' },
+  { year: '2022', title: 'Wildfire smoke, risk communication, and public trust', journal: 'International Journal of Environmental Research', type: 'Review', topic: 'Climate health' },
+];
+
+const courses = {
+  '2024–25': [
+    { code: 'GH 2101', title: 'Foundations of Global Health', text: 'An introduction to the systems, histories, and shared responsibilities that shape health around the world.', term: 'Fall · Undergraduate' },
+    { code: 'GH 3310', title: 'One Health in Action', text: 'Case-based learning across human, animal, and environmental health with practitioners and communities.', term: 'Winter · Undergraduate' },
+    { code: 'GH 4402', title: 'International Field School', text: 'A field-based course in listening, observation, and responsible community-engaged practice.', term: 'Spring · Field course' },
+  ],
+  '2023–24': [
+    { code: 'GH 2101', title: 'Foundations of Global Health', text: 'How health is made — and unmade — by policy, place, power, and collective action.', term: 'Fall · Undergraduate' },
+    { code: 'GH 2204', title: 'Issues in Global Health', text: 'Seminars on the questions that matter now, from climate mobility to pandemic preparedness.', term: 'Winter · Undergraduate' },
+  ],
+  '2022–23': [
+    { code: 'GH 2204', title: 'Issues in Global Health', text: 'A guided inquiry into urgent global health challenges and the evidence behind responses.', term: 'Winter · Undergraduate' },
+  ],
+};
+
+function Shell({ children }: { children: ReactNode }) {
+  const [location] = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [openMobileMenu, setOpenMobileMenu] = useState<string | null>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const nav = [
+    {
+      label: 'Research',
+      href: '/research',
+      children: [
+        ['Research overview', '/research'],
+        ['Air pollution & exposure science', '/research#air-pollution'],
+        ['Environmental microbiology & AMR', '/research#microbiology'],
+        ['Climate, wildfires & extreme heat', '/research#climate'],
+        ['Children’s environmental health', '/research#children'],
+        ['Clinical trials & interventions', '/research#interventions'],
+        ['Global health & sustainable cities', '/research#global-health'],
+      ],
+    },
+    {
+      label: 'People',
+      href: '/people',
+      children: [
+        ['All people', '/people'],
+        ['Postdoctoral fellows', '/people#postdoctoral'],
+        ['PhD students', '/people#phd'],
+        ['Master’s students', '/people#masters'],
+        ['Undergraduate & research students', '/people#undergraduate'],
+        ['Visiting international students & scholars', '/people#visiting'],
+        ['Research assistants & staff', '/people#staff'],
+        ['Alumni', '/people#alumni'],
+      ],
+    },
+    { label: 'Publications', href: '/publications' },
+    {
+      label: 'Teaching',
+      href: '/teaching',
+      children: [
+        ['Current courses', '/teaching'],
+        ['2024–25', '/teaching#2024-25'],
+        ['2023–24', '/teaching#2023-24'],
+        ['2022–23', '/teaching#2022-23'],
+      ],
+    },
+    {
+      label: 'HumekaNeza',
+      href: '/humekaneza',
+      children: [
+        ['Overview', '/humekaneza'],
+        ['Learn', '/humekaneza#learn'],
+        ['Measure', '/humekaneza#measure'],
+        ['Communicate', '/humekaneza#communicate'],
+        ['Act', '/humekaneza#act'],
+        ['Initiatives', '/humekaneza#initiatives'],
+        ['Partner with us', '/get-involved#partner'],
+      ],
+    },
+    {
+      label: 'Get Involved',
+      href: '/get-involved',
+      children: [
+        ['Collaborate', '/get-involved'],
+        ['Join the lab', '/people#join'],
+        ['Students & trainees', '/people#trainees'],
+        ['Community partnerships', '/humekaneza#partnerships'],
+        ['Contact', '/get-involved#contact'],
+      ],
+    },
+  ];
+  const isActive = (href: string) => href === '/' ? location === '/' : location === href || location.startsWith(`${href}/`);
+  useScrollReveal(location);
+  useEffect(() => {
+    setMenuOpen(false);
+    setOpenMenu(null);
+    setOpenMobileMenu(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.title = location === '/' ? 'P3 Health Lab · People, Planet, Place' : `P3 Health Lab · ${location.slice(1).replace('-', ' ')}`;
+  }, [location]);
+  useEffect(() => {
+    const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+    if (favicon) {
+      favicon.type = 'image/png';
+      favicon.href = '/p3-logo.png';
+    }
+  }, []);
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpenMenu(null);
+        setOpenMobileMenu(null);
+      }
+    };
+    const closeOnOutsideClick = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) setOpenMenu(null);
+    };
+    document.addEventListener('keydown', closeOnEscape);
+    document.addEventListener('mousedown', closeOnOutsideClick);
+    return () => {
+      document.removeEventListener('keydown', closeOnEscape);
+      document.removeEventListener('mousedown', closeOnOutsideClick);
+    };
+  }, []);
+  useEffect(() => {
+    const openContact = () => setContactOpen(true);
+    window.addEventListener('open-contact', openContact);
+    return () => window.removeEventListener('open-contact', openContact);
+  }, []);
+  return (
+    <div className="site-shell noise">
+      <header className="site-header" ref={navRef}>
+        <div className="container-wide header-inner">
+          <Link href="/" className="brand" aria-label="P3 Health Lab home" data-testid="link-brand">
+            <img src={logo} alt="" />
+            <span className="brand-copy" aria-hidden="true"><span className="brand-p3">P3</span> <span className="brand-health">Health Lab</span></span>
+          </Link>
+          <nav className="nav" aria-label="Primary navigation">
+            {nav.map((item) => item.children ? (
+              <div className="nav-dropdown" key={item.href}>
+                <button className={`nav-link nav-trigger ${isActive(item.href) ? 'active' : ''}`} aria-expanded={openMenu === item.label} onClick={() => setOpenMenu(openMenu === item.label ? null : item.label)} data-testid={`button-nav-${item.label.toLowerCase().replaceAll(' ', '-')}`}>
+                  {item.label}<ChevronRight className={openMenu === item.label ? 'chevron-open' : ''} size={14} aria-hidden="true" />
+                </button>
+                {openMenu === item.label && <div className="dropdown-panel">
+                  {item.children.map(([childLabel, childHref]) => <Link key={childHref} href={childHref} className="dropdown-link" onClick={() => setOpenMenu(null)}>{childLabel}</Link>)}
+                </div>}
+              </div>
+            ) : <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-nav-${item.label.toLowerCase()}`}>{item.label}</Link>)}
+          </nav>
+          <button className="header-cta" onClick={() => setContactOpen(true)} data-testid="button-header-collaborate">Collaborate</button>
+          <button className={`menu-btn ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} data-testid="button-mobile-menu">
+            <span className="hamburger-icon" aria-hidden="true"><span /><span /><span /></span>
+          </button>
+        </div>
+        {menuOpen && <nav className="mobile-menu" aria-label="Mobile navigation">
+          {nav.map((item) => item.children ? (
+            <div className="mobile-dropdown" key={item.href}>
+              <button className={`mobile-link mobile-trigger ${isActive(item.href) ? 'active' : ''}`} aria-expanded={openMobileMenu === item.label} onClick={() => setOpenMobileMenu(openMobileMenu === item.label ? null : item.label)}>
+                {item.label}<ChevronRight className={openMobileMenu === item.label ? 'chevron-open' : ''} size={16} aria-hidden="true" />
+              </button>
+              {openMobileMenu === item.label && <div className="mobile-submenu">
+                {item.children.map(([childLabel, childHref]) => <Link key={childHref} href={childHref} className="mobile-sublink" data-testid={`link-mobile-${childLabel.toLowerCase().replaceAll(' ', '-')}`}>{childLabel}</Link>)}
+              </div>}
+            </div>
+          ) : <Link key={item.href} href={item.href} className={`mobile-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>{item.label}</Link>)}
+          <button className="mobile-cta" onClick={() => setContactOpen(true)} data-testid="button-mobile-collaborate">Collaborate <ArrowUpRight size={14} aria-hidden="true" /></button>
+        </nav>}
+      </header>
+      <main>{children}</main>
+      <Footer onContact={() => setContactOpen(true)} />
+      {contactOpen && <ContactModal onClose={() => setContactOpen(false)} />}
+    </div>
+  );
+}
+
+function Footer({ onContact }: { onContact: () => void }) {
+  return <footer className="footer">
+    <div className="container-wide">
+      <div className="footer-grid">
+        <div>
+          <img className="footer-logo" src={logo} alt="P3 Health Lab" />
+          <p>Research for healthier everyday places. Led by Dr. Egide Kalisa at Western University.</p>
+          <button className="button-secondary" onClick={onContact} data-testid="button-footer-contact">Connect with the lab <ArrowUpRight size={14} aria-hidden="true" /></button>
+        </div>
+        <div><h4>Explore</h4><Link href="/research" data-testid="link-footer-research">Research</Link><Link href="/people" data-testid="link-footer-people">People</Link><Link href="/publications" data-testid="link-footer-publications">Scholarship</Link><Link href="/teaching" data-testid="link-footer-teaching">Teaching</Link></div>
+        <div><h4>In the community</h4><Link href="/humekaneza" data-testid="link-footer-humekaneza">HumekaNeza</Link><Link href="/get-involved" data-testid="link-footer-involved">Get involved</Link><a href="mailto:p3healthlab@uwo.ca" data-testid="link-footer-email">Email the lab</a></div>
+        <div><h4>Find us</h4><p>Western University<br />London, Ontario<br />Canada</p><a href="https://www.uwo.ca" target="_blank" rel="noreferrer" data-testid="link-western">Western University <ExternalLink size={12} aria-hidden="true" /></a></div>
+      </div>
+      <div className="footer-bottom"><span>© 2025 P3 Health Lab</span><span>Research · Collaboration · Impact</span></div>
+    </div>
+  </footer>;
+}
+
+function ContactModal({ onClose }: { onClose: () => void }) {
+  const [sent, setSent] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    modalRef.current?.querySelector<HTMLElement>('input, textarea, button')?.focus();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+        return;
+      }
+      if (event.key === 'Tab' && modalRef.current) {
+        const focusable = Array.from(modalRef.current.querySelectorAll<HTMLElement>('input, textarea, button, a[href]')).filter((element) => !element.hasAttribute('disabled'));
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+  return <div className="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+    <div className="modal" ref={modalRef}>
+      <div className="modal-head"><div><span className="eyebrow">Open door</span><h2 id="contact-title">Start a conversation.</h2></div><button className="close-btn" onClick={onClose} aria-label="Close contact form" data-testid="button-close-contact"><X size={22} aria-hidden="true" /></button></div>
+      {sent ? <div className="success-note" role="status" data-testid="status-contact-success"><strong>Message ready to go.</strong><br />Thank you for reaching out. We’ll be in touch at the lab soon.</div> : <form onSubmit={(event) => { event.preventDefault(); setSent(true); }} data-testid="form-contact">
+        <div className="field"><label htmlFor="contact-name">Your name</label><input id="contact-name" required placeholder="Name" data-testid="input-contact-name" /></div>
+        <div className="field"><label htmlFor="contact-email">Email</label><input id="contact-email" type="email" required placeholder="you@example.com" data-testid="input-contact-email" /></div>
+        <div className="field"><label htmlFor="contact-message">How can we work together?</label><textarea id="contact-message" required placeholder="Tell us a little about your idea, question, or project." data-testid="input-contact-message" /></div>
+        <button className="button-primary" type="submit" data-testid="button-submit-contact">Send to the lab <ArrowUpRight size={14} aria-hidden="true" /></button>
+      </form>}
+      {sent && <button className="button-primary" onClick={onClose} data-testid="button-done-contact">Close</button>}
+    </div>
+  </div>;
+}
+
+function Home() {
+  const [, setLocation] = useLocation();
+  return <>
+    <section className="hero"><div className="hero-airflow" aria-hidden="true"><svg className="airflow-svg" viewBox="0 0 720 360" role="presentation"><path d="M-30 240 C120 130 205 340 365 220 S590 110 760 168" /><path d="M-40 290 C100 185 218 375 376 258 S603 158 760 208" /><path d="M30 184 C160 88 245 260 392 174 S600 80 748 130" /></svg></div><div className="container-wide hero-grid">
+      <div className="hero-copy" data-reveal="up"><span className="eyebrow">Western University · Research laboratory</span><h1>Health begins with <em>place.</em></h1><p className="hero-lede">P3 Health Lab brings exposure science, climate health, intervention design, and community knowledge together — to understand the places we share and make them healthier.</p><div className="hero-actions"><Link href="/research" className="button-primary" data-testid="link-hero-research">Explore our research <ArrowUpRight size={15} aria-hidden="true" /></Link><button className="button-secondary" onClick={() => setLocation('/get-involved')} data-testid="button-hero-involved">Find your way in <ChevronRight size={15} aria-hidden="true" /></button></div></div>
+      <div className="hero-art" data-reveal="scale" aria-label="People, planet, place visual"><div className="orb orb-main breathe"><span className="art-label one">People</span><span className="art-label two">Planet</span><span className="art-label three">Place</span><div className="art-center"><div><span>P3</span><small>one connected health story</small></div></div></div><div className="orb orb-outline breathe breathe-delay" /><div className="hero-note" data-reveal="up"><strong>Our north star</strong>Research that travels from a careful measurement to a healthier everyday life.</div></div>
+    </div></section>
+    <div className="strip"><div className="container-wide strip-inner"><div className="strip-item story-item" data-reveal="up" style={{ transitionDelay: '0ms' }}><strong>People</strong><span>Knowledge starts with lived experience.</span></div><div className="strip-item story-item" data-reveal="up" style={{ transitionDelay: '80ms' }}><strong>Planet</strong><span>Health is ecological, shared, and changing.</span></div><div className="strip-item story-item" data-reveal="up" style={{ transitionDelay: '160ms' }}><strong>Place</strong><span>Solutions should belong somewhere.</span></div></div></div>
+    <section className="section" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">The P3 approach</span><div className="intro-stat"><b>01</b><span>Question the everyday</span></div><div className="intro-stat" style={{ marginTop: 30 }}><b>03</b><span>Return knowledge with care</span></div></div><div><p className="intro-copy">Understanding exposures. Designing interventions. <mark>Improving health.</mark></p><p className="tiny-copy">We work across disciplines and borders, with the people who live the questions. Our work is rigorous enough for a journal and useful enough for a classroom, clinic, city, or kitchen table.</p><Link href="/people" className="button-secondary" data-testid="link-home-people">Meet the people behind the work <ArrowUpRight size={14} aria-hidden="true" /></Link></div></div></section>
+    <section className="section section-tinted" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">What we study</span><h2>Six routes into a healthier tomorrow.</h2></div><p>Different questions, one connected lens: how environments shape health — and how better choices can shape environments.</p></div><div className="research-grid">{researchAreas.map((area, index) => <Link href="/research" className="research-card" key={area.title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-home-research-${index}`}><div className="card-number"><span>0{index + 1}</span><ArrowUpRight size={17} aria-hidden="true" /></div><h3>{area.title}</h3><p>{area.text}</p><span className="card-meta">{area.meta}</span></Link>)}</div></div></section>
+    <section className="quote-section" data-reveal="up"><div className="container-wide"><blockquote>“A healthier tomorrow is not a distant idea. It is something we can measure, design, and practice together.”</blockquote><cite>— P3 Health Lab, London · Canada</cite></div></section>
+    <section className="section" data-reveal="up"><div className="container-wide section-head"><div><span className="eyebrow">A way in</span><h2>Bring your question. We’ll bring a place to start.</h2></div><Link href="/get-involved" className="button-primary" data-testid="link-home-get-involved">Get involved <ArrowUpRight size={15} aria-hidden="true" /></Link></div></section>
+  </>;
+}
+
+function PageHero({ eyebrow, title, text, action }: { eyebrow: string; title: ReactNode; text: string; action?: ReactNode }) {
+  return <section className="page-hero" data-reveal="up"><div className="container-wide"><span className="eyebrow">{eyebrow}</span><h1 className="display">{title}</h1><p>{text}</p>{action && <div className="hero-actions">{action}</div>}</div></section>;
+}
+
+function Research() {
+  return <><PageHero eyebrow="Research / 01" title={<>Questions that start <em>close to home.</em></>} text="We study the exposures people encounter, the environments they move through, and the interventions that make healthier choices possible." action={<Link href="/get-involved" className="button-secondary" data-testid="link-research-collaborate">Work with us <ArrowUpRight size={15} aria-hidden="true" /></Link>} /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Our areas</span><h2>From a particle in the air to a city’s big decision.</h2></div><p>Our questions are deliberately porous. The strongest work often sits at the boundary of two disciplines — or two communities.</p></div><div className="research-grid">{researchAreas.map((area, index) => <article className="research-card" key={area.title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-research-${index}`}><div className="card-number"><span>0{index + 1}</span><CircleArrowUp size={17} aria-hidden="true" /></div><h3>{area.title}</h3><p>{area.text}</p><span className="card-meta">{area.meta}</span></article>)}</div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">How we work</span><h2 className="display" style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)', lineHeight: 1 }}>Evidence with a return address.</h2></div><div><p className="intro-copy">We pair <mark>measurement</mark> with meaning — sensors with stories, trials with trust, and global questions with local knowledge.</p><p className="tiny-copy">P3 projects are built to be shared. We publish, teach, test, translate, and listen again. That loop is how research earns its way into everyday places.</p></div></div></section></>;
+}
+
+function People() {
+  const [group, setGroup] = useState('All');
+  const groups = ['All', 'Researchers', 'Trainees', 'Alumni'];
+  const filtered = people.filter((person) => group === 'All' || person.role.toLowerCase().includes(group.slice(0, -1).toLowerCase()) || (group === 'Researchers' && person.role.includes('coordinator')));
+  return <><PageHero eyebrow="People / 02" title={<>A lab is a <em>collective.</em></>} text="We are researchers, students, collaborators, and alumni — connected by curiosity, care, and the belief that good health evidence should travel." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">The P3 community</span><h2>Many routes in. Shared responsibility out.</h2></div><p>Meet the people making space for better questions and more useful answers.</p></div><div className="filter-bar">{groups.map((item) => <button className={`filter-btn ${group === item ? 'active' : ''}`} key={item} onClick={() => setGroup(item)} data-testid={`button-filter-people-${item.toLowerCase()}`}>{item}</button>)}</div><div className="people-grid">{filtered.map((person, index) => <article className="person-card" key={person.name} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-person-${index}`}><div className="person-initial" aria-label={`${person.name} initials`}>{person.initials}</div><h3>{person.name}</h3><span className="person-role">{person.role}</span><p>{person.text}</p></article>)}</div>{filtered.length === 0 && <div className="success-note" role="status">No people in this view yet. Try another pathway.</div>}</div></section><section className="contact-band" data-reveal="up"><div className="container-wide contact-grid"><h2>Good research is a team sport.</h2><Link href="/get-involved" className="button-primary" data-testid="link-people-join">Find your pathway <ArrowUpRight size={15} aria-hidden="true" /></Link></div></section></>;
+}
+
+function Publications() {
+  const [topic, setTopic] = useState('All');
+  const topics = ['All', 'Exposure science', 'Climate health', 'One Health', 'Interventions'];
+  const filtered = publications.filter((item) => topic === 'All' || item.topic === topic);
+  return <><PageHero eyebrow="Scholarship / 03" title={<>Evidence worth <em>sharing.</em></>} text="Our scholarship follows the questions that matter to people and places: careful methods, open collaboration, and findings that can move." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Selected work</span><h2>A public record of questions in motion.</h2></div><p>Browse selected articles, briefs, protocols, and reviews from the P3 community.</p></div><div className="filter-bar">{topics.map((item) => <button className={`filter-btn ${topic === item ? 'active' : ''}`} key={item} onClick={() => setTopic(item)} data-testid={`button-filter-publications-${item.toLowerCase().replace(' ', '-')}`}>{item}</button>)}</div><div className="publication-list">{filtered.map((pub, index) => <article className="publication-row" key={pub.title} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`row-publication-${index}`}><span className="publication-year">{pub.year}</span><div><h3>{pub.title}</h3><p>{pub.journal}</p></div><span className="pub-type">{pub.type} <ExternalLink size={12} aria-hidden="true" /></span></article>)}</div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">Beyond the PDF</span><h2 className="display" style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)', lineHeight: 1 }}>Knowledge has more than one format.</h2></div><div><p className="intro-copy">A paper is one <mark>beginning</mark>, not the last word.</p><p className="tiny-copy">We share findings through field schools, classroom conversations, community tools, briefings, and the generous work of listening back.</p><Link href="/humekaneza" className="button-secondary" data-testid="link-publications-community">See community work <ArrowUpRight size={14} aria-hidden="true" /></Link></div></div></section></>;
+}
+
+function Teaching() {
+  const [year, setYear] = useState<keyof typeof courses>('2024–25');
+  return <><PageHero eyebrow="Teaching / 04" title={<>Make room for <em>better questions.</em></>} text="Teaching at P3 is an invitation to notice systems, question assumptions, and practice global health with humility." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Courses by academic year</span><h2>Learning that leaves the classroom.</h2></div><p>Courses connect core concepts to current questions, field experience, and the people whose lives are shaped by health systems.</p></div><div className="year-tabs">{(Object.keys(courses) as Array<keyof typeof courses>).map((item) => <button className={`year-tab ${year === item ? 'active' : ''}`} key={item} onClick={() => setYear(item)} data-testid={`button-year-${item}`}>{item}</button>)}</div><div className="course-grid"><div>{courses[year].map((course, index) => <article className="course-card" key={course.title} data-reveal="up" style={{ transitionDelay: `${index * 80}ms` }} data-testid={`card-course-${index}`}><span className="course-code">{course.code}</span><div><h3>{course.title}</h3><p>{course.text}</p></div><span className="course-term">{course.term}</span></article>)}</div><aside className="side-panel" data-reveal="scale"><span className="eyebrow">Teaching note</span><h3>Global health is not a spectator sport.</h3><p>We learn by asking who is missing, what counts as evidence, and what we owe the people who make knowledge possible.</p><Link href="/get-involved" className="button-primary" data-testid="link-teaching-involved">Talk with us <ArrowUpRight size={14} aria-hidden="true" /></Link></aside></div></div></section><section className="quote-section" data-reveal="up"><div className="container-wide"><blockquote>“The best classroom is one that sends you back into the world more attentive than before.”</blockquote><cite>P3 teaching practice</cite></div></section></>;
+}
+
+function Humekaneza() {
+  const steps = [
+    ['01', 'Learn', 'Build shared understanding from local experience, trusted evidence, and questions people already carry.'],
+    ['02', 'Measure', 'Use accessible tools to notice patterns in air, homes, schools, and the environments we share.'],
+    ['03', 'Communicate', 'Turn findings into clear stories, conversations, and choices that make sense in context.'],
+    ['04', 'Act', 'Move from insight to practical change — then return, listen, and learn what happened.'],
+  ];
+  return <><PageHero eyebrow="HumekaNeza / 05" title={<>Breathe easy, <em>together.</em></>} text="HumekaNeza — meaning “breathe well” — is a community initiative for learning, measuring, communicating, and acting on the air around us." action={<Link href="/get-involved" className="button-secondary" data-testid="link-humekaneza-join">Join the work <ArrowUpRight size={15} aria-hidden="true" /></Link>} /><section className="section" data-reveal="up"><div className="container-wide initiative-grid"><div className="initiative-visual" data-reveal="scale"><svg className="initiative-airflow" viewBox="0 0 460 320" aria-hidden="true"><path d="M-30 194 C70 106 125 242 220 168 S370 92 490 130" /><path d="M-26 236 C84 160 132 276 238 202 S376 138 492 174" /></svg><div className="initiative-word"><span className="breathe-well">Breathe Well</span>Humeka<br />Neza<small>Community air & everyday health</small></div></div><div><span className="eyebrow">The approach</span><h2 className="display" style={{ fontSize: 'clamp(2.7rem, 5vw, 5rem)', lineHeight: .92, margin: '16px 0 20px' }}>A breath is small. The work around it is not.</h2><p className="tiny-copy" style={{ marginTop: 0 }}>HumekaNeza brings people together around a simple, practical question: what would help us breathe easier here? The answer starts with knowledge and ends with action, not a one-size-fits-all fix.</p><div className="steps">{steps.map(([number, title, text], index) => <div className="step" key={title} data-reveal="up" style={{ transitionDelay: `${index * 80}ms` }} data-testid={`step-humekaneza-${title.toLowerCase()}`}><span className="step-num">{number}</span><div><h3>{title}</h3><p>{text}</p></div></div>)}</div></div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide section-head"><div><span className="eyebrow">A shared invitation</span><h2>Bring the question your neighbourhood is already asking.</h2></div><Link href="/get-involved" className="button-primary" data-testid="link-humekaneza-involved">Connect with HumekaNeza <ArrowUpRight size={15} aria-hidden="true" /></Link></div></section></>;
+}
+
+function GetInvolved() {
+  const pathways = [
+    ['01', 'Students', 'Find a supervisor, a project, or your first place to ask a better question.', 'Browse people'],
+    ['02', 'Researchers', 'Bring methods, questions, or a collaboration that benefits from a wider lens.', 'Start a conversation'],
+    ['03', 'Collaborators', 'Build something useful with us across institutions, disciplines, and borders.', 'Work together'],
+    ['04', 'Schools', 'Explore tools and learning experiences for healthier school environments.', 'Talk with the lab'],
+    ['05', 'Communities', 'Share what you notice. Help shape research that returns something of value.', 'Join HumekaNeza'],
+  ];
+  const [, setLocation] = useLocation();
+  return <><PageHero eyebrow="Get involved / 06" title={<>There is a place for <em>your question.</em></>} text="P3 Health Lab grows through generous collaboration. Choose the pathway that feels closest, or send us a note and we’ll find the right door." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Pathways</span><h2>Start where you are.</h2></div><p>No perfect pitch required. Curiosity, care, and a willingness to learn together are enough to begin.</p></div><div className="path-grid">{pathways.map(([number, title, text, cta], index) => <button className="path-card" key={title} onClick={() => title === 'Communities' ? setLocation('/humekaneza') : setLocation('/people')} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`button-pathway-${title.toLowerCase()}`}><div className="card-number"><span>{number}</span><ArrowUpRight size={16} aria-hidden="true" /></div><h3>{title}</h3><p>{text}</p><span className="card-meta">{cta}</span></button>)}</div></div></section><section className="contact-band" data-reveal="up"><div className="container-wide contact-grid"><h2>Not sure which door is yours?</h2><button className="button-primary" onClick={() => window.dispatchEvent(new CustomEvent('open-contact'))} data-testid="button-involved-contact">Send a note <ArrowUpRight size={15} aria-hidden="true" /></button></div></section></>;
+}
+
+function NotFound() {
+  return <div className="not-found"><div><span className="eyebrow">P3 / 404</span><h1 className="display">Not here.</h1><p>We couldn’t find that page, but there are plenty of good places to start.</p><Link href="/" className="button-primary" data-testid="link-not-found-home">Return home <ArrowUpRight size={14} aria-hidden="true" /></Link></div></div>;
+}
+
+function Router() {
+  return <RoutedErrorBoundary><Switch>
+    <Route path="/" component={Home} />
+    <Route path="/research" component={Research} />
+    <Route path="/people" component={People} />
+    <Route path="/publications" component={Publications} />
+    <Route path="/teaching" component={Teaching} />
+    <Route path="/humekaneza" component={Humekaneza} />
+    <Route path="/get-involved" component={GetInvolved} />
+    <Route component={NotFound} />
+  </Switch></RoutedErrorBoundary>;
+}
+
+function RoutedErrorBoundary({ children }: { children: ReactNode }) {
+  const [location] = useLocation();
+  return <ErrorBoundary resetKey={location}><div className="page-transition" key={location}>{children}</div></ErrorBoundary>;
+}
+
+function App() {
+  return <QueryClientProvider client={queryClient}><TooltipProvider><WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><Shell><Router /></Shell></WouterRouter><Toaster /></TooltipProvider></QueryClientProvider>;
+}
+
+export default App;

@@ -1,0 +1,2830 @@
+============================================================
+P3 HEALTH LAB — MASTER NAVBAR / HEADER IMPLEMENTATION PROMPT
+============================================================
+
+ROLE
+------------------------------------------------------------
+
+You are the senior frontend engineer and UI/UX implementation
+engineer responsible for designing and implementing the complete
+navigation/header system for the new P3 Health Lab website.
+
+You are working from an existing React + Vite + TypeScript project
+that originated from the WirfonCloud website.
+
+IMPORTANT:
+
+The existing WirfonCloud project is ONLY the technical foundation.
+
+You MUST NOT make the new P3 Health Lab navbar look like the
+WirfonCloud navbar with the text replaced.
+
+The new navbar must feel like it belongs to a completely different
+organization:
+
+    P3 HEALTH LAB
+    People • Planet • Place
+
+The visual identity should communicate:
+
+    academic research
+    environmental health
+    global health
+    medicine
+    environmental science
+    public health
+    evidence
+    collaboration
+    professionalism
+    human impact
+
+The navbar should feel like the navigation of a modern,
+high-quality university research laboratory, environmental-health
+research institute, or medical research center.
+
+It must be polished enough to look professionally designed by a
+senior product/UI team.
+
+============================================================
+1. PRIMARY BRANDING RULE
+============================================================
+
+The ONLY primary branding element in the header is the provided
+official P3 Health Lab logo.
+
+Use the actual supplied P3 Health Lab logo asset.
+
+DO NOT recreate the logo using HTML text.
+
+DO NOT type a duplicate logo next to the image.
+
+DO NOT add another textual brand name beside the logo unless the
+actual logo asset itself contains those words.
+
+DO NOT create an additional branding line.
+
+DO NOT create a separate P3 Health Lab text heading inside the
+navbar.
+
+DO NOT create:
+
+    "P3 HEALTH LAB · PEOPLE • PLANET • PLACE"
+
+as a separate header/ticker/announcement element.
+
+The logo already communicates the organization's identity.
+
+The header should therefore rely on the actual logo as the visual
+brand anchor.
+
+The logo must link to:
+
+    /
+
+Clicking the logo should always take the user to the homepage.
+
+============================================================
+2. ABSOLUTELY DO NOT COPY THE OLD WIRFONCLOUD HEADER
+============================================================
+
+The old WirfonCloud website may contain elements such as:
+
+    announcement bars
+    ticker bars
+    rotating messages
+    duplicated branding
+    promotional header strips
+    decorative header text
+    marketing-oriented navigation
+    unusual two-level header structures
+
+DO NOT automatically carry these structures into P3 Health Lab.
+
+Specifically, DO NOT create:
+
+    rotating branding ticker
+    announcement bar
+    promotional message strip
+    scrolling text
+    duplicated "P3 Health Lab" text
+    second branding bar
+    unnecessary utility bar
+    fake statistics in the navbar
+    phone number in the navbar
+    email address in the navbar
+    social media icons in the navbar
+    WhatsApp button in the navbar
+    search field in the navbar unless explicitly required later
+    giant CTA occupying the header
+    excessive icons
+    decorative medical symbols
+    animated environmental graphics
+    oversized navigation
+
+The navbar should be clean, restrained, intelligent, and academic.
+
+============================================================
+3. FINAL DESKTOP NAVIGATION STRUCTURE
+============================================================
+
+The desktop header should have one primary navigation bar.
+
+Conceptually:
+
+------------------------------------------------------------
+[ P3 HEALTH LAB LOGO ]
+
+        Research
+        People
+        Publications
+        Teaching
+        HumekaNeza
+        Get Involved
+
+                                      [ Collaborate ]
+------------------------------------------------------------
+
+The exact visual spacing should be determined by the existing
+design system and responsive container, but the hierarchy must remain
+this simple.
+
+PRIMARY NAVIGATION:
+
+1. Research
+2. People
+3. Publications
+4. Teaching
+5. HumekaNeza
+6. Get Involved
+
+PRIMARY HEADER CTA:
+
+    Collaborate
+
+The "Collaborate" button is the primary action.
+
+It should NOT visually compete with the logo.
+
+It should be clearly visible but restrained.
+
+============================================================
+4. HEADER LAYOUT
+============================================================
+
+Create a centered responsive content container.
+
+Suggested conceptual structure:
+
+<header>
+    <div class="header-container">
+
+        <a class="brand">
+            <img src="P3 logo">
+        </a>
+
+        <nav>
+            ...
+        </nav>
+
+        <a class="header-cta">
+            Collaborate
+        </a>
+
+        <button class="mobile-menu-button">
+            ...
+        </button>
+
+    </div>
+</header>
+
+Do not blindly use these exact class names if the existing project
+has a better architecture.
+
+Follow the existing project's component conventions.
+
+The implementation must integrate naturally into the current
+React/TypeScript architecture.
+
+============================================================
+5. HEADER HEIGHT
+============================================================
+
+The header should NOT be excessively tall.
+
+Desktop target:
+
+    approximately 76px–92px
+
+Use the actual logo proportions to determine the final height.
+
+The logo should have enough breathing room.
+
+Do not make the logo microscopic.
+
+Do not make the logo enormous.
+
+The navbar should feel substantial but not bulky.
+
+Suggested visual hierarchy:
+
+    Header height:      80–88px
+    Logo height:        approximately 48–58px
+    Navigation:         vertically centered
+    CTA:                vertically centered
+
+The final values may be adjusted after inspecting the actual logo
+dimensions.
+
+============================================================
+6. LOGO REQUIREMENTS
+============================================================
+
+Use the official supplied P3 Health Lab logo.
+
+The logo must:
+
+    preserve aspect ratio
+    remain crisp
+    never be stretched
+    never be squashed
+    never be cropped
+    never be recolored with CSS
+    never have arbitrary filters applied
+    remain readable on desktop and mobile
+
+Use an appropriate image format from the project assets.
+
+If multiple P3 logo files exist, inspect them and use the highest
+quality appropriate version.
+
+Do not use a random logo-like asset from the old WirfonCloud site.
+
+The logo should have a comfortable clickable area.
+
+The clickable logo should have an accessible label:
+
+    "P3 Health Lab home"
+
+or equivalent.
+
+============================================================
+7. BRAND COLOR USAGE
+============================================================
+
+The P3 Health Lab logo contains multiple colors.
+
+These colors should inform the header design, but DO NOT use every
+logo color everywhere.
+
+The navbar should remain sophisticated.
+
+Use:
+
+    dark navy / deep neutral
+    white
+    restrained blue
+    restrained green
+
+as the primary visual language.
+
+Lime, orange, or other logo accent colors may be used sparingly.
+
+DO NOT create:
+
+    rainbow navigation
+    multicolor nav links
+    bright neon buttons
+    gradient-heavy header
+    colorful backgrounds behind every nav item
+
+The logo is the colorful element.
+
+The surrounding navigation should give it room to breathe.
+
+============================================================
+8. HEADER BACKGROUND
+============================================================
+
+Default header appearance:
+
+    clean white or very light neutral background
+
+The header should feel crisp and institutional.
+
+Avoid excessive transparency.
+
+Avoid extreme glassmorphism.
+
+Avoid:
+
+    blurred glass panels
+    neon glow
+    strong gradients
+    floating futuristic navigation
+    excessive shadows
+
+A very subtle bottom border is acceptable.
+
+Example conceptual treatment:
+
+    background: white
+    border-bottom: 1px solid subtle neutral
+    box-shadow: extremely subtle or none
+
+The header should visually separate from the page without becoming
+a giant container.
+
+============================================================
+9. DESKTOP NAVIGATION TYPOGRAPHY
+============================================================
+
+Navigation typography must be professional and highly readable.
+
+Use the project's existing typography system where appropriate.
+
+Do not introduce an unnecessary new font dependency simply for the
+navbar.
+
+Navigation text should generally be:
+
+    medium weight
+    approximately 14–16px
+    high legibility
+    adequate letter spacing
+    restrained capitalization
+
+Prefer:
+
+    Research
+    People
+    Publications
+    Teaching
+    HumekaNeza
+    Get Involved
+
+Do NOT use:
+
+    RESEARCH
+    PEOPLE
+    PUBLICATIONS
+
+unless the design system specifically calls for uppercase labels.
+
+Avoid excessive letter spacing.
+
+The navbar should feel academic rather than corporate-sales oriented.
+
+============================================================
+10. NAVIGATION SPACING
+============================================================
+
+Navigation items must have enough horizontal breathing room.
+
+Do not cram:
+
+Research People Publications Teaching HumekaNeza Get Involved
+
+together.
+
+At the same time, do not create massive gaps that make the header
+look disconnected.
+
+Use consistent spacing.
+
+Suggested conceptual range:
+
+    20–30px between nav items
+
+Adjust according to viewport width.
+
+The layout must remain stable between common desktop widths.
+
+============================================================
+11. ACTIVE NAVIGATION STATES
+============================================================
+
+The current page must be visually identifiable.
+
+For example:
+
+When on:
+
+    /research
+
+Research should be active.
+
+When on:
+
+    /research/air-pollution
+
+Research should STILL be active.
+
+When on:
+
+    /people/phd-students
+
+People should be active.
+
+When on:
+
+    /publications/2026
+
+Publications should be active.
+
+When on:
+
+    /teaching/2025-2026
+
+Teaching should be active.
+
+When on:
+
+    /humekaneza/initiatives
+
+HumekaNeza should be active.
+
+When on:
+
+    /get-involved/contact
+
+Get Involved should be active.
+
+Do NOT only compare exact URLs.
+
+Parent navigation items must recognize nested routes.
+
+The active state can use:
+
+    subtle color change
+    underline
+    bottom indicator
+    font-weight difference
+    subtle border
+    small visual marker
+
+Prefer a sophisticated understated active indicator.
+
+Do not use huge pills unless they fit the overall design.
+
+============================================================
+12. HOVER STATES
+============================================================
+
+Desktop navigation items need clear but subtle hover states.
+
+Example behavior:
+
+NORMAL:
+
+    dark neutral text
+
+HOVER:
+
+    P3-inspired blue/green accent
+    OR slightly darker/lighter depending on background
+
+ACTIVE:
+
+    persistent active indicator
+
+Hover transitions should be approximately:
+
+    150–250ms
+
+Use:
+
+    opacity
+    color
+    transform where appropriate
+
+Avoid:
+
+    bouncing
+    scaling aggressively
+    flashing
+    glowing
+    spinning
+    elastic animation
+
+A 1–2px visual movement is acceptable.
+
+Example:
+
+    arrow moves 2–4px
+    underline expands smoothly
+    text color transitions
+
+============================================================
+13. DROPDOWN NAVIGATION
+============================================================
+
+Use dropdown menus only where they improve navigation.
+
+Do not create dropdowns merely because the old website had them.
+
+The P3 information architecture should guide dropdowns.
+
+RESEARCH should have a dropdown.
+
+Possible Research dropdown:
+
+    Research Overview
+
+    Air Pollution & Environmental Health
+
+    Exposure Science, Environmental Microbiology & AMR
+
+    Climate Change, Wildfires & Extreme Heat
+
+    Children's Environmental Health
+
+    Clinical Trials & Environmental Health Interventions
+
+    Global Health, One Health & Sustainable Cities
+
+PEOPLE should have a dropdown.
+
+Possible People dropdown:
+
+    All People
+
+    Postdoctoral Fellows
+
+    PhD Students
+
+    Master's Students
+
+    Undergraduate & Research Students
+
+    Visiting International Students & Scholars
+
+    Research Assistants & Staff
+
+    Alumni
+
+PUBLICATIONS may have a dropdown or a simple page depending on
+implementation.
+
+Potential:
+
+    All Publications
+
+    Research Themes
+
+    Google Scholar
+
+    ORCID
+
+TEACHING may have a dropdown.
+
+Potential:
+
+    Current Courses
+
+    2026–2027
+
+    2025–2026
+
+    2024–2025
+
+HUMEKAneza should have a dropdown if the content architecture
+requires it.
+
+Potential:
+
+    Overview
+
+    Learn
+
+    Measure
+
+    Communicate
+
+    Act
+
+    Initiatives
+
+    Partner With Us
+
+GET INVOLVED should have a dropdown.
+
+Potential:
+
+    Collaborate
+
+    Join the Lab
+
+    Students & Trainees
+
+    Community Partnerships
+
+    Contact
+
+IMPORTANT:
+
+Do not make every item a complicated mega-menu.
+
+Keep the navigation hierarchy understandable.
+
+============================================================
+14. DROPDOWN DESIGN
+============================================================
+
+Dropdowns should look like part of the same professional design
+system.
+
+Use:
+
+    white background
+    subtle border
+    subtle shadow
+    restrained corner radius
+    good spacing
+    readable typography
+
+Avoid:
+
+    giant floating glass panels
+    excessive gradients
+    neon outlines
+    huge rounded blobs
+    excessive icons
+    excessive animation
+
+Dropdown width should be determined by content.
+
+Suggested:
+
+    220px–380px
+
+depending on the menu.
+
+Research may require a wider dropdown because several titles are
+long.
+
+Do not force long research names into tiny columns.
+
+============================================================
+15. DROPDOWN INFORMATION HIERARCHY
+============================================================
+
+Long research names must remain readable.
+
+For example:
+
+    Air Pollution &
+    Environmental Health
+
+should not become:
+
+    Air Pollution & Environmental...
+
+unless there is absolutely no alternative.
+
+Use appropriate width and line wrapping.
+
+Research menu items can have:
+
+    title
+    optional short descriptor
+
+ONLY if it improves usability.
+
+Do not turn the navbar into a giant content page.
+
+============================================================
+16. DROPDOWN ARROWS
+============================================================
+
+Items with dropdowns should have a small visual indicator.
+
+Example:
+
+    Research  ˅
+
+or a small chevron icon.
+
+The chevron should rotate subtly when the dropdown is open.
+
+Suggested:
+
+    180° rotation
+    180–240ms
+
+Do not use giant arrows.
+
+Do not animate continuously.
+
+============================================================
+17. DROPDOWN OPEN BEHAVIOR
+============================================================
+
+Desktop dropdowns should open predictably.
+
+Preferred behavior:
+
+    hover
+    and/or
+    click
+
+depending on the existing accessibility strategy.
+
+For accessibility and keyboard users, clicking/focusing should work.
+
+Do not make the menu dependent solely on hover.
+
+Recommended:
+
+    hover opens on desktop
+    click toggles on desktop
+    keyboard focus works
+    Escape closes
+    clicking outside closes
+
+Avoid accidental opening caused by tiny mouse movements.
+
+Use a sensible hover intent/delay if necessary.
+
+Do not make the dropdown feel sluggish.
+
+============================================================
+18. DROPDOWN ANIMATION
+============================================================
+
+Dropdowns should use a professional micro-animation.
+
+Recommended:
+
+    opacity: 0 → 1
+    transform: translateY(-4px) → translateY(0)
+
+Duration:
+
+    180–240ms
+
+Easing:
+
+    ease-out
+    or an appropriate smooth cubic-bezier
+
+Do NOT use:
+
+    bounce
+    spring
+    elastic
+    rotation
+    scale from 0
+    giant vertical slide
+    dramatic zoom
+
+The animation should be almost invisible.
+
+Users should feel:
+
+    "the menu appeared naturally"
+
+rather than:
+
+    "the website is performing an animation."
+
+============================================================
+19. MOBILE NAVIGATION
+============================================================
+
+On mobile, do NOT try to squeeze the desktop navigation into the
+available width.
+
+Switch to:
+
+    P3 Health Lab logo
+    hamburger/menu button
+
+The mobile header should remain clean.
+
+Conceptual:
+
+------------------------------------------------
+[ P3 LOGO ]                         [ ☰ ]
+------------------------------------------------
+
+The hamburger button must have a sufficiently large touch target.
+
+Minimum target:
+
+    approximately 44x44px
+
+Prefer around:
+
+    48x48px
+
+if space allows.
+
+============================================================
+20. MOBILE MENU
+============================================================
+
+When the mobile menu is opened, display:
+
+    Research
+    People
+    Publications
+    Teaching
+    HumekaNeza
+    Get Involved
+    Collaborate
+
+The menu should be extremely easy to scan.
+
+Do not overcrowd it.
+
+============================================================
+21. MOBILE MENU STYLE
+============================================================
+
+The mobile navigation can appear as:
+
+Option A:
+
+    full-width panel beneath header
+
+or
+
+Option B:
+
+    full-screen/near-full-screen navigation panel
+
+Choose whichever best fits the existing application architecture.
+
+Preferred design:
+
+    clean white background
+    clear section separators
+    large readable links
+    generous vertical spacing
+    obvious hierarchy
+
+Avoid:
+
+    giant animated overlays
+    blurry glass
+    dark futuristic menus
+    complex navigation labyrinths
+
+============================================================
+22. MOBILE DROPDOWNS
+============================================================
+
+Mobile dropdowns should become accordions.
+
+Example:
+
+Research                         >
+    Research Overview
+    Air Pollution & Environmental Health
+    Exposure Science...
+    Climate Change...
+    ...
+
+People                          >
+    All People
+    Postdoctoral Fellows
+    PhD Students
+    ...
+
+When opened:
+
+    chevron rotates
+    content expands smoothly
+
+Duration:
+
+    approximately 200–300ms
+
+Use an accessible accordion implementation.
+
+Do not animate height indefinitely or with expensive layout
+operations if avoidable.
+
+============================================================
+23. MOBILE COLLABORATE CTA
+============================================================
+
+"Collaborate" should remain visible in the mobile menu.
+
+It may be styled as a button at the bottom of the menu.
+
+Example:
+
+    [ Collaborate ]
+
+It should link to the collaboration/contact destination.
+
+Do not make the mobile CTA enormous.
+
+============================================================
+24. HAMBURGER ANIMATION
+============================================================
+
+The hamburger icon can transition into an X when opened.
+
+Animation:
+
+    180–250ms
+
+Keep it subtle.
+
+No spinning hamburger.
+
+No elastic morphing.
+
+No dramatic transformation.
+
+============================================================
+25. MOBILE MENU OPEN/CLOSE ANIMATION
+============================================================
+
+The mobile menu should open smoothly.
+
+Recommended:
+
+    opacity
+    transform
+    controlled height/clip animation if necessary
+
+Do not block the UI for too long.
+
+The menu should feel immediate.
+
+Target:
+
+    approximately 200–300ms
+
+No:
+
+    bounce
+    spring
+    dramatic slide from the entire screen
+    excessive blur
+    giant zoom
+
+============================================================
+26. HEADER SCROLL BEHAVIOR
+============================================================
+
+Implement a polished scroll behavior.
+
+At the top of the page:
+
+    normal header
+
+After scrolling:
+
+    header may become slightly more compact
+    and/or gain a subtle shadow/border
+
+However, do not make the header jump.
+
+If implementing sticky positioning:
+
+    position: sticky
+    top: 0
+
+or the appropriate architecture.
+
+The header should remain accessible while browsing long research
+pages.
+
+Suggested behavior:
+
+TOP:
+
+    white background
+    minimal border/shadow
+
+SCROLLED:
+
+    white background
+    slightly stronger bottom border/shadow
+    optional 1–4px visual compression
+
+Keep this subtle.
+
+============================================================
+27. DO NOT OVER-ANIMATE THE HEADER
+============================================================
+
+This is extremely important.
+
+The website is a research/medical/environmental-health platform.
+
+The header must communicate:
+
+    precision
+    credibility
+    trust
+    intelligence
+    calmness
+
+NOT:
+
+    entertainment
+    gaming
+    startup hype
+    crypto
+    futuristic tech demo
+
+Do not add:
+
+    particles
+    moving gradients
+    floating objects
+    animated background blobs
+    continuous logo motion
+    bouncing nav items
+    pulsing CTA
+    spinning icons
+    parallax navigation
+
+Animation should communicate interaction.
+
+It should never distract from navigation.
+
+============================================================
+28. HEADER ANIMATION TIMING SYSTEM
+============================================================
+
+Use a consistent animation timing system.
+
+MICRO INTERACTIONS:
+
+    120–180ms
+
+NAVIGATION HOVER:
+
+    150–220ms
+
+DROPDOWN:
+
+    180–240ms
+
+MOBILE ACCORDION:
+
+    200–300ms
+
+MOBILE MENU:
+
+    200–300ms
+
+HEADER SCROLL STATE:
+
+    200–300ms
+
+Avoid unnecessarily long animations.
+
+Nothing in the navbar should make the user wait.
+
+============================================================
+29. PERFORMANCE REQUIREMENTS
+============================================================
+
+Navbar animations must be performant.
+
+Prefer animating:
+
+    transform
+    opacity
+
+Avoid continuous animation of:
+
+    width
+    height
+    top
+    left
+    margin
+    padding
+
+unless necessary.
+
+Do not install a massive animation library solely for the navbar.
+
+If the project already contains a suitable animation system, reuse it.
+
+Otherwise, CSS transitions and lightweight React state are preferred.
+
+The header must remain fast on:
+
+    desktop
+    low-powered laptops
+    tablets
+    Android phones
+    slower mobile networks
+
+============================================================
+30. ACCESSIBILITY
+============================================================
+
+The navbar must be fully accessible.
+
+Requirements:
+
+    semantic <header>
+    semantic <nav>
+    proper buttons for dropdown toggles
+    proper links for navigation
+    aria-expanded for dropdown buttons
+    aria-controls where appropriate
+    accessible labels
+    keyboard navigation
+    visible focus states
+    Escape closes open menus
+    clicking outside closes menus
+    mobile menu has proper state
+    screen-reader-friendly labels
+
+Do NOT use a div pretending to be a button.
+
+Do NOT rely solely on mouse hover.
+
+============================================================
+31. KEYBOARD NAVIGATION
+============================================================
+
+Desktop keyboard behavior must work.
+
+Users should be able to:
+
+    Tab into navigation
+    Tab through links
+    Enter to activate
+    Space to toggle dropdowns where appropriate
+    Escape to close dropdowns
+    continue keyboard navigation naturally
+
+Focus indicators must be clearly visible.
+
+Do not remove browser focus outlines without replacing them with a
+better accessible focus state.
+
+============================================================
+32. FOCUS STATES
+============================================================
+
+Focus states should fit the P3 visual identity.
+
+Use a visible:
+
+    outline
+    border
+    ring
+    or other clear indicator
+
+Do not use an almost invisible focus state.
+
+The interface must work for users navigating without a mouse.
+
+============================================================
+33. SCREEN READER SUPPORT
+============================================================
+
+The mobile menu button should have an accessible label such as:
+
+    "Open navigation menu"
+
+when closed.
+
+When open:
+
+    "Close navigation menu"
+
+Dropdown buttons should expose:
+
+    expanded/collapsed state
+
+Use semantic navigation elements.
+
+Do not hide navigation from assistive technology accidentally.
+
+============================================================
+34. ROUTING ARCHITECTURE
+============================================================
+
+The navbar must integrate with the application's actual router.
+
+Inspect the repository before implementation.
+
+Do not invent a second routing architecture.
+
+Use the project's current routing solution if one exists.
+
+The navigation must support:
+
+    /
+    /research
+    /research/air-pollution
+    /research/exposure-science
+    /research/climate-change
+    /research/childrens-health
+    /research/clinical-trials
+    /research/global-health
+
+and corresponding:
+
+    /people
+    /people/postdoctoral-fellows
+    /people/phd-students
+    /people/masters-students
+    /people/undergraduate-students
+    /people/visiting-scholars
+    /people/research-staff
+    /people/alumni
+
+Publications:
+
+    /publications
+
+Teaching:
+
+    /teaching
+
+HumekaNeza:
+
+    /humekaneza
+
+Get Involved:
+
+    /get-involved
+
+Use the actual final route names from the project.
+
+Do not hardcode routes in dozens of components.
+
+Centralize navigation configuration where practical.
+
+============================================================
+35. NAVIGATION CONFIGURATION
+============================================================
+
+Create a maintainable navigation configuration.
+
+For example conceptually:
+
+const navigation = [
+    {
+        label: "Research",
+        href: "/research",
+        children: [...]
+    },
+    {
+        label: "People",
+        href: "/people",
+        children: [...]
+    },
+    ...
+]
+
+Do NOT necessarily copy this exact implementation if the repository
+already has a better pattern.
+
+The important requirement is:
+
+NAVIGATION CONTENT SHOULD BE DATA-DRIVEN.
+
+This makes future changes easier.
+
+A navigation configuration should ideally contain:
+
+    label
+    href
+    children
+    optional description
+    optional external flag
+    optional visibility
+    optional icon only if genuinely useful
+
+Do not duplicate navigation definitions across desktop and mobile.
+
+Desktop and mobile should consume the same navigation data.
+
+============================================================
+36. EXTERNAL LINKS
+============================================================
+
+Google Scholar and ORCID may be external links.
+
+If external links appear in navigation/dropdowns:
+
+    use appropriate target behavior
+    indicate external destinations when useful
+    maintain accessibility
+
+Do not incorrectly route external profiles through internal React
+routes.
+
+============================================================
+37. COLLABORATE CTA
+============================================================
+
+The primary header CTA must be:
+
+    Collaborate
+
+It should represent the P3 Health Lab's partnership/collaboration
+orientation.
+
+Possible destination:
+
+    /get-involved/collaborate
+
+or the final route chosen by the application.
+
+It should be visually distinct from ordinary nav links.
+
+Recommended characteristics:
+
+    compact
+    professional
+    medium weight
+    restrained rounded corners
+    strong contrast
+    subtle hover transition
+
+Avoid:
+
+    giant pill button
+    glowing button
+    gradient-heavy button
+    animated pulse
+    oversized typography
+
+Hover can use:
+
+    subtle color shift
+    1–2px upward movement
+    subtle shadow change
+
+Duration:
+
+    150–220ms
+
+============================================================
+38. HEADER CTA HIERARCHY
+============================================================
+
+There should be ONE primary header CTA.
+
+That CTA is:
+
+    Collaborate
+
+Do not add:
+
+    Contact Us
+    Join Now
+    Learn More
+    Get Started
+    Book a Call
+    Subscribe
+
+all beside it.
+
+The rest of the actions belong within navigation pages.
+
+Keep the header focused.
+
+============================================================
+39. GET INVOLVED VS COLLABORATE
+============================================================
+
+Be careful not to confuse:
+
+    Get Involved
+
+and:
+
+    Collaborate
+
+"Get Involved" is a navigation category.
+
+"Collaborate" is the primary CTA.
+
+They can lead to related areas but should not feel like duplicate
+buttons.
+
+Possible hierarchy:
+
+Get Involved
+    Collaborate
+    Join the Lab
+    Students & Trainees
+    Community Partnerships
+    Contact
+
+Header CTA:
+
+    Collaborate
+
+============================================================
+40. NAVBAR RESPONSIVE BREAKPOINTS
+============================================================
+
+Do not choose breakpoints blindly.
+
+Inspect the actual navigation width and determine where desktop
+navigation stops fitting comfortably.
+
+At the appropriate breakpoint:
+
+    hide desktop nav
+    show mobile menu button
+
+Potential starting point:
+
+    ~1024px
+
+but adjust based on actual content.
+
+The important requirement is:
+
+NEVER allow navigation to overlap, wrap awkwardly, or collide with
+the logo/CTA.
+
+============================================================
+41. TABLET BEHAVIOR
+============================================================
+
+Tablet layouts must be considered separately.
+
+At intermediate widths:
+
+    logo remains visible
+    nav remains readable
+    spacing reduces gradually
+    CTA remains accessible if space allows
+
+If full desktop navigation no longer fits:
+
+    transition cleanly to mobile/tablet menu
+
+Do not shrink typography to an unreadable size just to preserve
+desktop navigation.
+
+============================================================
+42. VERY SMALL MOBILE DEVICES
+============================================================
+
+Support narrow screens around:
+
+    320px
+    360px
+    375px
+    390px
+    414px
+
+The logo must remain visible.
+
+The menu button must remain accessible.
+
+Do not let the logo and menu button collide.
+
+If necessary, reduce logo dimensions slightly while preserving
+readability.
+
+============================================================
+43. LARGE DESKTOP
+============================================================
+
+Support:
+
+    1280px
+    1440px
+    1600px
+    1920px+
+
+The navigation should not stretch endlessly across the viewport.
+
+Use a sensible max-width container.
+
+Example conceptual:
+
+    max-width: 1200–1400px
+
+Choose based on the overall website layout.
+
+The header should feel intentionally composed.
+
+============================================================
+44. HEADER CONTAINER
+============================================================
+
+The header content should align with the main page content.
+
+If the main page uses a centered content container, the navbar should
+use the same container system.
+
+This creates vertical alignment between:
+
+    logo
+    page headings
+    research cards
+    content sections
+    footer
+
+Avoid a navbar whose left edge is completely disconnected from the
+rest of the website.
+
+============================================================
+45. HEADER BORDERS AND SHADOWS
+============================================================
+
+Use extremely subtle visual separation.
+
+Good:
+
+    1px neutral border
+
+or:
+
+    very subtle shadow
+
+Bad:
+
+    thick dark border
+    dramatic drop shadow
+    glowing border
+    colored neon border
+
+The header should disappear into the overall visual system while
+remaining clearly identifiable.
+
+============================================================
+46. NAVIGATION LINK HIT AREAS
+============================================================
+
+Even though text may be 14–16px, the clickable area should be larger.
+
+Provide adequate padding.
+
+Users should not have to click precisely on the letters.
+
+This is especially important on mobile.
+
+============================================================
+47. DROPDOWN POSITIONING
+============================================================
+
+Dropdowns must remain inside the viewport.
+
+Do not allow:
+
+    horizontal overflow
+    dropdowns extending outside screen
+    menus being clipped by parent containers
+
+Research has long titles, so test carefully.
+
+Ensure:
+
+    z-index hierarchy
+    overflow behavior
+    stacking contexts
+    sticky header behavior
+
+are correctly implemented.
+
+============================================================
+48. Z-INDEX / STACKING
+============================================================
+
+The header and dropdowns should sit above page content.
+
+However, do not solve every layering problem with:
+
+    z-index: 999999999
+
+Use a coherent z-index system.
+
+For example:
+
+    page content
+    sticky header
+    dropdown
+    mobile menu
+    modal
+
+Use sensible layers.
+
+============================================================
+49. CLICK OUTSIDE BEHAVIOR
+============================================================
+
+If a dropdown is open and the user clicks outside it:
+
+    close it.
+
+If another dropdown is opened:
+
+    close the previous dropdown.
+
+Do not allow five dropdowns to remain open simultaneously.
+
+Only the relevant navigation branch should be active.
+
+============================================================
+50. ESCAPE KEY
+============================================================
+
+When a dropdown is open:
+
+    Escape closes it.
+
+When the mobile menu is open:
+
+    Escape closes it.
+
+After closing, where practical, restore focus to the triggering
+button.
+
+This creates professional keyboard behavior.
+
+============================================================
+51. MOBILE BODY SCROLL
+============================================================
+
+When a full mobile navigation overlay/panel is open, prevent
+background scrolling if the implementation requires it.
+
+Do not allow the user to accidentally scroll the page underneath
+the open navigation.
+
+Restore normal body scrolling when the menu closes.
+
+Do this carefully to avoid layout shifts.
+
+============================================================
+52. ROUTE CHANGE BEHAVIOR
+============================================================
+
+When a user selects a navigation item:
+
+    navigate
+    close any open dropdown
+    close mobile menu
+    restore normal page scrolling
+
+On mobile, navigation should never leave the menu open after route
+change.
+
+============================================================
+53. PAGE TRANSITION RELATIONSHIP
+============================================================
+
+If the application has page transitions, the navbar should remain
+stable.
+
+Do not make the navbar disappear and reappear dramatically on every
+route.
+
+The navigation should provide continuity between pages.
+
+If a page transition system exists:
+
+    preserve header position
+    avoid layout shifts
+    avoid unnecessary animation duplication
+
+============================================================
+54. REDUCED MOTION
+============================================================
+
+Respect:
+
+    prefers-reduced-motion: reduce
+
+When reduced motion is enabled:
+
+    remove or minimize dropdown animation
+    remove mobile menu slide animation
+    remove decorative transitions
+    remove scroll-based movement
+
+Navigation must remain completely usable.
+
+Accessibility is more important than animation.
+
+============================================================
+55. NO SCROLL-JACKING
+============================================================
+
+Never hijack normal browser scrolling for the navbar.
+
+Do not:
+
+    lock scrolling unnecessarily
+    create custom wheel behavior
+    intercept scrolling
+    create horizontal scrolling navigation
+
+Normal browser behavior must remain intact.
+
+============================================================
+56. NAVBAR SEO
+============================================================
+
+The navigation should use semantic HTML.
+
+Use:
+
+    <header>
+    <nav>
+    <ul>/<li> where appropriate
+    <a>
+
+Do not make the entire navigation a collection of JavaScript
+buttons.
+
+Actual navigational destinations should be real links.
+
+This improves:
+
+    SEO
+    accessibility
+    browser behavior
+    discoverability
+    usability
+
+============================================================
+57. LINK PREFETCHING / ROUTER BEHAVIOR
+============================================================
+
+If the current framework/router supports lightweight route
+prefetching, use it only if it provides a measurable benefit.
+
+Do not over-engineer this.
+
+Prioritize:
+
+    fast initial load
+    stable navigation
+    clean code
+
+============================================================
+58. HEADER LOADING STATE
+============================================================
+
+Do not create a complicated skeleton loader for the navbar.
+
+The header should render immediately.
+
+The logo and navigation are critical UI.
+
+Avoid delayed rendering that makes the website appear broken.
+
+============================================================
+59. HEADER ERROR HANDLING
+============================================================
+
+The navigation must remain usable even if some page content fails
+to load.
+
+Do not couple navbar rendering to:
+
+    research API
+    publication API
+    people API
+    blog API
+
+The header should be structurally independent.
+
+Navigation configuration should not require remote data unless
+absolutely necessary.
+
+============================================================
+60. CMS / ADMIN FUTURE COMPATIBILITY
+============================================================
+
+The P3 website may later have an admin/CMS system.
+
+Design the navigation architecture so that it could eventually
+support configurable navigation if necessary.
+
+However:
+
+DO NOT make the navbar dependent on a CMS right now if that creates
+unnecessary complexity.
+
+The core navigation can be statically configured in code.
+
+Future content such as:
+
+    research areas
+    people
+    publications
+    courses
+
+should not require modifying navbar code unless the actual site
+structure changes.
+
+============================================================
+61. HUMEKAneza NAVIGATION
+============================================================
+
+Treat HumekaNeza as an important P3 Health Lab initiative.
+
+It should not feel like a random blog category.
+
+The navigation label should be:
+
+    HumekaNeza
+
+Use proper capitalization exactly as the organization intends.
+
+Potential submenu:
+
+    HumekaNeza Overview
+    Learn
+    Measure
+    Communicate
+    Act
+    Initiatives
+    Partner With Us
+
+The submenu should visually communicate that HumekaNeza is a major
+initiative.
+
+Do not over-design it.
+
+============================================================
+62. RESEARCH NAVIGATION PRIORITY
+============================================================
+
+Research is the core institutional navigation area.
+
+The Research dropdown should therefore be especially polished.
+
+The six research areas are:
+
+1. Air Pollution & Environmental Health
+
+2. Exposure Science, Environmental Microbiology & AMR
+
+3. Climate Change, Wildfires & Extreme Heat
+
+4. Children's Environmental Health
+
+5. Clinical Trials & Environmental Health Interventions
+
+6. Global Health, One Health & Sustainable Cities
+
+These labels must be readable.
+
+Do not abbreviate them excessively.
+
+Do not replace them with generic labels such as:
+
+    Environment
+    Climate
+    Children
+    Trials
+
+The research architecture should remain academically meaningful.
+
+============================================================
+63. PEOPLE NAVIGATION
+============================================================
+
+People is also a core institutional section.
+
+Categories:
+
+    Postdoctoral Fellows
+    PhD Students
+    Master's Students
+    Undergraduate & Research Students
+    Visiting International Students & Scholars
+    Research Assistants & Staff
+    Alumni
+
+Ensure apostrophes and punctuation are rendered correctly.
+
+Do not use awkward abbreviations.
+
+============================================================
+64. PUBLICATIONS NAVIGATION
+============================================================
+
+Publications should remain simple and research-oriented.
+
+Primary:
+
+    Publications
+
+Potential submenu:
+
+    All Publications
+    Research Themes
+    Google Scholar
+    ORCID
+
+Google Scholar and ORCID should clearly appear as external
+resources if they are included.
+
+Do not make Publications look like a commercial blog.
+
+============================================================
+65. TEACHING NAVIGATION
+============================================================
+
+Teaching should communicate academic depth.
+
+Potential submenu:
+
+    Current Courses
+    2026–2027
+    2025–2026
+    2024–2025
+
+Do not hardcode a temporary year structure in a way that makes future
+updates difficult.
+
+If the data architecture supports it, years should be data-driven.
+
+============================================================
+66. GET INVOLVED NAVIGATION
+============================================================
+
+Get Involved should communicate collaboration and participation.
+
+Potential submenu:
+
+    Collaborate
+    Join the Lab
+    Students & Trainees
+    Community Partnerships
+    Contact
+
+This section should not feel like a generic commercial "Contact Us"
+dropdown.
+
+============================================================
+67. VISUAL PERSONALITY
+============================================================
+
+The navbar should visually communicate:
+
+    TRUST
+    SCIENCE
+    HEALTH
+    ENVIRONMENT
+    COLLABORATION
+    ACADEMIC CREDIBILITY
+
+Think:
+
+    university research institute
+    public health research center
+    environmental health laboratory
+    modern medical research group
+    international academic collaboration
+
+Do NOT think:
+
+    SaaS startup
+    cryptocurrency website
+    gaming website
+    nightclub
+    fashion brand
+    generic marketing agency
+
+============================================================
+68. DESIGN LANGUAGE
+============================================================
+
+Use:
+
+    clean lines
+    strong typography
+    generous whitespace
+    subtle borders
+    restrained rounded corners
+    careful spacing
+    high contrast
+    scientific professionalism
+
+Avoid:
+
+    excessive rounded pills
+    excessive cards
+    excessive shadows
+    excessive gradients
+    excessive glassmorphism
+    excessive icons
+    excessive animation
+
+============================================================
+69. NAVBAR SHOULD FEEL PREMIUM
+============================================================
+
+Premium does NOT mean complicated.
+
+The navbar should feel premium because:
+
+    spacing is precise
+    typography is excellent
+    logo is presented correctly
+    interaction states are polished
+    responsive behavior is thoughtful
+    animations are subtle
+    accessibility is strong
+    visual hierarchy is clear
+
+Do not add visual effects just to make it look "fancy."
+
+============================================================
+70. DESKTOP VISUAL TARGET
+============================================================
+
+Aim for a visual result approximately like:
+
+---------------------------------------------------------------
+
+[ P3 LOGO ]     Research   People   Publications   Teaching
+                HumekaNeza   Get Involved             [Collaborate]
+
+---------------------------------------------------------------
+
+The logo should have strong visual presence.
+
+The navigation should have breathing room.
+
+The CTA should be visually distinct but not oversized.
+
+============================================================
+71. MOBILE VISUAL TARGET
+============================================================
+
+Approximately:
+
+------------------------------------
+[ P3 LOGO ]                    [☰]
+------------------------------------
+
+When opened:
+
+------------------------------------
+[ P3 LOGO ]                    [×]
+------------------------------------
+
+Research                         >
+People                           >
+Publications                     >
+Teaching                         >
+HumekaNeza                      >
+Get Involved                     >
+
+        [ Collaborate ]
+
+------------------------------------
+
+Exact layout may differ according to design implementation.
+
+============================================================
+72. DO NOT DUPLICATE BRANDING
+============================================================
+
+This is a HARD REQUIREMENT.
+
+DO NOT put:
+
+    P3 Health Lab
+
+as separate text inside the header if the logo already displays it.
+
+DO NOT put:
+
+    People • Planet • Place
+
+as another text line.
+
+DO NOT put:
+
+    A Healthier Tomorrow Together
+
+as a header announcement.
+
+DO NOT put:
+
+    Research • Collaboration • Impact
+
+as a header ticker.
+
+Those phrases may exist elsewhere on the website where appropriate,
+but NOT as duplicated navbar branding.
+
+The header's branding is:
+
+    THE OFFICIAL LOGO ONLY.
+
+============================================================
+73. DO NOT ADD A TOP BAR
+============================================================
+
+There should be NO separate bar above the main navigation.
+
+Do not create:
+
+    top utility bar
+    announcement bar
+    social bar
+    phone bar
+    email bar
+    scrolling slogan
+    news ticker
+
+The header should start directly with the official logo and main
+navigation.
+
+============================================================
+74. NAVBAR CONTENT ORDER
+============================================================
+
+Desktop order:
+
+    Logo
+    Research
+    People
+    Publications
+    Teaching
+    HumekaNeza
+    Get Involved
+    Collaborate
+
+Do not rearrange the primary hierarchy unless there is a compelling
+UX reason.
+
+============================================================
+75. MOBILE CONTENT ORDER
+============================================================
+
+Mobile menu order:
+
+    Research
+    People
+    Publications
+    Teaching
+    HumekaNeza
+    Get Involved
+    Collaborate
+
+Keep this consistent with desktop.
+
+============================================================
+76. EXTERNAL LINK VISUALS
+============================================================
+
+If Google Scholar or ORCID are shown in a dropdown, optionally use a
+small external-link indicator.
+
+Do not use huge external-link icons.
+
+The indicator should be secondary to the label.
+
+============================================================
+77. ICON USAGE
+============================================================
+
+Icons should be used only when they communicate something.
+
+Good:
+
+    small chevron for dropdown
+    hamburger icon
+    close icon
+    subtle external-link indicator
+
+Avoid:
+
+    microscope icon beside every research item
+    leaf beside every environmental item
+    heart beside every health item
+    random decorative icons
+
+The logo and typography already establish the brand.
+
+============================================================
+78. NAVBAR COMPONENT ARCHITECTURE
+============================================================
+
+Use a clean component architecture.
+
+Possible conceptual components:
+
+    Header
+    DesktopNavigation
+    NavigationItem
+    DropdownMenu
+    MobileNavigation
+    MobileNavigationItem
+    MobileAccordion
+    HeaderCTA
+    MobileMenuButton
+
+Do not create unnecessary components for every text label.
+
+Use reusable components where behavior is genuinely shared.
+
+Desktop and mobile should share the same navigation data.
+
+============================================================
+79. STATE MANAGEMENT
+============================================================
+
+Navbar state should be local unless there is a strong reason
+otherwise.
+
+Typical state:
+
+    active/open dropdown
+    mobile menu open/closed
+
+Do not introduce global state management just for navbar state.
+
+============================================================
+80. ROUTER-AWARE ACTIVE STATE
+============================================================
+
+Use the router's location information to determine active routes.
+
+Build a reliable helper such as:
+
+    isNavItemActive(pathname, item)
+
+or equivalent.
+
+It should support nested paths.
+
+Avoid fragile string checks scattered throughout JSX.
+
+============================================================
+81. ACTIVE PARENT ROUTE EXAMPLE
+============================================================
+
+If current URL is:
+
+    /research/air-pollution
+
+then:
+
+    Research = ACTIVE
+
+If current URL is:
+
+    /research/climate-change/wildfires
+
+then:
+
+    Research = ACTIVE
+
+If current URL is:
+
+    /people/phd-students/john-doe
+
+then:
+
+    People = ACTIVE
+
+The parent navigation item must stay visually active.
+
+============================================================
+82. NAVIGATION SECURITY
+============================================================
+
+Do not expose sensitive admin navigation in the public header.
+
+The public navbar should NOT display:
+
+    Admin
+    Dashboard
+    Manage Content
+    Login
+
+unless a deliberate authenticated-user navigation system is later
+implemented.
+
+The public P3 header is for public-facing site navigation.
+
+============================================================
+83. ADMIN SEPARATION
+============================================================
+
+If the existing project has:
+
+    /admin
+
+keep administrative navigation separate from the public P3 navbar.
+
+Do not accidentally place admin links inside public menus.
+
+The public header should be independent from the admin UI.
+
+============================================================
+84. LEGACY WIRFONCLOUD CLEANUP
+============================================================
+
+Before implementing the P3 navbar, inspect the existing navbar/header
+components.
+
+Identify:
+
+    old branding
+    old labels
+    old menu structures
+    old CTA labels
+    old colors
+    old icons
+    old ticker logic
+    old announcement logic
+    old marketing copy
+    old route assumptions
+
+Do not simply rename strings.
+
+Remove or replace legacy structures that conflict with the P3
+architecture.
+
+============================================================
+85. REUSE TECHNICAL INFRASTRUCTURE, NOT VISUAL IDENTITY
+============================================================
+
+You may reuse:
+
+    React components patterns
+    TypeScript patterns
+    routing infrastructure
+    responsive utilities
+    hooks
+    CSS architecture
+    utility functions
+    accessibility helpers
+    animation infrastructure
+
+But do NOT reuse the old visual identity blindly.
+
+The final P3 navbar must look independently designed.
+
+============================================================
+86. NO LEGACY TEXT
+============================================================
+
+Before finalizing, search the navbar/header code for legacy
+WirfonCloud terminology.
+
+There must be NO accidental legacy text.
+
+Search for:
+
+    WirfonCloud
+    Wirfon
+    old company name
+    old tagline
+    old menu labels
+    old CTA text
+
+Remove all inappropriate legacy references.
+
+============================================================
+87. TEST NAVIGATION ROUTES
+============================================================
+
+Test every primary item.
+
+Test:
+
+    Research
+    People
+    Publications
+    Teaching
+    HumekaNeza
+    Get Involved
+    Collaborate
+
+Test every dropdown.
+
+Test nested routes.
+
+Test browser back/forward navigation.
+
+Test direct URL loading.
+
+Test refresh on nested routes.
+
+============================================================
+88. TEST DESKTOP WIDTHS
+============================================================
+
+Test at minimum:
+
+    1024px
+    1280px
+    1366px
+    1440px
+    1600px
+    1920px
+
+Check:
+
+    no overlap
+    no clipping
+    no awkward wrapping
+    no dropdown overflow
+    logo remains clear
+    CTA remains visible
+
+============================================================
+89. TEST MOBILE WIDTHS
+============================================================
+
+Test:
+
+    320px
+    360px
+    375px
+    390px
+    414px
+    768px
+
+Check:
+
+    logo
+    hamburger
+    menu
+    accordions
+    CTA
+    scrolling
+    route transitions
+    keyboard/focus where applicable
+
+============================================================
+90. TEST TOUCH INTERACTION
+============================================================
+
+On mobile:
+
+    menu button must be easy to tap
+    accordion buttons must be easy to tap
+    links must have sufficient spacing
+    no hover-only interaction
+    no tiny dropdown arrows as the only clickable area
+
+============================================================
+91. TEST KEYBOARD
+============================================================
+
+Test:
+
+    Tab
+    Shift+Tab
+    Enter
+    Space
+    Escape
+
+Make sure:
+
+    focus is visible
+    menus open
+    menus close
+    focus does not get trapped unexpectedly
+    navigation remains usable
+
+============================================================
+92. TEST REDUCED MOTION
+============================================================
+
+Enable:
+
+    prefers-reduced-motion
+
+Confirm the navbar remains fully usable.
+
+Animations should be minimized or removed.
+
+============================================================
+93. VISUAL QA
+============================================================
+
+After implementation, inspect the actual browser result.
+
+Do not assume the code is visually correct.
+
+Check:
+
+    logo scale
+    header height
+    spacing
+    alignment
+    typography
+    CTA size
+    dropdown positioning
+    active states
+    mobile menu
+    animation speed
+    shadows
+    borders
+    whitespace
+
+Make visual adjustments based on the actual rendered interface.
+
+============================================================
+94. DESIGN QA QUESTIONS
+============================================================
+
+Ask yourself:
+
+Does this look like a serious research laboratory?
+
+Does it look like an environmental-health institution?
+
+Does it feel credible?
+
+Does the logo have enough breathing room?
+
+Is the navigation easy to understand?
+
+Can a researcher quickly find Publications?
+
+Can a student quickly find People?
+
+Can a collaborator quickly find Collaborate?
+
+Can a visitor quickly find HumekaNeza?
+
+Does anything look copied from WirfonCloud?
+
+Does anything feel unnecessarily animated?
+
+Is anything visually too large?
+
+Is anything too small?
+
+Does the header feel calm and precise?
+
+============================================================
+95. FINAL NAVBAR SPECIFICATION
+============================================================
+
+The final header must satisfy ALL of the following:
+
+[ ] Uses ONLY the official P3 Health Lab logo for primary branding.
+
+[ ] Logo links to /.
+
+[ ] No duplicate P3 Health Lab text.
+
+[ ] No duplicate People • Planet • Place text.
+
+[ ] No top utility bar.
+
+[ ] No announcement bar.
+
+[ ] No ticker.
+
+[ ] No rotating branding.
+
+[ ] No promotional strip.
+
+[ ] Desktop navigation includes:
+        Research
+        People
+        Publications
+        Teaching
+        HumekaNeza
+        Get Involved
+
+[ ] Desktop has one primary CTA:
+        Collaborate
+
+[ ] Navigation is responsive.
+
+[ ] Mobile uses logo + hamburger.
+
+[ ] Mobile menu includes all primary navigation items.
+
+[ ] Mobile dropdowns use accessible accordions.
+
+[ ] Nested routes correctly activate parent navigation items.
+
+[ ] Dropdowns are keyboard accessible.
+
+[ ] Escape closes dropdowns.
+
+[ ] Clicking outside closes dropdowns.
+
+[ ] Mobile menu closes after navigation.
+
+[ ] Mobile body scrolling is handled correctly.
+
+[ ] Focus states are visible.
+
+[ ] ARIA attributes are correct.
+
+[ ] prefers-reduced-motion is respected.
+
+[ ] Animations are subtle.
+
+[ ] Animations are fast.
+
+[ ] No bounce.
+
+[ ] No elastic effects.
+
+[ ] No dramatic sliding.
+
+[ ] No continuous animation.
+
+[ ] No scroll-jacking.
+
+[ ] No excessive glassmorphism.
+
+[ ] No neon gradients.
+
+[ ] No excessive icons.
+
+[ ] No excessive shadows.
+
+[ ] No legacy WirfonCloud branding.
+
+[ ] No legacy WirfonCloud terminology.
+
+[ ] No admin links in public navigation.
+
+[ ] Desktop dropdowns fit inside viewport.
+
+[ ] Mobile menu works at 320px width.
+
+[ ] Desktop works at 1920px width.
+
+[ ] Logo preserves aspect ratio.
+
+[ ] Header aligns with the site's main content container.
+
+[ ] Header does not cause layout shifts.
+
+[ ] Navigation is data-driven where practical.
+
+[ ] Desktop and mobile use the same navigation configuration.
+
+[ ] Code follows the existing project's architecture.
+
+============================================================
+96. IMPORTANT IMPLEMENTATION PROCESS
+============================================================
+
+Before changing code:
+
+1. Inspect the existing repository.
+
+2. Identify the current header/navbar components.
+
+3. Identify the router.
+
+4. Identify existing responsive utilities.
+
+5. Identify existing CSS/design tokens.
+
+6. Identify existing animation utilities.
+
+7. Identify the official P3 Health Lab logo asset.
+
+8. Determine the best location for the logo asset.
+
+9. Determine the existing component conventions.
+
+10. Determine whether the project already has a navigation
+    configuration.
+
+Then implement the P3 navbar.
+
+Do NOT create duplicate systems if reusable infrastructure already
+exists.
+
+============================================================
+97. IMPLEMENTATION PRIORITY
+============================================================
+
+Prioritize in this order:
+
+1. Correct information architecture
+2. Correct branding
+3. Accessibility
+4. Responsive behavior
+5. Navigation usability
+6. Visual hierarchy
+7. Performance
+8. Animation polish
+
+Do NOT prioritize animation over usability.
+
+============================================================
+98. IMPORTANT: DO NOT OVERBUILD
+============================================================
+
+The navbar is important, but it is not the entire website.
+
+Do not spend complexity budget on unnecessary features.
+
+Do not build:
+
+    mega-mega-menus
+    complex search
+    authentication inside header
+    notification systems
+    dynamic weather
+    live counters
+    rotating content
+    social feeds
+    animated backgrounds
+
+unless explicitly requested later.
+
+Keep the header focused.
+
+============================================================
+99. FINAL DESIGN PRINCIPLE
+============================================================
+
+The P3 Health Lab navbar should communicate:
+
+    "This is a serious research institution
+     studying people, planet, place, and health."
+
+It should feel:
+
+    intelligent
+    modern
+    calm
+    credible
+    scientific
+    human
+    international
+    accessible
+    collaborative
+
+The user should barely notice the animation.
+
+They should notice:
+
+    clarity
+    elegance
+    confidence
+    excellent navigation
+
+============================================================
+100. FINAL HARD REQUIREMENT
+============================================================
+
+DO NOT return to the old WirfonCloud visual/header pattern.
+
+The new header is NOT:
+
+    old navbar + P3 words
+
+It is a NEW P3 Health Lab navigation system built using the existing
+technical foundation.
+
+The official logo is the sole primary branding element.
+
+The final desktop structure is:
+
+    [P3 HEALTH LAB LOGO]
+        Research
+        People
+        Publications
+        Teaching
+        HumekaNeza
+        Get Involved
+                                        [Collaborate]
+
+The final mobile structure is:
+
+    [P3 HEALTH LAB LOGO]              [MENU]
+
+and when opened:
+
+    Research
+    People
+    Publications
+    Teaching
+    HumekaNeza
+    Get Involved
+
+    [Collaborate]
+
+Build this to production quality.
+
+Do not stop at making the links work.
+
+Make the navbar visually polished, responsive, accessible,
+performant, maintainable, and clearly distinct from the legacy
+WirfonCloud design.
+============================================================
+END OF PROMPT
+============================================================
