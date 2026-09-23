@@ -84,14 +84,6 @@ const peopleCategories = [
   ['alumni', 'Alumni'],
 ];
 
-const publications = [
-  { year: '2024', title: 'Breathing room: measuring household exposures with communities', journal: 'Environmental Research · Kalisa E, et al.', type: 'Article', topic: 'Exposure science' },
-  { year: '2024', title: 'Extreme heat and the everyday places children call home', journal: 'Climate & Health · Rahman N, et al.', type: 'Brief', topic: 'Climate health' },
-  { year: '2023', title: 'A One Health view of antimicrobial resistance in urban water', journal: 'The Lancet Regional Health · Kalisa E, et al.', type: 'Article', topic: 'One Health' },
-  { year: '2023', title: 'Co-designing clean-air interventions for schools', journal: 'Health Promotion International · Thompson J, et al.', type: 'Protocol', topic: 'Interventions' },
-  { year: '2022', title: 'Wildfire smoke, risk communication, and public trust', journal: 'International Journal of Environmental Research', type: 'Review', topic: 'Climate health' },
-];
-
 const courses = {
   '2024–25': [
     { code: 'GH 2101', title: 'Foundations of Global Health', text: 'An introduction to the systems, histories, and shared responsibilities that shape health around the world.', term: 'Fall · Undergraduate' },
@@ -448,10 +440,7 @@ function People() {
 }
 
 function Publications() {
-  const [topic, setTopic] = useState('All');
-  const topics = ['All', 'Exposure science', 'Climate health', 'One Health', 'Interventions'];
-  const filtered = publications.filter((item) => topic === 'All' || item.topic === topic);
-  return <><PageHero eyebrow="Scholarship / 03" title={<>Evidence worth <em>sharing.</em></>} text="Our scholarship follows the questions that matter to people and places: careful methods, open collaboration, and findings that can move." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Selected work</span><h2>A public record of questions in motion.</h2></div><p>Browse selected articles, briefs, protocols, and reviews from the P3 community.</p></div><div className="filter-bar">{topics.map((item) => <button className={`filter-btn ${topic === item ? 'active' : ''}`} key={item} onClick={() => setTopic(item)} data-testid={`button-filter-publications-${item.toLowerCase().replace(' ', '-')}`}>{item}</button>)}</div><div className="publication-list">{filtered.map((pub, index) => <article className="publication-row" key={pub.title} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`row-publication-${index}`}><span className="publication-year">{pub.year}</span><div><h3>{pub.title}</h3><p>{pub.journal}</p></div><span className="pub-type">{pub.type} <ExternalLink size={12} aria-hidden="true" /></span></article>)}</div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">Beyond the PDF</span><h2 className="display" style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)', lineHeight: 1 }}>Knowledge has more than one format.</h2></div><div><p className="intro-copy">A paper is one <mark>beginning</mark>, not the last word.</p><p className="tiny-copy">We share findings through field schools, classroom conversations, community tools, briefings, and the generous work of listening back.</p><Link href="/humekaneza" className="button-secondary" data-testid="link-publications-community">See community work <ArrowUpRight size={14} aria-hidden="true" /></Link></div></div></section></>;
+  return <><PageHero eyebrow="Scholarship / 03" title={<>Evidence worth <em>sharing.</em></>} text="Publication details will be listed here as source records are verified." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Publication record</span><h2>A careful record is being prepared.</h2></div><p>No publication entries are shown until their bibliographic details can be checked against reliable source material.</p></div><div className="publication-list"><div className="publication-empty" data-testid="empty-publications"><span className="publication-year">Pending</span><div><h3>Verified publication records are not available yet.</h3><p>Titles, authors, journals, years, DOIs, citation counts, findings, and publication links will be added only when they are verified.</p></div><span className="pub-type">Record pending</span></div></div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">Beyond the PDF</span><h2 className="display" style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)', lineHeight: 1 }}>Knowledge has more than one format.</h2></div><div><p className="intro-copy">A paper is one <mark>beginning</mark>, not the last word.</p><p className="tiny-copy">We share findings through field schools, classroom conversations, community tools, briefings, and the generous work of listening back.</p><Link href="/humekaneza" className="button-secondary" data-testid="link-publications-community">See community work <ArrowUpRight size={14} aria-hidden="true" /></Link></div></div></section></>;
 }
 
 function Teaching() {
