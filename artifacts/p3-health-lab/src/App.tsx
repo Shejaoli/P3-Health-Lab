@@ -52,6 +52,17 @@ const researchTopics = [
   { id: 'sustainable-transport', title: 'Sustainable Transport & Cities', text: 'Exploring how transport systems and urban form influence environmental exposures and health.', meta: 'Cities · Mobility' },
 ];
 
+const projectInitiatives = [
+  { title: 'HumekaNeza School Air-Quality Campaign', meta: 'HumekaNeza · School environments', text: 'A named initiative in the lab’s community air-quality work.', href: '/humekaneza' },
+  { title: 'I Am an Air Quality Scientist', meta: 'HumekaNeza · Learning', text: 'A named initiative connecting air-quality questions with learning.', href: null },
+  { title: 'One Sensor Per School', meta: 'HumekaNeza · Measurement', text: 'A named initiative centred on school-based air-quality measurement.', href: null },
+  { title: 'Classroom Clean-Air Interventions', meta: 'HumekaNeza · Interventions', text: 'A named initiative focused on clean-air interventions in classrooms.', href: null },
+  { title: 'Clean Air School Zones', meta: 'HumekaNeza · School environments', text: 'A named initiative addressing clean-air considerations around schools.', href: null },
+  { title: 'Shared Skies', meta: 'HumekaNeza · Community', text: 'A named initiative in the lab’s shared-air and community work.', href: null },
+  { title: 'Making the Invisible Visible', meta: 'HumekaNeza · Communication', text: 'A named initiative about making environmental-health questions easier to see and discuss.', href: null },
+  { title: 'Equitable Air-Quality Communication & Preparedness', meta: 'HumekaNeza · Preparedness', text: 'A named initiative focused on equitable air-quality communication and preparedness.', href: null },
+];
+
 const homeFocuses = [
   { label: 'Environmental exposures', text: 'Air pollution, household energy use, and environmental contaminants in the places people live, learn, work, and move.' },
   { label: 'Climate and changing places', text: 'Wildfire smoke, extreme heat, and changing urban environments understood through a health lens.' },
@@ -109,6 +120,7 @@ function Shell({ children }: { children: ReactNode }) {
         ...researchTopics.map((topic) => [topic.title, `/research#${topic.id}`] as [string, string]),
       ],
     },
+    { label: 'Projects', href: '/projects' },
     {
       label: 'People',
       href: '/people',
@@ -252,7 +264,7 @@ function Footer({ onContact }: { onContact: () => void }) {
           <p>Research for healthier everyday places. Led by Dr. Egide Kalisa at Western University.</p>
           <button className="button-secondary" onClick={onContact} data-testid="button-footer-contact">Connect with the lab <ArrowUpRight size={14} aria-hidden="true" /></button>
         </div>
-        <div><h4>Explore</h4><Link href="/research" data-testid="link-footer-research">Research</Link><Link href="/people" data-testid="link-footer-people">People</Link><Link href="/publications" data-testid="link-footer-publications">Scholarship</Link><Link href="/teaching" data-testid="link-footer-teaching">Teaching</Link></div>
+        <div><h4>Explore</h4><Link href="/research" data-testid="link-footer-research">Research</Link><Link href="/projects" data-testid="link-footer-projects">Projects</Link><Link href="/people" data-testid="link-footer-people">People</Link><Link href="/publications" data-testid="link-footer-publications">Scholarship</Link><Link href="/teaching" data-testid="link-footer-teaching">Teaching</Link></div>
         <div><h4>In the community</h4><Link href="/humekaneza" data-testid="link-footer-humekaneza">HumekaNeza</Link><Link href="/get-involved" data-testid="link-footer-involved">Get involved</Link><a href="mailto:p3healthlab@uwo.ca" data-testid="link-footer-email">Email the lab</a></div>
         <div><h4>Find us</h4><p>Western University<br />London, Ontario<br />Canada</p><a href="https://www.uwo.ca" target="_blank" rel="noreferrer" data-testid="link-western">Western University <ExternalLink size={12} aria-hidden="true" /></a></div>
       </div>
@@ -400,6 +412,34 @@ function Research() {
   </div>;
 }
 
+function Projects() {
+  return <>
+    <PageHero eyebrow="Projects" title={<>Research takes <em>form.</em></>} text="The lab’s work is organized through research projects and community initiatives. This page records the named initiatives currently identified in the project materials." action={<Link href="/research" className="button-secondary" data-testid="link-projects-research">See our research <ArrowUpRight size={15} aria-hidden="true" /></Link>} />
+    <section className="section projects-section" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Current record</span><h2>Named initiatives and project directions.</h2></div>
+          <p>Project details will be expanded only as verified information becomes available.</p>
+        </div>
+        <div className="project-grid">
+          {projectInitiatives.map((project, index) => {
+            const content = <><div className="project-item-top"><span>{String(index + 1).padStart(2, '0')}</span><span className="project-meta">{project.meta}</span></div><h3>{project.title}</h3><p>{project.text}</p>{project.href && <span className="project-link-note">Explore the initiative <ArrowUpRight size={14} aria-hidden="true" /></span>}</>;
+            return project.href
+              ? <Link href={project.href} className="project-item" key={project.title} data-testid={`link-project-${index}`}>{content}</Link>
+              : <article className="project-item" key={project.title} data-testid={`card-project-${index}`}>{content}</article>;
+          })}
+        </div>
+      </div>
+    </section>
+    <section className="section section-tinted project-record-note" data-reveal="up">
+      <div className="container-wide project-record-grid">
+        <div><span className="eyebrow">A growing record</span><h2>Projects connect research questions with the places where they matter.</h2></div>
+        <div><p>As project information is verified, this record can carry research areas, related publications, images, community context, and external links without changing the site’s structure.</p><Link href="/humekaneza" className="button-secondary" data-testid="link-projects-humekaneza">Visit HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
+      </div>
+    </section>
+  </>;
+}
+
 function People() {
   const [group, setGroup] = useState('All');
   const groups = ['All', 'Researchers', 'Trainees', 'Alumni'];
@@ -449,6 +489,7 @@ function Router() {
   return <RoutedErrorBoundary><Switch>
     <Route path="/" component={Home} />
     <Route path="/research" component={Research} />
+    <Route path="/projects" component={Projects} />
     <Route path="/people" component={People} />
     <Route path="/publications" component={Publications} />
     <Route path="/teaching" component={Teaching} />
