@@ -97,6 +97,9 @@ type PersonRecord = {
   name: string;
   role: string;
   institution?: string;
+  country?: string;
+  currentPosition?: string;
+  formerRole?: string;
   researchFocus?: string;
   status?: string;
 };
@@ -131,13 +134,14 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
     id: 'phd',
     title: 'PhD Students — Western University',
     people: [
-      { name: 'Allison Pert', role: 'PhD Student', institution: 'Western University', status: 'Current' },
+      { name: 'Allison Pert', role: 'PhD Student', institution: 'Western University', formerRole: 'MSc Student', status: 'Alumni / Current PhD' },
       {
         name: 'Augustine Omodieke',
         role: 'PhD Student',
         institution: 'Western University',
+        formerRole: 'MSc Student',
         researchFocus: 'Environmental epidemiology; air pollution; health economics',
-        status: 'Current',
+        status: 'Alumni / Current PhD',
       },
       { name: 'Francis Acquah', role: 'PhD Student', institution: 'Western University', status: 'Current' },
       { name: 'Daniel Twum', role: 'PhD Student', institution: 'Western University', status: 'Current' },
@@ -189,6 +193,37 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       { name: 'Shaikh Sumeet Jamil', role: 'Research Assistant', institution: 'Western University', status: 'Current' },
       { name: 'Sharika Jalali', role: 'Research Assistant', institution: 'Western University', status: 'Current' },
       { name: 'Innocent Twagirayezu', role: 'Research Assistant, PhD', institution: 'Western University', status: 'Current' },
+    ],
+  },
+  {
+    id: 'international-phd',
+    title: 'International / Externally Co-supervised PhD Students',
+    people: [
+      { name: 'Patrick Karakwende', role: 'PhD Student', status: 'Current' },
+      { name: 'Adolphe Ndikubwimana', role: 'PhD Student', institution: 'University of Rwanda', country: 'Rwanda', status: 'Current' },
+      { name: 'Deborah', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria', status: 'Current' },
+      { name: 'Nibagwire', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria', status: 'Current' },
+      { name: 'Franck Kwabe', role: 'PhD Student', institution: 'ISP Bukavu', country: 'DR Congo', status: 'Current' },
+    ],
+  },
+  {
+    id: 'visiting-international',
+    title: 'Visiting International Students',
+    people: [
+      { name: 'Dioumacor Faye', role: 'PhD Student', country: 'Senegal', status: 'Former / Current' },
+      { name: 'Dorothy Namatovu', role: 'MSc Student', country: 'Uganda', status: 'Former / Current' },
+      { name: 'Ange Lisa Ikirezi', role: 'MSc Student', country: 'Rwanda', status: 'Former / Current' },
+      { name: 'Marie Ange Tuyime', role: 'Undergraduate Student', country: 'Rwanda', status: 'Former / Current' },
+      { name: 'Isabel Ajagu', role: 'MSc Student / Visiting Scholar', country: 'Nigeria', status: 'Current / Former' },
+    ],
+  },
+  {
+    id: 'undergraduate-alumni',
+    title: 'Undergraduate Alumni',
+    people: [
+      { name: 'Victoria Bursey', role: 'Undergraduate Researcher', currentPosition: 'MSc Public Health, University of Toronto', status: 'Alumni' },
+      { name: 'Emily Airhart', role: 'Undergraduate Researcher', currentPosition: 'MSc Student, University of Toronto', status: 'Alumni' },
+      { name: 'Shagun Chander', role: 'Undergraduate Researcher', institution: 'Western University', status: 'Current' },
     ],
   },
 ];
@@ -572,6 +607,24 @@ function People() {
                           <div>
                             <dt>Institution</dt>
                             <dd>{person.institution}</dd>
+                          </div>
+                        )}
+                        {person.country && (
+                          <div>
+                            <dt>Country</dt>
+                            <dd>{person.country}</dd>
+                          </div>
+                        )}
+                        {person.currentPosition && (
+                          <div>
+                            <dt>Current position</dt>
+                            <dd>{person.currentPosition}</dd>
+                          </div>
+                        )}
+                        {person.formerRole && (
+                          <div>
+                            <dt>Former role</dt>
+                            <dd>{person.formerRole}</dd>
                           </div>
                         )}
                         {person.researchFocus && (
