@@ -1,0 +1,262 @@
+P3 HEALTH LAB — PHASE 3.1
+PROJECTS PAGE + PROJECTS 1–4
+
+CONTEXT
+Phases 1 and 2 are already completed in main. This is ONLY Phase 3 Part 1.
+
+REPO
+github.com/Shejaoli/P3-Health-Lab
+Create/use branch: `phase3-projects`
+Do not modify main.
+
+APP
+`artifacts/p3-health-lab`
+Main files: `src/App.tsx`, `src/index.css`
+
+SCOPE
+Work ONLY on:
+- `/projects`
+- Projects data needed by this page
+- CSS needed by the Projects page
+
+DO NOT touch:
+- admin/auth/database
+- `src/admin`
+- `artifacts/api-server`
+- footer-logo triple-click admin entry
+- other public pages
+- homepage
+- Research page
+- HumekaNeza page
+
+Do not deploy.
+Do not change Git configuration.
+Do not invent information.
+Use the existing Phase 1/2 restrained academic style.
+
+DESIGN
+Use:
+- off-white background
+- charcoal text
+- one muted teal accent
+- plain academic typography
+- ruled/clean lists
+- subtle borders
+- generous whitespace
+
+Do NOT use:
+- gradients
+- glows
+- large rounded cards
+- heavy shadows
+- startup/SaaS styling
+- decorative graphics
+- heavy animation
+
+Reuse existing Phase 2 patterns where appropriate.
+
+PROJECT PAGE
+
+Hero:
+Eyebrow: `Projects`
+Title: `Projects`
+
+Text:
+`Initiatives connected to HumekaNeza, the lab's child- and youth-centred environmental-health initiative.`
+
+Remove outdated filler such as:
+- "Research takes form"
+- "See our research"
+- "A growing record"
+
+Make projects data-driven using ONE array of objects. Each project must have a stable slug/id so later admin functionality can edit them.
+
+Create these first four projects.
+
+==================================================
+1. HUMEKA NEZA SCHOOL AIR-QUALITY CAMPAIGN
+slug: `school-air-quality-campaign`
+==================================================
+
+Location:
+`Rwanda`
+
+Description:
+"The original HumekaNeza campaign was launched in schools in Rwanda to improve children's understanding of air pollution and empower them to participate in solutions."
+
+Activities:
+- school-based air-quality education
+- low-cost air-quality monitoring
+- Air Quality Flag Programs
+- anti-idling campaigns
+- student-led environmental monitoring
+- classroom air-cleaning activities
+- cleaner-route and outdoor-activity guidance
+- tree planting and greener school environments
+- creative communication through posters and letters to families
+
+Closing:
+"The campaign transforms schools into living environmental-health laboratories where children learn by observing, measuring, communicating, and acting."
+
+==================================================
+2. I AM AN AIR QUALITY SCIENTIST
+slug: `i-am-an-air-quality-scientist`
+==================================================
+
+Description:
+"Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities."
+
+"The initiative introduces children to environmental-health science while building scientific literacy, curiosity, confidence, and practical understanding of environmental data."
+
+Do not add a location.
+
+==================================================
+3. ONE SENSOR PER SCHOOL
+slug: `one-sensor-per-school`
+==================================================
+
+Description:
+"This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools."
+
+"Students and teachers can observe how air pollution changes throughout the day and explore how traffic, weather, indoor activities, and other factors affect the air they breathe."
+
+Do not add a location.
+
+==================================================
+4. CLASSROOM CLEAN-AIR INTERVENTIONS
+slug: `classroom-clean-air-interventions`
+==================================================
+
+Description:
+"HumekaNeza supports research evaluating practical approaches to improve classroom air quality, including the use of portable air purifiers."
+
+"These interventions examine changes in indoor air pollution and explore potential effects on student health, learning, comfort, attendance, and academic performance."
+
+Do not add a location.
+
+==================================================
+PROJECT LAYOUT
+==================================================
+
+Each project should be a clean article/row rather than a large card.
+
+Structure:
+- project title
+- optional subtitle only if supplied
+- description paragraph(s)
+- Activities/Focus list when supplied
+- location only when explicitly supplied
+- closing paragraph when supplied
+
+Give each project its slug as an anchor/id.
+
+Add scroll-margin-top so a sticky header does not cover the heading when a hash link is opened.
+
+Do NOT add:
+- funder
+- year
+- partner
+- collaborator
+- publication
+- statistics
+- research result
+- project status
+- invented photo
+- invented URL
+
+Do not add "TBD" or "pending".
+
+The remaining four projects will be added in Phase 3.2. Do not add them now.
+
+==================================================
+DATA STRUCTURE
+==================================================
+
+Keep the project data centralized in ONE array/object structure.
+
+Do not duplicate project descriptions in multiple components.
+
+The structure should make it easy for a future admin system to edit:
+- title
+- slug
+- subtitle
+- description
+- activities/focus
+- location
+- closing text
+
+==================================================
+RESPONSIVE
+==================================================
+
+Check the Projects page at:
+- desktop approximately 1280px
+- mobile approximately 390px
+
+Ensure:
+- no horizontal overflow
+- readable line lengths
+- project headings wrap properly
+- lists remain readable
+- sticky-header hash positioning works
+
+==================================================
+VALIDATION
+==================================================
+
+Run the relevant P3 typecheck/build if the environment allows.
+
+Ignore unrelated workspace errors.
+
+Do NOT modify unrelated packages just to make the whole monorepo pass.
+
+Verify:
+- `/projects` loads
+- all 4 projects appear
+- each slug/id exists
+- only project 1 displays `Rwanda`
+- projects 2–4 have no location
+- no placeholder/filler project text remains for these four
+- no admin code changed
+
+Do not work on HumekaNeza yet.
+
+==================================================
+GIT
+==================================================
+
+Work on `phase3-projects`.
+
+Do not modify main.
+Do not deploy.
+
+If the repository workflow permits it, commit this completed Part 1 to the branch with a clear message such as:
+`Add Projects page initiatives 1-4`
+
+Push ONLY the phase3-projects branch. Never push to main.
+
+==================================================
+FINAL REPORT
+==================================================
+
+Return only:
+
+STATUS: PASS / BLOCKED
+
+CHANGED:
+- ...
+
+NOT CHANGED:
+- ...
+
+VALIDATION:
+- ...
+
+REMAINING FOR PHASE 3.2:
+- Projects 5–8
+- ...
+
+REMAINING FOR PHASE 3.3:
+- HumekaNeza page
+- cross-page links
+- final Phase 3 QA
