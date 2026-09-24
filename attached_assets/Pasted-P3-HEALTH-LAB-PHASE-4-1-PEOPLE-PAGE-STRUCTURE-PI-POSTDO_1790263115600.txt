@@ -1,0 +1,334 @@
+P3 HEALTH LAB — PHASE 4.1
+PEOPLE PAGE: STRUCTURE + PI + POSTDOC + PHD
+
+IMPORTANT:
+Before making ANY Phase 4 changes, verify that Phase 3.3 actually succeeded.
+
+==================================================
+STEP 0 — VERIFY PHASE 3.3 FIRST
+==================================================
+
+Do not modify files during this verification.
+
+Check the current branch and working tree.
+
+Verify Phase 3.3:
+1. `/humekaneza` loads successfully.
+2. HumekaNeza uses the new restrained academic layout, NOT the old poster/animation version.
+3. It contains:
+   - Breathe Easy
+   - Intro
+   - Learn · Measure · Communicate · Act
+   - Featured Initiatives
+   - Why HumekaNeza Matters
+   - Our Vision
+   - Get Involved
+4. All 8 HumekaNeza initiative links point to the correct `/projects#<slug>` anchors.
+5. Projects → HumekaNeza link works.
+6. Research → Classroom Clean-Air Interventions points to:
+   `/projects#classroom-clean-air-interventions`
+7. Homepage Featured Projects use the correct project anchors.
+8. `/projects` still contains all 8 projects.
+9. Typecheck/build still pass.
+10. Footer-logo triple-click admin entry still exists and was not changed.
+11. No admin/auth/database/API files were changed by Phase 3.
+
+If these checks pass, continue to Phase 4.1.
+
+If any important Phase 3 check fails, STOP and report:
+`PHASE 3.3 VERIFICATION FAILED`
+Do not begin Phase 4.
+
+==================================================
+PHASE 4.1 SCOPE
+==================================================
+
+After Phase 3 verification passes, work ONLY on the People page.
+
+Repo:
+github.com/Shejaoli/P3-Health-Lab
+
+Use a new branch:
+`phase4-people`
+
+Do not modify main.
+Do not deploy.
+Do not touch Git configuration.
+
+App:
+`artifacts/p3-health-lab`
+
+Main files are likely:
+`src/App.tsx`
+`src/index.css`
+
+==================================================
+HARD RULES
+==================================================
+
+Do NOT touch:
+- admin/auth/database
+- `src/admin`
+- `artifacts/api-server`
+- footer-logo triple-click
+- Projects
+- HumekaNeza
+- Research
+- Homepage
+- Publications
+- Teaching
+- About
+- Contact
+- Header/footer
+
+Only make changes required for the People page and its data.
+
+Do not invent:
+- photos
+- LinkedIn URLs
+- research interests
+- degrees
+- supervisors
+- institutions
+- countries
+- dates
+- biographies
+- awards
+
+If information is not supplied below, omit that field.
+
+==================================================
+PEOPLE PAGE STRUCTURE
+==================================================
+
+Use the existing restrained academic visual system.
+
+Page introduction:
+
+Eyebrow:
+`People`
+
+Title:
+`Our People`
+
+Text:
+`Students, Trainees & Research Team`
+
+Then use a short introduction:
+
+"People are at the centre of P3 Health Lab. Our team brings together students, trainees, research staff, and visiting scholars with interests spanning environmental health, epidemiology, exposure science, global health, microbiology, data science, and intervention research."
+
+Second paragraph:
+
+"We support interdisciplinary training and collaboration across field research, laboratory analysis, epidemiology, community engagement, data science, and knowledge translation."
+
+Use a simple professional grid/list.
+
+Avoid:
+- social-media-style cards
+- excessive colors
+- giant rounded cards
+- gradients
+- glowing effects
+- heavy shadows
+- excessive animations
+
+==================================================
+DATA MODEL
+==================================================
+
+Create/use one centralized People data structure.
+
+It should support:
+- name
+- role
+- institution
+- country
+- researchFocus
+- category
+- status
+- LinkedIn
+- photo
+- supervisor/co-supervisor where applicable
+- visit period where applicable
+- alumni year/current position where applicable
+
+Do not display empty fields.
+
+This structure will be expanded in Phase 4.2 and 4.3.
+
+==================================================
+CATEGORY 1 — PRINCIPAL INVESTIGATOR
+==================================================
+
+Display:
+
+Name:
+Dr. Egide Kalisa
+
+Role:
+Assistant Professor; Director, HELTH/P3 Health Lab
+
+Institution:
+Western University
+
+Research Focus:
+Environmental health; air pollution; climate change; children’s health; environmental justice; One Health; exposure science
+
+Status:
+Current
+
+Photo:
+Do NOT invent or generate one.
+If no verified photo exists, use the existing appropriate placeholder treatment.
+
+LinkedIn:
+Do not invent a URL.
+
+==================================================
+CATEGORY 2 — POSTDOCTORAL FELLOWS
+==================================================
+
+Name:
+Dr. Md Pervez Kabir
+
+Role:
+Postdoctoral Fellow
+
+Institution:
+Western University
+
+Status:
+Current
+
+Research focus:
+Not supplied — omit.
+
+LinkedIn:
+Do not invent.
+
+Photo:
+Do not invent.
+
+==================================================
+CATEGORY 3 — PHD STUDENTS
+==================================================
+
+Use the heading:
+
+`PhD Students – Western University`
+
+Add these people:
+
+Allison Pert
+Role: PhD Student
+Institution: Western University
+Status: Current
+
+Augustine Omodieke
+Role: PhD Student
+Institution: Western University
+Research Focus: Environmental epidemiology; air pollution; health economics
+Status: Current
+
+Francis Acquah
+Role: PhD Student
+Institution: Western University
+Status: Current
+
+Daniel Twum
+Role: PhD Student
+Institution: Western University
+Status: Current
+
+Abdul Rasheed Rasheed
+Role: PhD Student
+Institution: Western University
+Status: Current
+
+Do not "correct" names without verified source information.
+
+Do not invent:
+- research focus
+- supervisor
+- co-supervisor
+- LinkedIn
+- photos
+
+==================================================
+PAGE BEHAVIOR
+==================================================
+
+Keep the page responsive.
+
+Check approximately:
+- 1280px desktop
+- 390px mobile
+
+Verify:
+- no horizontal overflow
+- consistent image dimensions/placeholders
+- readable names and roles
+- clean spacing
+- restrained academic appearance
+
+==================================================
+VALIDATION
+==================================================
+
+Run:
+- P3 typecheck
+- P3 production build
+- `/people` HTTP check
+- desktop preview
+- mobile preview
+
+Verify:
+- PI appears
+- Postdoctoral Fellow appears
+- all 5 listed PhD students appear
+- no invented information appears
+- empty fields are omitted
+- Phase 3 pages still work
+- no protected/admin files changed
+
+Do NOT implement the remaining People categories yet.
+
+==================================================
+GIT
+==================================================
+
+Commit only Phase 4.1 work on:
+`phase4-people`
+
+Suggested commit:
+`Add People PI postdoc and PhD structure`
+
+Do not push to main.
+If authentication prevents pushing, report that without repeatedly retrying.
+
+==================================================
+FINAL REPORT
+==================================================
+
+Return only:
+
+PHASE 3.3 VERIFICATION:
+PASS / FAILED
+- ...
+
+PHASE 4.1 STATUS:
+PASS / BLOCKED
+
+CHANGED:
+- ...
+
+NOT CHANGED:
+- ...
+
+VALIDATION:
+- ...
+
+REMAINING PHASE 4:
+- Phase 4.2: MSc, Global Health interns, Research Assistants
+- Phase 4.3: Undergraduate, Summer Research, Visiting Students, Alumni + final People QA
