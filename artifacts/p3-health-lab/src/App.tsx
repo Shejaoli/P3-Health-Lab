@@ -135,6 +135,7 @@ function Shell({ children }: { children: ReactNode }) {
     },
     { label: 'About', href: '/about' },
     { label: 'Publications', href: '/publications' },
+    { label: 'News', href: '/news' },
     {
       label: 'Teaching',
       href: '/teaching',
@@ -284,7 +285,7 @@ function Footer({ onContact }: { onContact: () => void }) {
           <p>Research for healthier everyday places. Led by Dr. Egide Kalisa at Western University.</p>
           <button className="button-secondary" onClick={onContact} data-testid="button-footer-contact">Connect with the lab <ArrowUpRight size={14} aria-hidden="true" /></button>
         </div>
-        <div><h4>Explore</h4><Link href="/research" data-testid="link-footer-research">Research</Link><Link href="/projects" data-testid="link-footer-projects">Projects</Link><Link href="/people" data-testid="link-footer-people">People</Link><Link href="/publications" data-testid="link-footer-publications">Scholarship</Link><Link href="/teaching" data-testid="link-footer-teaching">Teaching</Link></div>
+        <div><h4>Explore</h4><Link href="/research" data-testid="link-footer-research">Research</Link><Link href="/projects" data-testid="link-footer-projects">Projects</Link><Link href="/people" data-testid="link-footer-people">People</Link><Link href="/publications" data-testid="link-footer-publications">Scholarship</Link><Link href="/news" data-testid="link-footer-news">News</Link><Link href="/teaching" data-testid="link-footer-teaching">Teaching</Link></div>
         <div><h4>In the community</h4><Link href="/humekaneza" data-testid="link-footer-humekaneza">HumekaNeza</Link><Link href="/get-involved" data-testid="link-footer-involved">Get involved</Link><a href="mailto:p3healthlab@uwo.ca" data-testid="link-footer-email">Email the lab</a></div>
         <div><h4>Find us</h4><p>Western University<br />London, Ontario<br />Canada</p><a href="https://www.uwo.ca" target="_blank" rel="noreferrer" data-testid="link-western">Western University <ExternalLink size={12} aria-hidden="true" /></a></div>
       </div>
@@ -472,6 +473,10 @@ function Publications() {
   return <><PageHero eyebrow="Scholarship / 03" title={<>Evidence worth <em>sharing.</em></>} text="Publication details will be listed here as source records are verified." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Publication record</span><h2>A careful record is being prepared.</h2></div><p>No publication entries are shown until their bibliographic details can be checked against reliable source material.</p></div><div className="publication-list"><div className="publication-empty" data-testid="empty-publications"><span className="publication-year">Pending</span><div><h3>Verified publication records are not available yet.</h3><p>Titles, authors, journals, years, DOIs, citation counts, findings, and publication links will be added only when they are verified.</p><p>Google Scholar will be the primary external destination once its profile URL is confirmed. ORCID, CV PDF, and Western University profile links will be added only after their destinations are verified.</p></div><span className="pub-type">Record pending</span></div></div></div></section></>;
 }
 
+function News() {
+  return <><PageHero eyebrow="News / 08" title={<>The work, <em>as it unfolds.</em></>} text="Verified news from P3 Health Lab will be shared here as records become available." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Lab news</span><h2>A careful record is being prepared.</h2></div><p>No verified news items are currently available in the project material.</p></div><div className="publication-list"><div className="publication-empty news-empty" data-testid="empty-news"><span className="publication-year">Pending</span><div><h3>Verified lab news is not available yet.</h3><p>Dates, headlines, summaries, images, and links will be added only when source records are verified.</p></div><span className="pub-type">Record pending</span></div></div></div></section></>;
+}
+
 function Teaching() {
   const [year, setYear] = useState<keyof typeof courses>('2026–2027');
   return <><PageHero eyebrow="Teaching / 04" title={<>Make room for <em>better questions.</em></>} text="Teaching at P3 is an invitation to notice systems, question assumptions, and practice global health with humility." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Courses by academic year</span><h2>Learning that leaves the classroom.</h2></div><p>Only course codes and titles confirmed in the available source material are shown.</p></div><div className="year-tabs">{(Object.keys(courses) as Array<keyof typeof courses>).map((item) => <button className={`year-tab ${year === item ? 'active' : ''}`} key={item} onClick={() => setYear(item)} data-testid={`button-year-${item}`}>{item}</button>)}</div><div className="course-grid"><div>{courses[year].map((course, index) => <article className="course-card" key={course.code} data-reveal="up" style={{ transitionDelay: `${index * 80}ms` }} data-testid={`card-course-${index}`}><span className="course-code">{course.code}</span><div><h3>{course.title}</h3></div><span className="course-term">Verified course</span></article>)}</div><aside className="side-panel" data-reveal="scale"><span className="eyebrow">Teaching record</span><h3>Teaching information, kept precise.</h3><p>Program, term, role, and supervision details are not shown until they are verified in the source material.</p></aside></div></div></section><section className="quote-section" data-reveal="up"><div className="container-wide"><blockquote>“The best classroom is one that sends you back into the world more attentive than before.”</blockquote><cite>P3 teaching practice</cite></div></section></>;
@@ -510,6 +515,7 @@ function Router() {
     <Route path="/people" component={People} />
     <Route path="/about" component={About} />
     <Route path="/publications" component={Publications} />
+    <Route path="/news" component={News} />
     <Route path="/teaching" component={Teaching} />
     <Route path="/humekaneza" component={Humekaneza} />
     <Route path="/get-involved" component={GetInvolved} />
