@@ -5,6 +5,7 @@ import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { AdminGate, AdminLoginPanel } from '@/admin/AdminApp';
 import logo from '@assets/p3_logo_1789065448410.png';
 
 const queryClient = new QueryClient();
@@ -103,12 +104,14 @@ const courses = {
 } as const;
 
 function Shell({ children }: { children: ReactNode }) {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [adminEntryOpen, setAdminEntryOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [openMobileMenu, setOpenMobileMenu] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const adminClickRef = useRef({ count: 0, lastClick: 0 });
   const nav = [
     {
       label: 'Research',
@@ -231,6 +234,17 @@ function Shell({ children }: { children: ReactNode }) {
     window.addEventListener('open-contact', openContact);
     return () => window.removeEventListener('open-contact', openContact);
   }, []);
+  const handleAdminLogoClick = () => {
+    const now = Date.now();
+    if (now - adminClickRef.current.lastClick > 1400) adminClickRef.current.count = 0;
+    adminClickRef.current.count += 1;
+    adminClickRef.current.lastClick = now;
+    if (adminClickRef.current.count === 3) {
+      adminClickRef.current.count = 0;
+      setAdminEntryOpen(true);
+    }
+  };
+  if (location.startsWith('/admin')) return <div className="admin-route-shell">{children}</div>;
   return (
     <div className="site-shell noise">
       <header className="site-header" ref={navRef}>
@@ -271,18 +285,19 @@ function Shell({ children }: { children: ReactNode }) {
         </nav>}
       </header>
       <main>{children}</main>
-      <Footer onContact={() => setContactOpen(true)} />
+      <Footer onContact={() => setContactOpen(true)} onLogoClick={handleAdminLogoClick} />
       {contactOpen && <ContactModal onClose={() => setContactOpen(false)} />}
+      {adminEntryOpen && <AdminLoginPanel onClose={() => setAdminEntryOpen(false)} onAuthenticated={() => { setAdminEntryOpen(false); setLocation('/admin/dashboard'); }} />}
     </div>
   );
 }
 
-function Footer({ onContact }: { onContact: () => void }) {
+function Footer({ onContact, onLogoClick }: { onContact: () => void; onLogoClick: () => void }) {
   return <footer className="footer">
     <div className="container-wide">
       <div className="footer-grid">
         <div>
-          <img className="footer-logo" src={logo} alt="P3 Health Lab" />
+          <button type="button" className="footer-logo-button" onClick={onLogoClick} aria-label="P3 Health Lab logo"><img className="footer-logo" src={logo} alt="" /></button>
           <p>Research for healthier everyday places. Led by Dr. Egide Kalisa at Western University.</p>
           <button className="button-secondary" onClick={onContact} data-testid="button-footer-contact">Connect with the lab <ArrowUpRight size={14} aria-hidden="true" /></button>
         </div>
@@ -525,6 +540,16 @@ function Router() {
     <Route path="/teaching" component={Teaching} />
     <Route path="/humekaneza" component={Humekaneza} />
     <Route path="/get-involved" component={GetInvolved} />
+    <Route path="/admin" component={AdminGate} />
+    <Route path="/admin/login" component={AdminGate} />
+    <Route path="/admin/dashboard" component={AdminGate} />
+    <Route path="/admin/people" component={AdminGate} />
+    <Route path="/admin/projects" component={AdminGate} />
+    <Route path="/admin/news" component={AdminGate} />
+    <Route path="/admin/media" component={AdminGate} />
+    <Route path="/admin/research-areas" component={AdminGate} />
+    <Route path="/admin/teaching" component={AdminGate} />
+    <Route path="/admin/profile" component={AdminGate} />
     <Route component={NotFound} />
   </Switch></RoutedErrorBoundary>;
 }

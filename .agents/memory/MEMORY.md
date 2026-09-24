@@ -1,0 +1,1 @@
+- [Admin system maintenance](admin-system.md) — private media reads and generated API exports need explicit security/typecheck guardrails.

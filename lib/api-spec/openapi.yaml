@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: admin
+    description: Protected administration operations
 paths:
   /healthz:
     get:
@@ -24,7 +26,170 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /admin/auth/login:
+    post:
+      operationId: adminLogin
+      tags: [admin]
+      summary: Start an admin session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminLoginRequest"
+      responses:
+        "200":
+          description: Authenticated admin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSessionResponse"
+        "401":
+          description: Invalid credentials
+  /admin/auth/session:
+    get:
+      operationId: adminSession
+      tags: [admin]
+      summary: Get the current admin session
+      responses:
+        "200":
+          description: Authenticated admin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSessionResponse"
+        "401":
+          description: No active session
+  /admin/auth/logout:
+    post:
+      operationId: adminLogout
+      tags: [admin]
+      summary: End the current admin session
+      responses:
+        "200":
+          description: Session ended
+  /admin/content/{resource}:
+    parameters:
+      - $ref: "#/components/parameters/Resource"
+    get:
+      operationId: listAdminContent
+      tags: [admin]
+      summary: List protected content records
+      responses:
+        "200":
+          description: Content records
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContentListResponse"
+        "401":
+          description: No active session
+    post:
+      operationId: createAdminContent
+      tags: [admin]
+      summary: Create a protected content record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContentRecord"
+      responses:
+        "201":
+          description: Created record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContentRecord"
+        "400":
+          description: Invalid record
+        "401":
+          description: No active session
+  /admin/content/{resource}/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Resource"
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    patch:
+      operationId: updateAdminContent
+      tags: [admin]
+      summary: Update a protected content record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContentRecord"
+      responses:
+        "200":
+          description: Updated record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContentRecord"
+        "401":
+          description: No active session
+    delete:
+      operationId: archiveAdminContent
+      tags: [admin]
+      summary: Archive a protected content record
+      responses:
+        "200":
+          description: Archived record
+        "401":
+          description: No active session
+  /admin/media/upload-url:
+    post:
+      operationId: requestAdminMediaUploadUrl
+      tags: [admin]
+      summary: Request a presigned image upload URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaUploadRequest"
+      responses:
+        "200":
+          description: Presigned upload details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MediaUploadResponse"
+        "400":
+          description: Invalid image metadata
+        "401":
+          description: No active session
+  /admin/media/verify-upload:
+    post:
+      operationId: verifyAdminMediaUpload
+      tags: [admin]
+      summary: Verify an uploaded image before creating its media record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaUploadVerificationRequest"
+      responses:
+        "200":
+          description: Valid image
+        "400":
+          description: Invalid image
+        "401":
+          description: No active session
 components:
+  parameters:
+    Resource:
+      name: resource
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: [people, projects, news, researchAreas, teaching, profile, media]
   schemas:
     HealthStatus:
       type: object
@@ -33,4 +198,73 @@ components:
           type: string
       required:
         - status
+    AdminLoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+    AdminSessionResponse:
+      type: object
+      required: [user]
+      properties:
+        user:
+          $ref: "#/components/schemas/AdminUser"
+    AdminUser:
+      type: object
+      required: [id, email, role]
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+    ContentListResponse:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContentRecord"
+    ContentRecord:
+      type: object
+      additionalProperties: true
+    MediaUploadRequest:
+      type: object
+      required: [name, size, contentType]
+      properties:
+        name:
+          type: string
+        size:
+          type: integer
+        contentType:
+          type: string
+          enum: [image/jpeg, image/png, image/webp, image/gif]
+    MediaUploadResponse:
+      type: object
+      required: [uploadURL, objectPath]
+      properties:
+        uploadURL:
+          type: string
+          format: uri
+        objectPath:
+          type: string
+    MediaUploadVerificationRequest:
+      type: object
+      required: [objectPath, size, contentType]
+      properties:
+        objectPath:
+          type: string
+        size:
+          type: integer
+        contentType:
+          type: string
+          enum: [image/jpeg, image/png, image/webp, image/gif]
 
