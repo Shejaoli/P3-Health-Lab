@@ -5,7 +5,7 @@ import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { AdminGate, AdminLoginPanel } from '@/admin/AdminApp';
+import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
 import logo from '@assets/p3_logo_1789065448410.png';
 
 const queryClient = new QueryClient();
@@ -153,23 +153,22 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
         role: 'MSc Student',
         institution: 'Western University',
         researchFocus: 'PAHs; air pollution; exposure science',
-        status: 'Current',
       },
-      { name: 'Oluwaseun Bajulaye', role: 'MSc Student', institution: 'Western University', status: 'Current' },
-      { name: 'Farhana Ramiza', role: 'MSc Student', institution: 'Western University', status: 'Current' },
-      { name: 'Ignatius Atuguba', role: 'MSc Student', institution: 'Western University', status: 'Current' },
+      { name: 'Oluwaseun Bajulaye', role: 'MSc Student', institution: 'Western University' },
+      { name: 'Farhana Ramiza', role: 'MSc Student', institution: 'Western University' },
+      { name: 'Ignatius Atuguba', role: 'MSc Student', institution: 'Western University' },
     ],
   },
   {
     id: 'global-health-interns',
     title: 'Global Health MSc Interns',
     people: [
-      { name: 'Jiaxuan Zhang', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
-      { name: 'Arshia Mohammadi-Sanjani', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
-      { name: 'Ihsan Khalifa', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
-      { name: 'Harini Kumaraverl', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
-      { name: 'Yuheng Lu', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
-      { name: 'Haiyan Li', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
+      { name: 'Jiaxuan Zhang', role: 'MSc Global Health Intern', institution: 'Western University' },
+      { name: 'Arshia Mohammadi-Sanjani', role: 'MSc Global Health Intern', institution: 'Western University' },
+      { name: 'Ihsan Khalifa', role: 'MSc Global Health Intern', institution: 'Western University' },
+      { name: 'Harini Kumaraverl', role: 'MSc Global Health Intern', institution: 'Western University' },
+      { name: 'Yuheng Lu', role: 'MSc Global Health Intern', institution: 'Western University' },
+      { name: 'Haiyan Li', role: 'MSc Global Health Intern', institution: 'Western University' },
     ],
   },
   {
@@ -181,36 +180,35 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
         role: 'Research Assistant, MSc',
         institution: 'Western University',
         researchFocus: 'Air pollution; PAHs; metals; exposure analysis',
-        status: 'Current',
       },
-      { name: 'Natasha Fortin', role: 'Research Assistant, MSc', institution: 'Western University', status: 'Current' },
-      { name: 'Sydney Lessard', role: 'Research Assistant, MSc', institution: 'Western University', status: 'Current' },
-      { name: 'Jiaqi Bi', role: 'Research Assistant, MSc', institution: 'Western University', status: 'Current' },
-      { name: 'Shaikh Sumeet Jamil', role: 'Research Assistant', institution: 'Western University', status: 'Current' },
-      { name: 'Sharika Jalali', role: 'Research Assistant', institution: 'Western University', status: 'Current' },
-      { name: 'Innocent Twagirayezu', role: 'Research Assistant, PhD', institution: 'Western University', status: 'Current' },
+      { name: 'Natasha Fortin', role: 'Research Assistant, MSc', institution: 'Western University' },
+      { name: 'Sydney Lessard', role: 'Research Assistant, MSc', institution: 'Western University' },
+      { name: 'Jiaqi Bi', role: 'Research Assistant, MSc', institution: 'Western University' },
+      { name: 'Shaikh Sumeet Jamil', role: 'Research Assistant', institution: 'Western University' },
+      { name: 'Sharika Jalali', role: 'Research Assistant', institution: 'Western University' },
+      { name: 'Innocent Twagirayezu', role: 'Research Assistant, PhD', institution: 'Western University' },
     ],
   },
   {
     id: 'international-phd',
     title: 'International / Externally Co-supervised PhD Students',
     people: [
-      { name: 'Patrick Karakwende', role: 'PhD Student', status: 'Current' },
-      { name: 'Adolphe Ndikubwimana', role: 'PhD Student', institution: 'University of Rwanda', country: 'Rwanda', status: 'Current' },
-      { name: 'Deborah', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria', status: 'Current' },
-      { name: 'Nibagwire', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria', status: 'Current' },
-      { name: 'Franck Kwabe', role: 'PhD Student', institution: 'ISP Bukavu', country: 'DR Congo', status: 'Current' },
+      { name: 'Patrick Karakwende', role: 'PhD Student' },
+      { name: 'Adolphe Ndikubwimana', role: 'PhD Student', institution: 'University of Rwanda', country: 'Rwanda' },
+      { name: 'Deborah', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria' },
+      { name: 'Nibagwire', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria' },
+      { name: 'Franck Kwabe', role: 'PhD Student', institution: 'ISP Bukavu', country: 'DR Congo' },
     ],
   },
   {
     id: 'visiting-international',
     title: 'Visiting International Students',
     people: [
-      { name: 'Dioumacor Faye', role: 'PhD Student', country: 'Senegal', status: 'Former / Current' },
-      { name: 'Dorothy Namatovu', role: 'MSc Student', country: 'Uganda', status: 'Former / Current' },
-      { name: 'Ange Lisa Ikirezi', role: 'MSc Student', country: 'Rwanda', status: 'Former / Current' },
-      { name: 'Marie Ange Tuyime', role: 'Undergraduate Student', country: 'Rwanda', status: 'Former / Current' },
-      { name: 'Isabel Ajagu', role: 'MSc Student / Visiting Scholar', country: 'Nigeria', status: 'Current / Former' },
+      { name: 'Dioumacor Faye', role: 'PhD Student', institution: 'Visiting International Student', country: 'Senegal' },
+      { name: 'Dorothy Namatovu', role: 'MSc Student', institution: 'Visiting International Student', country: 'Uganda' },
+      { name: 'Ange Lisa Ikirezi', role: 'MSc Student', institution: 'Visiting International Student', country: 'Rwanda' },
+      { name: 'Marie Ange Tuyime', role: 'Undergraduate Student', institution: 'Visiting International Student', country: 'Rwanda' },
+      { name: 'Isabel Ajagu', role: 'MSc Student / Visiting Scholar', institution: 'Visiting International Student', country: 'Nigeria' },
     ],
   },
   {
@@ -330,7 +328,7 @@ function Shell({ children }: { children: ReactNode }) {
       setAdminEntryOpen(true);
     }
   };
-  if (location.startsWith('/admin')) return <div className="admin-route-shell">{children}</div>;
+  if (location.startsWith('/admin') || location === '/upload') return <div className="admin-route-shell">{children}</div>;
   return (
     <div className="site-shell noise">
       <header className="site-header" ref={navRef}>
@@ -708,6 +706,7 @@ function Router() {
     <Route path="/teaching" component={Teaching} />
     <Route path="/humekaneza" component={Humekaneza} />
     <Route path="/get-involved" component={GetInvolved} />
+    <Route path="/upload" component={AdminUploadGate} />
     <Route path="/admin" component={AdminGate} />
     <Route path="/admin/login" component={AdminGate} />
     <Route path="/admin/dashboard" component={AdminGate} />
