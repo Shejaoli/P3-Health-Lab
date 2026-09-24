@@ -349,6 +349,10 @@ button { cursor: pointer; }
 .admin-field input, .admin-field textarea, .admin-field select { width: 100%; border: 1px solid hsl(var(--border)); border-radius: 0; background: hsl(var(--card)); color: hsl(var(--foreground)); padding: 10px; outline: none; font-size: .82rem; }
 .admin-field textarea { resize: vertical; }
 .admin-field input:focus, .admin-field textarea:focus, .admin-field select:focus { border-color: hsl(var(--primary)); box-shadow: 0 0 0 3px hsl(var(--primary) / .12); }
+.admin-password-control { position: relative; }
+.admin-password-control input { padding-right: 42px; }
+.admin-password-toggle { position: absolute; top: 50%; right: 8px; display: grid; place-items: center; padding: 5px; border: 0; transform: translateY(-50%); background: transparent; color: hsl(var(--muted-foreground)); cursor: pointer; }
+.admin-password-toggle:hover, .admin-password-toggle:focus-visible { color: hsl(var(--foreground)); }
 .admin-submit { width: 100%; margin-top: 22px; }
 .admin-icon-button, .admin-quiet-button { display: inline-flex; align-items: center; gap: 7px; border: 1px solid hsl(var(--border)); background: transparent; color: hsl(var(--foreground)); padding: 8px 10px; cursor: pointer; font-size: .75rem; }
 .admin-icon-button { padding: 7px; border: 0; color: hsl(var(--muted-foreground)); }

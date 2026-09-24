@@ -1,0 +1,340 @@
+P3 HEALTH LAB — PHASE 9: COMPLETE ADMIN SYSTEM
+
+REPOSITORY:
+https://github.com/Shejaoli/P3-Health-Lab
+BRANCH: main
+
+IMPORTANT:
+This is an EXISTING P3 Health Lab website. Modify the existing project only.
+
+Do NOT create a new application.
+Do NOT rebuild the public website.
+Do NOT redesign completed public pages.
+Do NOT deploy.
+Do NOT push to GitHub.
+Do NOT create a commit.
+The user handles GitHub manually.
+
+PUBLIC WEBSITE STATUS:
+Phases 1–8.4 are complete. Preserve all existing public routes, content, navigation, styling, responsive behavior and academic design.
+
+Existing routes include:
+/
+/research
+/projects
+/people
+/publications
+/teaching
+/about
+/get-involved
+/news
+/contact
+/humekaneza
+
+OBJECTIVE:
+Implement ONE complete, functional, secure ADMIN SYSTEM using the existing Express + PostgreSQL/Drizzle scaffolding where appropriate.
+
+ADMIN ENTRY:
+
+There must be NO visible Admin link in:
+- header
+- desktop navigation
+- mobile navigation
+- footer navigation
+
+The ONLY public entry trigger is:
+
+1. User visits the normal website.
+2. User goes to the footer.
+3. User clicks/taps the P3/lab logo 3 consecutive times.
+4. After the third valid click, reveal the admin login interface.
+5. Login still requires proper authentication.
+
+IMPORTANT:
+The 3-click mechanism is only a hidden entry point, NOT the security mechanism.
+
+If someone directly visits:
+- /admin
+- /admin/login
+- /admin/dashboard
+- /admin/people
+- /admin/projects
+- /admin/news
+- /admin/media
+
+without being authenticated, do NOT expose the login/dashboard.
+
+Return a generic Not Found/unavailable response or equivalent.
+
+Actual admin protection MUST be server-side.
+
+AUTHENTICATION:
+
+Implement secure server-side authentication using the existing project architecture.
+
+Requirements:
+- password hashing
+- secure session/authentication
+- protected admin routes
+- protected admin API endpoints
+- logout
+- authorization middleware
+- no plaintext passwords
+- no credentials in frontend code
+- secrets through environment variables
+- never expose database credentials
+- clear unauthorized/forbidden handling
+- no stack traces or secrets exposed to users
+
+Do not add unnecessary frameworks or dependencies.
+
+ADMIN DASHBOARD:
+
+Create a simple, restrained admin dashboard.
+
+Admin sections:
+
+- People
+- Projects
+- News
+- Media/Photos
+- Research Areas
+- Teaching
+- Profile/Site information
+
+Do not turn the public site into a CMS-style website.
+
+DATABASE:
+
+Use the existing PostgreSQL + Drizzle setup.
+
+Create appropriate models for:
+
+- people
+- projects
+- news
+- research areas
+- teaching records
+- media
+
+Include useful IDs, timestamps, ordering and published/status fields where appropriate.
+
+PEOPLE CRUD:
+
+Allow authenticated admin to:
+- add
+- edit
+- archive/delete
+- upload/change photo
+- category
+- name
+- role
+- institution
+- research focus
+- LinkedIn URL
+- current/alumni status
+- display order
+
+Categories should support:
+PI, Postdoctoral, PhD, MSc, Research Assistant, Undergraduate, Visiting, Alumni.
+
+PROJECT CRUD:
+
+Allow:
+- title
+- objective
+- status
+- location
+- collaborators
+- funding agency
+- years
+- methods
+- related publications
+- image
+- display order
+- publish/archive
+
+NEWS CRUD:
+
+Allow:
+- headline
+- date
+- summary
+- body
+- image
+- publish/unpublish
+- archive/delete
+- ordering
+
+Homepage must continue showing only the intended latest limited news items.
+
+RESEARCH AREAS:
+
+Allow admin to manage:
+- title
+- description
+- research questions
+- methods
+- geographic scope
+- related projects
+- order
+- published/hidden status
+
+TEACHING:
+
+Allow management of verified teaching records:
+- academic year
+- course code
+- title
+- program
+- term
+- role
+- published/hidden
+
+PROFILE:
+
+Allow controlled editing of verified academic information such as:
+- name
+- appointment
+- lab name
+- director role
+- research interests
+- lab email
+- university
+- verified external links
+
+Do NOT allow this section to modify the site's structure/design.
+
+MEDIA:
+
+Implement basic secure image management:
+- upload
+- view
+- replace
+- delete/archive
+- associate with people/projects/news
+
+Validate file types and sizes.
+Accept appropriate image formats only.
+Use safe filenames/storage handling.
+Do not expose server filesystem paths.
+Do not allow dangerous arbitrary file uploads.
+
+CONTENT SAFETY:
+
+NEVER invent:
+- people
+- publications
+- awards
+- grants
+- funding
+- collaborators
+- research findings
+- news
+- academic URLs
+- contact information
+
+Missing information should remain empty/manageable from the admin panel.
+
+PUBLIC SITE:
+
+Keep the existing public website intact.
+
+If database-backed content is connected to public pages, preserve the existing design and layout.
+
+Do not remove verified content.
+
+SECURITY:
+
+Protect every admin API endpoint server-side.
+
+A user must not be able to bypass authentication by directly calling an API.
+
+Handle:
+- unauthorized
+- forbidden
+- not found
+- validation errors
+- upload errors
+- database errors
+- expired sessions
+
+CREDIT/TOKEN EFFICIENCY:
+
+This is important.
+
+Spend credits primarily on CODE, not explanations.
+
+Do not repeatedly describe the plan.
+Do not perform unnecessary exploration.
+Do not generate long documentation.
+Do not install unnecessary packages.
+Do not redesign unrelated files.
+Inspect only files needed for this task.
+
+Make the implementation first, then validate it.
+
+VALIDATION:
+
+Run:
+- TypeScript/typecheck
+- production build
+- git diff --check
+- authentication tests
+- unauthorized admin-route tests
+- CRUD tests
+- upload validation
+- public-route smoke tests
+
+Verify:
+- all existing public routes still work
+- footer 3-click trigger works
+- login works
+- logout works
+- dashboard is protected
+- admin APIs are protected
+- direct /admin access is blocked when unauthenticated
+- CRUD works
+- media upload/replacement/deletion works
+- mobile/public navigation remains functional
+- no runtime errors
+
+Do NOT deploy.
+Do NOT push.
+Do NOT commit.
+
+FINAL RESPONSE MUST BE SHORT:
+
+STATUS:
+Complete / Partial / Blocked
+
+ADMIN:
+What was implemented.
+
+AUTH:
+Authentication/security status.
+
+DATABASE:
+Models created.
+
+MEDIA:
+Upload/management status.
+
+PUBLIC SITE:
+Whether existing routes remain functional.
+
+VALIDATION:
+Typecheck:
+Build:
+Admin:
+Public routes:
+
+FILES CHANGED:
+List files only.
+
+REMAINING:
+Only unfinished items.
+
+STOP after the report.
+
+Do NOT start Phase 10.

@@ -14,3 +14,9 @@ The API zod generator appends a wildcard export for generated types, which confl
 **Why:** Regenerating the OpenAPI clients can reintroduce a TypeScript duplicate-export error even when the API itself is valid.
 
 **How to apply:** After codegen, keep the package entrypoint exporting generated runtime validators plus an explicit list of non-conflicting type names; run workspace library typechecking before changing API consumers.
+
+The admin browser client uses credentialed requests, so the API must answer CORS preflights with an echoed origin and `Access-Control-Allow-Credentials: true`; wildcard CORS can surface as a generic browser “Failed to fetch.”
+
+**Why:** JSON login is a preflighted POST, and browsers reject credentialed requests when the server responds with `Access-Control-Allow-Origin: *`.
+
+**How to apply:** Preserve credentialed CORS handling when editing the API bootstrap, and keep trusted-origin checks on state-changing admin routes.

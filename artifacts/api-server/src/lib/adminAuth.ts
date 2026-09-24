@@ -118,7 +118,14 @@ export const requireSameOrigin: RequestHandler = (req, res, next) => {
   const origin = req.get("Origin");
   if (origin) {
     try {
-      if (new URL(origin).host !== req.get("Host")) {
+      const originHost = new URL(origin).host;
+      const configuredHosts = [
+        process.env.REPLIT_DEV_DOMAIN,
+        ...(process.env.REPLIT_DOMAINS ?? "").split(","),
+      ]
+        .filter(Boolean)
+        .flatMap((host) => [host!.replace(/^https?:\/\//, "").replace(/\/$/, "")]);
+      if (originHost !== req.get("Host") && !configuredHosts.includes(originHost)) {
         res.status(403).json({ error: "Forbidden" });
         return;
       }

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Check, LogOut, Pencil, Plus, Upload, X } from "lucide-react";
+import { ArrowLeft, Check, Eye, EyeOff, LogOut, Pencil, Plus, Upload, X } from "lucide-react";
 import { useLocation } from "wouter";
 
 type RecordValue = Record<string, unknown>;
@@ -131,11 +131,16 @@ const blankRecord = (resource: string): RecordValue =>
   Object.fromEntries(resourceConfig[resource].fields.map((field) => [field.key, defaultValue(field)]));
 
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`/api${path}`, {
-    credentials: "include",
-    ...init,
-    headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) },
-  });
+  let response: Response;
+  try {
+    response = await fetch(`/api${path}`, {
+      credentials: "include",
+      ...init,
+      headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) },
+    });
+  } catch {
+    throw new Error("Unable to reach the admin server. Please try again in a moment.");
+  }
   const body = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(typeof body.error === "string" ? body.error : "Request failed");
   return body as T;
@@ -144,6 +149,7 @@ async function api<T>(path: string, init?: RequestInit): Promise<T> {
 export function AdminLoginPanel({ onClose, onAuthenticated }: { onClose: () => void; onAuthenticated: () => void }) {
   const [email, setEmail] = useState("admin@p3healthlab.local");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const submit = async (event: React.FormEvent) => {
@@ -164,7 +170,7 @@ export function AdminLoginPanel({ onClose, onAuthenticated }: { onClose: () => v
       <div className="admin-card-heading"><div><span className="eyebrow">Restricted access</span><h2 id="admin-login-title">Lab administration</h2></div><button type="button" className="admin-icon-button" onClick={onClose} aria-label="Close admin login"><X size={18} /></button></div>
       <p>Sign in to manage verified lab records.</p>
       <label className="admin-field"><span>Email</span><input type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} required /></label>
-      <label className="admin-field"><span>Password</span><input type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required /></label>
+      <div className="admin-field admin-password-field"><span>Password</span><div className="admin-password-control"><input type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required /><button type="button" className="admin-password-toggle" onClick={() => setShowPassword((visible) => !visible)} aria-label={showPassword ? "Hide password" : "Show password"} aria-pressed={showPassword}>{showPassword ? <EyeOff size={16} /> : <Eye size={16} />}</button></div></div>
       {error && <p className="admin-error" role="alert">{error}</p>}
       <button className="button-primary admin-submit" type="submit" disabled={busy}>{busy ? "Signing in…" : "Sign in"}</button>
     </form>
