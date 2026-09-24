@@ -119,6 +119,8 @@ const resourceConfig: Record<string, { label: string; labelField: string; fields
   },
 };
 
+const nullableFieldKeys = new Set(["linkedinUrl", "photoMediaId", "imageMediaId", "date", "labEmail", "associatedType", "associatedId"]);
+
 const defaultValue = (field: Field): unknown => {
   if (field.type === "checkbox") return false;
   if (field.type === "number") return 0;
@@ -223,7 +225,7 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
       const body: RecordValue = { ...draft };
       for (const field of fields) {
         if (field.type === "json" && typeof body[field.key] === "string") body[field.key] = JSON.parse(body[field.key] as string);
-        if (field.type === "number" && body[field.key] === "") body[field.key] = null;
+        if (nullableFieldKeys.has(field.key) && (body[field.key] === "" || body[field.key] === 0)) body[field.key] = null;
       }
       const id = typeof draft.id === "number" ? `/${draft.id}` : "";
       await api(`/admin/content/${resource}${id}`, { method: id ? "PATCH" : "POST", body: JSON.stringify(body) });
