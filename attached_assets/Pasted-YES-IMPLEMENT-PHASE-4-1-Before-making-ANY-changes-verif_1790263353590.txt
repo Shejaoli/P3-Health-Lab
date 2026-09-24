@@ -1,0 +1,141 @@
+YES — IMPLEMENT PHASE 4.1.
+
+Before making ANY changes, verify that Phase 3.3 was actually completed successfully.
+
+PHASE 3.3 VERIFICATION FIRST
+1. Check git history and confirm the Phase 3 work/commit exists on the phase3-projects branch or current branch.
+2. Verify /humekaneza is the rebuilt restrained academic page, not the old poster/animation version.
+3. Verify the HumekaNeza page contains:
+   - Breathe Easy hero
+   - lab relationship line
+   - Intro
+   - Learn · Measure · Communicate · Act
+   - all 8 Featured Initiatives
+   - Why HumekaNeza Matters
+   - Our Vision
+   - Get Involved
+4. Verify the 8 initiative links point to the correct /projects#slug anchors.
+5. Verify homepage Featured Projects link to the correct project anchors.
+6. Verify Research → Classroom Clean-Air Interventions links to:
+   /projects#classroom-clean-air-interventions
+7. Verify /projects and /humekaneza at approximately 1280px and 390px with no horizontal overflow.
+8. Confirm the footer-logo triple-click/admin entry code was not changed.
+9. Confirm admin/auth/database/API files were not changed by Phase 3.
+10. If Phase 3.3 is incomplete, report exactly what failed BEFORE implementing Phase 4.1.
+
+PHASE 4.1 — PEOPLE PAGE
+
+Only work on the People page. Do not redesign other pages.
+
+Scope for this part:
+- Principal Investigator
+- Postdoctoral Fellows
+- PhD Students – Western University
+
+Use the verified People content below. Do NOT invent missing information.
+
+PRINCIPAL INVESTIGATOR
+
+Dr. Egide Kalisa
+Role: Assistant Professor; Director, HELTH/P3 Health Lab
+Institution: Western University
+Research Focus: Environmental health; air pollution; climate change; children’s health; environmental justice; One Health; exposure science
+Status: Current
+
+POSTDOCTORAL FELLOW
+
+Dr. Md Pervez Kabir
+Role: Postdoctoral Fellow
+Institution: Western University
+Research Focus: Do not invent. Omit the field until verified.
+Status: Current
+
+PHD STUDENTS – WESTERN UNIVERSITY
+
+Allison Pert
+Role: PhD Student
+Institution: Western University
+Research Focus: Do not invent. Omit until verified.
+Status: Current
+
+Augustine Omodieke
+Role: PhD Student
+Institution: Western University
+Research Focus: Environmental epidemiology; air pollution; health economics
+Status: Current
+
+Francis Acquah
+Role: PhD Student
+Institution: Western University
+Research Focus: Do not invent. Omit until verified.
+Status: Current
+
+Daniel Twum
+Role: PhD Student
+Institution: Western University
+Research Focus: Do not invent. Omit until verified.
+Status: Current
+
+Abdul Rasheed Rasheed
+Role: PhD Student
+Institution: Western University
+Research Focus: Do not invent. Omit until verified.
+Status: Current
+
+DESIGN REQUIREMENTS
+
+- Keep the restrained academic style already established in Phases 1–3.
+- Simple professional grid/list.
+- Consistent image dimensions and cropping.
+- No social-media-style cards.
+- No gradients, glows, excessive shadows, or decorative graphics.
+- Use the existing site typography, spacing, and muted accent.
+- Do not create fake photos, fake LinkedIn links, fake research interests, supervisors, programs, or other missing data.
+- If verified photos already exist in the repository, use them.
+- If photos are unavailable, use a clean neutral placeholder rather than inventing an image.
+- Do not add individual profile pages unless the existing architecture already supports them and they are necessary.
+- Keep mobile responsive with no horizontal overflow.
+
+IMPORTANT:
+- Do not modify Home, Research, Projects, HumekaNeza, Teaching, About, Contact, News, Header, Footer, admin/auth/database, or API code.
+- Do not modify the footer-logo triple-click.
+- Do not deploy.
+- Do not change Git configuration.
+- Work on a new branch named phase4-people-1.
+- Do not touch main.
+- Make the People data-driven so later Phase 4 parts can add the remaining categories without restructuring the page.
+- Do not invent content.
+
+VALIDATION
+
+After implementation:
+1. Typecheck.
+2. Build the P3 web app.
+3. Render /people at approximately 1280px and 390px.
+4. Confirm no horizontal overflow.
+5. Confirm exactly the requested people are displayed in these three sections.
+6. Confirm missing research-focus fields are omitted rather than filled with invented text.
+7. Confirm existing Phase 3 pages still work.
+8. Confirm protected files and admin/auth/database code remain untouched.
+9. Check git diff carefully for unrelated changes.
+10. Commit only the Phase 4.1 changes on branch phase4-people-1.
+
+FINAL REPORT ONLY:
+
+STATUS: PASS / BLOCKED
+
+PHASE 3.3 VERIFICATION:
+PASS / BLOCKED
+- List any failed verification briefly.
+
+CHANGED:
+- ...
+
+NOT CHANGED:
+- ...
+
+VALIDATION:
+- ...
+
+REMAINING FOR PHASE 4.2:
+- ...
