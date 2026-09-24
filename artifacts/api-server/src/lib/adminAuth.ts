@@ -47,9 +47,16 @@ export async function ensureBootstrapAdmin(): Promise<AdminUser | null> {
   const email = getAdminEmail();
   const existing = await db.select().from(adminUsersTable).where(eq(adminUsersTable.email, email)).limit(1);
   if (existing[0]) return existing[0];
+  const [anyAdmin] = await db.select({ id: adminUsersTable.id }).from(adminUsersTable).limit(1);
+  if (anyAdmin) return null;
   const passwordHash = await hashPassword(password);
-  const [created] = await db.insert(adminUsersTable).values({ email, passwordHash }).returning();
-  return created;
+  const [created] = await db.insert(adminUsersTable)
+    .values({ email, passwordHash })
+    .onConflictDoNothing({ target: adminUsersTable.email })
+    .returning();
+  if (created) return created;
+  const [createdConcurrently] = await db.select().from(adminUsersTable).where(eq(adminUsersTable.email, email)).limit(1);
+  return createdConcurrently ?? null;
 }
 
 export function setAdminSessionCookie(res: Response, token: string, maxAgeMs = SESSION_TTL_MS): void {
