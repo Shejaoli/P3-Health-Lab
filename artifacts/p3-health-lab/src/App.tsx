@@ -85,19 +85,22 @@ const peopleCategories = [
 ];
 
 const courses = {
-  '2024–25': [
-    { code: 'GH 2101', title: 'Foundations of Global Health', text: 'An introduction to the systems, histories, and shared responsibilities that shape health around the world.', term: 'Fall · Undergraduate' },
-    { code: 'GH 3310', title: 'One Health in Action', text: 'Case-based learning across human, animal, and environmental health with practitioners and communities.', term: 'Winter · Undergraduate' },
-    { code: 'GH 4402', title: 'International Field School', text: 'A field-based course in listening, observation, and responsible community-engaged practice.', term: 'Spring · Field course' },
+  '2026–2027': [
+    { code: 'GHS 9100', title: 'Foundations of Global Health' },
+    { code: 'GHS 9112', title: 'International Field School' },
   ],
-  '2023–24': [
-    { code: 'GH 2101', title: 'Foundations of Global Health', text: 'How health is made — and unmade — by policy, place, power, and collective action.', term: 'Fall · Undergraduate' },
-    { code: 'GH 2204', title: 'Issues in Global Health', text: 'Seminars on the questions that matter now, from climate mobility to pandemic preparedness.', term: 'Winter · Undergraduate' },
+  '2025–2026': [
+    { code: 'GHS 9100', title: 'Foundations of Global Health' },
+    { code: 'OH 3300A', title: 'Foundations in One Health' },
+    { code: 'OH 3600', title: 'One Health in Action' },
+    { code: 'GHS 9112', title: 'International Field School' },
+    { code: 'MPH 9015', title: 'Issues in Global Health' },
   ],
-  '2022–23': [
-    { code: 'GH 2204', title: 'Issues in Global Health', text: 'A guided inquiry into urgent global health challenges and the evidence behind responses.', term: 'Winter · Undergraduate' },
+  '2024–2025': [
+    { code: 'GHS 9100', title: 'Foundations of Global Health' },
+    { code: 'OH 3600', title: 'One Health in Action' },
   ],
-};
+} as const;
 
 function Shell({ children }: { children: ReactNode }) {
   const [location] = useLocation();
@@ -136,9 +139,9 @@ function Shell({ children }: { children: ReactNode }) {
       href: '/teaching',
       children: [
         ['Current courses', '/teaching'],
-        ['2024–25', '/teaching#2024-25'],
-        ['2023–24', '/teaching#2023-24'],
-        ['2022–23', '/teaching#2022-23'],
+        ['2026–2027', '/teaching#2026-2027'],
+        ['2025–2026', '/teaching#2025-2026'],
+        ['2024–2025', '/teaching#2024-2025'],
       ],
     },
     {
@@ -444,8 +447,8 @@ function Publications() {
 }
 
 function Teaching() {
-  const [year, setYear] = useState<keyof typeof courses>('2024–25');
-  return <><PageHero eyebrow="Teaching / 04" title={<>Make room for <em>better questions.</em></>} text="Teaching at P3 is an invitation to notice systems, question assumptions, and practice global health with humility." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Courses by academic year</span><h2>Learning that leaves the classroom.</h2></div><p>Courses connect core concepts to current questions, field experience, and the people whose lives are shaped by health systems.</p></div><div className="year-tabs">{(Object.keys(courses) as Array<keyof typeof courses>).map((item) => <button className={`year-tab ${year === item ? 'active' : ''}`} key={item} onClick={() => setYear(item)} data-testid={`button-year-${item}`}>{item}</button>)}</div><div className="course-grid"><div>{courses[year].map((course, index) => <article className="course-card" key={course.title} data-reveal="up" style={{ transitionDelay: `${index * 80}ms` }} data-testid={`card-course-${index}`}><span className="course-code">{course.code}</span><div><h3>{course.title}</h3><p>{course.text}</p></div><span className="course-term">{course.term}</span></article>)}</div><aside className="side-panel" data-reveal="scale"><span className="eyebrow">Teaching note</span><h3>Global health is not a spectator sport.</h3><p>We learn by asking who is missing, what counts as evidence, and what we owe the people who make knowledge possible.</p><Link href="/get-involved" className="button-primary" data-testid="link-teaching-involved">Talk with us <ArrowUpRight size={14} aria-hidden="true" /></Link></aside></div></div></section><section className="quote-section" data-reveal="up"><div className="container-wide"><blockquote>“The best classroom is one that sends you back into the world more attentive than before.”</blockquote><cite>P3 teaching practice</cite></div></section></>;
+  const [year, setYear] = useState<keyof typeof courses>('2026–2027');
+  return <><PageHero eyebrow="Teaching / 04" title={<>Make room for <em>better questions.</em></>} text="Teaching at P3 is an invitation to notice systems, question assumptions, and practice global health with humility." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Courses by academic year</span><h2>Learning that leaves the classroom.</h2></div><p>Only course codes and titles confirmed in the available source material are shown.</p></div><div className="year-tabs">{(Object.keys(courses) as Array<keyof typeof courses>).map((item) => <button className={`year-tab ${year === item ? 'active' : ''}`} key={item} onClick={() => setYear(item)} data-testid={`button-year-${item}`}>{item}</button>)}</div><div className="course-grid"><div>{courses[year].map((course, index) => <article className="course-card" key={course.code} data-reveal="up" style={{ transitionDelay: `${index * 80}ms` }} data-testid={`card-course-${index}`}><span className="course-code">{course.code}</span><div><h3>{course.title}</h3></div><span className="course-term">Verified course</span></article>)}</div><aside className="side-panel" data-reveal="scale"><span className="eyebrow">Teaching record</span><h3>Teaching information, kept precise.</h3><p>Program, term, role, and supervision details are not shown until they are verified in the source material.</p></aside></div></div></section><section className="quote-section" data-reveal="up"><div className="container-wide"><blockquote>“The best classroom is one that sends you back into the world more attentive than before.”</blockquote><cite>P3 teaching practice</cite></div></section></>;
 }
 
 function Humekaneza() {
