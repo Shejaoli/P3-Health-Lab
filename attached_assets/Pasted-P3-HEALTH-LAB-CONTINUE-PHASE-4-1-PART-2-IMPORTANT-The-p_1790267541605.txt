@@ -1,0 +1,77 @@
+P3 HEALTH LAB — CONTINUE PHASE 4.1 PART 2
+
+IMPORTANT:
+The previous Replit session ran out of free quota after making the People-page changes. It did NOT finish validation or provide a final report.
+
+DO NOT REDO THE WORK.
+First inspect the CURRENT repository/code and determine exactly what was already changed.
+
+VERIFY FIRST:
+1. Confirm the current branch and working tree.
+2. Inspect the People page/data.
+3. Verify Phase 4.1 Part 1 records are present:
+   - Dr. Egide Kalisa
+   - Dr. Md Pervez Kabir
+   - Allison Pert
+   - Augustine Omodieke
+   - Francis Acquah
+   - Daniel Twum
+   - Abdul Rasheed Rasheed
+4. Verify Phase 4.1 Part 2 records are present:
+   MSc:
+   - Zoha Irfan
+   - Oluwaseun Bajulaye
+   - Farhana Ramiza
+   - Ignatius Atuguba
+
+   Global Health MSc Interns:
+   - Jiaxuan Zhang
+   - Arshia Mohammadi-Sanjani
+   - Ihsan Khalifa
+   - Harini Kumaraverl
+   - Yuheng Lu
+   - Haiyan Li
+
+   Research Assistants:
+   - Ruiming Han
+   - Natasha Fortin
+   - Sydney Lessard
+   - Jiaqi Bi
+   - Shaikh Sumeet Jamil
+   - Sharika Jalali
+   - Innocent Twagirayezu
+
+If the records are already present, DO NOT rewrite them.
+
+If something is missing or incorrect, fix only the missing/corrupted People-page work using the previously supplied verified data.
+
+THEN VALIDATE:
+- TypeScript/typecheck
+- P3 production build
+- /people HTTP 200
+- Desktop ~1280px
+- Mobile ~390px
+- No horizontal overflow
+- All 24 Part 1 + Part 2 people records present
+- No invented photos, research interests, universities, links, supervisors, dates, or other information
+- Phase 3.3 /projects and /humekaneza still work
+- Admin/auth/API files unchanged
+- Header/footer and footer-logo triple-click unchanged
+
+Do NOT change:
+Home, Research, Projects, HumekaNeza, Teaching, About, Contact, News, Header, Footer, Admin/Auth/API, database, Git configuration, or deployment.
+
+Do NOT push to GitHub. I will push manually.
+
+If validation fails because of the Replit quota/environment, do not claim PASS. Report exactly what was and was not verified.
+
+FINAL REPORT ONLY:
+
+STATUS: PASS / BLOCKED
+PREVIOUS WORK FOUND:
+PART 1 VERIFICATION:
+PART 2 VERIFICATION:
+CHANGED:
+VALIDATION:
+BLOCKERS:
+NEXT: Phase 4.1 Part 3
