@@ -1,0 +1,331 @@
+P3 HEALTH LAB — PHASE 3.3
+HUMEKANEZA + CROSS-PAGE LINKS + FINAL QA
+
+CONTEXT
+Phase 3.1 and 3.2 are PASS.
+Projects 1–8 are now implemented on `/projects`.
+
+Continue on branch:
+`phase3-projects`
+
+Do NOT modify main.
+
+APP:
+`artifacts/p3-health-lab`
+
+SCOPE
+This is the final part of Phase 3.
+
+Work ONLY on:
+1. `/humekaneza`
+2. Homepage project links
+3. Research → Classroom Clean-Air project link
+4. Projects → HumekaNeza link
+5. Final Phase 3 QA
+
+DO NOT TOUCH:
+- admin/auth/database
+- `src/admin`
+- `artifacts/api-server`
+- footer-logo triple-click
+- People
+- Publications
+- Teaching
+- About
+- Contact
+- Header/footer unless absolutely required for an existing link
+- Projects 1–8 content unless a link needs correction
+
+Do not deploy.
+Do not change Git configuration.
+Do not invent information.
+
+==================================================
+A. HUMEKANEZA PAGE
+==================================================
+
+Rebuild `/humekaneza` using the existing restrained academic style.
+
+Remove any generated/invented content such as:
+- poster-style "Breathe Well / Humeka Neza" tile
+- "Breathe easy, together"
+- "Join the work"
+- other invented slogans/copy
+
+Do NOT use a large decorative graphic or startup-style presentation.
+
+--------------------------------------------------
+HERO
+--------------------------------------------------
+
+Eyebrow:
+`HumekaNeza`
+
+Title:
+`Breathe Easy`
+
+Text:
+`Empowering children and communities to understand, monitor, and improve the air they breathe.`
+
+Immediately below:
+
+`HumekaNeza is an initiative of P3 Health Lab, led by Dr. Egide Kalisa at Western University.`
+
+--------------------------------------------------
+INTRO
+--------------------------------------------------
+
+Use these two paragraphs exactly:
+
+"HumekaNeza is a child- and youth-centred environmental-health initiative founded by Dr. Egide Kalisa. It began through school-based air-quality education in Rwanda and has grown into a broader platform connecting environmental-health education, citizen science, behaviour change, youth leadership, community engagement, and practical interventions."
+
+"The initiative helps children understand environmental risks, participate in hands-on science, communicate what they learn, and take practical action to create healthier schools, homes, and communities."
+
+--------------------------------------------------
+OUR APPROACH
+--------------------------------------------------
+
+Heading:
+`Learn · Measure · Communicate · Act`
+
+Intro:
+`HumekaNeza combines environmental-health education with hands-on research and community action.`
+
+Use four plain sections/list items:
+
+LEARN
+"Children learn about air pollution, climate change, chemicals, environmental exposures, and their effects on health through interactive workshops, demonstrations, games, and school-based learning."
+
+MEASURE
+"Students participate in citizen science using low-cost sensors, passive and active sampling, and other environmental-monitoring tools to better understand the environments around them."
+
+COMMUNICATE
+"Children translate science into accessible messages through posters, artwork, storytelling, presentations, family discussions, and youth-led knowledge-translation activities."
+
+ACT
+"HumekaNeza supports practical actions such as reducing vehicle idling, improving classroom air quality, identifying cleaner routes to school, using air-quality information to guide activities, and promoting healthier school environments."
+
+--------------------------------------------------
+FEATURED INITIATIVES
+--------------------------------------------------
+
+Show a simple linked list of all 8 project titles.
+
+Use these exact routes:
+
+HumekaNeza School Air-Quality Campaign
+→ `/projects#school-air-quality-campaign`
+
+I Am an Air Quality Scientist
+→ `/projects#i-am-an-air-quality-scientist`
+
+One Sensor Per School
+→ `/projects#one-sensor-per-school`
+
+Classroom Clean-Air Interventions
+→ `/projects#classroom-clean-air-interventions`
+
+Clean Air School Zones
+→ `/projects#clean-air-school-zones`
+
+Shared Skies
+→ `/projects#shared-skies`
+
+Making the Invisible Visible
+→ `/projects#making-the-invisible-visible`
+
+Equitable Air-Quality Communication & Preparedness
+→ `/projects#equitable-air-quality-communication`
+
+Do NOT repeat project descriptions here.
+
+--------------------------------------------------
+WHY HUMEKANEZA MATTERS
+--------------------------------------------------
+
+Use exactly:
+
+"Children are especially vulnerable to environmental exposures, but they can also be powerful participants in environmental-health solutions."
+
+"HumekaNeza gives children and youth the knowledge, tools, and opportunities to understand their environment, participate in science, communicate with their families and communities, and contribute to decisions that affect their health."
+
+"By connecting education, citizen science, intervention, behaviour change, and community engagement, HumekaNeza turns environmental-health knowledge into practical action."
+
+--------------------------------------------------
+OUR VISION
+--------------------------------------------------
+
+Heading:
+`Every Child Should Understand the Environment That Shapes Their Health`
+
+Text:
+
+"HumekaNeza aims to build a generation of environmentally informed young people who can understand environmental risks, interpret evidence, communicate confidently, and participate meaningfully in creating healthier and more equitable communities."
+
+Final line:
+
+`Learn. Measure. Communicate. Act. Breathe Easy.`
+
+--------------------------------------------------
+GET INVOLVED
+--------------------------------------------------
+
+Text:
+
+"HumekaNeza welcomes collaboration with schools, teachers, students, families, community organizations, researchers, government agencies, and environmental-health partners."
+
+Links:
+
+`Partner With HumekaNeza`
+→ `mailto:p3healthlab@uwo.ca`
+
+`Contact P3 Health Lab`
+→ `/contact`
+
+==================================================
+B. CROSS-PAGE LINKS
+==================================================
+
+Correct existing links only.
+
+1. Projects page bottom:
+`Learn more about HumekaNeza`
+→ `/humekaneza`
+
+2. HumekaNeza Featured Initiatives:
+→ correct `/projects#<slug>` anchors listed above.
+
+3. Research page:
+The "Classroom Clean-Air Interventions" related link must point to:
+
+`/projects#classroom-clean-air-interventions`
+
+4. Homepage Featured Projects:
+Existing featured project links should point to their matching `/projects#<slug>` anchors.
+
+Do NOT create fake project links or change unrelated navigation.
+
+==================================================
+C. DESIGN
+==================================================
+
+Use the same restrained academic styling already established on Projects.
+
+Prefer:
+- off-white background
+- charcoal text
+- muted teal accent
+- ruled lists
+- subtle borders
+- generous whitespace
+- normal academic typography
+
+Avoid:
+- gradients
+- glowing effects
+- giant rounded cards
+- excessive shadows
+- decorative poster tiles
+- startup/SaaS styling
+- heavy animation
+
+Do not modify the global design system.
+
+==================================================
+D. RESPONSIVE QA
+==================================================
+
+Check `/humekaneza` at approximately:
+
+1280px desktop
+390px mobile
+
+Verify:
+- no horizontal overflow
+- readable paragraphs
+- lists wrap correctly
+- links remain usable
+- spacing is consistent
+- hero remains restrained
+
+==================================================
+E. HASH-LINK QA
+==================================================
+
+Test project links from:
+
+1. Homepage
+2. Research page
+3. HumekaNeza page
+
+Each must:
+- navigate to `/projects#<slug>`
+- land on the correct project
+- position the project below the sticky header
+- work on desktop and mobile
+
+Verify all 8 project anchors.
+
+==================================================
+F. ADMIN SAFETY CHECK
+==================================================
+
+Confirm the existing footer-logo triple-click admin entry was not changed.
+
+Do not modify admin code.
+
+==================================================
+G. VALIDATION
+==================================================
+
+Run P3 typecheck and production build if available.
+
+Ignore unrelated workspace errors.
+
+Verify:
+- `/humekaneza` loads
+- all required sections exist
+- all 8 project links work
+- Projects → HumekaNeza works
+- Research → Classroom project works
+- Homepage project links work
+- desktop/mobile have no horizontal overflow
+- Projects 1–8 remain intact
+- no invented content was added
+- no admin/backend files changed
+
+==================================================
+GIT
+==================================================
+
+Stay on `phase3-projects`.
+
+Do not modify main.
+Do not deploy.
+
+If committing is part of the existing workflow, commit only this work with:
+
+`Complete HumekaNeza and Phase 3 links`
+
+Push only `phase3-projects` if authentication is available.
+If push is unavailable, do NOT keep retrying. Report it.
+
+==================================================
+FINAL REPORT
+==================================================
+
+Return ONLY:
+
+STATUS: PASS / BLOCKED
+
+CHANGED:
+- ...
+
+NOT CHANGED:
+- ...
+
+VALIDATION:
+- ...
+
+PHASE 3 REMAINING ISSUES:
+- ...
