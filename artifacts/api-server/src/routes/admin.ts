@@ -371,6 +371,57 @@ router.post("/admin/media/verify-upload", async (req, res): Promise<void> => {
   }
 });
 
+router.patch("/admin/people/:id/photo", async (req, res): Promise<void> => {
+  const id = parseId(req);
+  const parsed = z.object({ photoMediaId: z.union([z.number().int().positive(), z.null()]) }).safeParse(req.body);
+  if (!id || !parsed.success) {
+    res.status(400).json({ error: "A valid People record and photo ID are required." });
+    return;
+  }
+
+  try {
+    const [person] = await db.select().from(peopleTable).where(eq(peopleTable.id, id)).limit(1);
+    if (!person) {
+      res.status(404).json({ error: "People record not found." });
+      return;
+    }
+
+    if (parsed.data.photoMediaId !== null) {
+      const [media] = await db.select().from(mediaTable).where(eq(mediaTable.id, parsed.data.photoMediaId)).limit(1);
+      if (!media || media.archived || media.contentType.startsWith("image/") === false) {
+        res.status(404).json({ error: "Photo record not found." });
+        return;
+      }
+    }
+
+    const updated = await db.transaction(async (tx) => {
+      const previousPhotoMediaId = person.photoMediaId;
+      if (parsed.data.photoMediaId !== null) {
+        await tx.update(mediaTable)
+          .set({ associatedType: "people", associatedId: id, published: true, archived: false, updatedAt: new Date() })
+          .where(eq(mediaTable.id, parsed.data.photoMediaId));
+      }
+
+      const [updatedPerson] = await tx.update(peopleTable)
+        .set({ photoMediaId: parsed.data.photoMediaId, updatedAt: new Date() })
+        .where(eq(peopleTable.id, id))
+        .returning();
+
+      if (previousPhotoMediaId && previousPhotoMediaId !== parsed.data.photoMediaId) {
+        await tx.update(mediaTable)
+          .set({ published: false, archived: true, updatedAt: new Date() })
+          .where(eq(mediaTable.id, previousPhotoMediaId));
+      }
+      return updatedPerson;
+    });
+
+    res.json({ person: updated });
+  } catch (error) {
+    req.log.error({ err: error, id }, "People photo association failed");
+    res.status(500).json({ error: "Unable to update the People photo." });
+  }
+});
+
 router.get("/storage/objects/*path", requireAdmin, requireSameOrigin, async (req, res): Promise<void> => {
   const raw = req.params.path;
   const path = `/objects/${Array.isArray(raw) ? raw.join("/") : raw}`;
