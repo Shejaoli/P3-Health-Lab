@@ -858,6 +858,14 @@ button { cursor: pointer; }
   letter-spacing: -.03em;
 }
 
+.project-subtitle {
+  max-width: 720px;
+  margin: 12px 0 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .92rem;
+  line-height: 1.55;
+}
+
 .project-location {
   flex: 0 0 auto;
   color: hsl(var(--primary));
@@ -920,6 +928,17 @@ button { cursor: pointer; }
   height: 1px;
   background: hsl(var(--primary));
   content: '';
+}
+
+.project-process {
+  grid-column: 1 / -1;
+  margin: 2px 0 0 !important;
+  color: hsl(var(--primary)) !important;
+  font-family: var(--app-font-mono);
+  font-size: .75rem;
+  letter-spacing: .08em;
+  line-height: 1.6 !important;
+  word-spacing: .08em;
 }
 
 .project-closing {
