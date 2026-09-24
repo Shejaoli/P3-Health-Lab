@@ -93,18 +93,104 @@ const featuredProjects = [
   { title: 'One Sensor Per School', text: 'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools.' },
 ];
 
-const people = [
-  { initials: 'EK', name: 'Dr. Egide Kalisa', role: 'Principal Investigator · Director', institution: 'Assistant Professor · Western University', text: 'Director, P3 Health Lab / HELTH Lab.' },
-];
+type PersonRecord = {
+  name: string;
+  role: string;
+  institution?: string;
+  researchFocus?: string;
+  status?: string;
+};
 
-const peopleCategories = [
-  ['postdoctoral', 'Postdoctoral Fellows'],
-  ['phd', 'PhD Students'],
-  ['masters', 'MSc Students'],
-  ['undergraduate', 'Undergraduate Researchers'],
-  ['visiting', 'Visiting Researchers & Students'],
-  ['staff', 'Research Assistants & Staff'],
-  ['alumni', 'Alumni'],
+const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
+  {
+    id: 'principal-investigator',
+    title: 'Principal Investigator',
+    people: [
+      {
+        name: 'Dr. Egide Kalisa',
+        role: 'Assistant Professor; Director, HELTH/P3 Health Lab',
+        institution: 'Western University',
+        researchFocus: 'Environmental health; air pollution; climate change; children’s health; environmental justice; One Health; exposure science',
+        status: 'Current',
+      },
+    ],
+  },
+  {
+    id: 'postdoctoral',
+    title: 'Postdoctoral Fellows',
+    people: [
+      {
+        name: 'Dr. Md Pervez Kabir',
+        role: 'Postdoctoral Fellow',
+        institution: 'Western University',
+        status: 'Current',
+      },
+    ],
+  },
+  {
+    id: 'phd',
+    title: 'PhD Students — Western University',
+    people: [
+      { name: 'Allison Pert', role: 'PhD Student', institution: 'Western University', status: 'Current' },
+      {
+        name: 'Augustine Omodieke',
+        role: 'PhD Student',
+        institution: 'Western University',
+        researchFocus: 'Environmental epidemiology; air pollution; health economics',
+        status: 'Current',
+      },
+      { name: 'Francis Acquah', role: 'PhD Student', institution: 'Western University', status: 'Current' },
+      { name: 'Daniel Twum', role: 'PhD Student', institution: 'Western University', status: 'Current' },
+      { name: 'Abdul Rasheed Rasheed', role: 'PhD Student', institution: 'Western University', status: 'Current' },
+    ],
+  },
+  {
+    id: 'masters',
+    title: 'MSc Students — Western University',
+    people: [
+      {
+        name: 'Zoha Irfan',
+        role: 'MSc Student',
+        institution: 'Western University',
+        researchFocus: 'PAHs; air pollution; exposure science',
+        status: 'Current',
+      },
+      { name: 'Oluwaseun Bajulaye', role: 'MSc Student', institution: 'Western University', status: 'Current' },
+      { name: 'Farhana Ramiza', role: 'MSc Student', institution: 'Western University', status: 'Current' },
+      { name: 'Ignatius Atuguba', role: 'MSc Student', institution: 'Western University', status: 'Current' },
+    ],
+  },
+  {
+    id: 'global-health-interns',
+    title: 'Global Health MSc Interns',
+    people: [
+      { name: 'Jiaxuan Zhang', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
+      { name: 'Arshia Mohammadi-Sanjani', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
+      { name: 'Ihsan Khalifa', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
+      { name: 'Harini Kumaraverl', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
+      { name: 'Yuheng Lu', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
+      { name: 'Haiyan Li', role: 'MSc Global Health Intern', institution: 'Western University', status: 'Current / Former' },
+    ],
+  },
+  {
+    id: 'staff',
+    title: 'Research Assistants',
+    people: [
+      {
+        name: 'Ruiming Han',
+        role: 'Research Assistant, MSc',
+        institution: 'Western University',
+        researchFocus: 'Air pollution; PAHs; metals; exposure analysis',
+        status: 'Current',
+      },
+      { name: 'Natasha Fortin', role: 'Research Assistant, MSc', institution: 'Western University', status: 'Current' },
+      { name: 'Sydney Lessard', role: 'Research Assistant, MSc', institution: 'Western University', status: 'Current' },
+      { name: 'Jiaqi Bi', role: 'Research Assistant, MSc', institution: 'Western University', status: 'Current' },
+      { name: 'Shaikh Sumeet Jamil', role: 'Research Assistant', institution: 'Western University', status: 'Current' },
+      { name: 'Sharika Jalali', role: 'Research Assistant', institution: 'Western University', status: 'Current' },
+      { name: 'Innocent Twagirayezu', role: 'Research Assistant, PhD', institution: 'Western University', status: 'Current' },
+    ],
+  },
 ];
 
 const courses = {
@@ -453,7 +539,65 @@ function Projects() {
 }
 
 function People() {
-  return <><PageHero eyebrow="People / 02" title={<>The people behind the <em>work.</em></>} text="P3 Health Lab / HELTH Lab is directed by Dr. Egide Kalisa at Western University. Additional team profiles will be published as verified information becomes available." /><section className="section people-section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Current leadership</span><h2>A careful record of the lab team.</h2></div><p>Only confirmed team information is listed here. This page will grow without filling gaps with assumptions.</p></div><div className="people-grid people-grid-featured">{people.map((person, index) => <article className="person-card person-card-featured" key={person.name} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-person-${index}`}><div className="person-initial" aria-hidden="true">{person.initials}</div><div className="person-card-copy"><span className="eyebrow">Principal Investigator</span><h3>{person.name}</h3><span className="person-role">{person.role}</span><p className="person-institution">{person.institution}</p><p>{person.text}</p></div></article>)}</div></div></section><section className="section section-tinted people-categories" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Team categories</span><h2>Profiles will be added with care.</h2></div><p>Names, positions, and biographies are shown only when they have been verified for publication.</p></div><div className="team-category-list">{peopleCategories.map(([id, label], index) => <article className="team-category" id={id} key={id} data-testid={`category-people-${id}`}><span className="team-category-number">{String(index + 1).padStart(2, '0')}</span><h3>{label}</h3><span className="team-category-status">No verified profiles published yet.</span></article>)}</div></div></section><section className="contact-band" id="join" data-reveal="up"><div className="container-wide contact-grid"><div><span className="eyebrow">Join the lab</span><h2>Bring a question, not a template.</h2></div><Link href="/get-involved" className="button-primary" data-testid="link-people-join">Find your pathway <ArrowUpRight size={15} aria-hidden="true" /></Link></div></section></>;
+  return (
+    <>
+      <PageHero
+        eyebrow="People / 02"
+        title={<>The people behind the <em>work.</em></>}
+        text="P3 Health Lab / HELTH Lab is directed by Dr. Egide Kalisa at Western University. Current and former team members are listed with the roles and affiliations provided."
+      />
+      <section className="section people-section" data-reveal="up">
+        <div className="container-wide">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">People at P3 Health Lab</span>
+              <h2>A careful record of the lab team.</h2>
+            </div>
+            <p>Roles, affiliations, and research interests are included only where supplied.</p>
+          </div>
+          <div className="people-groups">
+            {peopleGroups.map((group) => (
+              <section className={`people-group ${group.id === 'principal-investigator' ? 'people-group-featured' : ''}`} id={group.id} key={group.id}>
+                <h2>{group.title}</h2>
+                <div className="people-record-grid">
+                  {group.people.map((person) => (
+                    <article className="person-record" key={person.name} data-testid={`card-person-${person.name.toLowerCase().replaceAll(' ', '-')}`}>
+                      <h3>{person.name}</h3>
+                      <dl className="person-record-details">
+                        <div>
+                          <dt>Role</dt>
+                          <dd>{person.role}</dd>
+                        </div>
+                        {person.institution && (
+                          <div>
+                            <dt>Institution</dt>
+                            <dd>{person.institution}</dd>
+                          </div>
+                        )}
+                        {person.researchFocus && (
+                          <div>
+                            <dt>Research focus</dt>
+                            <dd>{person.researchFocus}</dd>
+                          </div>
+                        )}
+                      </dl>
+                      {person.status && <p className="person-record-status">{person.status}</p>}
+                    </article>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="contact-band" id="join" data-reveal="up">
+        <div className="container-wide contact-grid">
+          <div><span className="eyebrow">Join the lab</span><h2>Bring a question, not a template.</h2></div>
+          <Link href="/get-involved" className="button-primary" data-testid="link-people-join">Find your pathway <ArrowUpRight size={15} aria-hidden="true" /></Link>
+        </div>
+      </section>
+    </>
+  );
 }
 
 function About() {
