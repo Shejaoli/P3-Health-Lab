@@ -163,8 +163,8 @@ function Shell({ children }: { children: ReactNode }) {
       href: '/get-involved',
       children: [
         ['Collaborate', '/get-involved'],
-        ['Join the lab', '/people#join'],
-        ['Students & trainees', '/people#trainees'],
+        ['Join the lab', '/get-involved#opportunities'],
+        ['Students & trainees', '/get-involved#opportunities'],
         ['Community partnerships', '/humekaneza#partnerships'],
         ['Contact', '/get-involved#contact'],
       ],
@@ -488,15 +488,14 @@ function Humekaneza() {
 }
 
 function GetInvolved() {
-  const pathways = [
-    ['01', 'Students', 'Find a supervisor, a project, or your first place to ask a better question.', 'Browse people'],
-    ['02', 'Researchers', 'Bring methods, questions, or a collaboration that benefits from a wider lens.', 'Start a conversation'],
-    ['03', 'Collaborators', 'Build something useful with us across institutions, disciplines, and borders.', 'Work together'],
-    ['04', 'Schools', 'Explore tools and learning experiences for healthier school environments.', 'Talk with the lab'],
-    ['05', 'Communities', 'Share what you notice. Help shape research that returns something of value.', 'Join HumekaNeza'],
+  const categories = [
+    ['01', 'PhD Students'],
+    ['02', 'MSc Students'],
+    ['03', 'Postdoctoral Fellows'],
+    ['04', 'Undergraduate Researchers'],
+    ['05', 'Visiting Researchers & Students'],
   ];
-  const [, setLocation] = useLocation();
-  return <><PageHero eyebrow="Get involved / 06" title={<>There is a place for <em>your question.</em></>} text="P3 Health Lab grows through generous collaboration. Choose the pathway that feels closest, or send us a note and we’ll find the right door." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Pathways</span><h2>Start where you are.</h2></div><p>No perfect pitch required. Curiosity, care, and a willingness to learn together are enough to begin.</p></div><div className="path-grid">{pathways.map(([number, title, text, cta], index) => <button className="path-card" key={title} onClick={() => title === 'Communities' ? setLocation('/humekaneza') : setLocation('/people')} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`button-pathway-${title.toLowerCase()}`}><div className="card-number"><span>{number}</span><ArrowUpRight size={16} aria-hidden="true" /></div><h3>{title}</h3><p>{text}</p><span className="card-meta">{cta}</span></button>)}</div></div></section><section className="contact-band" data-reveal="up"><div className="container-wide contact-grid"><h2>Not sure which door is yours?</h2><button className="button-primary" onClick={() => window.dispatchEvent(new CustomEvent('open-contact'))} data-testid="button-involved-contact">Send a note <ArrowUpRight size={15} aria-hidden="true" /></button></div></section></>;
+  return <><PageHero eyebrow="Get involved / 06" title={<>Join the <em>lab.</em></>} text="P3 Health Lab welcomes questions from students, researchers, and potential collaborators. Current recruitment details are not specified in the available project material." /><section className="section" id="opportunities" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Prospective members</span><h2>Opportunities are not currently specified.</h2></div><p>The lab’s available materials identify these academic categories, but do not confirm current openings or eligibility.</p></div><div className="path-grid">{categories.map(([number, title], index) => <article className="path-card" key={title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-opportunity-${index}`}><div className="card-number"><span>{number}</span></div><h3>{title}</h3><p>Current availability is not provided.</p></article>)}</div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide section-head"><div><span className="eyebrow">Application information</span><h2>Requirements and deadlines are not published.</h2></div><p>Funding, application deadlines, required documents, and other recruitment instructions are not currently specified in the verified project material.</p></div></section><section className="contact-band" id="contact" data-reveal="up"><div className="container-wide contact-grid"><div><span className="eyebrow">Contact the lab</span><h2>Ask about the current path.</h2><p>For a current question about joining or collaborating, use the lab’s existing contact address.</p></div><a className="button-primary" href="mailto:p3healthlab@uwo.ca" data-testid="link-involved-email">Email the lab <ArrowUpRight size={15} aria-hidden="true" /></a></div></section></>;
 }
 
 function NotFound() {
