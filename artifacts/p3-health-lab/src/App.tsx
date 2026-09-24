@@ -76,15 +76,55 @@ const researchThemes: { id: string; title: string; text: string; more: string; r
   },
 ];
 
-const projectInitiatives = [
-  { title: 'HumekaNeza School Air-Quality Campaign', meta: 'HumekaNeza · School environments', text: 'A named initiative in the lab’s community air-quality work.', href: '/humekaneza' },
-  { title: 'I Am an Air Quality Scientist', meta: 'HumekaNeza · Learning', text: 'A named initiative connecting air-quality questions with learning.', href: null },
-  { title: 'One Sensor Per School', meta: 'HumekaNeza · Measurement', text: 'A named initiative centred on school-based air-quality measurement.', href: null },
-  { title: 'Classroom Clean-Air Interventions', meta: 'HumekaNeza · Interventions', text: 'A named initiative focused on clean-air interventions in classrooms.', href: null },
-  { title: 'Clean Air School Zones', meta: 'HumekaNeza · School environments', text: 'A named initiative addressing clean-air considerations around schools.', href: null },
-  { title: 'Shared Skies', meta: 'HumekaNeza · Community', text: 'A named initiative in the lab’s shared-air and community work.', href: null },
-  { title: 'Making the Invisible Visible', meta: 'HumekaNeza · Communication', text: 'A named initiative about making environmental-health questions easier to see and discuss.', href: null },
-  { title: 'Equitable Air-Quality Communication & Preparedness', meta: 'HumekaNeza · Preparedness', text: 'A named initiative focused on equitable air-quality communication and preparedness.', href: null },
+const projects = [
+  {
+    id: 'school-air-quality-campaign',
+    slug: 'school-air-quality-campaign',
+    title: 'HumekaNeza School Air-Quality Campaign',
+    location: 'Rwanda',
+    description: [
+      'The original HumekaNeza campaign was launched in schools in Rwanda to improve children’s understanding of air pollution and empower them to participate in solutions.',
+    ],
+    activities: [
+      'school-based air-quality education',
+      'low-cost air-quality monitoring',
+      'Air Quality Flag Programs',
+      'anti-idling campaigns',
+      'student-led environmental monitoring',
+      'classroom air-cleaning activities',
+      'cleaner-route and outdoor-activity guidance',
+      'tree planting and greener school environments',
+      'creative communication through posters and letters to families',
+    ],
+    closing: 'The campaign transforms schools into living environmental-health laboratories where children learn by observing, measuring, communicating, and acting.',
+  },
+  {
+    id: 'i-am-an-air-quality-scientist',
+    slug: 'i-am-an-air-quality-scientist',
+    title: 'I Am an Air Quality Scientist',
+    description: [
+      'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities.',
+      'The initiative introduces children to environmental-health science while building scientific literacy, curiosity, confidence, and practical understanding of environmental data.',
+    ],
+  },
+  {
+    id: 'one-sensor-per-school',
+    slug: 'one-sensor-per-school',
+    title: 'One Sensor Per School',
+    description: [
+      'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools.',
+      'Students and teachers can observe how air pollution changes throughout the day and explore how traffic, weather, indoor activities, and other factors affect the air they breathe.',
+    ],
+  },
+  {
+    id: 'classroom-clean-air-interventions',
+    slug: 'classroom-clean-air-interventions',
+    title: 'Classroom Clean-Air Interventions',
+    description: [
+      'HumekaNeza supports research evaluating practical approaches to improve classroom air quality, including the use of portable air purifiers.',
+      'These interventions examine changes in indoor air pollution and explore potential effects on student health, learning, comfort, attendance, and academic performance.',
+    ],
+  },
 ];
 
 const featuredProjects = [
@@ -426,27 +466,30 @@ function Research() {
 
 function Projects() {
   return <>
-    <PageHero eyebrow="Projects" title={<>Research takes <em>form.</em></>} text="The lab’s work is organized through research projects and community initiatives. This page records the named initiatives currently identified in the project materials." action={<Link href="/research" className="button-secondary" data-testid="link-projects-research">See our research <ArrowUpRight size={15} aria-hidden="true" /></Link>} />
+    <PageHero eyebrow="Projects" title="Projects" text="Initiatives connected to HumekaNeza, the lab's child- and youth-centred environmental-health initiative." />
     <section className="section projects-section" data-reveal="up">
       <div className="container-wide">
-        <div className="section-head">
-          <div><span className="eyebrow">Current record</span><h2>Named initiatives and project directions.</h2></div>
-          <p>Project details will be expanded only as verified information becomes available.</p>
+        <div className="projects-list">
+          {projects.map((project, index) => <article className="project-entry" id={project.slug} key={project.id} data-testid={`project-${project.slug}`}>
+            <div className="project-entry-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
+            <div className="project-entry-content">
+              <div className="project-entry-heading">
+                <h2>{project.title}</h2>
+                {project.location && <span className="project-location">{project.location}</span>}
+              </div>
+              <div className="project-entry-body">
+                <div>
+                  {project.description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                </div>
+                {project.activities && <div className="project-focus">
+                  <h3>Activities</h3>
+                  <ul>{project.activities.map((activity) => <li key={activity}>{activity}</li>)}</ul>
+                </div>}
+                {project.closing && <p className="project-closing">{project.closing}</p>}
+              </div>
+            </div>
+          </article>)}
         </div>
-        <div className="project-grid">
-          {projectInitiatives.map((project, index) => {
-            const content = <><div className="project-item-top"><span>{String(index + 1).padStart(2, '0')}</span><span className="project-meta">{project.meta}</span></div><h3>{project.title}</h3><p>{project.text}</p>{project.href && <span className="project-link-note">Explore the initiative <ArrowUpRight size={14} aria-hidden="true" /></span>}</>;
-            return project.href
-              ? <Link href={project.href} className="project-item" key={project.title} data-testid={`link-project-${index}`}>{content}</Link>
-              : <article className="project-item" key={project.title} data-testid={`card-project-${index}`}>{content}</article>;
-          })}
-        </div>
-      </div>
-    </section>
-    <section className="section section-tinted project-record-note" data-reveal="up">
-      <div className="container-wide project-record-grid">
-        <div><span className="eyebrow">A growing record</span><h2>Projects connect research questions with the places where they matter.</h2></div>
-        <div><p>As project information is verified, this record can carry research areas, related publications, images, community context, and external links without changing the site’s structure.</p><Link href="/humekaneza" className="button-secondary" data-testid="link-projects-humekaneza">Visit HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
       </div>
     </section>
   </>;
