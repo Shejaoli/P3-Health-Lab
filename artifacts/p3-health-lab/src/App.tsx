@@ -132,12 +132,20 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
     id: 'phd',
     title: 'PhD Students — Western University',
     people: [
-      { name: 'Allison Pert', role: 'PhD Student', institution: 'Western University' },
+      {
+        name: 'Allison Pert',
+        role: 'PhD Student',
+        institution: 'Western University',
+        formerRole: 'MSc Student',
+        status: 'Alumni / Current PhD',
+      },
       {
         name: 'Augustine Omodieke',
         role: 'PhD Student',
         institution: 'Western University',
         researchFocus: 'Environmental epidemiology; air pollution; health economics',
+        formerRole: 'MSc Student',
+        status: 'Alumni / Current PhD',
       },
       { name: 'Francis Acquah', role: 'PhD Student', institution: 'Western University' },
       { name: 'Daniel Twum', role: 'PhD Student', institution: 'Western University' },
