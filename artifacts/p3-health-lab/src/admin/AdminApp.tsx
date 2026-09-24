@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Check, Eye, EyeOff, LogOut, Pencil, Plus, Upload, X } from "lucide-react";
+import { ArrowLeft, Check, Eye, EyeOff, KeyRound, LogOut, Pencil, Plus, Upload, X } from "lucide-react";
 import { useLocation } from "wouter";
 
 type RecordValue = Record<string, unknown>;
@@ -199,6 +199,10 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
   const [draft, setDraft] = useState<RecordValue | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [passwordOpen, setPasswordOpen] = useState(false);
+  const [passwordBusy, setPasswordBusy] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
   const config = resourceConfig[resource];
   const fields = useMemo(() => config.fields, [config]);
   const load = async () => {
@@ -277,12 +281,34 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
     await api("/admin/auth/logout", { method: "POST" }).catch(() => undefined);
     onLogout();
   };
+  const changePassword = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setPasswordMessage("New passwords do not match.");
+      return;
+    }
+    setPasswordBusy(true);
+    setPasswordMessage("");
+    try {
+      await api("/admin/auth/password", {
+        method: "POST",
+        body: JSON.stringify({ currentPassword: passwordForm.currentPassword, newPassword: passwordForm.newPassword }),
+      });
+      setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      setPasswordMessage("Password changed.");
+    } catch (error) {
+      setPasswordMessage(error instanceof Error ? error.message : "Unable to change password");
+    } finally {
+      setPasswordBusy(false);
+    }
+  };
 
   return <div className="admin-dashboard">
-    <header className="admin-header"><div><span className="eyebrow">P3 Health Lab</span><h1>Administration</h1></div><div className="admin-header-actions"><span>{user.email}</span><button className="admin-quiet-button" onClick={logout}><LogOut size={15} /> Sign out</button></div></header>
+    <header className="admin-header"><div><span className="eyebrow">P3 Health Lab</span><h1>Administration</h1></div><div className="admin-header-actions"><span>{user.email}</span><button className="admin-quiet-button" onClick={() => { setPasswordOpen((open) => !open); setPasswordMessage(""); }}><KeyRound size={15} /> Change password</button><button className="admin-quiet-button" onClick={logout}><LogOut size={15} /> Sign out</button></div></header>
     <div className="admin-layout">
       <aside className="admin-sidebar" aria-label="Admin sections">{Object.entries(resourceConfig).map(([key, item]) => <button key={key} className={resource === key ? "is-active" : ""} onClick={() => setResource(key)}>{item.label}</button>)}</aside>
       <main className="admin-main">
+        {passwordOpen && <form className="admin-editor" onSubmit={changePassword}><div className="admin-editor-heading"><div><span className="eyebrow">Account security</span><h3>Change password</h3></div><button type="button" className="admin-icon-button" onClick={() => setPasswordOpen(false)} aria-label="Close password form"><X size={18} /></button></div><label className="admin-field"><span>Current password</span><input type="password" autoComplete="current-password" value={passwordForm.currentPassword} onChange={(event) => setPasswordForm((form) => ({ ...form, currentPassword: event.target.value }))} required /></label><label className="admin-field"><span>New password</span><input type="password" autoComplete="new-password" minLength={12} value={passwordForm.newPassword} onChange={(event) => setPasswordForm((form) => ({ ...form, newPassword: event.target.value }))} required /><small>Use at least 12 characters.</small></label><label className="admin-field"><span>Confirm new password</span><input type="password" autoComplete="new-password" minLength={12} value={passwordForm.confirmPassword} onChange={(event) => setPasswordForm((form) => ({ ...form, confirmPassword: event.target.value }))} required /></label>{passwordMessage && <p className="admin-message" role="status">{passwordMessage}</p>}<div className="admin-editor-actions"><button type="button" className="button-secondary" onClick={() => setPasswordOpen(false)}>Cancel</button><button type="submit" className="button-primary" disabled={passwordBusy}>{passwordBusy ? "Changing…" : "Change password"}</button></div></form>}
         <div className="admin-main-heading"><div><span className="eyebrow">Verified records</span><h2>{config.label}</h2></div><button className="button-primary" onClick={() => setDraft(blankRecord(resource))}><Plus size={15} /> New record</button></div>
         {resource === "media" && <label className="admin-upload-button"><Upload size={15} /> Upload image<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadMedia(file); event.currentTarget.value = ""; }} /></label>}
         {message && <p className="admin-message" role="status">{message}</p>}

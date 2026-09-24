@@ -23,7 +23,7 @@ export function hashSessionToken(token: string): string {
   return createHmac("sha256", secret).update(token).digest("hex");
 }
 
-async function hashPassword(password: string): Promise<string> {
+export async function hashPassword(password: string): Promise<string> {
   const salt = randomBytes(16).toString("hex");
   const derived = (await scrypt(password, salt, 64)) as Buffer;
   return `scrypt:${salt}:${derived.toString("hex")}`;
@@ -52,7 +52,7 @@ export async function ensureBootstrapAdmin(): Promise<AdminUser | null> {
   return created;
 }
 
-function setSessionCookie(res: Response, token: string, maxAgeMs: number): void {
+export function setAdminSessionCookie(res: Response, token: string, maxAgeMs = SESSION_TTL_MS): void {
   const flags = [
     `${SESSION_COOKIE}=${encodeURIComponent(token)}`,
     "Path=/",
@@ -65,7 +65,7 @@ function setSessionCookie(res: Response, token: string, maxAgeMs: number): void 
 }
 
 export function clearSessionCookie(res: Response): void {
-  setSessionCookie(res, "", 0);
+  setAdminSessionCookie(res, "", 0);
 }
 
 function getCookie(req: Request): string | undefined {

@@ -4,6 +4,7 @@ import { z } from "zod";
 import {
   db,
   adminSessionsTable,
+  adminUsersTable,
   peopleTable,
   projectsTable,
   newsTable,
@@ -18,9 +19,11 @@ import {
   clearSessionCookie,
   createAdminSession,
   ensureBootstrapAdmin,
+  hashPassword,
   hashSessionToken,
   requireAdmin,
   requireSameOrigin,
+  setAdminSessionCookie,
   verifyAdminCredentials,
 } from "../lib/adminAuth";
 import { createImageReadUrl, createImageUploadUrl, verifyUploadedImage } from "../lib/objectStorage";
@@ -164,7 +167,7 @@ router.post("/admin/auth/login", async (req, res): Promise<void> => {
       return;
     }
     const token = await createAdminSession(user.id);
-    res.setHeader("Set-Cookie", `p3_admin_session=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=28800${process.env.NODE_ENV === "production" ? "; Secure" : ""}`);
+    setAdminSessionCookie(res, token);
     res.json({ user: { id: user.id, email: user.email, role: user.role } });
   } catch (error) {
     req.log.error({ err: error }, "Admin login failed");
@@ -191,6 +194,38 @@ router.post("/admin/auth/logout", requireSameOrigin, async (req, res): Promise<v
 });
 
 router.use("/admin", requireAdmin, requireSameOrigin);
+
+router.post("/admin/auth/password", async (req, res): Promise<void> => {
+  const parsed = z.object({
+    currentPassword: z.string().min(1).max(200),
+    newPassword: z.string().min(12).max(200),
+  }).safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: "New passwords must be at least 12 characters." });
+    return;
+  }
+
+  try {
+    const currentUser = req.adminUser;
+    if (!currentUser || !(await verifyAdminCredentials(currentUser.email, parsed.data.currentPassword))) {
+      res.status(400).json({ error: "Current password is incorrect." });
+      return;
+    }
+
+    const passwordHash = await hashPassword(parsed.data.newPassword);
+    await db.update(adminUsersTable)
+      .set({ passwordHash, updatedAt: new Date() })
+      .where(eq(adminUsersTable.id, currentUser.id));
+    await db.delete(adminSessionsTable).where(eq(adminSessionsTable.adminUserId, currentUser.id));
+
+    const token = await createAdminSession(currentUser.id);
+    setAdminSessionCookie(res, token);
+    res.json({ ok: true });
+  } catch (error) {
+    req.log.error({ err: error }, "Admin password change failed");
+    res.status(500).json({ error: "Unable to change password" });
+  }
+});
 
 router.get("/admin/content/:resource", async (req, res): Promise<void> => {
   const resource = getResource(req.params.resource);
