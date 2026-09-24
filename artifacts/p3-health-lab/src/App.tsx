@@ -132,12 +132,20 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
     id: 'phd',
     title: 'PhD Students — Western University',
     people: [
-      { name: 'Allison Pert', role: 'PhD Student', institution: 'Western University' },
+      {
+        name: 'Allison Pert',
+        role: 'PhD Student',
+        institution: 'Western University',
+        formerRole: 'MSc Student',
+        status: 'Alumni / Current PhD',
+      },
       {
         name: 'Augustine Omodieke',
         role: 'PhD Student',
         institution: 'Western University',
         researchFocus: 'Environmental epidemiology; air pollution; health economics',
+        formerRole: 'MSc Student',
+        status: 'Alumni / Current PhD',
       },
       { name: 'Francis Acquah', role: 'PhD Student', institution: 'Western University' },
       { name: 'Daniel Twum', role: 'PhD Student', institution: 'Western University' },
@@ -664,8 +672,86 @@ function Contact() {
 }
 
 function Teaching() {
-  const [year, setYear] = useState<keyof typeof courses>('2026–2027');
-  return <><PageHero eyebrow="Teaching / 04" title={<>Make room for <em>better questions.</em></>} text="Teaching at P3 is an invitation to notice systems, question assumptions, and practice global health with humility." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Courses by academic year</span><h2>Learning that leaves the classroom.</h2></div><p>Only course codes and titles confirmed in the available source material are shown.</p></div><div className="year-tabs">{(Object.keys(courses) as Array<keyof typeof courses>).map((item) => <button className={`year-tab ${year === item ? 'active' : ''}`} key={item} onClick={() => setYear(item)} data-testid={`button-year-${item}`}>{item}</button>)}</div><div className="course-grid"><div>{courses[year].map((course, index) => <article className="course-card" key={course.code} data-reveal="up" style={{ transitionDelay: `${index * 80}ms` }} data-testid={`card-course-${index}`}><span className="course-code">{course.code}</span><div><h3>{course.title}</h3></div><span className="course-term">Verified course</span></article>)}</div><aside className="side-panel" data-reveal="scale"><span className="eyebrow">Teaching record</span><h3>Teaching information, kept precise.</h3><p>Program, term, role, and supervision details are not shown until they are verified in the source material.</p></aside></div></div></section><section className="quote-section" data-reveal="up"><div className="container-wide"><blockquote>“The best classroom is one that sends you back into the world more attentive than before.”</blockquote><cite>P3 teaching practice</cite></div></section></>;
+  const renderYear = (year: keyof typeof courses) => (
+    <div className="teaching-year" key={year} data-reveal="up">
+      <div className="teaching-year-heading">
+        <span className="eyebrow">Academic year</span>
+        <h3>{year}</h3>
+      </div>
+      <div className="teaching-course-list">
+        {courses[year].map((course, index) => (
+          <article className="teaching-course-row" key={`${year}-${course.code}`} data-testid={`course-${year}-${index}`}>
+            <span className="course-code">{course.code}</span>
+            <h4>{course.title}</h4>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+
+  const teachingRoutes = [
+    ['Research', '/research'],
+    ['People', '/people'],
+    ['Publications', '/publications'],
+    ['Teaching', '/teaching'],
+    ['Projects', '/projects'],
+    ['Contact', '/contact'],
+  ] as const;
+
+  return <div className="teaching-page">
+    <PageHero
+      eyebrow="Teaching / 04"
+      title="Teaching"
+      text="Teaching in global health and One Health connects foundational knowledge with field-based learning, interdisciplinary collaboration, and real-world environmental and population-health challenges."
+    />
+    <section className="section teaching-courses" aria-labelledby="teaching-courses-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="teaching-section-heading">
+          <div><span className="eyebrow">Current Teaching</span><h2 id="teaching-courses-title">Current courses</h2></div>
+          <p>Course codes and titles are listed by academic year.</p>
+        </div>
+        <div className="teaching-course-block teaching-current">{renderYear('2026–2027')}</div>
+        <div className="teaching-course-block">
+          <div className="teaching-section-heading">
+            <div><span className="eyebrow">Previous Teaching</span><h2>Previous courses</h2></div>
+          </div>
+          <div className="teaching-year-grid">
+            {renderYear('2025–2026')}
+            {renderYear('2024–2025')}
+          </div>
+        </div>
+      </div>
+    </section>
+    <section className="section section-tinted teaching-details-section" aria-label="Teaching approach" data-reveal="up">
+      <div className="container-wide teaching-detail-grid">
+        <article className="teaching-detail">
+          <span className="eyebrow">Teaching Philosophy</span>
+          <h2>Teaching Philosophy</h2>
+          <p>Teaching connects global health, One Health, environmental health, and field-based learning. It emphasizes interdisciplinary learning, practical experience, critical thinking, and connecting evidence to real-world health challenges.</p>
+        </article>
+        <article className="teaching-detail">
+          <span className="eyebrow">Graduate Supervision</span>
+          <h2>Graduate Supervision</h2>
+          <p>Graduate supervision is connected to the lab’s research areas, including environmental health, exposure science, air pollution, climate-health, One Health, global health, epidemiology, and intervention research.</p>
+        </article>
+        <article className="teaching-detail">
+          <span className="eyebrow">Experiential &amp; Field-Based Teaching</span>
+          <h2>Experiential &amp; Field-Based Teaching</h2>
+          <p>The International Field School supports field-based learning and interdisciplinary learning, connecting evidence with real-world health challenges.</p>
+        </article>
+      </div>
+    </section>
+    <section className="section teaching-links-section" aria-labelledby="teaching-links-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="teaching-section-heading">
+          <div><span className="eyebrow">Explore the lab</span><h2 id="teaching-links-title">Related pages</h2></div>
+        </div>
+        <nav className="teaching-links" aria-label="Related P3 Health Lab pages">
+          {teachingRoutes.map(([label, href]) => <Link className="teaching-route-link" href={href} key={href}>{label}</Link>)}
+        </nav>
+      </div>
+    </section>
+  </div>;
 }
 
 function Humekaneza() {

@@ -1923,3 +1923,229 @@ body {
   .admin-photo-grid { grid-template-columns: 1fr; }
   .admin-photo-preview { width: min(100%, 320px); }
 }
+
+/* Phase 5.1: restrained academic Teaching page */
+.teaching-page .page-hero {
+  padding: 68px 0 58px;
+  background: hsl(var(--background));
+  border-bottom: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
+.teaching-page .page-hero .eyebrow {
+  color: hsl(var(--primary));
+}
+
+.teaching-page .page-hero h1 {
+  max-width: 760px;
+  margin: 14px 0 18px;
+  color: hsl(var(--foreground));
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.teaching-page .page-hero p {
+  max-width: 720px;
+  color: hsl(var(--muted-foreground));
+  font-size: 1rem;
+}
+
+.teaching-courses {
+  padding-top: 78px;
+}
+
+.teaching-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 34px;
+}
+
+.teaching-section-heading h2 {
+  max-width: 650px;
+  margin: 12px 0 0;
+  font-family: var(--app-font-serif);
+  font-size: clamp(1.9rem, 3.8vw, 3.35rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.teaching-section-heading p {
+  max-width: 290px;
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .88rem;
+  line-height: 1.6;
+}
+
+.teaching-course-block + .teaching-course-block {
+  margin-top: 76px;
+  padding-top: 72px;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.teaching-current {
+  max-width: 780px;
+}
+
+.teaching-year-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+}
+
+.teaching-year {
+  min-width: 0;
+}
+
+.teaching-year-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 0 13px;
+  border-top: 2px solid hsl(var(--secondary));
+}
+
+.teaching-year-heading h3 {
+  margin: 0;
+  color: hsl(var(--primary));
+  font-family: var(--app-font-mono);
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+}
+
+.teaching-course-list {
+  border-top: 1px solid hsl(var(--border));
+}
+
+.teaching-course-row {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+  padding: 17px 0;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.teaching-course-row h4 {
+  margin: 0;
+  font-family: var(--app-font-serif);
+  font-size: 1.12rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.teaching-details-section {
+  border-block: 1px solid hsl(var(--border));
+}
+
+.teaching-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 34px;
+}
+
+.teaching-detail {
+  min-width: 0;
+  padding-top: 15px;
+  border-top: 2px solid hsl(var(--secondary));
+}
+
+.teaching-detail h2 {
+  margin: 18px 0 13px;
+  font-family: var(--app-font-serif);
+  font-size: 1.55rem;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+}
+
+.teaching-detail p {
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .88rem;
+  line-height: 1.7;
+}
+
+.teaching-links-section {
+  padding-top: 76px;
+}
+
+.teaching-links {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-top: 1px solid hsl(var(--border));
+}
+
+.teaching-route-link {
+  padding: 18px 14px 18px 0;
+  border-bottom: 1px solid hsl(var(--border));
+  color: hsl(var(--primary));
+  font-family: var(--app-font-mono);
+  font-size: .68rem;
+  letter-spacing: .04em;
+  transition: color var(--motion-fast) ease, padding-left var(--motion-fast) ease;
+}
+
+.teaching-route-link:hover,
+.teaching-route-link:focus-visible {
+  padding-left: 4px;
+  color: hsl(var(--foreground));
+}
+
+@media (max-width: 760px) {
+  .teaching-page .page-hero {
+    padding: 48px 0 42px;
+  }
+
+  .teaching-courses {
+    padding-top: 54px;
+  }
+
+  .teaching-section-heading {
+    display: block;
+    margin-bottom: 28px;
+  }
+
+  .teaching-section-heading h2 {
+    margin-bottom: 17px;
+  }
+
+  .teaching-year-grid,
+  .teaching-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .teaching-course-block + .teaching-course-block {
+    margin-top: 54px;
+    padding-top: 50px;
+  }
+
+  .teaching-course-row {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .teaching-course-row h4 {
+    font-size: 1.05rem;
+  }
+
+  .teaching-links-section {
+    padding-top: 54px;
+  }
+
+  .teaching-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .teaching-route-link {
+    padding-right: 8px;
+  }
+}
