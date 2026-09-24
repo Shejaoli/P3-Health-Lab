@@ -76,6 +76,15 @@ const researchThemes: { id: string; title: string; text: string; more: string; r
   },
 ];
 
+const profileResearchInterests = [
+  'Air Pollution',
+  'Climate Change',
+  'Children’s Environmental Health',
+  'Environmental Justice',
+  'One Health',
+  'Exposure Science',
+] as const;
+
 const projectInitiatives = [
   { title: 'HumekaNeza School Air-Quality Campaign', meta: 'HumekaNeza · School environments', text: 'A named initiative in the lab’s community air-quality work.', href: '/humekaneza' },
   { title: 'I Am an Air Quality Scientist', meta: 'HumekaNeza · Learning', text: 'A named initiative connecting air-quality questions with learning.', href: null },
@@ -656,7 +665,70 @@ function People() {
 }
 
 function About() {
-  return <><PageHero eyebrow="About / 07" title={<>Dr. Egide <em>Kalisa.</em></>} text="Assistant Professor at Western University and Director of P3 Health Lab / HELTH Lab." /><section className="section" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">Academic profile</span><div className="intro-stat"><b>01</b><span>Assistant Professor · Western University</span></div><div className="intro-stat" style={{ marginTop: 30 }}><b>02</b><span>Director · P3 Health Lab / HELTH Lab</span></div></div><div><p className="intro-copy">Research across <mark>people, planet, and place.</mark></p><p className="tiny-copy">Dr. Egide Kalisa’s work examines how environmental exposures, climate change, and the places where people live, learn, work, and move influence health, with attention to practical interventions.</p></div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Research interests</span><h2>Questions grounded in environmental health.</h2></div><p>These areas reflect the research themes already established across the P3 Health Lab record.</p></div><div className="focus-grid">{researchThemes.map((topic, index) => <article className="focus-item" key={topic.id} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }}><span className="focus-number">{String(index + 1).padStart(2, '0')}</span><h3>{topic.title}</h3><p>{topic.text}</p></article>)}</div></div></section></>;
+  const relatedPages = [
+    ['Research', '/research'],
+    ['People', '/people'],
+    ['Projects', '/projects'],
+    ['Publications', '/publications'],
+  ] as const;
+
+  return <div className="about-profile-page">
+    <PageHero
+      eyebrow="About / 07"
+      title="Dr. Egide Kalisa"
+      text="Assistant Professor in the Department of Epidemiology and Biostatistics at Western University. Director, P3 Health Lab / HELTH Lab."
+    />
+    <section className="section about-profile-identity" data-reveal="up">
+      <div className="container-wide about-profile-identity-grid">
+        <div>
+          <span className="eyebrow">Academic profile</span>
+          <h2>Dr. Egide Kalisa</h2>
+          <p className="about-profile-role">Assistant Professor</p>
+          <p className="about-profile-lab">Director, P3 Health Lab / HELTH Lab</p>
+        </div>
+        <dl className="about-profile-facts">
+          <div><dt>Department</dt><dd>Department of Epidemiology and Biostatistics</dd></div>
+          <div><dt>Institution</dt><dd>Western University</dd></div>
+        </dl>
+      </div>
+    </section>
+    <section className="section section-tinted about-profile-research" aria-labelledby="about-research-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Research</span><h2 id="about-research-title">Research</h2></div>
+          <p>Research across indoor and outdoor environments, with attention to how much pollution people breathe and how those exposures can be reduced.</p>
+        </div>
+        <blockquote className="about-profile-statement">“My research focuses on individuals’ exposure to air pollutants in indoor and outdoor environments, understanding how much pollution people breathe, and how to reduce those exposures.”</blockquote>
+        <div className="about-profile-interests" aria-label="Research interests">
+          {profileResearchInterests.map((interest, index) => <div className="about-profile-interest" key={interest}><span>{String(index + 1).padStart(2, '0')}</span><h3>{interest}</h3></div>)}
+        </div>
+      </div>
+    </section>
+    <section className="section about-profile-lab-section" aria-labelledby="about-lab-title" data-reveal="up">
+      <div className="container-wide about-profile-lab-grid">
+        <div>
+          <span className="eyebrow">About the lab</span>
+          <h2 id="about-lab-title">A lab led by Dr. Egide Kalisa.</h2>
+        </div>
+        <div>
+          <p className="about-profile-copy">Dr. Egide Kalisa is the Director of P3 Health Lab / HELTH Lab at Western University.</p>
+          <nav className="about-profile-links" aria-label="P3 Health Lab pages">
+            {relatedPages.map(([label, href]) => <Link href={href} key={href}>{label}<ArrowUpRight size={14} aria-hidden="true" /></Link>)}
+          </nav>
+        </div>
+      </div>
+    </section>
+    <section className="section section-tinted about-profile-contact" aria-labelledby="about-contact-title" data-reveal="up">
+      <div className="container-wide about-profile-contact-grid">
+        <div><span className="eyebrow">Academic / institutional contact</span><h2 id="about-contact-title">Connect with the professor.</h2></div>
+        <address className="about-profile-contact-details">
+          <p><strong>Department of Epidemiology and Biostatistics</strong><br />Western University</p>
+          <p>Office: PHFM 3129</p>
+          <p><a href="mailto:ekalisa2@uwo.ca">ekalisa2@uwo.ca <ArrowUpRight size={14} aria-hidden="true" /></a></p>
+        </address>
+      </div>
+    </section>
+  </div>;
 }
 
 function Publications() {
