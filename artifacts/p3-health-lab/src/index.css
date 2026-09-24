@@ -1911,9 +1911,232 @@ body {
 .research-more { border-bottom: 0; border-top: 1px solid hsl(var(--border)); padding: 40px 0 56px; }
 .research-links { display: flex; flex-wrap: wrap; gap: 12px 32px; margin: 0; padding: 0; list-style: none; }
 
+.projects-related-link {
+  padding-top: 30px;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.projects-related-link a,
+.humeka-involve-links a,
+.humeka-initiative-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: hsl(var(--primary));
+  font-size: .9rem;
+  line-height: 1.4;
+}
+
+.projects-related-link svg,
+.humeka-involve-links svg,
+.humeka-initiative-list svg {
+  transition: transform var(--motion-fast) var(--motion-ease);
+}
+
+.projects-related-link a:hover svg,
+.projects-related-link a:focus-visible svg,
+.humeka-involve-links a:hover svg,
+.humeka-involve-links a:focus-visible svg,
+.humeka-initiative-list a:hover svg,
+.humeka-initiative-list a:focus-visible svg {
+  transform: translate(3px, -3px);
+}
+
+.humeka-hero-note {
+  padding: 24px 0;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.humeka-hero-note p {
+  max-width: 720px;
+  margin: 0;
+  color: hsl(var(--foreground));
+  font-size: .98rem;
+  line-height: 1.65;
+}
+
+.humeka-intro {
+  padding-bottom: 62px;
+}
+
+.humeka-prose {
+  max-width: 760px;
+}
+
+.humeka-prose p {
+  margin: 0 0 18px;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.75;
+}
+
+.humeka-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.humeka-prose p:first-child {
+  color: hsl(var(--foreground));
+}
+
+.humeka-section-heading {
+  max-width: 760px;
+  margin-bottom: 36px;
+}
+
+.humeka-section-heading h2 {
+  max-width: 760px;
+  margin: 13px 0 16px;
+  font-family: var(--app-font-serif);
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.03;
+  letter-spacing: -.04em;
+}
+
+.humeka-section-heading p {
+  max-width: 620px;
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.7;
+}
+
+.humeka-approach-list {
+  border-top: 1px solid hsl(var(--border));
+}
+
+.humeka-approach-item {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 32px;
+  padding: 24px 0;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.humeka-approach-item h3 {
+  margin: 0;
+  color: hsl(var(--primary));
+  font-family: var(--app-font-mono);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+}
+
+.humeka-approach-item p {
+  max-width: 720px;
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.7;
+}
+
+.humeka-initiatives {
+  padding-top: 72px;
+}
+
+.humeka-initiative-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 48px;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid hsl(var(--border));
+  list-style: none;
+}
+
+.humeka-initiative-list li {
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.humeka-initiative-list a {
+  justify-content: space-between;
+  width: 100%;
+  min-height: 68px;
+  padding: 18px 0;
+}
+
+.humeka-initiative-list a svg {
+  flex: 0 0 auto;
+}
+
+.humeka-matters .humeka-section-heading {
+  margin-bottom: 28px;
+}
+
+.humeka-vision-grid,
+.humeka-involve-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px 80px;
+  align-items: start;
+}
+
+.humeka-vision-grid .humeka-section-heading,
+.humeka-involve-grid .humeka-section-heading {
+  margin-bottom: 0;
+}
+
+.humeka-final-line {
+  color: hsl(var(--primary)) !important;
+  font-family: var(--app-font-mono);
+  font-size: .78rem;
+  letter-spacing: .08em;
+}
+
+.humeka-involve-copy {
+  max-width: 650px;
+  margin: 0 0 24px;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.75;
+}
+
+.humeka-involve-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 28px;
+}
+
 @media (max-width: 760px) {
   .research-page .page-hero { padding: 44px 0 36px; }
   .research-intro { padding: 40px 0; }
   .research-intro-grid { grid-template-columns: 1fr; }
   .theme { grid-template-columns: 1fr; padding: 32px 0; }
+
+  .humeka-hero-note {
+    padding: 20px 0;
+  }
+
+  .humeka-intro {
+    padding-bottom: 44px;
+  }
+
+  .humeka-section-heading {
+    margin-bottom: 28px;
+  }
+
+  .humeka-section-heading h2 {
+    font-size: clamp(1.85rem, 9vw, 3rem);
+  }
+
+  .humeka-approach-item {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    padding: 20px 0;
+  }
+
+  .humeka-initiatives {
+    padding-top: 52px;
+  }
+
+  .humeka-initiative-list {
+    grid-template-columns: 1fr;
+  }
+
+  .humeka-vision-grid,
+  .humeka-involve-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .humeka-involve-links {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
