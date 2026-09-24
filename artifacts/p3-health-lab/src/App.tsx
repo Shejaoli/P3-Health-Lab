@@ -76,7 +76,20 @@ const researchThemes: { id: string; title: string; text: string; more: string; r
   },
 ];
 
-const projects = [
+type Project = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle?: string;
+  description: string[];
+  activities?: string[];
+  focus?: string[];
+  location?: string;
+  closing?: string;
+  process?: string;
+};
+
+const projects: Project[] = [
   {
     id: 'school-air-quality-campaign',
     slug: 'school-air-quality-campaign',
@@ -124,6 +137,71 @@ const projects = [
       'HumekaNeza supports research evaluating practical approaches to improve classroom air quality, including the use of portable air purifiers.',
       'These interventions examine changes in indoor air pollution and explore potential effects on student health, learning, comfort, attendance, and academic performance.',
     ],
+  },
+  {
+    id: 'clean-air-school-zones',
+    slug: 'clean-air-school-zones',
+    title: 'Clean Air School Zones',
+    description: [
+      'This initiative focuses on reducing traffic-related air pollution around schools.',
+    ],
+    activities: [
+      'anti-idling campaigns',
+      'safer school travel',
+      'awareness around drop-off and pick-up emissions',
+      'low-emission school zones',
+      'engagement with parents and school communities',
+    ],
+  },
+  {
+    id: 'shared-skies',
+    slug: 'shared-skies',
+    title: 'Shared Skies',
+    description: [
+      'Shared Skies connects students across countries through environmental-health education and citizen science.',
+      'Students collect and compare air-quality information from their communities and share findings through virtual exchanges, presentations, and Global Classroom activities.',
+      'The initiative helps children recognize that air pollution is both a local and global challenge.',
+    ],
+  },
+  {
+    id: 'making-the-invisible-visible',
+    slug: 'making-the-invisible-visible',
+    title: 'Making the Invisible Visible',
+    subtitle: "Engaging African, Caribbean and Black Children and Youth in Canada's Chemicals Management Plan",
+    description: [
+      "Making the Invisible Visible strengthens the knowledge, capacity, and meaningful participation of African, Caribbean and Black children and youth in understanding chemicals, health, and Canada's Chemicals Management Plan.",
+    ],
+    activities: [
+      'ACB Youth CMP Advisory and Knowledge Translation Council',
+      'Youth CMP Knowledge Ambassador training',
+      'behaviour-change workshops',
+      '"I Am a CMP Scientist" activities',
+      'From Sample to Decision learning experiences',
+      'family and community dialogue',
+      'Global Classroom activities',
+      'youth-created knowledge-translation products',
+      'Ontario Youth CMP Conference',
+    ],
+    process: 'LISTEN → LEARN → SEE → TRANSLATE → SHARE → ACT → FEEDBACK',
+  },
+  {
+    id: 'equitable-air-quality-communication',
+    slug: 'equitable-air-quality-communication',
+    title: 'Equitable Air-Quality Communication & Preparedness',
+    subtitle: 'Supporting Black Youth and Families in Hamilton and London',
+    location: 'Hamilton and London',
+    description: [
+      'This community-engaged initiative works with Black youth, families, and community partners to understand how people experience, access, interpret, trust, and act on air-quality information.',
+    ],
+    focus: [
+      'lived experiences of poor air quality and wildfire smoke',
+      'access to and understanding of AQHI and wildfire-smoke messaging',
+      'trust in environmental-health information',
+      'environmental justice',
+      'social, cultural, and structural barriers to protective action',
+      'co-designed communication and preparedness strategies',
+    ],
+    closing: 'The project centres community voices and aims to make air-quality information more relevant, accessible, trusted, and actionable.',
   },
 ];
 
@@ -474,17 +552,21 @@ function Projects() {
             <div className="project-entry-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
             <div className="project-entry-content">
               <div className="project-entry-heading">
-                <h2>{project.title}</h2>
+                <div>
+                  <h2>{project.title}</h2>
+                  {project.subtitle && <p className="project-subtitle">{project.subtitle}</p>}
+                </div>
                 {project.location && <span className="project-location">{project.location}</span>}
               </div>
               <div className="project-entry-body">
                 <div>
                   {project.description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 </div>
-                {project.activities && <div className="project-focus">
-                  <h3>Activities</h3>
-                  <ul>{project.activities.map((activity) => <li key={activity}>{activity}</li>)}</ul>
+                {(project.activities || project.focus) && <div className="project-focus">
+                  <h3>{project.activities ? 'Activities' : 'Focus'}</h3>
+                  <ul>{(project.activities ?? project.focus)?.map((item) => <li key={item}>{item}</li>)}</ul>
                 </div>}
+                {project.process && <p className="project-process">{project.process}</p>}
                 {project.closing && <p className="project-closing">{project.closing}</p>}
               </div>
             </div>
