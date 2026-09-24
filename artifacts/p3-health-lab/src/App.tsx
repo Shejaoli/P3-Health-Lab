@@ -35,22 +35,45 @@ function useScrollReveal(routeKey: string) {
   }, [routeKey]);
 }
 
-const researchAreas = [
-  { title: 'Air pollution & exposure science', text: 'Tracing what we breathe across homes, schools, workplaces, and the streets between them.', meta: 'Exposure · Measurement' },
-  { title: 'Environmental microbiology & AMR', text: 'Understanding how microorganisms and antimicrobial resistance move through shared environments.', meta: 'One Health · Microbiology' },
-  { title: 'Climate, wildfires & extreme heat', text: 'Building practical evidence for health in a changing climate, from smoke days to hot nights.', meta: 'Climate health · Resilience' },
-  { title: 'Children’s environmental health', text: 'Making everyday places safer for children during the years that shape a lifetime of health.', meta: 'Early life · Equity' },
-  { title: 'Clinical trials & interventions', text: 'Designing and testing interventions that can work beyond a research setting.', meta: 'Implementation · Care' },
-  { title: 'Global health & sustainable cities', text: 'Learning with communities to make urban health solutions locally useful and globally relevant.', meta: 'Cities · Collaboration' },
-];
-
-const researchTopics = [
-  { id: 'air-pollution', title: 'Air Pollution & Exposure Science', text: 'Measuring air pollution and other environmental exposures across the places where people live, learn, work, and move.', meta: 'Exposure · Measurement' },
-  { id: 'climate', title: 'Climate Change, Wildfires & Heat', text: 'Examining how climate change, wildfire smoke, and extreme heat shape environmental health and preparedness.', meta: 'Climate health · Resilience' },
-  { id: 'children', title: 'Children’s Environmental Health', text: 'Studying environmental conditions in the everyday settings that support children’s health and development.', meta: 'Early life · Equity' },
-  { id: 'environmental-justice', title: 'Environmental Justice', text: 'Attending to how environmental risks, protections, and the ability to shape decisions are distributed across communities.', meta: 'Equity · Place' },
-  { id: 'one-health', title: 'One Health, Bioaerosols & AMR', text: 'Connecting human, animal, and environmental health through bioaerosols and antimicrobial resistance.', meta: 'One Health · Microbiology' },
-  { id: 'sustainable-transport', title: 'Sustainable Transport & Cities', text: 'Exploring how transport systems and urban form influence environmental exposures and health.', meta: 'Cities · Mobility' },
+const researchThemes: { id: string; title: string; text: string; more: string; related?: { label: string; href: string } }[] = [
+  {
+    id: 'air-pollution',
+    title: 'Air Pollution & Environmental Health',
+    text: 'We investigate ambient, household, and personal air pollution exposures and their impacts on human health.',
+    more: 'Our work examines where exposures occur, who is most affected, and how exposure can be reduced through monitoring, epidemiology, and intervention research.',
+  },
+  {
+    id: 'exposure-science',
+    title: 'Exposure Science, Environmental Microbiology & AMR',
+    text: 'We use passive and active environmental sampling to characterize complex chemical and biological exposures across indoor and outdoor environments.',
+    more: 'Our research includes particulate matter, gases, organic pollutants, metals, bioaerosols, microbial communities, the aerobiome, and antimicrobial resistance.',
+  },
+  {
+    id: 'climate',
+    title: 'Climate Change, Wildfires & Extreme Heat',
+    text: 'We study the health impacts of wildfire smoke, extreme heat, and compound climate-related exposures.',
+    more: 'Our work focuses on exposure, vulnerability, adaptation, resilience, and strategies to protect populations during increasingly frequent extreme environmental events.',
+  },
+  {
+    id: 'children',
+    title: 'Children’s Environmental Health',
+    text: 'We investigate environmental exposures affecting children across homes, schools, transportation systems, and communities.',
+    more: 'Our work combines exposure monitoring, epidemiology, citizen science, education, and youth engagement to support healthier environments for children and families.',
+    related: { label: 'HumekaNeza', href: '/humekaneza' },
+  },
+  {
+    id: 'clinical-trials',
+    title: 'Clinical Trials & Environmental Health Interventions',
+    text: 'We design and evaluate randomized controlled trials and real-world interventions to reduce harmful environmental exposures and improve health.',
+    more: 'Our work includes clean-cooking and household air-pollution interventions using cleaner fuels such as LPG, with outcomes including exposure reduction, lung function, and blood pressure. We also evaluate classroom air-cleaning interventions, including portable air purifiers, and examine effects on indoor air quality, health, learning, and academic performance.',
+    related: { label: 'Classroom Clean-Air Interventions', href: '/projects' },
+  },
+  {
+    id: 'global-health',
+    title: 'Global Health, One Health & Sustainable Cities',
+    text: 'We apply Global Health and One Health perspectives to study connections among human, animal, environmental, and ecosystem health.',
+    more: 'Our research also examines sustainable transport, e-mobility, environmental justice, urban environments, and healthy-city solutions across diverse global settings.',
+  },
 ];
 
 const projectInitiatives = [
@@ -64,11 +87,10 @@ const projectInitiatives = [
   { title: 'Equitable Air-Quality Communication & Preparedness', meta: 'HumekaNeza · Preparedness', text: 'A named initiative focused on equitable air-quality communication and preparedness.', href: null },
 ];
 
-const homeFocuses = [
-  { label: 'Environmental exposures', text: 'Air pollution, household energy use, and environmental contaminants in the places people live, learn, work, and move.' },
-  { label: 'Climate and changing places', text: 'Wildfire smoke, extreme heat, and changing urban environments understood through a health lens.' },
-  { label: 'Children’s environmental health', text: 'Research that makes everyday environments safer and healthier during the years that shape a lifetime.' },
-  { label: 'Intervention science', text: 'Evidence, community engagement, and practical design brought together to reduce risk and improve health.' },
+const featuredProjects = [
+  { title: 'HumekaNeza School Air-Quality Campaign', text: 'The original HumekaNeza campaign was launched in schools in Rwanda to improve children’s understanding of air pollution and empower them to participate in solutions.' },
+  { title: 'I Am an Air Quality Scientist', text: 'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities.' },
+  { title: 'One Sensor Per School', text: 'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools.' },
 ];
 
 const people = [
@@ -112,68 +134,15 @@ function Shell({ children }: { children: ReactNode }) {
   const [openMobileMenu, setOpenMobileMenu] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const adminClickRef = useRef({ count: 0, lastClick: 0 });
-  const nav = [
-    {
-      label: 'Research',
-      href: '/research',
-      children: [
-        ['Research overview', '/research'],
-        ...researchTopics.map((topic) => [topic.title, `/research#${topic.id}`] as [string, string]),
-      ],
-    },
-    { label: 'Projects', href: '/projects' },
-    {
-      label: 'People',
-      href: '/people',
-      children: [
-        ['All people', '/people'],
-        ['Postdoctoral fellows', '/people#postdoctoral'],
-        ['PhD students', '/people#phd'],
-        ['Master’s students', '/people#masters'],
-        ['Undergraduate & research students', '/people#undergraduate'],
-        ['Visiting international students & scholars', '/people#visiting'],
-        ['Research assistants & staff', '/people#staff'],
-        ['Alumni', '/people#alumni'],
-      ],
-    },
-    { label: 'About', href: '/about' },
+  const nav: { label: string; href: string; children?: [string, string][] }[] = [
+    { label: 'Research', href: '/research' },
+    { label: 'People', href: '/people' },
     { label: 'Publications', href: '/publications' },
+    { label: 'Teaching', href: '/teaching' },
+    { label: 'Projects', href: '/projects' },
     { label: 'News', href: '/news' },
+    { label: 'Join the Lab', href: '/get-involved' },
     { label: 'Contact', href: '/contact' },
-    {
-      label: 'Teaching',
-      href: '/teaching',
-      children: [
-        ['Current courses', '/teaching'],
-        ['2026–2027', '/teaching#2026-2027'],
-        ['2025–2026', '/teaching#2025-2026'],
-        ['2024–2025', '/teaching#2024-2025'],
-      ],
-    },
-    {
-      label: 'HumekaNeza',
-      href: '/humekaneza',
-      children: [
-        ['Overview', '/humekaneza'],
-        ['Learn', '/humekaneza#learn'],
-        ['Measure', '/humekaneza#measure'],
-        ['Communicate', '/humekaneza#communicate'],
-        ['Act', '/humekaneza#act'],
-        ['Initiatives', '/humekaneza#initiatives'],
-        ['Partner with us', '/get-involved#partner'],
-      ],
-    },
-    {
-      label: 'Get Involved',
-      href: '/get-involved',
-      children: [
-        ['Collaborate', '/get-involved'],
-        ['Join the lab', '/get-involved#opportunities'],
-        ['Students & trainees', '/get-involved#opportunities'],
-        ['Community partnerships', '/humekaneza#partnerships'],
-        ['Contact', '/contact'],
-      ],
-    },
   ];
   const isActive = (href: string) => href === '/' ? location === '/' : location === href || location.startsWith(`${href}/`);
   const handleSubnavClick = (event: ReactMouseEvent<HTMLAnchorElement>, href: string) => {
@@ -265,7 +234,6 @@ function Shell({ children }: { children: ReactNode }) {
               </div>
             ) : <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-nav-${item.label.toLowerCase()}`}>{item.label}</Link>)}
           </nav>
-          <button className="header-cta" onClick={() => setContactOpen(true)} data-testid="button-header-collaborate">Collaborate</button>
           <button className={`menu-btn ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} data-testid="button-mobile-menu">
             <span className="hamburger-icon" aria-hidden="true"><span /><span /><span /></span>
           </button>
@@ -281,32 +249,34 @@ function Shell({ children }: { children: ReactNode }) {
               </div>}
             </div>
           ) : <Link key={item.href} href={item.href} className={`mobile-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>{item.label}</Link>)}
-          <button className="mobile-cta" onClick={() => setContactOpen(true)} data-testid="button-mobile-collaborate">Collaborate <ArrowUpRight size={14} aria-hidden="true" /></button>
         </nav>}
       </header>
       <main>{children}</main>
-      <Footer onContact={() => setContactOpen(true)} onLogoClick={handleAdminLogoClick} />
+      <Footer onLogoClick={handleAdminLogoClick} />
       {contactOpen && <ContactModal onClose={() => setContactOpen(false)} />}
       {adminEntryOpen && <AdminLoginPanel onClose={() => setAdminEntryOpen(false)} onAuthenticated={() => { setAdminEntryOpen(false); setLocation('/admin/dashboard'); }} />}
     </div>
   );
 }
 
-function Footer({ onContact, onLogoClick }: { onContact: () => void; onLogoClick: () => void }) {
+function Footer({ onLogoClick }: { onLogoClick: () => void }) {
   return <footer className="footer">
-    <div className="container-wide">
-      <div className="footer-grid">
+    <div className="container-wide footer-compact">
+      <div className="footer-id">
+        <button type="button" className="footer-logo-button" onClick={onLogoClick} aria-label="P3 Health Lab logo"><img className="footer-logo" src={logo} alt="" /></button>
         <div>
-          <button type="button" className="footer-logo-button" onClick={onLogoClick} aria-label="P3 Health Lab logo"><img className="footer-logo" src={logo} alt="" /></button>
-          <p>Research for healthier everyday places. Led by Dr. Egide Kalisa at Western University.</p>
-          <button className="button-secondary" onClick={onContact} data-testid="button-footer-contact">Connect with the lab <ArrowUpRight size={14} aria-hidden="true" /></button>
+          <p className="footer-name">P3 Health Lab</p>
+          <p>Dr. Egide Kalisa, Director<br />Western University, London, Ontario, Canada</p>
         </div>
-        <div><h4>Explore</h4><Link href="/research" data-testid="link-footer-research">Research</Link><Link href="/projects" data-testid="link-footer-projects">Projects</Link><Link href="/people" data-testid="link-footer-people">People</Link><Link href="/publications" data-testid="link-footer-publications">Scholarship</Link><Link href="/news" data-testid="link-footer-news">News</Link><Link href="/teaching" data-testid="link-footer-teaching">Teaching</Link></div>
-        <div><h4>In the community</h4><Link href="/humekaneza" data-testid="link-footer-humekaneza">HumekaNeza</Link><Link href="/get-involved" data-testid="link-footer-involved">Get involved</Link><Link href="/contact" data-testid="link-footer-contact">Contact</Link><a href="mailto:p3healthlab@uwo.ca" data-testid="link-footer-email">Email the lab</a></div>
-        <div><h4>Find us</h4><p>Western University<br />London, Ontario<br />Canada</p><a href="https://www.uwo.ca" target="_blank" rel="noreferrer" data-testid="link-western">Western University <ExternalLink size={12} aria-hidden="true" /></a></div>
       </div>
-      <div className="footer-bottom"><span>© 2025 P3 Health Lab</span><span>Research · Collaboration · Impact</span></div>
+      <div className="footer-links">
+        <a href="mailto:p3healthlab@uwo.ca" data-testid="link-footer-email">p3healthlab@uwo.ca</a>
+        <Link href="/about" data-testid="link-footer-about">About</Link>
+        <Link href="/humekaneza" data-testid="link-footer-humekaneza">HumekaNeza</Link>
+        <a href="https://www.uwo.ca" target="_blank" rel="noreferrer" data-testid="link-western">Western University <ExternalLink size={12} aria-hidden="true" /></a>
+      </div>
     </div>
+    <div className="container-wide footer-bottom"><span>© {new Date().getFullYear()} P3 Health Lab</span></div>
   </footer>;
 }
 
@@ -352,19 +322,56 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 }
 
 function Home() {
-  const [, setLocation] = useLocation();
   return <>
-    <section className="hero" aria-labelledby="home-title"><div className="hero-airflow" aria-hidden="true"><svg className="airflow-svg" viewBox="0 0 720 360" role="presentation"><path d="M-30 240 C120 130 205 340 365 220 S590 110 760 168" /><path d="M-40 290 C100 185 218 375 376 258 S603 158 760 208" /><path d="M30 184 C160 88 245 260 392 174 S600 80 748 130" /></svg></div><div className="container-wide hero-grid">
-      <div className="hero-copy" data-reveal="up"><span className="eyebrow">P3 Health Lab · Western University</span><h1 id="home-title">Understanding exposures. Designing <em>interventions.</em> Improving health.</h1><p className="hero-lede">We study how environmental exposures, climate change, and the places where people live, learn, work, and move influence health — and design interventions to reduce those risks.</p><div className="hero-byline"><strong>Dr. Egide Kalisa</strong><span>Assistant Professor, Western University<br />Director, P3 Health Lab / HELTH Lab</span></div><div className="hero-actions"><Link href="/research" className="button-primary" data-testid="link-hero-research">Explore our research <ArrowUpRight size={15} aria-hidden="true" /></Link><Link href="/people" className="button-secondary" data-testid="link-hero-people">Meet our people <ChevronRight size={15} aria-hidden="true" /></Link></div></div>
-      <div className="hero-art" data-reveal="scale" aria-label="People, planet, place visual"><div className="orb orb-main breathe"><span className="art-label one">People</span><span className="art-label two">Planet</span><span className="art-label three">Place</span><div className="art-center"><div><span>P3</span><small>one connected health story</small></div></div></div><div className="orb orb-outline breathe breathe-delay" /><div className="hero-note" data-reveal="up"><strong>Our north star</strong>Research that travels from a careful measurement to a healthier everyday life.</div></div>
-    </div></section>
-    <div className="strip"><div className="container-wide strip-inner"><div className="strip-item story-item" data-reveal="up" style={{ transitionDelay: '0ms' }}><strong>People</strong><span>Knowledge starts with lived experience.</span></div><div className="strip-item story-item" data-reveal="up" style={{ transitionDelay: '80ms' }}><strong>Planet</strong><span>Health is ecological, shared, and changing.</span></div><div className="strip-item story-item" data-reveal="up" style={{ transitionDelay: '160ms' }}><strong>Place</strong><span>Solutions should belong somewhere.</span></div></div></div>
-    <section className="section" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">The P3 approach</span><div className="intro-stat"><b>01</b><span>Question the everyday</span></div><div className="intro-stat" style={{ marginTop: 30 }}><b>03</b><span>Return knowledge with care</span></div></div><div><p className="intro-copy">Understanding exposures. Designing interventions. <mark>Improving health.</mark></p><p className="tiny-copy">We work across disciplines and borders, with the people who live the questions. Our work is rigorous enough for a journal and useful enough for a classroom, clinic, city, or kitchen table.</p><Link href="/people" className="button-secondary" data-testid="link-home-people">Meet the people behind the work <ArrowUpRight size={14} aria-hidden="true" /></Link></div></div></section>
-    <section className="section section-tinted" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">The questions we carry</span><h2>Research that starts close to everyday life.</h2></div><p>Our work connects environmental health, climate, and intervention science with the communities who live the questions.</p></div><div className="focus-grid">{homeFocuses.map((focus, index) => <article className="focus-item" key={focus.label} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }}><span className="focus-number">0{index + 1}</span><h3>{focus.label}</h3><p>{focus.text}</p></article>)}</div></div></section>
-    <section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">What we study</span><h2>Six routes into a healthier tomorrow.</h2></div><p>Different questions, one connected lens: how environments shape health — and how better choices can shape environments.</p></div><div className="research-grid">{researchAreas.map((area, index) => <Link href="/research" className="research-card" key={area.title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-home-research-${index}`}><div className="card-number"><span>0{index + 1}</span><ArrowUpRight size={17} aria-hidden="true" /></div><h3>{area.title}</h3><p>{area.text}</p><span className="card-meta">{area.meta}</span></Link>)}</div></div></section>
-    <section className="section home-record-section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">A connected record</span><h2>Follow the work beyond a single page.</h2></div><p>Research is shared through questions, scholarship, teaching, and community practice. Start with the part of the record closest to you.</p></div><div className="home-record-grid"><Link href="/research" className="record-link" data-testid="link-home-record-research"><span className="record-kicker">01 · Research</span><strong>Our areas of inquiry</strong><span>From exposure science to sustainable cities.</span><ArrowUpRight size={18} aria-hidden="true" /></Link><Link href="/publications" className="record-link" data-testid="link-home-record-publications"><span className="record-kicker">02 · Scholarship</span><strong>Selected publications</strong><span>Read the evidence behind the questions.</span><ArrowUpRight size={18} aria-hidden="true" /></Link><Link href="/humekaneza" className="record-link" data-testid="link-home-record-community"><span className="record-kicker">03 · Community</span><strong>HumekaNeza</strong><span>Learning, measuring, communicating, and acting.</span><ArrowUpRight size={18} aria-hidden="true" /></Link></div></div></section>
-    <section className="quote-section" data-reveal="up"><div className="container-wide"><blockquote>“A healthier tomorrow is not a distant idea. It is something we can measure, design, and practice together.”</blockquote><cite>— P3 Health Lab, London · Canada</cite></div></section>
-    <section className="section home-join-section" data-reveal="up"><div className="container-wide section-head"><div><span className="eyebrow">Join the lab</span><h2>Bring curiosity, care, and a question.</h2></div><div><p>Whether you are a student, researcher, collaborator, school, or community partner, there is a place to start.</p><Link href="/get-involved" className="button-primary" data-testid="link-home-get-involved">Find your pathway <ArrowUpRight size={15} aria-hidden="true" /></Link></div></div></section>
+    <section className="home-hero" aria-labelledby="home-title">
+      <div className="container-wide">
+        <span className="eyebrow">P3 Health Lab · People · Planet · Place</span>
+        <h1 id="home-title"><span>Understanding exposures.</span> <span>Designing interventions.</span> <span>Improving health.</span></h1>
+        <p className="home-lede">We study how environmental exposures, climate change, and the places where people live, learn, work, and move influence health—and design interventions to reduce those risks.</p>
+        <div className="home-identity"><strong>Dr. Egide Kalisa</strong><span>Assistant Professor, Western University</span><span>Director, P3 Health Lab / HELTH Lab</span></div>
+        <div className="hero-actions"><Link href="/research" className="button-primary" data-testid="link-hero-research">Explore Our Research</Link><Link href="/people" className="button-secondary" data-testid="link-hero-people">Meet Our People</Link></div>
+      </div>
+    </section>
+
+    <section className="home-block" aria-labelledby="home-intro-title">
+      <div className="container-wide home-intro">
+        <h2 id="home-intro-title">Addressing the growing health impacts of environmental change</h2>
+        <p>At P3 Health Lab, led by Dr. Egide Kalisa at Western University, we study how environmental exposures and the places where people live, learn, work, and move shape human health. Our research combines exposure science, epidemiology, passive and active environmental sampling, environmental microbiology, citizen science, artificial intelligence, and population-health methods to better understand chemical and biological exposures, including air pollution, bioaerosols, microbial communities, and antimicrobial resistance.</p>
+        <Link href="/research" className="text-link" data-testid="link-home-intro-research">Explore our research</Link>
+      </div>
+    </section>
+
+    <section className="home-block" aria-labelledby="home-research-title">
+      <div className="container-wide">
+        <div className="home-block-head"><h2 id="home-research-title">Research areas</h2><Link href="/research" className="text-link" data-testid="link-home-research-all">All research</Link></div>
+        <ul className="home-list">
+          {researchThemes.map((theme, index) => <li key={theme.id}><Link href={`/research#${theme.id}`} data-testid={`card-home-research-${index}`}><h3>{theme.title}</h3><p>{theme.text}</p></Link></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section className="home-block" aria-labelledby="home-projects-title">
+      <div className="container-wide">
+        <div className="home-block-head"><h2 id="home-projects-title">Featured projects</h2><Link href="/projects" className="text-link" data-testid="link-home-projects-all">All projects</Link></div>
+        <ul className="home-list">
+          {featuredProjects.map((project, index) => <li key={project.title}><Link href="/projects" data-testid={`card-home-project-${index}`}><h3>{project.title}</h3><p>{project.text}</p></Link></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section className="home-block" aria-label="Publications and team">
+      <div className="container-wide home-pair">
+        <Link href="/publications" data-testid="link-home-publications"><h2>Publications</h2><p>Research and scholarship from the lab.</p></Link>
+        <Link href="/people" data-testid="link-home-people"><h2>Meet the Team</h2><p>The people of P3 Health Lab.</p></Link>
+      </div>
+    </section>
+
+    <section className="home-join" aria-labelledby="home-join-title">
+      <div className="container-wide home-join-inner">
+        <div><h2 id="home-join-title">Join the Lab</h2><p>P3 Health Lab welcomes questions from students, researchers, and potential collaborators.</p></div>
+        <Link href="/get-involved" className="button-primary" data-testid="link-home-get-involved">How to join</Link>
+      </div>
+    </section>
   </>;
 }
 
@@ -373,77 +380,45 @@ function PageHero({ eyebrow, title, text, action }: { eyebrow: string; title: Re
 }
 
 function Research() {
-  const evidenceFlow = [
-    { number: '01', label: 'Exposure', text: 'We begin with the environmental conditions and exposures that shape everyday health.' },
-    { number: '02', label: 'Evidence', text: 'We bring measurement into conversation with lived experience, context, and the questions communities carry.' },
-    { number: '03', label: 'Intervention', text: 'We study practical ways to reduce risk, strengthen health, and support change in real places.' },
-  ];
-
   return <div className="research-page">
-    <PageHero eyebrow="Research / 01" title={<>Questions that start <em>close to home.</em></>} text="We study the exposures people encounter, the environments they move through, and the interventions that make healthier choices possible." action={<Link href="/get-involved" className="button-secondary" data-testid="link-research-collaborate">Work with us <ArrowUpRight size={15} aria-hidden="true" /></Link>} />
+    <PageHero eyebrow="Research" title="From Exposure Science to Intervention" text="P3 Health Lab examines how environmental exposures, climate change, and the places where people live, learn, work, and move influence health. Our research integrates exposure assessment, epidemiology, environmental microbiology, intervention science, and global health to understand environmental risks and develop practical solutions." />
 
-    <section className="research-index" aria-label="Research page navigation" data-reveal="up">
-      <div className="container-wide research-index-inner">
-        <div className="research-index-label"><span className="eyebrow">On this page</span><span className="research-index-note">A connected record of inquiry</span></div>
-        <nav className="research-anchor-nav" aria-label="Research sections">
-          <a href="#research-overview" data-testid="link-research-overview"><span>01</span><strong>Overview</strong></a>
-          <a href="#research-method" data-testid="link-research-method"><span>02</span><strong>From question to action</strong></a>
-          {researchTopics.map((topic, index) => <a href={`#${topic.id}`} key={topic.title} data-testid={`link-research-anchor-${index}`}><span>{String(index + 3).padStart(2, '0')}</span><strong>{topic.title}</strong></a>)}
+    <section className="research-intro" aria-label="Methods and research areas">
+      <div className="container-wide research-intro-grid">
+        <div>
+          <h2>Methods</h2>
+          <p>Our research combines exposure science, epidemiology, passive and active environmental sampling, environmental microbiology, citizen science, artificial intelligence, and population-health methods.</p>
+        </div>
+        <nav aria-label="Research areas">
+          <h2>Research areas</h2>
+          <ul>
+            {researchThemes.map((theme, index) => <li key={theme.id}><a href={`#${theme.id}`} data-testid={`link-research-anchor-${index}`}>{theme.title}</a></li>)}
+          </ul>
         </nav>
       </div>
     </section>
 
-    <section className="section research-overview" id="research-overview" data-reveal="up">
-      <div className="container-wide research-overview-grid">
-        <div className="research-overview-mark" aria-hidden="true"><span>01</span><i /><i /><i /></div>
-        <div>
-          <div className="section-head research-section-head"><div><span className="eyebrow">Our areas</span><h2>From a particle in the air to a city’s big decision.</h2></div><p>Our questions are deliberately porous. The strongest work often sits at the boundary of two disciplines — or two communities.</p></div>
-          <p className="research-overview-lede">Understanding exposures. Designing <em>interventions.</em> Improving health.</p>
-          <div className="research-lenses" aria-label="Connections across the research programme">
-            <div><span>01</span><strong>Exposures</strong><p>What people encounter in the environments around them.</p></div>
-            <div><span>02</span><strong>Environments</strong><p>How homes, cities, climate, and shared spaces shape risk.</p></div>
-            <div><span>03</span><strong>Health &amp; action</strong><p>Evidence that can inform care, policy, and practical change.</p></div>
+    <section className="research-themes" aria-label="Research areas in detail">
+      <div className="container-wide">
+        {researchThemes.map((theme, index) => <article className="theme" id={theme.id} key={theme.id} data-testid={`card-research-${index}`}>
+          <h2>{theme.title}</h2>
+          <div className="theme-body">
+            {index === 0 && <figure className="theme-figure"><img src={`${import.meta.env.BASE_URL}images/air-pollution-environmental-health.jpg`} alt="Illustration of a city skyline and river with people in the foreground" width="1040" height="460" loading="lazy" /><figcaption>Illustrative image</figcaption></figure>}
+            <p>{theme.text}</p>
+            <p>{theme.more}</p>
+            {theme.related && <p className="theme-related">Related: <Link href={theme.related.href} className="text-link">{theme.related.label}</Link></p>}
           </div>
-        </div>
+        </article>)}
       </div>
     </section>
 
-    <section className="section section-tinted research-method" id="research-method" data-reveal="up">
+    <section className="home-block research-more" aria-label="Related pages">
       <div className="container-wide">
-        <div className="research-method-head"><div><span className="eyebrow">How we work</span><h2 className="display">Evidence with a return address.</h2></div><p>We pair <mark>measurement</mark> with meaning — sensors with stories, trials with trust, and global questions with local knowledge.</p></div>
-        <div className="evidence-flow" aria-label="How research moves from exposure to intervention">
-          {evidenceFlow.map((step, index) => <article className="evidence-step" key={step.label} data-reveal="up" style={{ transitionDelay: `${index * 100}ms` }} data-testid={`step-research-flow-${step.label.toLowerCase()}`}>
-            <div className="evidence-step-top"><span>{step.number}</span>{index < evidenceFlow.length - 1 && <span className="evidence-connector" aria-hidden="true" />}</div>
-            <h3>{step.label}</h3>
-            <p>{step.text}</p>
-          </article>)}
-        </div>
-        <p className="research-method-foot">P3 projects are built to be shared. We publish, teach, test, translate, and listen again. That loop is how research earns its way into everyday places.</p>
-      </div>
-    </section>
-
-    <section className="section research-record" aria-labelledby="research-record-title" data-reveal="up">
-      <div className="container-wide">
-        <div className="section-head"><div><span className="eyebrow">The research record</span><h2 id="research-record-title">Six areas of inquiry.</h2></div><p>Different questions, one connected lens: how environments shape health, and how evidence can inform healthier places.</p></div>
-        <div className="research-grid">
-          {researchTopics.map((topic, index) => <article className="research-card research-card-anchor" id={topic.id} key={topic.title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-research-${index}`}>
-            <div className="card-number"><span>0{index + 1}</span><CircleArrowUp size={17} aria-hidden="true" /></div>
-            <h3>{topic.title}</h3>
-            <p>{topic.text}</p>
-            <span className="card-meta">{topic.meta}</span>
-          </article>)}
-        </div>
-      </div>
-    </section>
-
-    <section className="section section-tinted research-return" data-reveal="up">
-      <div className="container-wide research-return-grid">
-        <div><span className="eyebrow">A connected record</span><h2>Research is shared through questions, scholarship, teaching, and community practice.</h2></div>
-        <div className="research-return-links">
-          <Link href="/people" className="research-return-link" data-testid="link-research-people"><span>01 · People</span><strong>Meet the lab</strong><small>See the people who carry these questions.</small><ArrowUpRight size={17} aria-hidden="true" /></Link>
-          <Link href="/publications" className="research-return-link" data-testid="link-research-publications"><span>02 · Scholarship</span><strong>Selected publications</strong><small>Read the evidence behind the questions.</small><ArrowUpRight size={17} aria-hidden="true" /></Link>
-          <Link href="/humekaneza" className="research-return-link" data-testid="link-research-community"><span>03 · Community</span><strong>HumekaNeza</strong><small>Learning, measuring, communicating, and acting.</small><ArrowUpRight size={17} aria-hidden="true" /></Link>
-        </div>
+        <ul className="research-links">
+          <li><Link href="/projects" className="text-link" data-testid="link-research-projects">Projects</Link></li>
+          <li><Link href="/publications" className="text-link" data-testid="link-research-publications">Publications</Link></li>
+          <li><Link href="/people" className="text-link" data-testid="link-research-people">People</Link></li>
+        </ul>
       </div>
     </section>
   </div>;
@@ -482,7 +457,7 @@ function People() {
 }
 
 function About() {
-  return <><PageHero eyebrow="About / 07" title={<>Dr. Egide <em>Kalisa.</em></>} text="Assistant Professor at Western University and Director of P3 Health Lab / HELTH Lab." /><section className="section" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">Academic profile</span><div className="intro-stat"><b>01</b><span>Assistant Professor · Western University</span></div><div className="intro-stat" style={{ marginTop: 30 }}><b>02</b><span>Director · P3 Health Lab / HELTH Lab</span></div></div><div><p className="intro-copy">Research across <mark>people, planet, and place.</mark></p><p className="tiny-copy">Dr. Egide Kalisa’s work examines how environmental exposures, climate change, and the places where people live, learn, work, and move influence health, with attention to practical interventions.</p></div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Research interests</span><h2>Questions grounded in environmental health.</h2></div><p>These areas reflect the research themes already established across the P3 Health Lab record.</p></div><div className="focus-grid">{researchTopics.map((topic, index) => <article className="focus-item" key={topic.id} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }}><span className="focus-number">{String(index + 1).padStart(2, '0')}</span><h3>{topic.title}</h3><p>{topic.text}</p></article>)}</div></div></section></>;
+  return <><PageHero eyebrow="About / 07" title={<>Dr. Egide <em>Kalisa.</em></>} text="Assistant Professor at Western University and Director of P3 Health Lab / HELTH Lab." /><section className="section" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">Academic profile</span><div className="intro-stat"><b>01</b><span>Assistant Professor · Western University</span></div><div className="intro-stat" style={{ marginTop: 30 }}><b>02</b><span>Director · P3 Health Lab / HELTH Lab</span></div></div><div><p className="intro-copy">Research across <mark>people, planet, and place.</mark></p><p className="tiny-copy">Dr. Egide Kalisa’s work examines how environmental exposures, climate change, and the places where people live, learn, work, and move influence health, with attention to practical interventions.</p></div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Research interests</span><h2>Questions grounded in environmental health.</h2></div><p>These areas reflect the research themes already established across the P3 Health Lab record.</p></div><div className="focus-grid">{researchThemes.map((topic, index) => <article className="focus-item" key={topic.id} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }}><span className="focus-number">{String(index + 1).padStart(2, '0')}</span><h3>{topic.title}</h3><p>{topic.text}</p></article>)}</div></div></section></>;
 }
 
 function Publications() {
