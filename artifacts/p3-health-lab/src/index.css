@@ -255,6 +255,179 @@ button { cursor: pointer; }
 .publication-row p { margin: 0; color: hsl(var(--muted-foreground)); font-size: .78rem; }
 .publication-empty p { max-width: 680px; margin: 0; color: hsl(var(--muted-foreground)); font-size: .82rem; line-height: 1.6; }
 .pub-type { justify-self: end; font-family: var(--app-font-mono); font-size: .63rem; color: hsl(var(--primary)); text-transform: uppercase; }
+.publications-page .page-hero {
+  padding: 68px 0 58px;
+  background: hsl(var(--background));
+  border-bottom: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
+.publications-page .page-hero .eyebrow {
+  color: hsl(var(--primary));
+}
+
+.publications-page .page-hero h1 {
+  max-width: 800px;
+  margin: 14px 0 18px;
+  color: hsl(var(--foreground));
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.publications-page .page-hero p {
+  max-width: 850px;
+  color: hsl(var(--muted-foreground));
+  font-size: 1rem;
+}
+
+.publications-content {
+  padding-top: 78px;
+}
+
+.publications-intro {
+  max-width: 780px;
+  margin: 0 0 68px;
+  color: hsl(var(--foreground));
+  font-family: var(--app-font-serif);
+  font-size: clamp(1.45rem, 2.8vw, 2.2rem);
+  line-height: 1.2;
+  letter-spacing: -.03em;
+}
+
+.publication-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.publication-profile-record {
+  min-width: 0;
+  padding: 20px 0 28px;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.publication-profile-record h2 {
+  margin: 34px 0 14px;
+  font-family: var(--app-font-serif);
+  font-size: clamp(1.75rem, 3vw, 2.55rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.publication-profile-record p {
+  max-width: 450px;
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .9rem;
+  line-height: 1.65;
+}
+
+.publication-profile-record a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 22px;
+  color: hsl(var(--primary));
+  font-family: var(--app-font-mono);
+  font-size: .7rem;
+  line-height: 1.5;
+}
+
+.publication-profile-record a:hover,
+.publication-profile-record a:focus-visible {
+  color: hsl(var(--foreground));
+}
+
+.publication-themes {
+  margin-top: 82px;
+}
+
+.publication-themes .section-head {
+  margin-bottom: 30px;
+}
+
+.publication-themes .section-head h2 {
+  font-family: var(--app-font-serif);
+  font-size: clamp(2rem, 4vw, 3.45rem);
+  font-weight: 500;
+}
+
+.publication-theme-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid hsl(var(--border));
+  border-left: 1px solid hsl(var(--border));
+}
+
+.publication-theme {
+  min-width: 0;
+  min-height: 132px;
+  padding: 17px 20px 22px;
+  border-right: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.publication-theme span {
+  color: hsl(var(--primary));
+  font-family: var(--app-font-mono);
+  font-size: .65rem;
+  letter-spacing: .08em;
+}
+
+.publication-theme h3 {
+  max-width: 380px;
+  margin: 32px 0 0;
+  font-family: var(--app-font-serif);
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -.025em;
+}
+
+@media (max-width: 760px) {
+  .publications-page .page-hero {
+    padding: 48px 0 42px;
+  }
+
+  .publications-content {
+    padding-top: 54px;
+  }
+
+  .publications-intro {
+    margin-bottom: 48px;
+    font-size: 1.45rem;
+  }
+
+  .publication-profile-grid,
+  .publication-theme-list {
+    grid-template-columns: 1fr;
+  }
+
+  .publication-profile-grid {
+    gap: 0;
+  }
+
+  .publication-profile-record h2 {
+    margin-top: 25px;
+  }
+
+  .publication-themes {
+    margin-top: 58px;
+  }
+
+  .publication-theme {
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .publication-theme h3 {
+    margin-top: 24px;
+  }
+}
 .people-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .person-card { border-top: 3px solid hsl(var(--accent)); padding-top: 15px; transition: transform var(--motion-normal) var(--motion-ease), box-shadow var(--motion-normal) ease; }
 .person-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px hsl(213 32% 16% / .06); }

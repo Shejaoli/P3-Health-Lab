@@ -788,7 +788,59 @@ function About() {
 }
 
 function Publications() {
-  return <><PageHero eyebrow="Scholarship / 03" title={<>Evidence worth <em>sharing.</em></>} text="Publication details will be listed here as source records are verified." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Publication record</span><h2>A careful record is being prepared.</h2></div><p>No publication entries are shown until their bibliographic details can be checked against reliable source material.</p></div><div className="publication-list"><div className="publication-empty" data-testid="empty-publications"><span className="publication-year">Pending</span><div><h3>Verified publication records are not available yet.</h3><p>Titles, authors, journals, years, DOIs, citation counts, findings, and publication links will be added only when they are verified.</p><p>Google Scholar will be the primary external destination once its profile URL is confirmed. ORCID, CV PDF, and Western University profile links will be added only after their destinations are verified.</p></div><span className="pub-type">Record pending</span></div></div></div></section></>;
+  const [externalLinks, setExternalLinks] = useState<{ label: string; url: string }[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    fetch('/api/public/publications', { headers: { Accept: 'application/json' } })
+      .then((response) => response.ok ? response.json() as Promise<{ externalLinks?: { label: string; url: string }[] }> : Promise.reject(new Error('Publication links unavailable')))
+      .then((result) => {
+        if (active && Array.isArray(result.externalLinks)) setExternalLinks(result.externalLinks);
+      })
+      .catch(() => {
+        if (active) setExternalLinks([]);
+      });
+    return () => { active = false; };
+  }, []);
+
+  const getExternalLink = (label: string) => externalLinks.find((link) => link.label === label);
+  const googleScholar = getExternalLink('Google Scholar');
+  const orcid = getExternalLink('ORCID');
+
+  return <div className="publications-page">
+    <PageHero
+      eyebrow="Publications"
+      title="Research & Scholarship"
+      text="P3 Health Lab contributes research across environmental health, air pollution, exposure science, climate change, children’s environmental health, environmental microbiology, antimicrobial resistance, clinical trials, One Health, and global health."
+    />
+    <section className="section publications-content" data-reveal="up">
+      <div className="container-wide">
+        <p className="publications-intro">Our work spans observational studies, exposure assessment, laboratory and field-based research, randomized controlled trials, community-engaged research, and interdisciplinary collaborations.</p>
+        <div className="publication-profile-grid">
+          <article className="publication-profile-record">
+            <span className="eyebrow">Google Scholar</span>
+            <h2>Google Scholar</h2>
+            <p>For the most up-to-date list of publications, citations, and scholarly impact:</p>
+            {googleScholar && <a href={googleScholar.url} target="_blank" rel="noreferrer">View Dr. Egide Kalisa’s Publications on Google Scholar <ArrowUpRight size={14} aria-hidden="true" /></a>}
+          </article>
+          <article className="publication-profile-record">
+            <span className="eyebrow">ORCID</span>
+            <h2>ORCID</h2>
+            <p>View Dr. Egide Kalisa’s ORCID profile for a persistent record of research outputs and scholarly contributions.</p>
+            {orcid && <a href={orcid.url} target="_blank" rel="noreferrer">View ORCID Profile <ArrowUpRight size={14} aria-hidden="true" /></a>}
+          </article>
+        </div>
+        <div className="publication-themes">
+          <div className="section-head">
+            <div><span className="eyebrow">Research themes</span><h2>Selected Research Themes</h2></div>
+          </div>
+          <div className="publication-theme-list">
+            {researchThemes.map((theme, index) => <div className="publication-theme" key={theme.id}><span>{String(index + 1).padStart(2, '0')}</span><h3>{theme.title}</h3></div>)}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>;
 }
 
 function News() {
