@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { type MouseEvent as ReactMouseEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ArrowUpRight, ChevronRight, Check, CircleArrowUp, ExternalLink, X } from 'lucide-react';
 import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
@@ -171,13 +171,34 @@ function Shell({ children }: { children: ReactNode }) {
     },
   ];
   const isActive = (href: string) => href === '/' ? location === '/' : location === href || location.startsWith(`${href}/`);
+  const handleSubnavClick = (event: ReactMouseEvent<HTMLAnchorElement>, href: string) => {
+    setOpenMenu(null);
+    setOpenMobileMenu(null);
+    setMenuOpen(false);
+
+    const targetUrl = new URL(href, window.location.href);
+    if (!targetUrl.hash || targetUrl.pathname !== window.location.pathname) return;
+
+    const target = document.getElementById(decodeURIComponent(targetUrl.hash.slice(1)));
+    if (!target) return;
+
+    event.preventDefault();
+    window.history.replaceState(null, '', `${targetUrl.pathname}${targetUrl.hash}`);
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
   useScrollReveal(location);
   useEffect(() => {
     setMenuOpen(false);
     setOpenMenu(null);
     setOpenMobileMenu(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const hash = window.location.hash;
+    const frame = window.requestAnimationFrame(() => {
+      const target = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
     document.title = location === '/' ? 'P3 Health Lab · People, Planet, Place' : `P3 Health Lab · ${location.slice(1).replace('-', ' ')}`;
+    return () => window.cancelAnimationFrame(frame);
   }, [location]);
   useEffect(() => {
     const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
@@ -223,7 +244,7 @@ function Shell({ children }: { children: ReactNode }) {
                   {item.label}<ChevronRight className={openMenu === item.label ? 'chevron-open' : ''} size={14} aria-hidden="true" />
                 </button>
                 {openMenu === item.label && <div className="dropdown-panel">
-                  {item.children.map(([childLabel, childHref]) => <Link key={childHref} href={childHref} className="dropdown-link" onClick={() => setOpenMenu(null)}>{childLabel}</Link>)}
+                  {item.children.map(([childLabel, childHref]) => <Link key={childHref} href={childHref} className="dropdown-link" onClick={(event) => handleSubnavClick(event, childHref)}>{childLabel}</Link>)}
                 </div>}
               </div>
             ) : <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-nav-${item.label.toLowerCase()}`}>{item.label}</Link>)}
@@ -239,8 +260,8 @@ function Shell({ children }: { children: ReactNode }) {
               <button className={`mobile-link mobile-trigger ${isActive(item.href) ? 'active' : ''}`} aria-expanded={openMobileMenu === item.label} onClick={() => setOpenMobileMenu(openMobileMenu === item.label ? null : item.label)}>
                 {item.label}<ChevronRight className={openMobileMenu === item.label ? 'chevron-open' : ''} size={16} aria-hidden="true" />
               </button>
-              {openMobileMenu === item.label && <div className="mobile-submenu">
-                {item.children.map(([childLabel, childHref]) => <Link key={childHref} href={childHref} className="mobile-sublink" data-testid={`link-mobile-${childLabel.toLowerCase().replaceAll(' ', '-')}`}>{childLabel}</Link>)}
+                {openMobileMenu === item.label && <div className="mobile-submenu">
+                {item.children.map(([childLabel, childHref]) => <Link key={childHref} href={childHref} className="mobile-sublink" onClick={(event) => handleSubnavClick(event, childHref)} data-testid={`link-mobile-${childLabel.toLowerCase().replaceAll(' ', '-')}`}>{childLabel}</Link>)}
               </div>}
             </div>
           ) : <Link key={item.href} href={item.href} className={`mobile-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>{item.label}</Link>)}
