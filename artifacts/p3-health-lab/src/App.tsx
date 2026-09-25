@@ -730,7 +730,7 @@ function Research() {
         {researchThemes.map((theme, index) => <article className="theme" id={theme.id} key={theme.id} data-testid={`card-research-${index}`}>
           <h2>{theme.title}</h2>
           <div className="theme-body">
-            {index === 0 && <figure className="theme-figure"><img src={`${import.meta.env.BASE_URL}images/air-pollution-environmental-health.jpg`} alt="Illustration of a city skyline and river with people in the foreground" width="1040" height="460" loading="lazy" /><figcaption>Illustrative image</figcaption></figure>}
+            {index === 0 && <figure className="theme-figure"><img src={`${import.meta.env.BASE_URL}images/air-pollution-environmental-health.jpg`} alt="Illustration of a city skyline and river with people in the foreground" width="1040" height="460" loading="lazy" decoding="async" /><figcaption>Illustrative image</figcaption></figure>}
             <p>{theme.text}</p>
             <p>{theme.more}</p>
             {theme.related && <p className="theme-related">Related: <Link href={theme.related.href} className="text-link">{theme.related.label}</Link></p>}
