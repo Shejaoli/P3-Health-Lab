@@ -6,7 +6,7 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
-import { useGetPublicOpportunities, useGetPublicProfile } from '@workspace/api-client-react';
+import { useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
 import logo from '@assets/p3_logo_1789065448410.png';
 
 const queryClient = new QueryClient();
@@ -357,24 +357,6 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
     ],
   },
 ];
-
-const courses = {
-  '2026–2027': [
-    { code: 'GHS 9100', title: 'Foundations of Global Health' },
-    { code: 'GHS 9112', title: 'International Field School' },
-  ],
-  '2025–2026': [
-    { code: 'GHS 9100', title: 'Foundations of Global Health' },
-    { code: 'OH 3300A', title: 'Foundations in One Health' },
-    { code: 'OH 3600', title: 'One Health in Action' },
-    { code: 'GHS 9112', title: 'International Field School' },
-    { code: 'MPH 9015', title: 'Issues in Global Health' },
-  ],
-  '2024–2025': [
-    { code: 'GHS 9100', title: 'Foundations of Global Health' },
-    { code: 'OH 3600', title: 'One Health in Action' },
-  ],
-} as const;
 
 function Shell({ children }: { children: ReactNode }) {
   const [location, setLocation] = useLocation();
@@ -1005,22 +987,29 @@ function Contact() {
 }
 
 function Teaching() {
-  const renderYear = (year: keyof typeof courses) => (
-    <div className="teaching-year" key={year} data-reveal="up">
-      <div className="teaching-year-heading">
-        <span className="eyebrow">Academic year</span>
-        <h3>{year}</h3>
+  const teachingQuery = useGetPublicTeaching();
+  const courses = teachingQuery.data?.courses ?? [];
+  const teachingAcademicYears = Array.from(new Set(courses.map(({ academicYear }) => academicYear)));
+  const [currentAcademicYear, ...previousAcademicYears] = teachingAcademicYears;
+  const renderYear = (year: string) => {
+    const yearCourses = courses.filter((course) => course.academicYear === year);
+    return (
+      <div className="teaching-year" key={year} data-reveal="up">
+        <div className="teaching-year-heading">
+          <span className="eyebrow">Academic year</span>
+          <h3>{year}</h3>
+        </div>
+        <div className="teaching-course-list">
+          {yearCourses.map((course, index) => (
+            <article className="teaching-course-row" key={`${year}-${course.courseCode}`} data-testid={`course-${year}-${index}`}>
+              <span className="course-code">{course.courseCode}</span>
+              <h4>{course.title}</h4>
+            </article>
+          ))}
+        </div>
       </div>
-      <div className="teaching-course-list">
-        {courses[year].map((course, index) => (
-          <article className="teaching-course-row" key={`${year}-${course.code}`} data-testid={`course-${year}-${index}`}>
-            <span className="course-code">{course.code}</span>
-            <h4>{course.title}</h4>
-          </article>
-        ))}
-      </div>
-    </div>
-  );
+    );
+  };
 
   const teachingRoutes = [
     ['Research', '/research'],
@@ -1043,14 +1032,16 @@ function Teaching() {
           <div><span className="eyebrow">Current Teaching</span><h2 id="teaching-courses-title">Current courses</h2></div>
           <p>Course codes and titles are listed by academic year.</p>
         </div>
-        <div className="teaching-course-block teaching-current">{renderYear('2026–2027')}</div>
+        {teachingQuery.isLoading && <p className="contact-loading" role="status">Loading course information…</p>}
+        {teachingQuery.isError && <p className="contact-loading" role="alert">Course information is temporarily unavailable.</p>}
+        {!teachingQuery.isLoading && !teachingQuery.isError && courses.length === 0 && <p className="contact-loading" role="status">No courses are currently published.</p>}
+        {currentAcademicYear && <div className="teaching-course-block teaching-current">{renderYear(currentAcademicYear)}</div>}
         <div className="teaching-course-block">
           <div className="teaching-section-heading">
             <div><span className="eyebrow">Previous Teaching</span><h2>Previous courses</h2></div>
           </div>
           <div className="teaching-year-grid">
-            {renderYear('2025–2026')}
-            {renderYear('2024–2025')}
+            {previousAcademicYears.map(renderYear)}
           </div>
         </div>
       </div>

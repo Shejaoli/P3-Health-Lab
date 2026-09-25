@@ -29,7 +29,8 @@ import type {
   MediaUploadResponse,
   MediaUploadVerificationRequest,
   PublicOpportunitiesResponse,
-  PublicProfileResponse
+  PublicProfileResponse,
+  PublicTeachingListing
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -1027,6 +1028,83 @@ export function useGetPublicOpportunities<TData = Awaited<ReturnType<typeof getP
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetPublicOpportunitiesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetPublicTeachingUrl = () => {
+
+
+
+
+  return `/api/public/teaching`
+}
+
+/**
+ * @summary List published, non-archived teaching courses
+ */
+export const getPublicTeaching = async ( options?: Parameters<typeof customFetch>[1]): Promise<PublicTeachingListing> => {
+
+  return customFetch<PublicTeachingListing>(getGetPublicTeachingUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetPublicTeachingQueryKey = () => {
+    return [
+    `/api/public/teaching`
+    ] as const;
+    }
+
+
+export const getGetPublicTeachingQueryOptions = <TData = Awaited<ReturnType<typeof getPublicTeaching>>, TError = ErrorType<void>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicTeaching>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPublicTeachingQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPublicTeaching>>> = ({ signal }) => getPublicTeaching({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPublicTeaching>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPublicTeachingQueryResult = NonNullable<Awaited<ReturnType<typeof getPublicTeaching>>>
+export type GetPublicTeachingQueryError = ErrorType<void>
+
+
+/**
+ * @summary List published, non-archived teaching courses
+ */
+
+export function useGetPublicTeaching<TData = Awaited<ReturnType<typeof getPublicTeaching>>, TError = ErrorType<void>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicTeaching>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetPublicTeachingQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

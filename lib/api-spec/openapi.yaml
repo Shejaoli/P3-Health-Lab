@@ -211,6 +211,20 @@ paths:
                 $ref: "#/components/schemas/PublicOpportunitiesResponse"
         "500":
           description: Unable to load opportunities
+  /public/teaching:
+    get:
+      operationId: getPublicTeaching
+      tags: [public]
+      summary: List published, non-archived teaching courses
+      responses:
+        "200":
+          description: Public teaching courses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublicTeachingListing"
+        "500":
+          description: Unable to load teaching courses
 components:
   parameters:
     Resource:
@@ -375,4 +389,22 @@ components:
         status:
           type: string
           enum: [Open, Closed]
+    PublicTeachingListing:
+      type: object
+      required: [courses]
+      properties:
+        courses:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicTeachingCourse"
+    PublicTeachingCourse:
+      type: object
+      required: [academicYear, courseCode, title]
+      properties:
+        academicYear:
+          type: string
+        courseCode:
+          type: string
+        title:
+          type: string
 

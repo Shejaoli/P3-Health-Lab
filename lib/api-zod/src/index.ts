@@ -15,4 +15,6 @@ export type {
   PublicOpportunitiesResponse,
   PublicProfileLink,
   PublicProfileResponse,
+  PublicTeachingCourse,
+  PublicTeachingListing,
 } from "./generated/types";

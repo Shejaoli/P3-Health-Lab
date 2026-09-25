@@ -1,8 +1,8 @@
 import { and, asc, desc, eq, ne } from "drizzle-orm";
 import { Router, type IRouter } from "express";
 import { z } from "zod";
-import { GetPublicOpportunitiesResponse, GetPublicProfileResponse } from "@workspace/api-zod";
-import { db, opportunitiesTable, profileInfoTable } from "@workspace/db";
+import { GetPublicOpportunitiesResponse, GetPublicProfileResponse, GetPublicTeachingResponse } from "@workspace/api-zod";
+import { db, opportunitiesTable, profileInfoTable, teachingRecordsTable } from "@workspace/db";
 
 const router: IRouter = Router();
 const publicationLinkLabels = new Set(["Google Scholar", "ORCID", "CV", "Publication Profile", "CV / Publication Profile"]);
@@ -138,6 +138,32 @@ router.get("/public/opportunities", async (req, res): Promise<void> => {
   } catch (error) {
     req.log.error({ err: error }, "Public opportunities failed");
     res.status(500).json({ error: "Unable to load opportunities" });
+  }
+});
+
+router.get("/public/teaching", async (req, res): Promise<void> => {
+  try {
+    const courses = await db
+      .select({
+        academicYear: teachingRecordsTable.academicYear,
+        courseCode: teachingRecordsTable.courseCode,
+        title: teachingRecordsTable.title,
+      })
+      .from(teachingRecordsTable)
+      .where(and(
+        eq(teachingRecordsTable.published, true),
+        eq(teachingRecordsTable.archived, false),
+      ))
+      .orderBy(
+        desc(teachingRecordsTable.academicYear),
+        asc(teachingRecordsTable.displayOrder),
+        asc(teachingRecordsTable.id),
+      );
+
+    res.json(GetPublicTeachingResponse.parse({ courses }));
+  } catch (error) {
+    req.log.error({ err: error }, "Public teaching courses failed");
+    res.status(500).json({ error: "Unable to load teaching courses" });
   }
 });
 

@@ -167,3 +167,15 @@ export const GetPublicOpportunitiesResponse = zod.object({
 })
 
 
+/**
+ * @summary List published, non-archived teaching courses
+ */
+export const GetPublicTeachingResponse = zod.object({
+  "courses": zod.array(zod.object({
+  "academicYear": zod.string(),
+  "courseCode": zod.string(),
+  "title": zod.string()
+}))
+})
+
+

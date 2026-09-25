@@ -24,3 +24,5 @@ export * from './publicOpportunityCategory';
 export * from './publicOpportunityStatus';
 export * from './publicProfileLink';
 export * from './publicProfileResponse';
+export * from './publicTeachingCourse';
+export * from './publicTeachingListing';

@@ -136,3 +136,13 @@ export interface PublicOpportunitiesResponse {
   opportunities: PublicOpportunity[];
 }
 
+export interface PublicTeachingCourse {
+  academicYear: string;
+  courseCode: string;
+  title: string;
+}
+
+export interface PublicTeachingListing {
+  courses: PublicTeachingCourse[];
+}
+
