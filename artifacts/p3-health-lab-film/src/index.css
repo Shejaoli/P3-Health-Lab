@@ -55,6 +55,28 @@ body {
   font-family: var(--font-body);
 }
 
+.control-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: .55rem;
+  color: rgba(242, 239, 232, .72);
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  height: 2.9rem;
+  justify-content: center;
+  transition: background .2s ease, color .2s ease;
+  width: 2.9rem;
+}
+
+.control-button:hover,
+.control-button:focus-visible {
+  background: rgba(242, 239, 232, .1);
+  color: #f2efe8;
+  outline: none;
+}
+
 .scene {
   position: absolute;
   inset: 0;
@@ -445,7 +467,7 @@ body {
 }
 
 .outro-lockup img {
-  height: 12vmin;
+  height: 15vmin;
   max-width: 38vmin;
   object-fit: contain;
   width: auto;
