@@ -98,7 +98,7 @@ const resourceConfig: Record<string, { label: string; labelField: string; fields
       { key: "researchInterests", label: "Research interests", type: "json" },
       { key: "labEmail", label: "Lab email", type: "email" },
       { key: "university", label: "University", type: "text" },
-      { key: "externalLinks", label: "Verified external links", type: "json", help: 'JSON array like [{"label":"Western","url":"https://..."}].' },
+      { key: "externalLinks", label: "Verified external links", type: "json", help: 'JSON array like [{"label":"Google Scholar","url":"https://..."},{"label":"ORCID","url":"https://..."},{"label":"CV","url":"https://..."}]. Empty links stay hidden publicly.' },
     ],
   },
   media: {
@@ -193,7 +193,193 @@ export function AdminGate() {
   return <AdminDashboard user={user} onLogout={() => { setState("unauthorized"); setLocation("/"); }} />;
 }
 
+export function AdminUploadGate() {
+  const [, setLocation] = useLocation();
+  const [state, setState] = useState<"loading" | "unauthorized" | "authorized">("loading");
+  const [user, setUser] = useState<{ email: string; role: string } | null>(null);
+
+  useEffect(() => {
+    api<{ user: { email: string; role: string } }>("/admin/auth/session")
+      .then((result) => { setUser(result.user); setState("authorized"); })
+      .catch(() => setState("unauthorized"));
+  }, []);
+
+  if (state === "loading") return <div className="admin-loading">Checking access…</div>;
+  if (state !== "authorized" || !user) return <div className="admin-unavailable"><span className="eyebrow">Unavailable</span><h1>Not found.</h1><p>This area is not available.</p><button className="button-secondary" onClick={() => setLocation("/")}>Return to site <ArrowLeft size={14} /></button></div>;
+  return <AdminPhotoUpload user={user} />;
+}
+
+const acceptedImageTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
+const maxImageSize = 10 * 1024 * 1024;
+
+function AdminPhotoUpload({ user }: { user: { email: string; role: string } }) {
+  const [, setLocation] = useLocation();
+  const [people, setPeople] = useState<RecordValue[]>([]);
+  const [media, setMedia] = useState<RecordValue[]>([]);
+  const [selectedId, setSelectedId] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState("");
+  const [altText, setAltText] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  const load = async () => {
+    setBusy(true);
+    try {
+      const [peopleResult, mediaResult] = await Promise.all([
+        api<{ items: RecordValue[] }>("/admin/content/people"),
+        api<{ items: RecordValue[] }>("/admin/content/media"),
+      ]);
+      setPeople(peopleResult.items.filter((item) => !item.archived));
+      setMedia(mediaResult.items.filter((item) => !item.archived));
+      setMessage("");
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Unable to load People records");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  useEffect(() => { void load(); }, []);
+  useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
+  useEffect(() => {
+    if (!selectedId && people[0]?.id) setSelectedId(String(people[0].id));
+  }, [people, selectedId]);
+
+  const selectedPerson = people.find((person) => String(person.id) === selectedId);
+  const selectedMediaId = typeof selectedPerson?.photoMediaId === "number" ? selectedPerson.photoMediaId : Number(selectedPerson?.photoMediaId);
+  const currentMedia = selectedPerson && selectedMediaId
+    ? media.find((item) => Number(item.id) === selectedMediaId)
+    : undefined;
+  const currentPhotoUrl = typeof currentMedia?.objectPath === "string" ? `/api/storage${currentMedia.objectPath}` : "";
+
+  const selectPerson = (value: string) => {
+    setSelectedId(value);
+    setFile(null);
+    setPreview("");
+    setAltText("");
+    setMessage("");
+    setError("");
+  };
+
+  const selectFile = (candidate: File | undefined) => {
+    if (!candidate) return;
+    setError("");
+    setMessage("");
+    if (!acceptedImageTypes.has(candidate.type)) {
+      setFile(null);
+      setPreview("");
+      setError("Choose a JPEG, PNG, WebP, or GIF image.");
+      return;
+    }
+    if (candidate.size > maxImageSize) {
+      setFile(null);
+      setPreview("");
+      setError("Images must be 10 MB or smaller.");
+      return;
+    }
+    setFile(candidate);
+    setPreview(URL.createObjectURL(candidate));
+  };
+
+  const savePhoto = async () => {
+    if (!selectedPerson || !file) return;
+    setBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      const upload = await api<{ uploadURL: string; objectPath: string }>("/admin/media/upload-url", {
+        method: "POST",
+        body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type }),
+      });
+      const uploadResponse = await fetch(upload.uploadURL, { method: "PUT", headers: { "Content-Type": file.type }, body: file });
+      if (!uploadResponse.ok) throw new Error("Image upload failed.");
+      await api("/admin/media/verify-upload", {
+        method: "POST",
+        body: JSON.stringify({ objectPath: upload.objectPath, size: file.size, contentType: file.type }),
+      });
+      const mediaRecord = await api<RecordValue>("/admin/content/media", {
+        method: "POST",
+        body: JSON.stringify({
+          fileName: file.name,
+          objectPath: upload.objectPath,
+          contentType: file.type,
+          size: file.size,
+          altText,
+          associatedType: "people",
+          associatedId: Number(selectedPerson.id),
+          published: true,
+          archived: false,
+          displayOrder: 0,
+        }),
+      });
+      if (typeof mediaRecord.id !== "number") throw new Error("The uploaded image record was not created.");
+      await api(`/admin/people/${selectedPerson.id}/photo`, {
+        method: "PATCH",
+        body: JSON.stringify({ photoMediaId: mediaRecord.id }),
+      });
+      setFile(null);
+      setPreview("");
+      setMessage(`Photo saved for ${String(selectedPerson.name)}.`);
+      await load();
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Unable to save the photo.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const removePhoto = async () => {
+    if (!selectedPerson || !selectedMediaId || !window.confirm(`Remove the photo for ${String(selectedPerson.name)}?`)) return;
+    setBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      await api(`/admin/people/${selectedPerson.id}/photo`, {
+        method: "PATCH",
+        body: JSON.stringify({ photoMediaId: null }),
+      });
+      setMessage(`Photo removed for ${String(selectedPerson.name)}.`);
+      await load();
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Unable to remove the photo.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return <div className="admin-dashboard admin-upload-page">
+    <header className="admin-header">
+      <div><span className="eyebrow">People photos</span><h1>Profile image upload</h1><p className="admin-muted">Signed in as {user.email}</p></div>
+      <button className="admin-quiet-button" onClick={() => setLocation("/admin/dashboard")}><ArrowLeft size={15} /> Finish</button>
+    </header>
+    <main className="admin-upload-main">
+      <div className="admin-main-heading"><div><span className="eyebrow">Restricted media workflow</span><h2>Choose a verified People record.</h2></div><p className="admin-muted">Only profile images are handled here. Records are not deleted when a photo is replaced or removed.</p></div>
+      {error && <p className="admin-message admin-error" role="alert">{error}</p>}
+      {message && <p className="admin-message" role="status">{message}</p>}
+      {busy && !selectedPerson && <p className="admin-muted">Loading People records…</p>}
+      {!people.length && !busy && <div className="admin-empty"><p>No People records are available in the admin database.</p><button className="button-secondary" onClick={() => setLocation("/admin/people")}>Open People records</button></div>}
+      {people.length > 0 && <div className="admin-upload-card">
+        <label className="admin-field"><span>People record</span><select value={selectedId} onChange={(event) => selectPerson(event.target.value)}><option value="">Choose a person</option>{people.map((person) => <option key={String(person.id)} value={String(person.id)}>{String(person.name)} · {String(person.role ?? "")}</option>)}</select></label>
+        <div className="admin-photo-grid">
+          <div className="admin-photo-preview">
+            {preview ? <img src={preview} alt="Selected profile preview" /> : currentPhotoUrl ? <img src={currentPhotoUrl} alt={`Saved profile photo for ${String(selectedPerson?.name ?? "selected person")}`} /> : <p>No photo saved.</p>}
+          </div>
+          <div className="admin-photo-controls">
+            <p className="admin-muted">{currentPhotoUrl ? "A saved photo is associated with this record." : "No photo is currently associated with this record."}</p>
+            <label className="admin-upload-button"><Upload size={15} /> Choose image<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(event) => { selectFile(event.target.files?.[0]); event.currentTarget.value = ""; }} /></label>
+            <label className="admin-field"><span>Alt text (optional)</span><input value={altText} onChange={(event) => setAltText(event.target.value)} placeholder="Describe the profile photo" /></label>
+            <div className="admin-editor-actions"><button className="button-secondary" type="button" onClick={removePhoto} disabled={busy || !selectedMediaId}>Remove photo</button><button className="button-primary" type="button" onClick={() => void savePhoto()} disabled={busy || !file || !selectedPerson}>{busy ? "Saving…" : currentPhotoUrl ? "Replace photo" : "Save photo"}</button></div>
+          </div>
+        </div>
+      </div>}
+    </main>
+  </div>;
+}
+
 function AdminDashboard({ user, onLogout }: { user: { email: string; role: string }; onLogout: () => void }) {
+  const [, setLocation] = useLocation();
   const [resource, setResource] = useState("people");
   const [items, setItems] = useState<RecordValue[]>([]);
   const [draft, setDraft] = useState<RecordValue | null>(null);
@@ -309,7 +495,7 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
       <aside className="admin-sidebar" aria-label="Admin sections">{Object.entries(resourceConfig).map(([key, item]) => <button key={key} className={resource === key ? "is-active" : ""} onClick={() => setResource(key)}>{item.label}</button>)}</aside>
       <main className="admin-main">
         {passwordOpen && <form className="admin-editor" onSubmit={changePassword}><div className="admin-editor-heading"><div><span className="eyebrow">Account security</span><h3>Change password</h3></div><button type="button" className="admin-icon-button" onClick={() => setPasswordOpen(false)} aria-label="Close password form"><X size={18} /></button></div><label className="admin-field"><span>Current password</span><input type="password" autoComplete="current-password" value={passwordForm.currentPassword} onChange={(event) => setPasswordForm((form) => ({ ...form, currentPassword: event.target.value }))} required /></label><label className="admin-field"><span>New password</span><input type="password" autoComplete="new-password" minLength={12} value={passwordForm.newPassword} onChange={(event) => setPasswordForm((form) => ({ ...form, newPassword: event.target.value }))} required /><small>Use at least 12 characters.</small></label><label className="admin-field"><span>Confirm new password</span><input type="password" autoComplete="new-password" minLength={12} value={passwordForm.confirmPassword} onChange={(event) => setPasswordForm((form) => ({ ...form, confirmPassword: event.target.value }))} required /></label>{passwordMessage && <p className="admin-message" role="status">{passwordMessage}</p>}<div className="admin-editor-actions"><button type="button" className="button-secondary" onClick={() => setPasswordOpen(false)}>Cancel</button><button type="submit" className="button-primary" disabled={passwordBusy}>{passwordBusy ? "Changing…" : "Change password"}</button></div></form>}
-        <div className="admin-main-heading"><div><span className="eyebrow">Verified records</span><h2>{config.label}</h2></div><button className="button-primary" onClick={() => setDraft(blankRecord(resource))}><Plus size={15} /> New record</button></div>
+         <div className="admin-main-heading"><div><span className="eyebrow">Verified records</span><h2>{config.label}</h2></div><div className="admin-main-heading-actions">{resource === "people" && <button className="button-secondary" onClick={() => setLocation("/upload")}><Upload size={15} /> Manage photos</button>}<button className="button-primary" onClick={() => setDraft(blankRecord(resource))}><Plus size={15} /> New record</button></div></div>
         {resource === "media" && <label className="admin-upload-button"><Upload size={15} /> Upload image<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadMedia(file); event.currentTarget.value = ""; }} /></label>}
         {message && <p className="admin-message" role="status">{message}</p>}
         {busy && !draft && <p className="admin-muted">Loading…</p>}

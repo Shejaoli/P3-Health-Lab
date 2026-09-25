@@ -1,0 +1,166 @@
+P3 HEALTH LAB — PHASE 4.2 PART 3: PEOPLE — INTERNATIONAL PhD + VISITING + ALUMNI + PHOTO UPLOAD
+
+FIRST: VERIFY PREVIOUS PARTS
+Before editing, verify that Phase 4.2 Parts 1 and 2 are already present.
+
+PART 1 — must remain:
+Dr. Egide Kalisa
+Dr. Md Pervez Kabir
+Allison Pert
+Augustine Omodieke
+Francis Acquah
+Daniel Twum
+Abdul Rasheed Rasheed
+
+PART 2 — must remain:
+MSc: Zoha Irfan, Oluwaseun Bajulaye, Farhana Ramiza, Ignatius Atuguba
+Global Health MSc Interns: Jiaxuan Zhang, Arshia Mohammadi-Sanjani, Ihsan Khalifa, Harini Kumaraverl, Yuheng Lu, Haiyan Li
+Research Assistants: Ruiming Han, Natasha Fortin, Sydney Lessard, Jiaqi Bi, Shaikh Sumeet Jamil, Sharika Jalali, Innocent Twagirayezu
+
+If previous parts are missing, STOP and report them. Do not overwrite them blindly.
+
+TASK A — ADD PART 3 PEOPLE
+
+INTERNATIONAL / EXTERNALLY CO-SUPERVISED PhD STUDENTS:
+1. Patrick Karakwende — PhD Student
+2. Adolphe Ndikubwimana — PhD Student — University of Rwanda — Rwanda
+3. Deborah — PhD Student — University of Ibadan — Nigeria
+4. Nibagwire — PhD Student — University of Ibadan — Nigeria
+5. Franck Kwabe — PhD Student — ISP Bukavu — DR Congo
+
+Do not invent Patrick's university, country, research focus, or links.
+
+VISITING INTERNATIONAL STUDENTS:
+1. Dioumacor Faye — PhD Student — Senegal — Visiting International Student
+2. Dorothy Namatovu — MSc Student — Uganda — Visiting International Student
+3. Ange Lisa Ikirezi — MSc Student — Rwanda — Visiting International Student
+4. Marie Ange Tuyime — Undergraduate Student — Rwanda — Visiting International Student
+5. Isabel Ajagu — MSc Student / Visiting Scholar — Nigeria — Visiting International Student
+
+Do not invent visit dates, research interests, or links.
+
+GRADUATE ALUMNI:
+Do NOT create duplicate profiles for Augustine Omodieke or Allison Pert.
+Keep their existing current PhD profiles and represent their supplied previous MSc history within those profiles where the existing UI supports it.
+
+UNDERGRADUATE ALUMNI:
+1. Victoria Bursey — Undergraduate Researcher — MSc Public Health, University of Toronto
+2. Emily Airhart — Undergraduate Researcher — MSc Student, University of Toronto
+3. Shagun Chander — Undergraduate Researcher — Western University
+
+Keep Shagun's status exactly as supplied; do not silently move or invent information.
+
+TASK B — PEOPLE PHOTO UPLOAD SYSTEM
+
+Add a simple admin-accessible photo management page for People profiles.
+
+IMPORTANT:
+- This is ONLY for profile images.
+- Do not create fake images or initials.
+- Do not require a photo for every person.
+- Existing People records must remain intact.
+- The uploaded image must be associated with the correct person record.
+- Support upload, replace, and remove photo.
+- Validate normal image file types and reasonable file size.
+- Do not expose storage credentials publicly.
+
+Create an upload route/page such as:
+`/upload`
+
+The upload page should:
+- Require the existing authenticated admin session.
+- Allow the admin to select a People record.
+- Upload/replace that person's profile image.
+- Show a preview before saving.
+- Provide a clear remove/delete-photo action.
+- After the admin finishes, provide a "Finish" / "Close" action that leaves the upload workflow.
+- The temporary upload interface must not delete the People record or the uploaded image.
+- If the intended "vanish" behavior means hiding/removing the temporary upload page, do that only for the upload UI; the People profile and saved image must remain.
+
+Do NOT expose `/upload` as a public page.
+
+If the existing storage implementation cannot safely persist images, do not invent a storage system. Report the exact blocker instead.
+
+HARD RULES
+- Use only supplied/verified People information.
+- No invented photos, research interests, institutions, countries, LinkedIn URLs, dates or statuses.
+- No duplicate people.
+- Keep the restrained academic People design.
+- No social-media-style cards, gradients, glowing effects or excessive animation.
+- Keep mobile responsive.
+- Do not modify Projects, HumekaNeza, Research, Teaching, About, Contact or News.
+- Do not change header/footer.
+- Do not change footer-logo triple-click/admin entry.
+- Do not change unrelated admin/auth/database/API behavior.
+- Do not deploy.
+- Do not change Git configuration.
+
+BRANCH
+Use/create:
+`phase4-2-part3`
+Do not work directly on main.
+
+VALIDATION
+Verify:
+1. Parts 1 and 2 remain intact.
+2. International PhD = 5/5.
+3. Visiting International Students = 5/5.
+4. Graduate alumni histories remain attached to the correct existing profiles.
+5. Undergraduate alumni = 3/3.
+6. Total people count and unique names are correct.
+7. No duplicate profiles.
+8. /people returns HTTP 200.
+9. /people works at ~1280px and ~390px.
+10. No horizontal overflow.
+11. /upload is protected and cannot be used anonymously.
+12. Admin can select a person and upload a photo.
+13. Uploaded photo remains associated with the correct person after leaving /upload.
+14. Replacing/removing a photo works without deleting the person.
+15. Typecheck passes.
+16. Production build passes.
+17. Footer-logo triple-click/admin entry still works.
+18. Protected files remain unchanged.
+19. No deployment.
+
+If media storage is unavailable, do NOT fake success. Report exactly which storage configuration is missing.
+
+FINAL REPORT ONLY:
+
+STATUS: PASS / BLOCKED
+
+PREVIOUS PARTS:
+- Part 1:
+- Part 2:
+
+PART 3:
+- International PhD:
+- Visiting:
+- Graduate Alumni:
+- Undergraduate Alumni:
+
+PHOTO UPLOAD:
+- /upload:
+- Authentication:
+- Upload:
+- Replace:
+- Remove:
+- Persistence:
+- Storage:
+
+VALIDATION:
+- Typecheck:
+- Build:
+- /people desktop:
+- /people mobile:
+- Duplicates:
+- Admin entry:
+- Protected files:
+
+CHANGED:
+...
+
+NOT CHANGED:
+...
+
+BLOCKERS / REMAINING:
+...

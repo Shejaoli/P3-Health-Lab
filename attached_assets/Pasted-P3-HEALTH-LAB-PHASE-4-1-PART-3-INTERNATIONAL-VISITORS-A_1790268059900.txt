@@ -1,0 +1,98 @@
+P3 HEALTH LAB — PHASE 4.1 PART 3: INTERNATIONAL + VISITORS + ALUMNI
+
+IMPORTANT — NEW SESSION:
+Before editing, verify the current People page. The previous session confirmed that all 24 Phase 4.1 Part 1+2 records already exist. Do NOT recreate or rewrite those records.
+
+STEP 1 — VERIFY EXISTING WORK
+Confirm these groups/records are still present:
+- PI: Dr. Egide Kalisa
+- Postdoctoral: Dr. Md Pervez Kabir
+- 5 Western PhD students
+- 4 MSc students
+- 6 Global Health MSc interns
+- 7 Research Assistants
+
+Also confirm Phase 3.3 (/projects and /humekaneza) remains intact.
+
+STEP 2 — ADD THESE VERIFIED RECORDS
+
+INTERNATIONAL / EXTERNALLY CO-SUPERVISED PhD STUDENTS
+
+- Patrick Karakwende — PhD Student — university/country not supplied — Current
+- Adolphe Ndikubwimana — PhD Student — University of Rwanda — Rwanda — Current
+- Deborah — PhD Student — University of Ibadan — Nigeria — Current
+- Nibagwire — PhD Student — University of Ibadan — Nigeria — Current
+- Franck Kwabe — PhD Student — ISP Bukavu — DR Congo — Current
+
+Do not invent missing universities, countries, research interests, supervisors or links.
+
+VISITING INTERNATIONAL STUDENTS
+
+- Dioumacor Faye — PhD Student — Senegal — Visiting International Student — Former / Current
+- Dorothy Namatovu — MSc Student — Uganda — Visiting International Student — Former / Current
+- Ange Lisa Ikirezi — MSc Student — Rwanda — Visiting International Student — Former / Current
+- Marie Ange Tuyime — Undergraduate Student — Rwanda — Visiting International Student — Former / Current
+- Isabel Ajagu — MSc Student / Visiting Scholar — Nigeria — Visiting International Student — Current / Former
+
+Do not invent visit periods or research interests.
+
+GRADUATE ALUMNI
+
+- Augustine Omodieke — MSc Student — PhD Student, Western University — Environmental epidemiology; air pollution; health economics — Alumni / Current PhD
+- Allison Pert — MSc Student — PhD Student, Western University — Alumni / Current PhD
+
+UNDERGRADUATE ALUMNI
+
+- Victoria Bursey — Undergraduate Researcher — MSc Public Health, University of Toronto — Alumni
+- Emily Airhart — Undergraduate Researcher — MSc Student, University of Toronto — Alumni
+- Shagun Chander — Undergraduate Researcher — Western University — Current
+
+IMPORTANT:
+Do not "correct" ambiguous names such as Deborah, Nibagwire, Karakwende, or Chander. Use the supplied verified wording exactly.
+
+STEP 3 — DESIGN
+Keep the existing restrained academic People-page style:
+- simple grid/list
+- consistent typography and spacing
+- no social-media-style cards
+- no gradients, glows, excessive shadows or heavy animation
+- no fake photos or initials
+- omit unavailable fields
+- mobile responsive
+- no horizontal overflow
+
+Do not change any other page or admin/auth/API/database code.
+
+STEP 4 — VALIDATION
+Run:
+- Typecheck
+- Production build
+- /people HTTP 200
+- Desktop ~1280px
+- Mobile ~390px
+- Confirm all previous 24 records remain
+- Confirm the 15 new records appear
+- Confirm no duplicate people were accidentally created
+- Confirm no unsupported details were invented
+- Confirm /projects and /humekaneza still work
+- Confirm footer-logo triple-click/admin entry remains unchanged
+- Check git diff for unintended files
+
+Do NOT push to GitHub.
+
+FINAL REPORT ONLY:
+
+STATUS: PASS / BLOCKED
+
+PREVIOUS 24 RECORDS:
+INTERNATIONAL PhD:
+VISITING STUDENTS:
+ALUMNI:
+
+CHANGED:
+NOT CHANGED:
+
+VALIDATION:
+BLOCKERS:
+
+NEXT: Phase 4.2 — People photos/profile details OR next remaining website phase

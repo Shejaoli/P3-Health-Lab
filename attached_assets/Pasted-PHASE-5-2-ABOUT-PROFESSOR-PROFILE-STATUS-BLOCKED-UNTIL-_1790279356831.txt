@@ -1,0 +1,163 @@
+PHASE 5.2 — ABOUT / PROFESSOR PROFILE
+STATUS: BLOCKED UNTIL PREVIOUS-WORK VERIFICATION PASSES
+
+GOAL
+Implement Phase 5.2 only after verifying that the existing Projects/HumekaNeza work and Phase 5.1 Teaching page are intact.
+
+IMPORTANT
+Do NOT silently fix the blockers from the previous phase in this task.
+Do NOT edit Projects, Research links, Homepage Featured Project links, Teaching, admin/auth/API/database, header/footer, or footer-logo unless verification requires only reading them.
+Do NOT deploy.
+Do NOT change Git configuration.
+Do NOT invent biographical facts.
+
+PART 0 — PREVIOUS-WORK VERIFICATION
+1. Inspect the current repository/worktree before editing.
+2. Confirm:
+   - 37 unique People remain.
+   - 8 Projects remain.
+   - HumekaNeza remains present with all 8 initiatives.
+   - Research → Classroom Clean-Air Interventions currently has its known blocker:
+     `/projects` instead of `/projects#classroom-clean-air-interventions`.
+   - Homepage Featured Project cards currently have their known blocker:
+     `/projects` instead of project hash anchors.
+   - Phase 5.1 Teaching page exists and remains intact.
+   - Admin/auth/API/database files are untouched.
+   - Footer-logo triple-click code exists and is unchanged.
+3. If any expected previous work is missing, STOP immediately.
+4. Do not create a branch or edit files if verification fails.
+
+If verification PASSES, continue.
+
+PART 1 — BRANCH + ABOUT PAGE
+Create a new branch:
+`phase5-2-about-profile`
+
+Build the About / Professor Profile page using ONLY verified information already supplied for this project.
+
+Verified profile information:
+- Dr. Egide Kalisa
+- Assistant Professor
+- Western University
+- Director, P3 Health Lab / HELTH Lab
+- Department of Epidemiology and Biostatistics
+- Research interests:
+  Air Pollution
+  Climate Change
+  Children’s Environmental Health
+  Environmental Justice
+  One Health
+  Exposure Science
+
+Verified research description:
+“My research focuses on individuals’ exposure to air pollutants in indoor and outdoor environments, understanding how much pollution people breathe, and how to reduce those exposures.”
+
+Verified public profile information from Western:
+- Assistant Professor, Department of Epidemiology and Biostatistics
+- Office: PHFM 3129
+- Western email: ekalisa2@uwo.ca
+
+Do not add degrees, awards, previous employers, biography dates, editorial roles, grants, memberships, education history, personal information, or other credentials unless already present in the project’s verified source content.
+
+PAGE STRUCTURE
+Use a restrained academic profile, not a corporate “About Us” page:
+
+1. Hero/profile header
+   - Dr. Egide Kalisa
+   - Assistant Professor
+   - Department of Epidemiology and Biostatistics, Western University
+   - Director, P3 Health Lab / HELTH Lab
+
+2. Short profile/research statement
+   Use the verified research description above.
+
+3. Research Interests
+   Present the six verified research interests clearly and simply.
+
+4. Academic Profile / Contact
+   Include only verified institutional information available above.
+   Do not fabricate phone numbers, room details beyond PHFM 3129, social links, ORCID, Google Scholar, CV, or LinkedIn if their URLs are not already verified in the project.
+
+5. Links
+   Where existing verified site routes already exist, provide restrained links to:
+   - Research
+   - People
+   - Publications
+   - Teaching
+   - Projects
+   - Contact
+   Do not create fake external links.
+
+DESIGN
+- Match the existing restrained academic design.
+- Mostly white/off-white background.
+- Charcoal typography.
+- One muted accent.
+- Generous whitespace.
+- Minimal borders/shadows.
+- No gradients, glow effects, oversized rounded cards, glassmorphism, or startup/marketing language.
+- Avoid large decorative graphics.
+- Make the professor identity immediately clear.
+- Mobile-first and readable at 390px width.
+- If a profile photo already exists in the project and is verified for Dr. Kalisa, use it.
+- Do not generate or invent a replacement portrait.
+
+CONTENT RULE
+Verified information only.
+If a field is unavailable, omit it.
+Do NOT write “TBD”, “Coming soon”, placeholder biography text, invented quotations, or generic achievements.
+
+PROTECTED / DO NOT TOUCH
+- Admin/auth/security implementation
+- Database/API
+- `/admin`
+- `/upload`
+- Existing People data
+- Existing Projects/HumekaNeza content
+- Existing Teaching page
+- Header/footer
+- Footer-logo triple-click behavior
+- Git configuration
+- Deployment configuration
+
+VALIDATION
+After implementation:
+1. Run frontend typecheck.
+2. Run frontend build.
+3. Check `/about` or the existing About route on desktop.
+4. Check at 390px mobile width.
+5. Confirm no horizontal overflow.
+6. Confirm all verified profile facts appear correctly.
+7. Confirm no invented facts were added.
+8. Confirm People, Projects, HumekaNeza, Research, and Teaching remain intact.
+9. Confirm protected admin/footer-logo code was not changed.
+10. Review `git diff` and ensure only Phase 5.2 files/content changed.
+
+Use the project's established commands:
+`cd artifacts/p3-health-lab`
+`pnpm install --filter @workspace/p3-health-lab... --frozen-lockfile`
+`PORT=4173 BASE_PATH=/ pnpm run typecheck`
+`PORT=4173 BASE_PATH=/ pnpm run build`
+
+If pnpm install modifies `pnpm-workspace.yaml`, revert that unrelated change.
+
+FINAL REPORT FORMAT — NOTHING ELSE
+STATUS: PASS or BLOCKED
+
+PREVIOUS WORK VERIFICATION:
+[verification results]
+
+CHANGED:
+[exact files/features changed]
+
+NOT CHANGED:
+[protected areas]
+
+VALIDATION:
+[typecheck/build + desktop/mobile results]
+
+BLOCKERS:
+[only actual blockers]
+
+NEXT:
+Phase 5.3 — [do not invent the next phase scope]

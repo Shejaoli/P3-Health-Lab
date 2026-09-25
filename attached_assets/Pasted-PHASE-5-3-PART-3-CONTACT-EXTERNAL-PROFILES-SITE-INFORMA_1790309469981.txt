@@ -1,0 +1,304 @@
+PHASE 5.3 PART 3 — CONTACT, EXTERNAL PROFILES & SITE INFORMATION
+
+You are completing Phase 5.3 for the P3 Health Lab website.
+
+This is the FINAL PART of Phase 5.3.
+
+IMPORTANT:
+Do not begin coding until the previous phases are verified. This is a scoped completion phase, not a general redesign.
+
+==================================================
+
+1. PREVIOUS-WORK VERIFICATION — REQUIRED
+   ==================================================
+
+Verify that the current implementation contains:
+
+- 37 unique People records
+- 8 Projects
+- 8 HumekaNeza initiatives
+- 9 Teaching courses
+- Phase 5.2 About/Profile
+- Phase 5.3 Part 1 Publications
+- Phase 5.3 Part 2 Join the Lab / Opportunities
+- six verified Research themes
+- existing authenticated admin system
+- existing /upload functionality
+- footer-logo triple-click admin entry
+
+Verify that:
+
+1. Publications external links are admin-editable and hidden when empty.
+2. Opportunities are admin-editable and only published records appear publicly.
+3. Empty opportunity categories show neutral messaging.
+4. Existing authentication and authorization remain intact.
+
+If required previous work is missing, STOP:
+
+STATUS: BLOCKED
+
+Do not reconstruct earlier phases.
+
+==================================================
+2. CONTACT PAGE AUDIT
+
+Inspect the current Contact page and related admin/API/profile resources.
+
+Create or refine the Contact page using only verified information already available in the current project.
+
+Verified contact information:
+
+Department of Epidemiology and Biostatistics
+Western University
+Office PHFM 3129
+Email: ekalisa2@uwo.ca
+
+Do not invent:
+
+- phone numbers
+- social-media accounts
+- office hours
+- mailing instructions
+- appointment requirements
+- alternate emails
+
+If an existing verified contact email is already used elsewhere in the site, keep the implementation consistent.
+
+The Contact page should provide a restrained academic presentation and a clear email contact action.
+
+==================================================
+3. EXTERNAL PROFILE LINKS
+
+Audit the existing Profile / Site Information admin resource and the public Contact/About/Footer areas.
+
+The following external profile/link types may be useful:
+
+- Google Scholar
+- ORCID
+- LinkedIn
+- CV
+- Publication Profile
+- Western University profile
+
+CRITICAL:
+
+Do not invent URLs.
+
+Only display a link publicly when:
+
+- its URL is stored in the authenticated admin resource, and
+- it is a valid HTTP(S) URL, and
+- its label is recognized by the application.
+
+Empty links must remain hidden.
+
+If the existing external-link system already supports a field, reuse it.
+
+If one of the above link types cannot currently be edited through admin, add the smallest compatible admin-editable field/resource necessary.
+
+Do not create a second competing profile-management system.
+
+==================================================
+4. FOOTER / SITE INFORMATION
+
+Audit the current footer.
+
+Do not redesign it.
+
+Ensure the footer can display verified contact information and available external profile links without inventing content.
+
+If the existing footer contains outdated or unsupported content, remove only the unsupported claim/link.
+
+Do not reintroduce:
+
+- "Collaborate" navigation
+- invented slogans
+- invented partners/funders
+- unsupported social accounts
+- decorative content
+
+If copyright text already exists, preserve it unless clearly incorrect.
+
+Do not introduce a new privacy/accessibility policy page merely as placeholder content.
+
+If a future footer field genuinely requires admin management, make it editable through the existing authenticated Site Information/Profile resource rather than hard-coding an invented value.
+
+==================================================
+5. MISSING INFORMATION AUDIT
+
+Inspect the current public routes for fields that are visibly required but currently unavailable.
+
+Examples to check:
+
+- Contact external profiles
+- Scholar/ORCID links
+- CV/publication profile
+- lab contact links
+- future site-wide external links
+
+For every missing piece of information:
+
+A. If verified in the current project:
+implement it directly.
+
+B. If not verified but genuinely useful:
+create an authenticated admin-editable field and keep it hidden until populated.
+
+C. If neither is necessary:
+do not add it.
+
+Do NOT create generic placeholder text such as:
+"Coming soon"
+"Follow us"
+"Learn more"
+unless it is genuinely useful and does not imply unavailable content.
+
+==================================================
+6. ADMIN / API REQUIREMENTS
+
+Reuse existing authenticated Profile / Site Information resources whenever possible.
+
+Do not create duplicate tables or duplicate admin pages for information already supported by the existing system.
+
+Any new editable information must:
+
+- require authenticated admin access
+- validate input
+- expose only intended public fields
+- hide empty values
+- preserve existing authorization behavior
+
+Public API responses must not expose private/admin-only fields.
+
+Verify unauthenticated requests remain rejected where appropriate.
+
+==================================================
+7. DESIGN
+
+Keep the existing restrained academic visual system:
+
+- off-white background
+- charcoal typography
+- muted teal accents
+- thin rules
+- restrained spacing
+- plain academic navigation
+- minimal rounded containers
+- no gradients
+- no glowing effects
+- no decorative AI-generated graphics
+- no heavy animations
+- no excessive shadows
+
+Do not redesign the entire site.
+
+Mobile target:
+approximately 390px
+
+Desktop target:
+approximately 1280px
+
+No horizontal overflow.
+
+==================================================
+8. EXTERNAL SOURCE CAUTION
+
+Do not copy content from external websites simply because it exists there.
+
+In particular, do not automatically import:
+
+- opportunities
+- awards
+- degrees
+- biography claims
+- phone numbers
+- social links
+- funding
+- scholarships
+- project descriptions
+- team members
+
+unless they are already verified project content or explicitly approved for this website.
+
+The current P3 website's verified source material remains authoritative.
+
+==================================================
+9. VALIDATION
+
+Run:
+
+Frontend:
+
+- typecheck
+- production build
+
+API:
+
+- typecheck
+- build
+
+Browser:
+
+- Contact desktop check at approximately 1280px
+- Contact mobile check at approximately 390px
+- Footer desktop/mobile check
+- no horizontal overflow
+- no application console errors
+
+Security:
+
+- unauthenticated admin/profile mutations remain rejected
+- authenticated admin editing still works
+- empty external links remain hidden publicly
+
+Run:
+
+git diff --check
+
+The unrelated mockup-sandbox Vite/workflow issue remains non-blocking if the P3 frontend and API workflows are healthy.
+
+==================================================
+10. CHANGE CONTROL
+
+Do NOT modify:
+
+- People content
+- Projects
+- HumekaNeza
+- Teaching
+- Research
+- Publications
+- Opportunities behavior
+- authentication architecture
+- upload permissions
+- production database
+- deployment configuration
+- Git configuration
+
+Do not deploy.
+
+If a shared component must be modified, keep the change minimal and report it.
+
+==================================================
+11. FINAL REPORT
+
+Return exactly:
+
+STATUS: PASS / BLOCKED
+
+PREVIOUS WORK VERIFICATION:
+
+CHANGED:
+
+NOT CHANGED:
+
+ADMIN EDITABILITY:
+
+PUBLIC DISPLAY:
+
+VALIDATION:
+
+BLOCKERS:
+
+NEXT:
+Phase 5.4

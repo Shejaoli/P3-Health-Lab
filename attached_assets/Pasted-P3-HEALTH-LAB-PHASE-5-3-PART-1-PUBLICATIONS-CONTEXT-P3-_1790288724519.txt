@@ -1,0 +1,194 @@
+P3 HEALTH LAB — PHASE 5.3 PART 1: PUBLICATIONS
+
+CONTEXT
+P3 Health Lab public website for Dr. Egide Kalisa / Western University.
+
+Before editing:
+1. Verify the current branch and worktree.
+2. Verify previous phases:
+   - People: 37 unique records
+   - Projects: 8
+   - HumekaNeza: 8 initiatives
+   - Teaching: 9 courses
+   - About: Phase 5.2 profile present
+3. Verify that Phase 5.2 is intact before changing anything.
+4. If previous work is missing or materially broken, STOP and report BLOCKED. Do not rebuild previous phases.
+5. Inspect the existing Publications page, admin structure, API/database/media structure and existing /upload implementation before deciding what must change.
+
+SCOPE
+This is ONLY Phase 5.3 Part 1: Publications.
+
+Do not modify unrelated public pages, People, Projects, HumekaNeza, Teaching, About, Research content, header/footer, footer-logo triple-click, authentication, or deployment behavior except where explicitly required for the Publications/admin functionality below.
+
+PUBLICATIONS PAGE
+
+Replace the current placeholder/pending Publications page with a restrained academic Publications page.
+
+Use only verified information already supplied in the project/source materials.
+
+The page should include:
+
+Eyebrow:
+"Publications"
+
+Title:
+"Research & Scholarship"
+
+Intro:
+"P3 Health Lab contributes research across environmental health, air pollution, exposure science, climate change, children’s environmental health, environmental microbiology, antimicrobial resistance, clinical trials, One Health, and global health."
+
+Second paragraph:
+"Our work spans observational studies, exposure assessment, laboratory and field-based research, randomized controlled trials, community-engaged research, and interdisciplinary collaborations."
+
+Then create a simple academic section for external publication records.
+
+Google Scholar:
+Heading: "Google Scholar"
+Text:
+"For the most up-to-date list of publications, citations, and scholarly impact:"
+Link text:
+"View Dr. Egide Kalisa’s Publications on Google Scholar →"
+
+IMPORTANT:
+Do NOT invent the Google Scholar URL.
+If the verified URL is not currently available, do not create a fake URL.
+Instead, make the destination editable through the admin system described below.
+
+Also include:
+
+ORCID:
+Heading: "ORCID"
+Text:
+"View Dr. Egide Kalisa’s ORCID profile for a persistent record of research outputs and scholarly contributions."
+Link:
+"View ORCID Profile →"
+
+Again, do not invent the URL.
+
+Then:
+
+Heading:
+"Selected Research Themes"
+
+Use exactly these six supplied themes:
+
+Air Pollution & Environmental Health
+Exposure Science, Environmental Microbiology & AMR
+Climate Change, Wildfires & Extreme Heat
+Children’s Environmental Health
+Clinical Trials & Environmental Health Interventions
+Global Health, One Health & Sustainable Cities
+
+Do not add publications, citations, journals, years, DOIs, statistics, awards, or other scholarly details unless they already exist as verified project data.
+
+ADMIN / EDITABLE CONTENT REQUIREMENT
+
+IMPORTANT FOR THIS AND ALL FUTURE PHASES:
+
+If information required by the public website is currently unavailable, DO NOT invent it and DO NOT permanently hard-code an unavailable value.
+
+Instead, wherever practical, create an authenticated admin-editable field/content record so an administrator can add it later.
+
+For this Publications phase, the admin must have an appropriate way to edit:
+
+- Google Scholar URL
+- ORCID URL
+- Any future CV/publication-profile URL that belongs on the Publications page
+- Publication-page introductory text if the existing admin architecture supports editable site information
+
+Do not expose these editing controls publicly.
+
+Do not weaken authentication or create a new public editing route.
+
+If the existing admin architecture already has a suitable Site Information / Profile / External Links mechanism, reuse it rather than creating a duplicate system.
+
+If the database/API required for an admin-editable field does not currently support it, inspect the existing architecture first and make the smallest compatible change. Do not redesign the admin system.
+
+If an admin-editable value is empty, the public website must simply hide that link/field rather than showing "TBD", "pending", fake URLs, or placeholder content.
+
+DESIGN
+
+Use the existing restrained academic visual language from Research/About/Teaching:
+
+- off-white background
+- charcoal text
+- muted teal accent
+- thin rules
+- plain typography
+- no gradients
+- no glowing effects
+- no decorative poster graphics
+- no unnecessary cards
+- no heavy animation
+- mobile responsive
+- no horizontal overflow
+
+Reuse existing scoped styles where possible.
+
+PROTECTED AREAS
+
+Do NOT change:
+- footer-logo triple-click behavior
+- admin authentication/security behavior
+- unrelated admin resources
+- People data
+- Projects data
+- HumekaNeza
+- Teaching
+- About
+- Research content
+- Header/footer
+- deployment configuration
+- Git configuration
+
+VALIDATION
+
+Before implementation, verify previous phases.
+
+After implementation:
+
+1. Typecheck.
+2. Production build.
+3. Open /publications at approximately 1280px.
+4. Open /publications at approximately 390px.
+5. Confirm no horizontal overflow.
+6. Confirm only verified text appears.
+7. Confirm missing external URLs are not invented.
+8. Confirm admin editing controls are protected by the existing authentication.
+9. Confirm empty external-link fields are hidden publicly.
+10. Confirm footer-logo triple-click remains unchanged.
+11. Check git diff and ensure no unrelated files were modified.
+
+Do not deploy.
+
+BRANCH
+
+Create/use:
+phase5-3-part1-publications
+
+Do not modify main.
+
+FINAL REPORT ONLY:
+
+STATUS: PASS / BLOCKED
+
+PREVIOUS WORK VERIFICATION:
+[what was verified]
+
+CHANGED:
+[exact files/features]
+
+NOT CHANGED:
+[protected areas]
+
+ADMIN EDITABILITY:
+[what can now be edited and where]
+
+VALIDATION:
+[typecheck/build/routes/mobile/admin checks]
+
+BLOCKERS:
+[only concrete blockers]
+
+NEXT:
+Phase 5.3 Part 2

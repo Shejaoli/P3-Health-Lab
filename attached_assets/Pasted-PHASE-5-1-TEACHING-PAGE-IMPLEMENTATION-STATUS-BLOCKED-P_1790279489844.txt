@@ -1,0 +1,237 @@
+PHASE 5.1 — TEACHING PAGE IMPLEMENTATION
+STATUS: BLOCKED PREVIOUS WORK → IMPLEMENT PHASE 5.1 ONLY
+
+GOAL
+Implement the missing Phase 5.1 Teaching page. Do NOT begin Phase 5.2 About/Profile.
+
+IMPORTANT
+The previous verification confirmed:
+- People: 37 unique people
+- Projects: 8
+- HumekaNeza: all 8 initiatives present
+- Research → Classroom Clean-Air Interventions hash link is still a known blocker
+- Homepage Featured Project hash links are still known blockers
+- Phase 5.1 Teaching content is NOT currently present
+
+Those two project-link blockers are OUT OF SCOPE for this task.
+Do not fix them here.
+
+PART 1 — VERIFY BEFORE EDITING
+
+Inspect the repository/worktree first.
+
+Confirm:
+1. 37 unique People remain.
+2. All 8 Projects remain.
+3. HumekaNeza exists with all 8 initiatives.
+4. The existing Research page is present.
+5. The existing Projects page is present.
+6. The current Teaching page exists but is the earlier implementation and lacks the required Phase 5.1 content.
+7. Admin/auth/API/database files are untouched.
+8. Footer-logo triple-click code exists and is unchanged.
+9. Git configuration and deployment configuration are unchanged.
+
+If People, Projects, HumekaNeza, or protected admin/footer work is missing or unexpectedly changed:
+STOP and report BLOCKED.
+Do not edit anything.
+
+If verification passes, create:
+`phase5-1-teaching`
+
+Do not work directly on main.
+
+PART 2 — IMPLEMENT TEACHING
+
+Replace/improve ONLY the Teaching page and the minimum CSS/data required for it.
+
+Use this verified teaching information exactly:
+
+2026–2027
+- GHS 9100: Foundations of Global Health
+- GHS 9112: International Field School
+
+2025–2026
+- GHS 9100: Foundations of Global Health
+- OH 3300A: Foundations in One Health
+- OH 3600: One Health in Action
+- GHS 9112: International Field School
+- MPH 9015: Issues in Global Health
+
+2024–2025
+- GHS 9100: Foundations of Global Health
+- OH 3600: One Health in Action
+
+That is exactly 9 course entries.
+
+PAGE STRUCTURE
+
+1. Hero
+Title:
+Teaching
+
+Use a short restrained academic introduction explaining that teaching connects global health, One Health, environmental health, and field-based learning.
+
+Do NOT invent a quotation.
+
+2. Current Teaching
+Clearly show:
+
+2026–2027
+- GHS 9100 — Foundations of Global Health
+- GHS 9112 — International Field School
+
+3. Previous Teaching
+
+2025–2026
+- GHS 9100 — Foundations of Global Health
+- OH 3300A — Foundations in One Health
+- OH 3600 — One Health in Action
+- GHS 9112 — International Field School
+- MPH 9015 — Issues in Global Health
+
+2024–2025
+- GHS 9100 — Foundations of Global Health
+- OH 3600 — One Health in Action
+
+Do not invent program names, teaching roles, course descriptions, links, or course materials.
+
+4. Teaching Philosophy
+
+Use only the following verified concepts:
+
+Teaching connects global health, One Health, environmental health, and field-based learning.
+
+Emphasize:
+- interdisciplinary learning
+- practical experience
+- critical thinking
+- connecting evidence to real-world health challenges
+
+Do not create a quotation or attribute these ideas to Dr. Kalisa as a direct quote.
+
+5. Graduate Supervision
+
+Use the established research areas only:
+- environmental health
+- exposure science
+- air pollution
+- climate-health
+- One Health
+- global health
+- epidemiology
+- intervention research
+
+Do not invent specific supervision openings, funding, degree requirements, or application deadlines.
+
+6. Experiential & Field-Based Teaching
+
+Include:
+- International Field School
+- field-based learning
+- interdisciplinary learning
+- connecting evidence with real-world health challenges
+
+Do not invent locations, activities, student numbers, or outcomes.
+
+DESIGN REQUIREMENTS
+
+Match the restrained academic visual system already established:
+
+- white/off-white background
+- charcoal typography
+- one muted accent
+- generous whitespace
+- modest borders
+- minimal shadows
+- no gradients
+- no glow
+- no glassmorphism
+- no oversized rounded cards
+- no startup/marketing language
+- no excessive animation
+
+Course lists should feel academic and easy to scan rather than like product cards.
+
+Mobile:
+- Must work cleanly at 390px width.
+- No horizontal overflow.
+- Avoid overly wide tables.
+- Course information should remain readable without horizontal scrolling.
+
+Do not redesign the global header/footer.
+
+PROTECTED — DO NOT TOUCH
+
+Do NOT modify:
+- admin/auth/security
+- database/API
+- `/admin`
+- `/upload`
+- People data
+- Projects content
+- HumekaNeza content
+- Research content
+- Homepage Featured Project links
+- Research project hash links
+- Header
+- Footer
+- Footer-logo triple-click behavior
+- Git configuration
+- deployment configuration
+
+The two known project-link blockers must remain unchanged in this phase.
+
+PART 3 — VALIDATION
+
+After implementation:
+
+1. Run frontend typecheck.
+2. Run frontend build.
+3. Open Teaching on desktop.
+4. Check Teaching at 390px mobile width.
+5. Confirm exactly 9 course entries:
+   - 2 in 2026–2027
+   - 5 in 2025–2026
+   - 2 in 2024–2025
+6. Confirm all course codes/titles exactly match the supplied source.
+7. Confirm no invented facts or quotations.
+8. Confirm People still has 37 unique people.
+9. Confirm all 8 Projects remain.
+10. Confirm HumekaNeza still has all 8 initiatives.
+11. Confirm the two known project-link blockers were NOT changed.
+12. Confirm admin/auth/API/database files were not changed.
+13. Confirm footer-logo triple-click code was not changed.
+14. Review `git diff` and verify the diff is limited to Phase 5.1.
+
+Use the established frontend commands:
+
+cd artifacts/p3-health-lab
+pnpm install --filter @workspace/p3-health-lab... --frozen-lockfile
+PORT=4173 BASE_PATH=/ pnpm run typecheck
+PORT=4173 BASE_PATH=/ pnpm run build
+
+If pnpm install modifies `pnpm-workspace.yaml`, revert that unrelated change.
+
+DO NOT DEPLOY.
+
+FINAL REPORT — USE EXACTLY THIS STRUCTURE
+
+STATUS: PASS or BLOCKED
+
+PREVIOUS WORK VERIFICATION:
+[results]
+
+CHANGED:
+[exact Teaching files/features changed]
+
+NOT CHANGED:
+[list protected areas]
+
+VALIDATION:
+[typecheck/build + desktop/mobile + 9 course-entry verification]
+
+BLOCKERS:
+[only actual blockers]
+
+NEXT:
+Phase 5.2 — About / Professor Profile

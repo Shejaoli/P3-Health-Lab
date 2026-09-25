@@ -1,0 +1,195 @@
+P3 HEALTH LAB — FINAL GITHUB RECOVERY CHECK
+
+READ-ONLY INVESTIGATION ONLY.
+
+Do NOT:
+
+- modify application code
+- reconstruct any phase
+- merge
+- cherry-pick
+- reset
+- rebase
+- force-push
+- delete branches
+- deploy
+- modify production
+- change authentication
+- modify database
+- create a commit
+
+The previous audits are inconsistent: one audit says completed Projects/HumekaNeza/About/Publications/Opportunities content is present, while another established that the completed implementations are not present in the available local Git history.
+
+Before any Phase 5.4 work, determine the authoritative repository state.
+
+==================================================
+
+1. IDENTIFY THE GITHUB REPOSITORY
+   ==================================================
+
+From the existing Git configuration, report:
+
+origin URL
+gitsafe-backup URL
+all configured remotes
+
+Do not change any remote.
+
+==================================================
+2. QUERY REMOTE BRANCHES DIRECTLY
+
+Perform a READ-ONLY remote reference inspection.
+
+Determine every branch currently exposed by the GitHub remote.
+
+Do not rely only on the existing shallow clone.
+
+Look specifically for names containing:
+
+phase
+project
+humeka
+people
+teaching
+about
+publication
+opportunit
+replit
+
+Also inspect all other remote branches, even if their names are unrelated.
+
+Report:
+
+REMOTE BRANCH
+LATEST COMMIT
+COMMIT DATE
+COMMIT MESSAGE
+
+Do not checkout anything.
+
+==================================================
+3. QUERY ALL AVAILABLE REMOTE REFS
+
+Inspect whether the remote exposes additional refs beyond normal branches, including pull-request refs if available.
+
+Look for commits associated with:
+
+bc76c91
+658029a
+
+5cd6538043f44449da5923df47c3fae073d49879
+df203346d43056a489133f5cac1074eac023e242
+f81b04423f9e9bd3c819ad27a54d3eaf07af1192
+
+For every SHA:
+
+FOUND REMOTELY: YES/NO
+REF:
+COMMIT MESSAGE:
+
+Do not modify the refs.
+
+==================================================
+4. CHECK GITHUB PR HISTORY IF AVAILABLE
+
+If GitHub CLI or another authenticated GitHub interface is already available in the environment, perform a READ-ONLY search of repository pull requests.
+
+Search for:
+
+Projects
+HumekaNeza
+People
+Teaching
+About
+Publications
+Opportunities
+phase3
+phase4
+phase5
+
+Also look for merged/closed pull requests whose source branch names correspond to the missing phases.
+
+Do not create, edit, reopen, merge, or close any PR.
+
+If GitHub authentication is unavailable, report that fact and stop this section.
+
+==================================================
+5. IMPORTANT CONTENT VERIFICATION
+
+If a candidate commit/branch is found, inspect it without modifying the current checkout.
+
+Projects:
+verify whether the eight real initiative descriptions exist rather than filler.
+
+HumekaNeza:
+verify the completed Breathe Easy / Learn / Measure / Communicate / Act / Featured Initiatives / Why HumekaNeza Matters / Vision / Get Involved structure.
+
+About:
+verify the completed Phase 5.2 profile rather than merely a basic profile.
+
+Publications:
+verify the actual public page renders the publication-link data.
+
+Opportunities:
+verify an authenticated admin resource exists for creating/editing/publishing opportunities.
+
+Do not treat API groundwork alone as completion.
+
+==================================================
+6. CURRENT CHECKOUT MUST REMAIN UNTOUCHED
+
+Do not checkout a discovered branch.
+
+Do not merge or cherry-pick.
+
+Do not modify files.
+
+Do not alter .replit.
+
+Do not remove the existing untracked audit file.
+
+==================================================
+7. FINAL DECISION
+
+Return exactly one of:
+
+A. RECOVERY SOURCE FOUND
+
+Meaning:
+A remote branch/PR/ref contains the previously completed work.
+
+OR
+
+B. RECOVERY SOURCE NOT FOUND
+
+Meaning:
+No available GitHub branch/ref/PR contains the missing completed implementation.
+
+Then provide:
+
+CURRENT MAIN:
+<commit>
+
+REMOTE BRANCHES FOUND:
+<list>
+
+KNOWN COMMITS:
+<found/not found>
+
+RECOVERY SOURCE:
+<exact ref if found>
+
+PHASES CONFIRMED IN RECOVERY SOURCE:
+<list>
+
+PHASES STILL MISSING:
+<list>
+
+RECOMMENDED NEXT ACTION:
+If recovery source found:
+"STOP CODING. Review the exact recovery source before restoration."
+
+If recovery source not found:
+"Proceed with controlled reconstruction from the verified project specifications, one phase at a time."
+
+NO CODE CHANGES MADE.
