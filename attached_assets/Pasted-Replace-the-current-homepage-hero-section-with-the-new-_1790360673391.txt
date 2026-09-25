@@ -1,0 +1,36 @@
+Replace the current homepage hero section with the new hero image I've uploaded 
+(Air Pollution & Environmental Health banner). Style it similarly to a full-bleed 
+image hero with overlaid text, but with these specific constraints:
+
+1. HERO HEIGHT
+- Do NOT make the hero fill the full viewport height (no 100vh hero).
+- Cap the hero section height at roughly 55-65% of the viewport height on desktop, 
+  and around 45-50vh on mobile — enough that the page's next section (heading + 
+  intro text) is already partially visible on initial load, without any scrolling.
+- Use `min-height` with a `vh` cap plus `max-height`, not a fixed pixel height, so 
+  it adapts across screen sizes while staying compact.
+
+2. IMAGE HANDLING
+- Set the uploaded image as a background image (or foreground image with overlay) 
+  using `object-fit: cover` / `background-size: cover` and `background-position: center`
+  so it crops intelligently rather than stretching or squashing.
+- Since the image already has text/icons baked into it (title, subtitle, iconography), 
+  do NOT add a duplicate text overlay on top — let the image's own text be the hero 
+  content. If the site's existing hero pattern requires a separate HTML heading 
+  (for SEO/accessibility), add an `<h1>` visually hidden (sr-only class) with the 
+  same heading text ("Air Pollution & Environmental Health") so it's still 
+  accessible and indexable, without visually duplicating the image's text.
+
+3. RESPONSIVE
+- On mobile, keep the image legible — if the text becomes too small/cropped at the 
+  capped mobile height, either allow slightly taller mobile height (up to 55vh) or 
+  apply a subtle dark gradient overlay at the bottom edge of the image to help the 
+  transition into the next section read cleanly.
+
+4. LAYOUT INTENT
+- The goal: user should see the hero AND the start of the next content block 
+  (heading + first paragraph) on first load, with no scrolling needed on standard 
+  desktop and mobile viewport sizes.
+
+Do not change any other sections, content, or routes — only replace and resize the 
+hero.

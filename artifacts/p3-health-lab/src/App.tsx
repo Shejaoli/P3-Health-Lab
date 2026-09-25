@@ -1,13 +1,28 @@
 import { type MouseEvent as ReactMouseEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ArrowUpRight, ChevronRight, Check, CircleArrowUp, ExternalLink, X } from 'lucide-react';
+import { ArrowUpRight, ChevronRight, Check, CircleArrowUp, ExternalLink, UserRound, X } from 'lucide-react';
 import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
-import { useGetPublicOpportunities, useGetPublicProfile } from '@workspace/api-client-react';
+import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
 import logo from '@assets/p3_logo_1789065448410.png';
+import heroImage from '@assets/IMG-20260925-WA0006_1790363975752.jpg';
+import humekanezaLogo from '@assets/IMG-20260910-WA0000_1790353414570.jpg';
+import egideKalisaPhoto from '@assets/1._Dr._Egide_Kalisa_1790358118214.webp';
+import mdPervezKabirPhoto from '@assets/2._Dr._Md_Pervez_Kabir_1790358118262.jpeg';
+import allisonPertPhoto from '@assets/Allison_Pert0_1790358118374.webp';
+import augustineOmodiekePhoto from '@assets/Augustine_Omodieke_(2)_1790358118959.jpg';
+import oluWaseunBajulayePhoto from '@assets/Bajulaye_Oluwaseun_Oyindamola_1790358118831.webp';
+import dioumacorFayePhoto from '@assets/Dioumacor_FAYE_(1)_1790358118917.png';
+import dorothyNamatovuPhoto from '@assets/Dorothy_Namatovu1)_1790358118875.png';
+import emilyAirhartPhoto from '@assets/Emily_Airhart1)_1790358118999.png';
+import farhanaRamizaPhoto from '@assets/Farhana_Rokaiya_Ramiza_1790358118660.webp';
+import francisAcquahPhoto from '@assets/Francis_N._Acquah_1790358118740.webp';
+import angeLisaIkireziPhoto from '@assets/IKIREZI_Ange_Lisa3_1790358118788.webp';
+import victoriaBurseyPhoto from '@assets/Victoria_Bursey_1790358119044.png';
+import zohaIrfanPhoto from '@assets/Zoha_Irfan-9_1790358118502.webp';
 
 const queryClient = new QueryClient();
 
@@ -32,7 +47,16 @@ function useScrollReveal(routeKey: string) {
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
     elements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
+    const revealInitialViewport = window.requestAnimationFrame(() => {
+      elements.forEach((element) => {
+        const bounds = element.getBoundingClientRect();
+        if (bounds.top < window.innerHeight && bounds.bottom > 0) element.classList.add('is-visible');
+      });
+    });
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(revealInitialViewport);
+    };
   }, [routeKey]);
 }
 
@@ -206,6 +230,62 @@ const projects: Project[] = [
   },
 ];
 
+type ResearchMapLocation = {
+  id: string;
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  mapX: number;
+  mapY: number;
+  projectSlug: string;
+  projectTitle: string;
+  description: string;
+  displayOrder: number;
+};
+
+const researchMapLocations: ResearchMapLocation[] = [
+  {
+    id: 'rwanda',
+    name: 'Rwanda',
+    country: 'Rwanda',
+    latitude: -1.94,
+    longitude: 29.87,
+    mapX: 58.3,
+    mapY: 51.1,
+    projectSlug: projects[0].slug,
+    projectTitle: projects[0].title,
+    description: projects[0].description[0],
+    displayOrder: 1,
+  },
+  {
+    id: 'hamilton',
+    name: 'Hamilton',
+    country: 'Canada',
+    latitude: 43.26,
+    longitude: -79.87,
+    mapX: 23.8,
+    mapY: 23.5,
+    projectSlug: projects[7].slug,
+    projectTitle: projects[7].title,
+    description: projects[7].description[0],
+    displayOrder: 2,
+  },
+  {
+    id: 'london',
+    name: 'London',
+    country: 'Canada',
+    latitude: 42.98,
+    longitude: -81.25,
+    mapX: 30.8,
+    mapY: 34.5,
+    projectSlug: projects[7].slug,
+    projectTitle: projects[7].title,
+    description: projects[7].description[0],
+    displayOrder: 3,
+  },
+];
+
 const profileResearchInterests = [
   'Air Pollution',
   'Climate Change',
@@ -224,6 +304,7 @@ const featuredProjects = [
 type PersonRecord = {
   name: string;
   role: string;
+  photo?: string;
   institution?: string;
   country?: string;
   currentPosition?: string;
@@ -240,6 +321,7 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Dr. Egide Kalisa',
         role: 'Assistant Professor; Director, HELTH/P3 Health Lab',
+        photo: egideKalisaPhoto,
         institution: 'Western University',
         researchFocus: 'Environmental health; air pollution; climate change; children’s health; environmental justice; One Health; exposure science',
       },
@@ -252,6 +334,7 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Dr. Md Pervez Kabir',
         role: 'Postdoctoral Fellow',
+        photo: mdPervezKabirPhoto,
         institution: 'Western University',
       },
     ],
@@ -263,6 +346,7 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Allison Pert',
         role: 'PhD Student',
+        photo: allisonPertPhoto,
         institution: 'Western University',
         formerRole: 'MSc Student',
         status: 'Alumni / Current PhD',
@@ -270,12 +354,13 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Augustine Omodieke',
         role: 'PhD Student',
+        photo: augustineOmodiekePhoto,
         institution: 'Western University',
         researchFocus: 'Environmental epidemiology; air pollution; health economics',
         formerRole: 'MSc Student',
         status: 'Alumni / Current PhD',
       },
-      { name: 'Francis Acquah', role: 'PhD Student', institution: 'Western University' },
+      { name: 'Francis Acquah', role: 'PhD Student', photo: francisAcquahPhoto, institution: 'Western University' },
       { name: 'Daniel Twum', role: 'PhD Student', institution: 'Western University' },
       { name: 'Abdul Rasheed Rasheed', role: 'PhD Student', institution: 'Western University' },
     ],
@@ -287,11 +372,12 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Zoha Irfan',
         role: 'MSc Student',
+        photo: zohaIrfanPhoto,
         institution: 'Western University',
         researchFocus: 'PAHs; air pollution; exposure science',
       },
-      { name: 'Oluwaseun Bajulaye', role: 'MSc Student', institution: 'Western University' },
-      { name: 'Farhana Ramiza', role: 'MSc Student', institution: 'Western University' },
+      { name: 'Oluwaseun Bajulaye', role: 'MSc Student', photo: oluWaseunBajulayePhoto, institution: 'Western University' },
+      { name: 'Farhana Ramiza', role: 'MSc Student', photo: farhanaRamizaPhoto, institution: 'Western University' },
       { name: 'Ignatius Atuguba', role: 'MSc Student', institution: 'Western University' },
     ],
   },
@@ -340,9 +426,9 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
     id: 'visiting-international',
     title: 'Visiting International Students',
     people: [
-      { name: 'Dioumacor Faye', role: 'PhD Student', institution: 'Visiting International Student', country: 'Senegal' },
-      { name: 'Dorothy Namatovu', role: 'MSc Student', institution: 'Visiting International Student', country: 'Uganda' },
-      { name: 'Ange Lisa Ikirezi', role: 'MSc Student', institution: 'Visiting International Student', country: 'Rwanda' },
+      { name: 'Dioumacor Faye', role: 'PhD Student', photo: dioumacorFayePhoto, institution: 'Visiting International Student', country: 'Senegal' },
+      { name: 'Dorothy Namatovu', role: 'MSc Student', photo: dorothyNamatovuPhoto, institution: 'Visiting International Student', country: 'Uganda' },
+      { name: 'Ange Lisa Ikirezi', role: 'MSc Student', photo: angeLisaIkireziPhoto, institution: 'Visiting International Student', country: 'Rwanda' },
       { name: 'Marie Ange Tuyime', role: 'Undergraduate Student', institution: 'Visiting International Student', country: 'Rwanda' },
       { name: 'Isabel Ajagu', role: 'MSc Student / Visiting Scholar', institution: 'Visiting International Student', country: 'Nigeria' },
     ],
@@ -351,30 +437,12 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
     id: 'undergraduate-alumni',
     title: 'Undergraduate Alumni',
     people: [
-      { name: 'Victoria Bursey', role: 'Undergraduate Researcher', currentPosition: 'MSc Public Health, University of Toronto', status: 'Alumni' },
-      { name: 'Emily Airhart', role: 'Undergraduate Researcher', currentPosition: 'MSc Student, University of Toronto', status: 'Alumni' },
+      { name: 'Victoria Bursey', role: 'Undergraduate Researcher', photo: victoriaBurseyPhoto, currentPosition: 'MSc Public Health, University of Toronto', status: 'Alumni' },
+      { name: 'Emily Airhart', role: 'Undergraduate Researcher', photo: emilyAirhartPhoto, currentPosition: 'MSc Student, University of Toronto', status: 'Alumni' },
       { name: 'Shagun Chander', role: 'Undergraduate Researcher', institution: 'Western University', status: 'Current' },
     ],
   },
 ];
-
-const courses = {
-  '2026–2027': [
-    { code: 'GHS 9100', title: 'Foundations of Global Health' },
-    { code: 'GHS 9112', title: 'International Field School' },
-  ],
-  '2025–2026': [
-    { code: 'GHS 9100', title: 'Foundations of Global Health' },
-    { code: 'OH 3300A', title: 'Foundations in One Health' },
-    { code: 'OH 3600', title: 'One Health in Action' },
-    { code: 'GHS 9112', title: 'International Field School' },
-    { code: 'MPH 9015', title: 'Issues in Global Health' },
-  ],
-  '2024–2025': [
-    { code: 'GHS 9100', title: 'Foundations of Global Health' },
-    { code: 'OH 3600', title: 'One Health in Action' },
-  ],
-} as const;
 
 function Shell({ children }: { children: ReactNode }) {
   const [location, setLocation] = useLocation();
@@ -387,6 +455,7 @@ function Shell({ children }: { children: ReactNode }) {
   const adminClickRef = useRef({ count: 0, lastClick: 0 });
   const nav: { label: string; href: string; children?: [string, string][] }[] = [
     { label: 'Research', href: '/research' },
+    { label: 'Global Research Map', href: '/research-map' },
     { label: 'People', href: '/people' },
     { label: 'Publications', href: '/publications' },
     { label: 'Teaching', href: '/teaching' },
@@ -437,6 +506,7 @@ function Shell({ children }: { children: ReactNode }) {
       if (event.key === 'Escape') {
         setOpenMenu(null);
         setOpenMobileMenu(null);
+        setMenuOpen(false);
       }
     };
     const closeOnOutsideClick = (event: MouseEvent) => {
@@ -485,7 +555,7 @@ function Shell({ children }: { children: ReactNode }) {
               </div>
             ) : <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-nav-${item.label.toLowerCase()}`}>{item.label}</Link>)}
           </nav>
-          <button className={`menu-btn ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} data-testid="button-mobile-menu">
+          <button className={`menu-btn ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} data-testid="button-mobile-menu">
             <span className="hamburger-icon" aria-hidden="true"><span /><span /><span /></span>
           </button>
         </div>
@@ -594,13 +664,14 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 
 function Home() {
   return <>
-    <section className="home-hero" aria-labelledby="home-title">
-      <div className="container-wide">
-        <span className="eyebrow">P3 Health Lab · People · Planet · Place</span>
-        <h1 id="home-title"><span>Understanding exposures.</span> <span>Designing interventions.</span> <span>Improving health.</span></h1>
-        <p className="home-lede">We study how environmental exposures, climate change, and the places where people live, learn, work, and move influence health—and design interventions to reduce those risks.</p>
-        <div className="home-identity"><strong>Dr. Egide Kalisa</strong><span>Assistant Professor, Western University</span><span>Director, P3 Health Lab / HELTH Lab</span></div>
-        <div className="hero-actions"><Link href="/research" className="button-primary" data-testid="link-hero-research">Explore Our Research</Link><Link href="/people" className="button-secondary" data-testid="link-hero-people">Meet Our People</Link></div>
+    <section className="home-hero" aria-labelledby="home-title" style={{ backgroundImage: `url(${heroImage})` }}>
+      <div className="home-hero-scrim" aria-hidden="true" />
+      <div className="container-wide home-hero-inner">
+        <div className="home-hero-copy">
+          <span className="home-hero-eyebrow">CLEAN AIR · HEALTHY PEOPLE · THRIVING PLANET</span>
+          <h1 id="home-title">Air Pollution &amp; Environmental Health</h1>
+          <p>Research for cleaner air, healthier lives, brighter tomorrows.</p>
+        </div>
       </div>
     </section>
 
@@ -614,7 +685,13 @@ function Home() {
 
     <section className="home-block" aria-labelledby="home-research-title">
       <div className="container-wide">
-        <div className="home-block-head"><h2 id="home-research-title">Research areas</h2><Link href="/research" className="text-link" data-testid="link-home-research-all">All research</Link></div>
+        <div className="home-block-head">
+          <h2 id="home-research-title">Research areas</h2>
+          <div className="home-block-head-links">
+            <Link href="/research" className="text-link" data-testid="link-home-research-all">All research</Link>
+            <Link href="/research-map" className="text-link" data-testid="link-home-research-map">Global research map</Link>
+          </div>
+        </div>
         <ul className="home-list">
           {researchThemes.map((theme, index) => <li key={theme.id}><Link href={`/research#${theme.id}`} data-testid={`card-home-research-${index}`}><h3>{theme.title}</h3><p>{theme.text}</p></Link></li>)}
         </ul>
@@ -627,6 +704,17 @@ function Home() {
         <ul className="home-list">
           {featuredProjects.map((project, index) => <li key={project.title}><Link href={`/projects#${project.slug}`} data-testid={`card-home-project-${index}`}><h3>{project.title}</h3><p>{project.text}</p></Link></li>)}
         </ul>
+      </div>
+    </section>
+
+    <section className="home-block home-updates" aria-labelledby="home-updates-title">
+      <div className="container-wide home-updates-row">
+        <div>
+          <span className="eyebrow">Updates</span>
+          <h2 id="home-updates-title">News and updates</h2>
+          <p>Announcements and updates from P3 Health Lab.</p>
+        </div>
+        <Link href="/news" className="text-link" data-testid="link-home-news">View all news</Link>
       </div>
     </section>
 
@@ -674,7 +762,7 @@ function Research() {
         {researchThemes.map((theme, index) => <article className="theme" id={theme.id} key={theme.id} data-testid={`card-research-${index}`}>
           <h2>{theme.title}</h2>
           <div className="theme-body">
-            {index === 0 && <figure className="theme-figure"><img src={`${import.meta.env.BASE_URL}images/air-pollution-environmental-health.jpg`} alt="Illustration of a city skyline and river with people in the foreground" width="1040" height="460" loading="lazy" /><figcaption>Illustrative image</figcaption></figure>}
+            {index === 0 && <figure className="theme-figure"><img src={`${import.meta.env.BASE_URL}images/air-pollution-environmental-health.jpg`} alt="Illustration of a city skyline and river with people in the foreground" width="1040" height="460" loading="lazy" decoding="async" /><figcaption>Illustrative image</figcaption></figure>}
             <p>{theme.text}</p>
             <p>{theme.more}</p>
             {theme.related && <p className="theme-related">Related: <Link href={theme.related.href} className="text-link">{theme.related.label}</Link></p>}
@@ -687,6 +775,7 @@ function Research() {
       <div className="container-wide">
         <ul className="research-links">
           <li><Link href="/projects" className="text-link" data-testid="link-research-projects">Projects</Link></li>
+          <li><Link href="/research-map" className="text-link" data-testid="link-research-map">Global Research Map</Link></li>
           <li><Link href="/publications" className="text-link" data-testid="link-research-publications">Publications</Link></li>
           <li><Link href="/people" className="text-link" data-testid="link-research-people">People</Link></li>
         </ul>
@@ -701,6 +790,13 @@ function Projects() {
     <section className="section projects-section" data-reveal="up">
       <div className="container-wide">
         <div className="projects-list">
+          <div className="projects-humeka-identity">
+            <img src={humekanezaLogo} alt="HumekaNeza Breathe Easy logo with a tree and roots" width="1600" height="1600" loading="lazy" decoding="async" data-testid="img-projects-humekaneza-logo" />
+            <div className="projects-humeka-copy">
+              <span className="eyebrow">HumekaNeza initiative</span>
+              <Link href="/humekaneza" className="text-link" data-testid="link-projects-humekaneza">About HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></Link>
+            </div>
+          </div>
           {projects.map((project, index) => <article className="project-entry" id={project.slug} key={project.id} data-testid={`project-${project.slug}`}>
             <div className="project-entry-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
             <div className="project-entry-content">
@@ -726,8 +822,95 @@ function Projects() {
           </article>)}
         </div>
         <div className="projects-related-link">
-          <Link href="/humekaneza" className="text-link" data-testid="link-projects-humekaneza">Learn more about HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></Link>
+          <Link href="/research-map" className="text-link" data-testid="link-projects-research-map">View global research map <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>
+      </div>
+    </section>
+  </>;
+}
+
+function ResearchMap() {
+  const [selectedId, setSelectedId] = useState(researchMapLocations[0].id);
+  const selectedLocation = researchMapLocations.find((location) => location.id === selectedId) ?? researchMapLocations[0];
+
+  return <>
+    <PageHero
+      eyebrow="Global Research Map"
+      title={<>Research Across <em>Communities</em></>}
+      text="A geographic view of communities and settings connected to P3 Health Lab research and initiatives."
+    />
+    <section className="section research-map-section" data-reveal="up">
+      <div className="container-wide">
+        <div className="research-map-layout">
+          <div className="research-map-visual-panel">
+            <div className="research-map-heading">
+              <div>
+                <span className="eyebrow">Verified locations</span>
+                <h2>Connected settings, clearly placed.</h2>
+              </div>
+              <span className="research-map-count">{researchMapLocations.length} locations</span>
+            </div>
+            <div className="research-map-canvas" aria-label="Schematic geographic view of verified P3 Health Lab locations">
+              <svg className="research-map-grid" viewBox="0 0 1000 480" aria-hidden="true">
+                <g className="research-map-graticule">
+                  <path d="M0 80H1000M0 160H1000M0 240H1000M0 320H1000M0 400H1000" />
+                  <path d="M125 0V480M250 0V480M375 0V480M500 0V480M625 0V480M750 0V480M875 0V480" />
+                </g>
+                <path className="research-map-contour" d="M92 147c42-29 86-30 126-4 26 17 45 13 73 5 31-9 65 2 89 29 19 22 33 34 70 39 35 5 55 23 57 48 2 25-24 38-65 31-43-7-74 11-111 18-39 8-72-7-99-27-25-18-53-32-82-48-35-19-70-60-58-91Zm488 125c30-25 64-35 96-24 28 10 42 30 63 44 23 15 53 14 72 36 15 18 9 40-12 50-32 15-67-5-88-17-24-14-45-15-74-10-31 6-66-7-73-32-5-17 1-34 16-47Zm224-212c21-12 48-9 67 5 15 11 20 28 13 41-11 19-42 21-64 9-19-10-35-32-26-47 3-4 6-6 10-8Z" />
+              </svg>
+              {researchMapLocations.map((location) => (
+                <button
+                  type="button"
+                  className={`research-map-marker ${selectedId === location.id ? 'is-selected' : ''}`}
+                  key={location.id}
+                  style={{ left: `${location.mapX}%`, top: `${location.mapY}%` }}
+                  onClick={() => setSelectedId(location.id)}
+                  aria-label={`Show verified research connected to ${location.name}, ${location.country}`}
+                  aria-pressed={selectedId === location.id}
+                >
+                  <span className="research-map-marker-dot" aria-hidden="true" />
+                  <span className="research-map-marker-label">{location.name}</span>
+                </button>
+              ))}
+            </div>
+            <p className="research-map-note">Schematic geographic view, not to scale. Locations appear only where existing project content names the setting.</p>
+          </div>
+          <aside className="research-map-detail" aria-live="polite">
+            <span className="eyebrow">Selected location</span>
+            <h2>{selectedLocation.name}</h2>
+            <p className="research-map-country">{selectedLocation.country}</p>
+            <p>{selectedLocation.description}</p>
+            <div className="research-map-detail-record">
+              <span className="eyebrow">Connected initiative</span>
+              <strong>{selectedLocation.projectTitle}</strong>
+              <Link className="text-link" href={`/projects#${selectedLocation.projectSlug}`}>View project record <ArrowUpRight size={14} aria-hidden="true" /></Link>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section className="section section-tinted research-map-list-section" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Accessible location list</span><h2>The same record, in plain text.</h2></div>
+          <p>Select a location to update the map detail, or follow the project link to read the full verified record.</p>
+        </div>
+        <div className="research-map-location-list">
+          {researchMapLocations.map((location) => (
+            <article className={`research-map-list-item ${selectedId === location.id ? 'is-selected' : ''}`} key={location.id}>
+              <button type="button" onClick={() => setSelectedId(location.id)} aria-pressed={selectedId === location.id}>
+                <span className="research-map-list-index">{String(location.displayOrder).padStart(2, '0')}</span>
+                <span><strong>{location.name}</strong><small>{location.country}</small></span>
+                <ChevronRight size={16} aria-hidden="true" />
+              </button>
+              <div className="research-map-list-record">
+                <span>{location.projectTitle}</span>
+                <Link className="text-link" href={`/projects#${location.projectSlug}`}>Project record <ArrowUpRight size={14} aria-hidden="true" /></Link>
+              </div>
+            </article>
+          ))}
+        </div>
+        <p className="research-map-incomplete">Additional research locations will appear here as verified information becomes available.</p>
       </div>
     </section>
   </>;
@@ -757,6 +940,14 @@ function People() {
                 <div className="people-record-grid">
                   {group.people.map((person) => (
                     <article className="person-record" key={person.name} data-testid={`card-person-${person.name.toLowerCase().replaceAll(' ', '-')}`}>
+                      <div className={`person-record-photo ${person.photo ? '' : 'is-empty'}`}>
+                        {person.photo
+                          ? <img src={person.photo} alt={`${person.name} portrait`} loading="lazy" />
+                          : <div className="person-record-placeholder">
+                              <UserRound size={34} strokeWidth={1.5} aria-hidden="true" />
+                              <span>Portrait not provided</span>
+                            </div>}
+                      </div>
                       <h3>{person.name}</h3>
                       <dl className="person-record-details">
                         <div>
@@ -816,6 +1007,19 @@ function People() {
 function About() {
   const { data: profileData } = useGetPublicProfile();
   const contact = profileData?.contact;
+  const profileName = contact?.name?.trim() || "About P3 Health Lab";
+  const profileSummary = [
+    contact?.appointment,
+    contact?.department,
+    contact?.university,
+    contact?.directorRole,
+  ].filter((value): value is string => Boolean(value)).join(" · ");
+  const labSummary = [
+    contact?.name,
+    contact?.directorRole,
+    contact?.labName,
+    contact?.university,
+  ].filter((value): value is string => Boolean(value)).join(" · ");
   const relatedPages = [
     ['Research', '/research'],
     ['People', '/people'],
@@ -826,20 +1030,20 @@ function About() {
   return <div className="about-profile-page">
     <PageHero
       eyebrow="About / 07"
-      title="Dr. Egide Kalisa"
-      text="Assistant Professor in the Department of Epidemiology and Biostatistics at Western University. Director, P3 Health Lab / HELTH Lab."
+      title={profileName}
+      text={profileSummary || "Verified profile information is not currently available."}
     />
     <section className="section about-profile-identity" data-reveal="up">
       <div className="container-wide about-profile-identity-grid">
         <div>
           <span className="eyebrow">Academic profile</span>
-          <h2>Dr. Egide Kalisa</h2>
-          <p className="about-profile-role">Assistant Professor</p>
-          <p className="about-profile-lab">Director, P3 Health Lab / HELTH Lab</p>
+          <h2>{profileName}</h2>
+          {contact?.appointment && <p className="about-profile-role">{contact.appointment}</p>}
+          {contact?.directorRole && <p className="about-profile-lab">{contact.directorRole}</p>}
         </div>
         <dl className="about-profile-facts">
-          <div><dt>Department</dt><dd>Department of Epidemiology and Biostatistics</dd></div>
-          <div><dt>Institution</dt><dd>Western University</dd></div>
+          {contact?.department && <div><dt>Department</dt><dd>{contact.department}</dd></div>}
+          {contact?.university && <div><dt>Institution</dt><dd>{contact.university}</dd></div>}
         </dl>
       </div>
     </section>
@@ -859,10 +1063,10 @@ function About() {
       <div className="container-wide about-profile-lab-grid">
         <div>
           <span className="eyebrow">About the lab</span>
-          <h2 id="about-lab-title">A lab led by Dr. Egide Kalisa.</h2>
+          <h2 id="about-lab-title">{contact?.name ? `A lab led by ${contact.name}.` : "About the lab."}</h2>
         </div>
         <div>
-          <p className="about-profile-copy">Dr. Egide Kalisa is the Director of P3 Health Lab / HELTH Lab at Western University.</p>
+          <p className="about-profile-copy">{labSummary || "Verified lab profile information is not currently available."}</p>
           <nav className="about-profile-links" aria-label="P3 Health Lab pages">
             {relatedPages.map(([label, href]) => <Link href={href} key={href}>{label}<ArrowUpRight size={14} aria-hidden="true" /></Link>)}
           </nav>
@@ -901,7 +1105,10 @@ function Publications() {
   }, []);
 
   const getExternalLink = (label: string) => externalLinks.find((link) => link.label === label);
-  const googleScholar = getExternalLink('Google Scholar');
+  const googleScholar = {
+    label: 'Google Scholar',
+    url: 'https://scholar.google.co.nz/citations?user=yAPiYq8AAAAJ&hl=en',
+  };
   const orcid = getExternalLink('ORCID');
   const additionalProfileLinks = externalLinks.filter(({ label }) => ['CV', 'Publication Profile', 'CV / Publication Profile'].includes(label));
 
@@ -919,7 +1126,7 @@ function Publications() {
             <span className="eyebrow">Google Scholar</span>
             <h2>Google Scholar</h2>
             <p>For the most up-to-date list of publications, citations, and scholarly impact:</p>
-            {googleScholar && <a href={googleScholar.url} target="_blank" rel="noreferrer">View Dr. Egide Kalisa’s Publications on Google Scholar <ArrowUpRight size={14} aria-hidden="true" /></a>}
+            <a href={googleScholar.url} target="_blank" rel="noopener noreferrer" data-testid="link-publications-google-scholar">View Dr. Egide Kalisa’s Publications on Google Scholar <ArrowUpRight size={14} aria-hidden="true" /></a>
           </article>
           <article className="publication-profile-record">
             <span className="eyebrow">ORCID</span>
@@ -949,8 +1156,60 @@ function Publications() {
   </div>;
 }
 
+function formatNewsDate(value: Date | string | null) {
+  if (!value) return null;
+  const date = value instanceof Date
+    ? value
+    : new Date(value.length === 10 ? `${value}T00:00:00Z` : value);
+  if (Number.isNaN(date.getTime())) return null;
+  return {
+    dateTime: date.toISOString().slice(0, 10),
+    label: new Intl.DateTimeFormat('en', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    }).format(date),
+  };
+}
+
 function News() {
-  return <><PageHero eyebrow="News / 08" title={<>The work, <em>as it unfolds.</em></>} text="Verified news from P3 Health Lab will be shared here as records become available." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Lab news</span><h2>A careful record is being prepared.</h2></div><p>No verified news items are currently available in the project material.</p></div><div className="publication-list"><div className="publication-empty news-empty" data-testid="empty-news"><span className="publication-year">Pending</span><div><h3>Verified lab news is not available yet.</h3><p>Dates, headlines, summaries, images, and links will be added only when source records are verified.</p></div><span className="pub-type">Record pending</span></div></div></div></section></>;
+  const { data, isLoading, isError } = useGetPublicNews();
+  const newsItems = data?.news ?? [];
+
+  return <div className="news-page">
+    <PageHero eyebrow="News" title="News" text="Updates from P3 Health Lab." />
+    <section className="section" aria-labelledby="news-section-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">News</span><h2 id="news-section-title">News and updates</h2></div>
+        </div>
+        {isLoading && <p className="news-state" role="status">Loading news and updates…</p>}
+        {isError && <p className="news-state" role="alert">News and updates could not be loaded. Please try again later.</p>}
+        {!isLoading && !isError && newsItems.length === 0 && (
+          <p className="news-empty-state" role="status" data-testid="empty-news">News and updates will be posted here when available.</p>
+        )}
+        {!isLoading && !isError && newsItems.length > 0 && (
+          <div className="news-list">
+            {newsItems.map((item, index) => {
+              const displayDate = formatNewsDate(item.date);
+              return <article
+                className={`news-item${displayDate ? '' : ' news-item-no-date'}`}
+                key={`${item.headline}-${item.date ?? 'undated'}-${index}`}
+              >
+                {displayDate && <time className="news-item-date" dateTime={displayDate.dateTime}>{displayDate.label}</time>}
+                <div className="news-item-copy">
+                  <h3>{item.headline}</h3>
+                  {item.summary.trim() && <p className="news-item-summary">{item.summary}</p>}
+                  {item.body.trim() && <p className="news-item-body">{item.body}</p>}
+                </div>
+              </article>;
+            })}
+          </div>
+        )}
+      </div>
+    </section>
+  </div>;
 }
 
 function Contact() {
@@ -992,22 +1251,29 @@ function Contact() {
 }
 
 function Teaching() {
-  const renderYear = (year: keyof typeof courses) => (
-    <div className="teaching-year" key={year} data-reveal="up">
-      <div className="teaching-year-heading">
-        <span className="eyebrow">Academic year</span>
-        <h3>{year}</h3>
+  const teachingQuery = useGetPublicTeaching();
+  const courses = teachingQuery.data?.courses ?? [];
+  const teachingAcademicYears = Array.from(new Set(courses.map(({ academicYear }) => academicYear)));
+  const [currentAcademicYear, ...previousAcademicYears] = teachingAcademicYears;
+  const renderYear = (year: string) => {
+    const yearCourses = courses.filter((course) => course.academicYear === year);
+    return (
+      <div className="teaching-year" key={year} data-reveal="up">
+        <div className="teaching-year-heading">
+          <span className="eyebrow">Academic year</span>
+          <h3>{year}</h3>
+        </div>
+        <div className="teaching-course-list">
+          {yearCourses.map((course, index) => (
+            <article className="teaching-course-row" key={`${year}-${course.courseCode}`} data-testid={`course-${year}-${index}`}>
+              <span className="course-code">{course.courseCode}</span>
+              <h4>{course.title}</h4>
+            </article>
+          ))}
+        </div>
       </div>
-      <div className="teaching-course-list">
-        {courses[year].map((course, index) => (
-          <article className="teaching-course-row" key={`${year}-${course.code}`} data-testid={`course-${year}-${index}`}>
-            <span className="course-code">{course.code}</span>
-            <h4>{course.title}</h4>
-          </article>
-        ))}
-      </div>
-    </div>
-  );
+    );
+  };
 
   const teachingRoutes = [
     ['Research', '/research'],
@@ -1030,14 +1296,16 @@ function Teaching() {
           <div><span className="eyebrow">Current Teaching</span><h2 id="teaching-courses-title">Current courses</h2></div>
           <p>Course codes and titles are listed by academic year.</p>
         </div>
-        <div className="teaching-course-block teaching-current">{renderYear('2026–2027')}</div>
+        {teachingQuery.isLoading && <p className="contact-loading" role="status">Loading course information…</p>}
+        {teachingQuery.isError && <p className="contact-loading" role="alert">Course information is temporarily unavailable.</p>}
+        {!teachingQuery.isLoading && !teachingQuery.isError && courses.length === 0 && <p className="contact-loading" role="status">No courses are currently published.</p>}
+        {currentAcademicYear && <div className="teaching-course-block teaching-current">{renderYear(currentAcademicYear)}</div>}
         <div className="teaching-course-block">
           <div className="teaching-section-heading">
             <div><span className="eyebrow">Previous Teaching</span><h2>Previous courses</h2></div>
           </div>
           <div className="teaching-year-grid">
-            {renderYear('2025–2026')}
-            {renderYear('2024–2025')}
+            {previousAcademicYears.map(renderYear)}
           </div>
         </div>
       </div>
@@ -1084,7 +1352,8 @@ function Humekaneza() {
   return <>
     <PageHero eyebrow="HumekaNeza" title="Breathe Easy" text="Empowering children and communities to understand, monitor, and improve the air they breathe." />
     <section className="humeka-hero-note" aria-label="HumekaNeza introduction">
-      <div className="container-wide">
+      <div className="container-wide humeka-identity">
+        <img className="humeka-identity-logo" src={humekanezaLogo} alt="HumekaNeza Breathe Easy logo with a tree and roots" width="1600" height="1600" decoding="async" data-testid="img-humekaneza-logo" />
         <p>HumekaNeza is an initiative of P3 Health Lab, led by Dr. Egide Kalisa at Western University.</p>
       </div>
     </section>
@@ -1116,7 +1385,7 @@ function Humekaneza() {
           <h2>Featured initiatives</h2>
         </div>
         <ul className="humeka-initiative-list">
-          {projects.map((project) => <li key={project.slug}><Link href={`/projects#${project.slug}`} data-testid={`link-humekaneza-project-${project.slug}`}>{project.title}<ArrowUpRight size={14} aria-hidden="true" /></Link></li>)}
+          {projects.map((project) => <li key={project.slug}><Link href={`/projects#${project.slug}`} data-testid={`link-humekaneza-project-${project.slug}`}><span className="humeka-initiative-copy"><strong>{project.title}</strong><span className="humeka-initiative-description">{project.description[0]}</span></span><ArrowUpRight size={14} aria-hidden="true" /></Link></li>)}
         </ul>
       </div>
     </section>
@@ -1175,7 +1444,6 @@ function GetInvolved() {
   const { data, isLoading, isError } = useGetPublicOpportunities();
   const { data: profileData } = useGetPublicProfile();
   const opportunities = data?.opportunities ?? [];
-  const noOpportunities = !isLoading && !isError && opportunities.length === 0;
   const generalEmail = profileData?.contact.labEmail ?? profileData?.contact.contactEmail;
 
   return <>
@@ -1186,7 +1454,6 @@ function GetInvolved() {
           <div><span className="eyebrow">Prospective members</span><h2>Opportunities</h2></div>
           <p>Only published, current listings appear here.</p>
         </div>
-        {noOpportunities && <p className="opportunities-empty" role="status">Opportunity information will be posted here when available.</p>}
         {isLoading && <p className="opportunities-empty" role="status">Loading opportunity information…</p>}
         {isError && <p className="opportunities-empty" role="alert">Opportunity information could not be loaded. Please check again later.</p>}
         <div className="opportunity-category-list">
@@ -1195,7 +1462,7 @@ function GetInvolved() {
             return <section className="opportunity-category" key={category} data-testid={`card-opportunity-${index}`}>
               <h3>{category}</h3>
               <div className="opportunity-record-list">
-                {categoryOpportunities.map((opportunity, opportunityIndex) => (
+                {categoryOpportunities.length > 0 ? categoryOpportunities.map((opportunity, opportunityIndex) => (
                   <article className="opportunity-record" key={`${opportunity.title}-${opportunityIndex}`}>
                     <div className="opportunity-record-heading">
                       <h4>{opportunity.title}</h4>
@@ -1210,7 +1477,7 @@ function GetInvolved() {
                       {opportunity.applicationUrl && <a href={opportunity.applicationUrl} target="_blank" rel="noreferrer">View application details <ArrowUpRight size={14} aria-hidden="true" /></a>}
                     </div>}
                   </article>
-                ))}
+                )) : !isLoading && !isError && <p className="opportunities-empty" role="status">Opportunity information will be posted here when available.</p>}
               </div>
             </section>;
           })}
@@ -1236,6 +1503,7 @@ function Router() {
   return <RoutedErrorBoundary><Switch>
     <Route path="/" component={Home} />
     <Route path="/research" component={Research} />
+    <Route path="/research-map" component={ResearchMap} />
     <Route path="/projects" component={Projects} />
     <Route path="/people" component={People} />
     <Route path="/about" component={About} />

@@ -150,6 +150,19 @@ export const GetPublicProfileResponse = zod.object({
 
 
 /**
+ * @summary List published, non-archived news
+ */
+export const GetPublicNewsResponse = zod.object({
+  "news": zod.array(zod.object({
+  "headline": zod.string(),
+  "date": zod.coerce.date().nullable(),
+  "summary": zod.string(),
+  "body": zod.string()
+}))
+})
+
+
+/**
  * @summary List published, non-archived, visible opportunities
  */
 export const GetPublicOpportunitiesResponse = zod.object({
@@ -163,6 +176,18 @@ export const GetPublicOpportunitiesResponse = zod.object({
   "applicationUrl": zod.string().url().nullable(),
   "deadline": zod.coerce.date().nullable(),
   "status": zod.enum(['Open', 'Closed'])
+}))
+})
+
+
+/**
+ * @summary List published, non-archived teaching courses
+ */
+export const GetPublicTeachingResponse = zod.object({
+  "courses": zod.array(zod.object({
+  "academicYear": zod.string(),
+  "courseCode": zod.string(),
+  "title": zod.string()
 }))
 })
 
