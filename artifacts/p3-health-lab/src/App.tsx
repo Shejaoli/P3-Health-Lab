@@ -66,7 +66,7 @@ const researchThemes: { id: string; title: string; text: string; more: string; r
     title: 'Clinical Trials & Environmental Health Interventions',
     text: 'We design and evaluate randomized controlled trials and real-world interventions to reduce harmful environmental exposures and improve health.',
     more: 'Our work includes clean-cooking and household air-pollution interventions using cleaner fuels such as LPG, with outcomes including exposure reduction, lung function, and blood pressure. We also evaluate classroom air-cleaning interventions, including portable air purifiers, and examine effects on indoor air quality, health, learning, and academic performance.',
-    related: { label: 'Classroom Clean-Air Interventions', href: '/projects' },
+    related: { label: 'Classroom Clean-Air Interventions', href: '/projects#classroom-clean-air-interventions' },
   },
   {
     id: 'global-health',
@@ -76,21 +76,148 @@ const researchThemes: { id: string; title: string; text: string; more: string; r
   },
 ];
 
-const projectInitiatives = [
-  { title: 'HumekaNeza School Air-Quality Campaign', meta: 'HumekaNeza · School environments', text: 'A named initiative in the lab’s community air-quality work.', href: '/humekaneza' },
-  { title: 'I Am an Air Quality Scientist', meta: 'HumekaNeza · Learning', text: 'A named initiative connecting air-quality questions with learning.', href: null },
-  { title: 'One Sensor Per School', meta: 'HumekaNeza · Measurement', text: 'A named initiative centred on school-based air-quality measurement.', href: null },
-  { title: 'Classroom Clean-Air Interventions', meta: 'HumekaNeza · Interventions', text: 'A named initiative focused on clean-air interventions in classrooms.', href: null },
-  { title: 'Clean Air School Zones', meta: 'HumekaNeza · School environments', text: 'A named initiative addressing clean-air considerations around schools.', href: null },
-  { title: 'Shared Skies', meta: 'HumekaNeza · Community', text: 'A named initiative in the lab’s shared-air and community work.', href: null },
-  { title: 'Making the Invisible Visible', meta: 'HumekaNeza · Communication', text: 'A named initiative about making environmental-health questions easier to see and discuss.', href: null },
-  { title: 'Equitable Air-Quality Communication & Preparedness', meta: 'HumekaNeza · Preparedness', text: 'A named initiative focused on equitable air-quality communication and preparedness.', href: null },
+type Project = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle?: string;
+  description: string[];
+  activities?: string[];
+  focus?: string[];
+  location?: string;
+  closing?: string;
+  process?: string;
+};
+
+const projects: Project[] = [
+  {
+    id: 'school-air-quality-campaign',
+    slug: 'school-air-quality-campaign',
+    title: 'HumekaNeza School Air-Quality Campaign',
+    location: 'Rwanda',
+    description: [
+      'The original HumekaNeza campaign was launched in schools in Rwanda to improve children’s understanding of air pollution and empower them to participate in solutions.',
+    ],
+    activities: [
+      'school-based air-quality education',
+      'low-cost air-quality monitoring',
+      'Air Quality Flag Programs',
+      'anti-idling campaigns',
+      'student-led environmental monitoring',
+      'classroom air-cleaning activities',
+      'cleaner-route and outdoor-activity guidance',
+      'tree planting and greener school environments',
+      'creative communication through posters and letters to families',
+    ],
+    closing: 'The campaign transforms schools into living environmental-health laboratories where children learn by observing, measuring, communicating, and acting.',
+  },
+  {
+    id: 'i-am-an-air-quality-scientist',
+    slug: 'i-am-an-air-quality-scientist',
+    title: 'I Am an Air Quality Scientist',
+    description: [
+      'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities.',
+      'The initiative introduces children to environmental-health science while building scientific literacy, curiosity, confidence, and practical understanding of environmental data.',
+    ],
+  },
+  {
+    id: 'one-sensor-per-school',
+    slug: 'one-sensor-per-school',
+    title: 'One Sensor Per School',
+    description: [
+      'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools.',
+      'Students and teachers can observe how air pollution changes throughout the day and explore how traffic, weather, indoor activities, and other factors affect the air they breathe.',
+    ],
+  },
+  {
+    id: 'classroom-clean-air-interventions',
+    slug: 'classroom-clean-air-interventions',
+    title: 'Classroom Clean-Air Interventions',
+    description: [
+      'HumekaNeza supports research evaluating practical approaches to improve classroom air quality, including the use of portable air purifiers.',
+      'These interventions examine changes in indoor air pollution and explore potential effects on student health, learning, comfort, attendance, and academic performance.',
+    ],
+  },
+  {
+    id: 'clean-air-school-zones',
+    slug: 'clean-air-school-zones',
+    title: 'Clean Air School Zones',
+    description: [
+      'This initiative focuses on reducing traffic-related air pollution around schools.',
+    ],
+    activities: [
+      'anti-idling campaigns',
+      'safer school travel',
+      'awareness around drop-off and pick-up emissions',
+      'low-emission school zones',
+      'engagement with parents and school communities',
+    ],
+  },
+  {
+    id: 'shared-skies',
+    slug: 'shared-skies',
+    title: 'Shared Skies',
+    description: [
+      'Shared Skies connects students across countries through environmental-health education and citizen science.',
+      'Students collect and compare air-quality information from their communities and share findings through virtual exchanges, presentations, and Global Classroom activities.',
+      'The initiative helps children recognize that air pollution is both a local and global challenge.',
+    ],
+  },
+  {
+    id: 'making-the-invisible-visible',
+    slug: 'making-the-invisible-visible',
+    title: 'Making the Invisible Visible',
+    subtitle: "Engaging African, Caribbean and Black Children and Youth in Canada's Chemicals Management Plan",
+    description: [
+      "Making the Invisible Visible strengthens the knowledge, capacity, and meaningful participation of African, Caribbean and Black children and youth in understanding chemicals, health, and Canada's Chemicals Management Plan.",
+    ],
+    activities: [
+      'ACB Youth CMP Advisory and Knowledge Translation Council',
+      'Youth CMP Knowledge Ambassador training',
+      'behaviour-change workshops',
+      '"I Am a CMP Scientist" activities',
+      'From Sample to Decision learning experiences',
+      'family and community dialogue',
+      'Global Classroom activities',
+      'youth-created knowledge-translation products',
+      'Ontario Youth CMP Conference',
+    ],
+    process: 'LISTEN → LEARN → SEE → TRANSLATE → SHARE → ACT → FEEDBACK',
+  },
+  {
+    id: 'equitable-air-quality-communication',
+    slug: 'equitable-air-quality-communication',
+    title: 'Equitable Air-Quality Communication & Preparedness',
+    subtitle: 'Supporting Black Youth and Families in Hamilton and London',
+    location: 'Hamilton and London',
+    description: [
+      'This community-engaged initiative works with Black youth, families, and community partners to understand how people experience, access, interpret, trust, and act on air-quality information.',
+    ],
+    focus: [
+      'lived experiences of poor air quality and wildfire smoke',
+      'access to and understanding of AQHI and wildfire-smoke messaging',
+      'trust in environmental-health information',
+      'environmental justice',
+      'social, cultural, and structural barriers to protective action',
+      'co-designed communication and preparedness strategies',
+    ],
+    closing: 'The project centres community voices and aims to make air-quality information more relevant, accessible, trusted, and actionable.',
+  },
 ];
 
+const profileResearchInterests = [
+  'Air Pollution',
+  'Climate Change',
+  'Children’s Environmental Health',
+  'Environmental Justice',
+  'One Health',
+  'Exposure Science',
+] as const;
+
 const featuredProjects = [
-  { title: 'HumekaNeza School Air-Quality Campaign', text: 'The original HumekaNeza campaign was launched in schools in Rwanda to improve children’s understanding of air pollution and empower them to participate in solutions.' },
-  { title: 'I Am an Air Quality Scientist', text: 'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities.' },
-  { title: 'One Sensor Per School', text: 'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools.' },
+  { title: 'HumekaNeza School Air-Quality Campaign', slug: 'school-air-quality-campaign', text: 'The original HumekaNeza campaign was launched in schools in Rwanda to improve children’s understanding of air pollution and empower them to participate in solutions.' },
+  { title: 'I Am an Air Quality Scientist', slug: 'i-am-an-air-quality-scientist', text: 'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities.' },
+  { title: 'One Sensor Per School', slug: 'one-sensor-per-school', text: 'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools.' },
 ];
 
 type PersonRecord = {
@@ -477,7 +604,7 @@ function Home() {
       <div className="container-wide">
         <div className="home-block-head"><h2 id="home-projects-title">Featured projects</h2><Link href="/projects" className="text-link" data-testid="link-home-projects-all">All projects</Link></div>
         <ul className="home-list">
-          {featuredProjects.map((project, index) => <li key={project.title}><Link href="/projects" data-testid={`card-home-project-${index}`}><h3>{project.title}</h3><p>{project.text}</p></Link></li>)}
+          {featuredProjects.map((project, index) => <li key={project.title}><Link href={`/projects#${project.slug}`} data-testid={`card-home-project-${index}`}><h3>{project.title}</h3><p>{project.text}</p></Link></li>)}
         </ul>
       </div>
     </section>
@@ -549,27 +676,37 @@ function Research() {
 
 function Projects() {
   return <>
-    <PageHero eyebrow="Projects" title={<>Research takes <em>form.</em></>} text="The lab’s work is organized through research projects and community initiatives. This page records the named initiatives currently identified in the project materials." action={<Link href="/research" className="button-secondary" data-testid="link-projects-research">See our research <ArrowUpRight size={15} aria-hidden="true" /></Link>} />
+    <PageHero eyebrow="Projects" title="Projects" text="Initiatives connected to HumekaNeza, the lab's child- and youth-centred environmental-health initiative." />
     <section className="section projects-section" data-reveal="up">
       <div className="container-wide">
-        <div className="section-head">
-          <div><span className="eyebrow">Current record</span><h2>Named initiatives and project directions.</h2></div>
-          <p>Project details will be expanded only as verified information becomes available.</p>
+        <div className="projects-list">
+          {projects.map((project, index) => <article className="project-entry" id={project.slug} key={project.id} data-testid={`project-${project.slug}`}>
+            <div className="project-entry-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
+            <div className="project-entry-content">
+              <div className="project-entry-heading">
+                <div>
+                  <h2>{project.title}</h2>
+                  {project.subtitle && <p className="project-subtitle">{project.subtitle}</p>}
+                </div>
+                {project.location && <span className="project-location">{project.location}</span>}
+              </div>
+              <div className="project-entry-body">
+                <div>
+                  {project.description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                </div>
+                {(project.activities || project.focus) && <div className="project-focus">
+                  <h3>{project.activities ? 'Activities' : 'Focus'}</h3>
+                  <ul>{(project.activities ?? project.focus)?.map((item) => <li key={item}>{item}</li>)}</ul>
+                </div>}
+                {project.process && <p className="project-process">{project.process}</p>}
+                {project.closing && <p className="project-closing">{project.closing}</p>}
+              </div>
+            </div>
+          </article>)}
         </div>
-        <div className="project-grid">
-          {projectInitiatives.map((project, index) => {
-            const content = <><div className="project-item-top"><span>{String(index + 1).padStart(2, '0')}</span><span className="project-meta">{project.meta}</span></div><h3>{project.title}</h3><p>{project.text}</p>{project.href && <span className="project-link-note">Explore the initiative <ArrowUpRight size={14} aria-hidden="true" /></span>}</>;
-            return project.href
-              ? <Link href={project.href} className="project-item" key={project.title} data-testid={`link-project-${index}`}>{content}</Link>
-              : <article className="project-item" key={project.title} data-testid={`card-project-${index}`}>{content}</article>;
-          })}
+        <div className="projects-related-link">
+          <Link href="/humekaneza" className="text-link" data-testid="link-projects-humekaneza">Learn more about HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>
-      </div>
-    </section>
-    <section className="section section-tinted project-record-note" data-reveal="up">
-      <div className="container-wide project-record-grid">
-        <div><span className="eyebrow">A growing record</span><h2>Projects connect research questions with the places where they matter.</h2></div>
-        <div><p>As project information is verified, this record can carry research areas, related publications, images, community context, and external links without changing the site’s structure.</p><Link href="/humekaneza" className="button-secondary" data-testid="link-projects-humekaneza">Visit HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
       </div>
     </section>
   </>;
@@ -656,11 +793,135 @@ function People() {
 }
 
 function About() {
-  return <><PageHero eyebrow="About / 07" title={<>Dr. Egide <em>Kalisa.</em></>} text="Assistant Professor at Western University and Director of P3 Health Lab / HELTH Lab." /><section className="section" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">Academic profile</span><div className="intro-stat"><b>01</b><span>Assistant Professor · Western University</span></div><div className="intro-stat" style={{ marginTop: 30 }}><b>02</b><span>Director · P3 Health Lab / HELTH Lab</span></div></div><div><p className="intro-copy">Research across <mark>people, planet, and place.</mark></p><p className="tiny-copy">Dr. Egide Kalisa’s work examines how environmental exposures, climate change, and the places where people live, learn, work, and move influence health, with attention to practical interventions.</p></div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Research interests</span><h2>Questions grounded in environmental health.</h2></div><p>These areas reflect the research themes already established across the P3 Health Lab record.</p></div><div className="focus-grid">{researchThemes.map((topic, index) => <article className="focus-item" key={topic.id} data-reveal="up" style={{ transitionDelay: `${index * 70}ms` }}><span className="focus-number">{String(index + 1).padStart(2, '0')}</span><h3>{topic.title}</h3><p>{topic.text}</p></article>)}</div></div></section></>;
+  const relatedPages = [
+    ['Research', '/research'],
+    ['People', '/people'],
+    ['Projects', '/projects'],
+    ['Publications', '/publications'],
+  ] as const;
+
+  return <div className="about-profile-page">
+    <PageHero
+      eyebrow="About / 07"
+      title="Dr. Egide Kalisa"
+      text="Assistant Professor in the Department of Epidemiology and Biostatistics at Western University. Director, P3 Health Lab / HELTH Lab."
+    />
+    <section className="section about-profile-identity" data-reveal="up">
+      <div className="container-wide about-profile-identity-grid">
+        <div>
+          <span className="eyebrow">Academic profile</span>
+          <h2>Dr. Egide Kalisa</h2>
+          <p className="about-profile-role">Assistant Professor</p>
+          <p className="about-profile-lab">Director, P3 Health Lab / HELTH Lab</p>
+        </div>
+        <dl className="about-profile-facts">
+          <div><dt>Department</dt><dd>Department of Epidemiology and Biostatistics</dd></div>
+          <div><dt>Institution</dt><dd>Western University</dd></div>
+        </dl>
+      </div>
+    </section>
+    <section className="section section-tinted about-profile-research" aria-labelledby="about-research-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Research</span><h2 id="about-research-title">Research</h2></div>
+          <p>Research across indoor and outdoor environments, with attention to how much pollution people breathe and how those exposures can be reduced.</p>
+        </div>
+        <blockquote className="about-profile-statement">“My research focuses on individuals’ exposure to air pollutants in indoor and outdoor environments, understanding how much pollution people breathe, and how to reduce those exposures.”</blockquote>
+        <div className="about-profile-interests" aria-label="Research interests">
+          {profileResearchInterests.map((interest, index) => <div className="about-profile-interest" key={interest}><span>{String(index + 1).padStart(2, '0')}</span><h3>{interest}</h3></div>)}
+        </div>
+      </div>
+    </section>
+    <section className="section about-profile-lab-section" aria-labelledby="about-lab-title" data-reveal="up">
+      <div className="container-wide about-profile-lab-grid">
+        <div>
+          <span className="eyebrow">About the lab</span>
+          <h2 id="about-lab-title">A lab led by Dr. Egide Kalisa.</h2>
+        </div>
+        <div>
+          <p className="about-profile-copy">Dr. Egide Kalisa is the Director of P3 Health Lab / HELTH Lab at Western University.</p>
+          <nav className="about-profile-links" aria-label="P3 Health Lab pages">
+            {relatedPages.map(([label, href]) => <Link href={href} key={href}>{label}<ArrowUpRight size={14} aria-hidden="true" /></Link>)}
+          </nav>
+        </div>
+      </div>
+    </section>
+    <section className="section section-tinted about-profile-contact" aria-labelledby="about-contact-title" data-reveal="up">
+      <div className="container-wide about-profile-contact-grid">
+        <div><span className="eyebrow">Academic / institutional contact</span><h2 id="about-contact-title">Connect with the professor.</h2></div>
+        <address className="about-profile-contact-details">
+          <p><strong>Department of Epidemiology and Biostatistics</strong><br />Western University</p>
+          <p>Office: PHFM 3129</p>
+          <p><a href="mailto:ekalisa2@uwo.ca">ekalisa2@uwo.ca <ArrowUpRight size={14} aria-hidden="true" /></a></p>
+        </address>
+      </div>
+    </section>
+  </div>;
 }
 
 function Publications() {
-  return <><PageHero eyebrow="Scholarship / 03" title={<>Evidence worth <em>sharing.</em></>} text="Publication details will be listed here as source records are verified." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Publication record</span><h2>A careful record is being prepared.</h2></div><p>No publication entries are shown until their bibliographic details can be checked against reliable source material.</p></div><div className="publication-list"><div className="publication-empty" data-testid="empty-publications"><span className="publication-year">Pending</span><div><h3>Verified publication records are not available yet.</h3><p>Titles, authors, journals, years, DOIs, citation counts, findings, and publication links will be added only when they are verified.</p><p>Google Scholar will be the primary external destination once its profile URL is confirmed. ORCID, CV PDF, and Western University profile links will be added only after their destinations are verified.</p></div><span className="pub-type">Record pending</span></div></div></div></section></>;
+  const [externalLinks, setExternalLinks] = useState<{ label: string; url: string }[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    fetch('/api/public/publications', { headers: { Accept: 'application/json' } })
+      .then((response) => response.ok ? response.json() as Promise<{ externalLinks?: { label: string; url: string }[] }> : Promise.reject(new Error('Publication links unavailable')))
+      .then((result) => {
+        if (active && Array.isArray(result.externalLinks)) setExternalLinks(result.externalLinks);
+      })
+      .catch(() => {
+        if (active) setExternalLinks([]);
+      });
+    return () => { active = false; };
+  }, []);
+
+  const getExternalLink = (label: string) => externalLinks.find((link) => link.label === label);
+  const googleScholar = getExternalLink('Google Scholar');
+  const orcid = getExternalLink('ORCID');
+  const additionalProfileLinks = externalLinks.filter(({ label }) => ['CV', 'Publication Profile', 'CV / Publication Profile'].includes(label));
+
+  return <div className="publications-page">
+    <PageHero
+      eyebrow="Publications"
+      title="Research & Scholarship"
+      text="P3 Health Lab contributes research across environmental health, air pollution, exposure science, climate change, children’s environmental health, environmental microbiology, antimicrobial resistance, clinical trials, One Health, and global health."
+    />
+    <section className="section publications-content" data-reveal="up">
+      <div className="container-wide">
+        <p className="publications-intro">Our work spans observational studies, exposure assessment, laboratory and field-based research, randomized controlled trials, community-engaged research, and interdisciplinary collaborations.</p>
+        <div className="publication-profile-grid">
+          <article className="publication-profile-record">
+            <span className="eyebrow">Google Scholar</span>
+            <h2>Google Scholar</h2>
+            <p>For the most up-to-date list of publications, citations, and scholarly impact:</p>
+            {googleScholar && <a href={googleScholar.url} target="_blank" rel="noreferrer">View Dr. Egide Kalisa’s Publications on Google Scholar <ArrowUpRight size={14} aria-hidden="true" /></a>}
+          </article>
+          <article className="publication-profile-record">
+            <span className="eyebrow">ORCID</span>
+            <h2>ORCID</h2>
+            <p>View Dr. Egide Kalisa’s ORCID profile for a persistent record of research outputs and scholarly contributions.</p>
+            {orcid && <a href={orcid.url} target="_blank" rel="noreferrer">View ORCID Profile <ArrowUpRight size={14} aria-hidden="true" /></a>}
+          </article>
+          {additionalProfileLinks.map((link) => (
+            <article className="publication-profile-record" key={`${link.label}-${link.url}`}>
+              <span className="eyebrow">{link.label}</span>
+              <h2>{link.label}</h2>
+              <p>View the verified {link.label} for additional academic information and publication details.</p>
+              <a href={link.url} target="_blank" rel="noreferrer">Open {link.label} <ArrowUpRight size={14} aria-hidden="true" /></a>
+            </article>
+          ))}
+        </div>
+        <div className="publication-themes">
+          <div className="section-head">
+            <div><span className="eyebrow">Research themes</span><h2>Selected Research Themes</h2></div>
+          </div>
+          <div className="publication-theme-list">
+            {researchThemes.map((theme, index) => <div className="publication-theme" key={theme.id}><span>{String(index + 1).padStart(2, '0')}</span><h3>{theme.title}</h3></div>)}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>;
 }
 
 function News() {
@@ -755,13 +1016,92 @@ function Teaching() {
 }
 
 function Humekaneza() {
-  const steps = [
-    ['01', 'Learn', 'Build shared understanding from local experience, trusted evidence, and questions people already carry.'],
-    ['02', 'Measure', 'Use accessible tools to notice patterns in air, homes, schools, and the environments we share.'],
-    ['03', 'Communicate', 'Turn findings into clear stories, conversations, and choices that make sense in context.'],
-    ['04', 'Act', 'Move from insight to practical change — then return, listen, and learn what happened.'],
+  const approach = [
+    ['LEARN', 'Children learn about air pollution, climate change, chemicals, environmental exposures, and their effects on health through interactive workshops, demonstrations, games, and school-based learning.'],
+    ['MEASURE', 'Students participate in citizen science using low-cost sensors, passive and active sampling, and other environmental-monitoring tools to better understand the environments around them.'],
+    ['COMMUNICATE', 'Children translate science into accessible messages through posters, artwork, storytelling, presentations, family discussions, and youth-led knowledge-translation activities.'],
+    ['ACT', 'HumekaNeza supports practical actions such as reducing vehicle idling, improving classroom air quality, identifying cleaner routes to school, using air-quality information to guide activities, and promoting healthier school environments.'],
   ];
-  return <><PageHero eyebrow="HumekaNeza / 05" title={<>Breathe easy, <em>together.</em></>} text="HumekaNeza — meaning “breathe well” — is a community initiative for learning, measuring, communicating, and acting on the air around us." action={<Link href="/get-involved" className="button-secondary" data-testid="link-humekaneza-join">Join the work <ArrowUpRight size={15} aria-hidden="true" /></Link>} /><section className="section" data-reveal="up"><div className="container-wide initiative-grid"><div className="initiative-visual" data-reveal="scale"><svg className="initiative-airflow" viewBox="0 0 460 320" aria-hidden="true"><path d="M-30 194 C70 106 125 242 220 168 S370 92 490 130" /><path d="M-26 236 C84 160 132 276 238 202 S376 138 492 174" /></svg><div className="initiative-word"><span className="breathe-well">Breathe Well</span>Humeka<br />Neza<small>Community air & everyday health</small></div></div><div><span className="eyebrow">The approach</span><h2 className="display" style={{ fontSize: 'clamp(2.7rem, 5vw, 5rem)', lineHeight: .92, margin: '16px 0 20px' }}>A breath is small. The work around it is not.</h2><p className="tiny-copy" style={{ marginTop: 0 }}>HumekaNeza brings people together around a simple, practical question: what would help us breathe easier here? The answer starts with knowledge and ends with action, not a one-size-fits-all fix.</p><div className="steps">{steps.map(([number, title, text], index) => <div className="step" key={title} data-reveal="up" style={{ transitionDelay: `${index * 80}ms` }} data-testid={`step-humekaneza-${title.toLowerCase()}`}><span className="step-num">{number}</span><div><h3>{title}</h3><p>{text}</p></div></div>)}</div></div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide section-head"><div><span className="eyebrow">A shared invitation</span><h2>Bring the question your neighbourhood is already asking.</h2></div><Link href="/get-involved" className="button-primary" data-testid="link-humekaneza-involved">Connect with HumekaNeza <ArrowUpRight size={15} aria-hidden="true" /></Link></div></section></>;
+  return <>
+    <PageHero eyebrow="HumekaNeza" title="Breathe Easy" text="Empowering children and communities to understand, monitor, and improve the air they breathe." />
+    <section className="humeka-hero-note" aria-label="HumekaNeza introduction">
+      <div className="container-wide">
+        <p>HumekaNeza is an initiative of P3 Health Lab, led by Dr. Egide Kalisa at Western University.</p>
+      </div>
+    </section>
+    <section className="section humeka-intro" data-reveal="up">
+      <div className="container-wide humeka-prose">
+        <p>HumekaNeza is a child- and youth-centred environmental-health initiative founded by Dr. Egide Kalisa. It began through school-based air-quality education in Rwanda and has grown into a broader platform connecting environmental-health education, citizen science, behaviour change, youth leadership, community engagement, and practical interventions.</p>
+        <p>The initiative helps children understand environmental risks, participate in hands-on science, communicate what they learn, and take practical action to create healthier schools, homes, and communities.</p>
+      </div>
+    </section>
+    <section className="section section-tinted humeka-approach" data-reveal="up">
+      <div className="container-wide">
+        <div className="humeka-section-heading">
+          <span className="eyebrow">Our approach</span>
+          <h2>Learn · Measure · Communicate · Act</h2>
+          <p>HumekaNeza combines environmental-health education with hands-on research and community action.</p>
+        </div>
+        <div className="humeka-approach-list">
+          {approach.map(([title, text]) => <article className="humeka-approach-item" key={title}>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>)}
+        </div>
+      </div>
+    </section>
+    <section className="section humeka-initiatives" data-reveal="up">
+      <div className="container-wide">
+        <div className="humeka-section-heading">
+          <span className="eyebrow">Featured initiatives</span>
+          <h2>Featured initiatives</h2>
+        </div>
+        <ul className="humeka-initiative-list">
+          {projects.map((project) => <li key={project.slug}><Link href={`/projects#${project.slug}`} data-testid={`link-humekaneza-project-${project.slug}`}>{project.title}<ArrowUpRight size={14} aria-hidden="true" /></Link></li>)}
+        </ul>
+      </div>
+    </section>
+    <section className="section section-tinted humeka-matters" data-reveal="up">
+      <div className="container-wide">
+        <div className="humeka-section-heading">
+          <span className="eyebrow">Why HumekaNeza matters</span>
+          <h2>Why HumekaNeza matters</h2>
+        </div>
+        <div className="humeka-prose">
+          <p>Children are especially vulnerable to environmental exposures, but they can also be powerful participants in environmental-health solutions.</p>
+          <p>HumekaNeza gives children and youth the knowledge, tools, and opportunities to understand their environment, participate in science, communicate with their families and communities, and contribute to decisions that affect their health.</p>
+          <p>By connecting education, citizen science, intervention, behaviour change, and community engagement, HumekaNeza turns environmental-health knowledge into practical action.</p>
+        </div>
+      </div>
+    </section>
+    <section className="section humeka-vision" data-reveal="up">
+      <div className="container-wide humeka-vision-grid">
+        <div className="humeka-section-heading">
+          <span className="eyebrow">Our vision</span>
+          <h2>Every Child Should Understand the Environment That Shapes Their Health</h2>
+        </div>
+        <div className="humeka-prose">
+          <p>HumekaNeza aims to build a generation of environmentally informed young people who can understand environmental risks, interpret evidence, communicate confidently, and participate meaningfully in creating healthier and more equitable communities.</p>
+          <p className="humeka-final-line">Learn. Measure. Communicate. Act. Breathe Easy.</p>
+        </div>
+      </div>
+    </section>
+    <section className="section section-tinted humeka-involve" data-reveal="up">
+      <div className="container-wide humeka-involve-grid">
+        <div className="humeka-section-heading">
+          <span className="eyebrow">Get involved</span>
+          <h2>Get involved</h2>
+        </div>
+        <div>
+          <p className="humeka-involve-copy">HumekaNeza welcomes collaboration with schools, teachers, students, families, community organizations, researchers, government agencies, and environmental-health partners.</p>
+          <div className="humeka-involve-links">
+            <a href="mailto:p3healthlab@uwo.ca" data-testid="link-humekaneza-partner">Partner With HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <Link href="/contact" data-testid="link-humekaneza-contact">Contact P3 Health Lab <ArrowUpRight size={14} aria-hidden="true" /></Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  </>;
 }
 
 function GetInvolved() {

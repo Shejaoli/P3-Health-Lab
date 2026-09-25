@@ -98,7 +98,7 @@ const resourceConfig: Record<string, { label: string; labelField: string; fields
       { key: "researchInterests", label: "Research interests", type: "json" },
       { key: "labEmail", label: "Lab email", type: "email" },
       { key: "university", label: "University", type: "text" },
-      { key: "externalLinks", label: "Verified external links", type: "json", help: 'JSON array like [{"label":"Western","url":"https://..."}].' },
+      { key: "externalLinks", label: "Verified external links", type: "json", help: 'JSON array like [{"label":"Google Scholar","url":"https://..."},{"label":"ORCID","url":"https://..."},{"label":"CV","url":"https://..."}]. Empty links stay hidden publicly.' },
     ],
   },
   media: {
