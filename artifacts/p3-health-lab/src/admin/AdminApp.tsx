@@ -87,6 +87,24 @@ const resourceConfig: Record<string, { label: string; labelField: string; fields
       { key: "archived", label: "Archived", type: "checkbox" },
     ],
   },
+  opportunities: {
+    label: "Opportunities",
+    labelField: "title",
+    fields: [
+      { key: "title", label: "Title", type: "text" },
+      { key: "category", label: "Category", type: "select", options: ["Graduate Students", "Postdoctoral Researchers", "Research Assistants & Staff", "Undergraduate / Research Students", "Visiting Students & Scholars"] },
+      { key: "shortDescription", label: "Short description", type: "textarea" },
+      { key: "fullDetails", label: "Full details", type: "textarea" },
+      { key: "applicationInstructions", label: "Application instructions", type: "textarea" },
+      { key: "applicationEmail", label: "Application/contact email", type: "email" },
+      { key: "applicationUrl", label: "Application URL", type: "url" },
+      { key: "deadline", label: "Deadline", type: "date" },
+      { key: "status", label: "Status", type: "select", options: ["Hidden", "Open", "Closed"] },
+      { key: "displayOrder", label: "Display order", type: "number" },
+      { key: "published", label: "Published", type: "checkbox" },
+      { key: "archived", label: "Archived", type: "checkbox" },
+    ],
+  },
   profile: {
     label: "Profile / Site information",
     labelField: "name",
@@ -119,7 +137,7 @@ const resourceConfig: Record<string, { label: string; labelField: string; fields
   },
 };
 
-const nullableFieldKeys = new Set(["linkedinUrl", "photoMediaId", "imageMediaId", "date", "labEmail", "associatedType", "associatedId"]);
+const nullableFieldKeys = new Set(["linkedinUrl", "photoMediaId", "imageMediaId", "date", "labEmail", "associatedType", "associatedId", "applicationEmail", "applicationUrl", "deadline"]);
 
 const defaultValue = (field: Field): unknown => {
   if (field.type === "checkbox") return false;

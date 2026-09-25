@@ -665,7 +665,44 @@ function Contact() {
 
 function Teaching() {
   const [year, setYear] = useState<keyof typeof courses>('2026–2027');
-  return <><PageHero eyebrow="Teaching / 04" title={<>Make room for <em>better questions.</em></>} text="Teaching at P3 is an invitation to notice systems, question assumptions, and practice global health with humility." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Courses by academic year</span><h2>Learning that leaves the classroom.</h2></div><p>Only course codes and titles confirmed in the available source material are shown.</p></div><div className="year-tabs">{(Object.keys(courses) as Array<keyof typeof courses>).map((item) => <button className={`year-tab ${year === item ? 'active' : ''}`} key={item} onClick={() => setYear(item)} data-testid={`button-year-${item}`}>{item}</button>)}</div><div className="course-grid"><div>{courses[year].map((course, index) => <article className="course-card" key={course.code} data-reveal="up" style={{ transitionDelay: `${index * 80}ms` }} data-testid={`card-course-${index}`}><span className="course-code">{course.code}</span><div><h3>{course.title}</h3></div><span className="course-term">Verified course</span></article>)}</div><aside className="side-panel" data-reveal="scale"><span className="eyebrow">Teaching record</span><h3>Teaching information, kept precise.</h3><p>Program, term, role, and supervision details are not shown until they are verified in the source material.</p></aside></div></div></section><section className="quote-section" data-reveal="up"><div className="container-wide"><blockquote>“The best classroom is one that sends you back into the world more attentive than before.”</blockquote><cite>P3 teaching practice</cite></div></section></>;
+  return <>
+    <PageHero eyebrow="Teaching / 04" title={<>Make room for <em>better questions.</em></>} text="Teaching at P3 is an invitation to notice systems, question assumptions, and practice global health with humility." />
+    <section className="section" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Courses by academic year</span><h2>Learning that leaves the classroom.</h2></div>
+          <p>Only course codes and titles confirmed in the available source material are shown.</p>
+        </div>
+        <div className="year-tabs">
+          {(Object.keys(courses) as Array<keyof typeof courses>).map((item) => <button className={`year-tab ${year === item ? 'active' : ''}`} key={item} onClick={() => setYear(item)} data-testid={`button-year-${item}`}>{item}</button>)}
+        </div>
+        <div className="course-grid">
+          <div>{courses[year].map((course, index) => <article className="course-card" key={course.code} data-reveal="up" style={{ transitionDelay: `${index * 80}ms` }} data-testid={`card-course-${index}`}><span className="course-code">{course.code}</span><div><h3>{course.title}</h3></div><span className="course-term">Verified course</span></article>)}</div>
+          <aside className="side-panel" data-reveal="scale"><span className="eyebrow">Teaching record</span><h3>Teaching information, kept precise.</h3><p>Program, term, role, and supervision details are not shown until they are verified in the source material.</p></aside>
+        </div>
+      </div>
+    </section>
+    <section className="section section-tinted teaching-approach" aria-label="Teaching philosophy and supervision" data-reveal="up">
+      <div className="container-wide teaching-approach-grid">
+        <article className="teaching-approach-item">
+          <span className="eyebrow">Teaching Philosophy</span>
+          <h2>Teaching Philosophy</h2>
+          <p>Teaching connects global health, One Health, environmental health, and field-based learning. It emphasizes interdisciplinary learning, practical experience, critical thinking, and connecting evidence to real-world health challenges.</p>
+        </article>
+        <article className="teaching-approach-item">
+          <span className="eyebrow">Graduate Supervision</span>
+          <h2>Graduate Supervision</h2>
+          <p>Graduate supervision is connected to the lab’s research areas, including environmental health, exposure science, air pollution, climate-health, One Health, global health, epidemiology, and intervention research.</p>
+        </article>
+        <article className="teaching-approach-item">
+          <span className="eyebrow">Experiential &amp; Field-Based Teaching</span>
+          <h2>Experiential &amp; Field-Based Teaching</h2>
+          <p>The International Field School supports field-based learning and interdisciplinary learning, connecting evidence with real-world health challenges.</p>
+        </article>
+      </div>
+    </section>
+    <section className="quote-section" data-reveal="up"><div className="container-wide"><blockquote>“The best classroom is one that sends you back into the world more attentive than before.”</blockquote><cite>P3 teaching practice</cite></div></section>
+  </>;
 }
 
 function Humekaneza() {
@@ -680,13 +717,42 @@ function Humekaneza() {
 
 function GetInvolved() {
   const categories = [
-    ['01', 'PhD Students'],
-    ['02', 'MSc Students'],
-    ['03', 'Postdoctoral Fellows'],
-    ['04', 'Undergraduate Researchers'],
-    ['05', 'Visiting Researchers & Students'],
+    ['01', 'Graduate Students'],
+    ['02', 'Postdoctoral Researchers'],
+    ['03', 'Research Assistants & Staff'],
+    ['04', 'Undergraduate / Research Students'],
+    ['05', 'Visiting Students & Scholars'],
   ];
-  return <><PageHero eyebrow="Get involved / 06" title={<>Join the <em>lab.</em></>} text="P3 Health Lab welcomes questions from students, researchers, and potential collaborators. Current recruitment details are not specified in the available project material." /><section className="section" id="opportunities" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Prospective members</span><h2>Opportunities are not currently specified.</h2></div><p>The lab’s available materials identify these academic categories, but do not confirm current openings or eligibility.</p></div><div className="path-grid">{categories.map(([number, title], index) => <article className="path-card" key={title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-opportunity-${index}`}><div className="card-number"><span>{number}</span></div><h3>{title}</h3><p>Current availability is not provided.</p></article>)}</div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide section-head"><div><span className="eyebrow">Application information</span><h2>Requirements and deadlines are not published.</h2></div><p>Funding, application deadlines, required documents, and other recruitment instructions are not currently specified in the verified project material.</p></div></section><section className="contact-band" id="contact" data-reveal="up"><div className="container-wide contact-grid"><div><span className="eyebrow">Contact the lab</span><h2>Ask about the current path.</h2><p>For a current question about joining or collaborating, use the lab’s existing contact address.</p></div><a className="button-primary" href="mailto:p3healthlab@uwo.ca" data-testid="link-involved-email">Email the lab <ArrowUpRight size={15} aria-hidden="true" /></a></div></section></>;
+  return <>
+    <PageHero eyebrow="Get involved / 06" title={<>Join the <em>lab.</em></>} text="P3 Health Lab welcomes questions from students, researchers, and potential collaborators. Current recruitment details are not specified in the available project material." />
+    <section className="section" id="opportunities" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Prospective members</span><h2>Opportunities are not currently specified.</h2></div>
+          <p>The lab’s available materials identify these academic categories, but do not confirm current openings or eligibility.</p>
+        </div>
+        <div className="path-grid">
+          {categories.map(([number, title], index) => <article className="path-card" key={title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-opportunity-${index}`}>
+            <div className="card-number"><span>{number}</span></div>
+            <h3>{title}</h3>
+            <p>Opportunity information will be posted here when available.</p>
+          </article>)}
+        </div>
+      </div>
+    </section>
+    <section className="section section-tinted" data-reveal="up">
+      <div className="container-wide section-head">
+        <div><span className="eyebrow">Application information</span><h2>Requirements and deadlines are not published.</h2></div>
+        <p>Funding, application deadlines, required documents, and other recruitment instructions are not currently specified in the verified project material.</p>
+      </div>
+    </section>
+    <section className="contact-band" id="contact" data-reveal="up">
+      <div className="container-wide contact-grid">
+        <div><span className="eyebrow">Contact the lab</span><h2>Ask about the current path.</h2><p>For a current question about joining or collaborating, use the lab’s existing contact address.</p></div>
+        <a className="button-primary" href="mailto:p3healthlab@uwo.ca" data-testid="link-involved-email">Email the lab <ArrowUpRight size={15} aria-hidden="true" /></a>
+      </div>
+    </section>
+  </>;
 }
 
 function NotFound() {
