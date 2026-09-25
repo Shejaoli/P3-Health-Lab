@@ -1,0 +1,309 @@
+P3 HEALTH LAB — PHASE 5.3 PART 3
+OPPORTUNITIES + CONTACT + FOOTER INTEGRATION
+
+IMPORTANT CONTEXT
+
+We are continuing from the verified recovery branch:
+
+Branch: recovery-verified-phases
+Recovery commit: d6e0732
+Main must remain untouched.
+
+The recovery audit confirmed these are present and working:
+
+- 8 Projects with stable slugs/anchors
+- Complete HumekaNeza page with all 8 initiatives
+- Homepage project hash links
+- Research → Classroom Clean-Air project hash link
+- About/Profile for Dr. Egide Kalisa
+- 6 research interests
+- Publications page
+- Admin-managed publication/profile links
+- 37 People records
+- 9 Teaching courses
+- /upload
+- Existing authenticated admin system
+- Footer-logo triple-click admin entry
+- Protected auth/API/database behavior
+
+DO NOT START BY WRITING A LONG REPORT. First verify the current branch and these existing features briefly. Then BUILD.
+
+HARD RULES
+
+1. Work only on a new branch:
+   phase5-3-part3-contact-opportunities
+
+2. Never modify main.
+
+3. Do not deploy.
+
+4. Do not change Git configuration.
+
+5. Do not reset/rebase/force-push.
+
+6. Preserve all recovered work.
+
+7. Do not modify unrelated pages or redesign the site.
+
+8. Preserve the restrained academic visual language.
+
+9. Do not invent people, opportunities, funders, salaries, deadlines, awards, statistics, partners, URLs, or biography.
+
+10. Any information that is not currently available but needs to be editable in the future MUST have an appropriate authenticated admin editing path rather than being hard-coded.
+
+A. OPPORTUNITIES — ADMIN EDITABLE
+
+The previous recovery removed an unsupported opportunities endpoint because the database table was missing. Implement the Opportunities feature properly end-to-end.
+
+Create a real database-backed opportunities resource using the existing database/schema architecture.
+
+Admin fields should support:
+
+- title
+- category
+- short description
+- full details
+- application instructions
+- application/contact email
+- application URL
+- deadline
+- status: Open / Closed / Hidden
+- display order
+- published
+- archived
+
+Required categories:
+
+- Graduate Students
+- Postdoctoral Researchers
+- Research Assistants & Staff
+- Undergraduate / Research Students
+- Visiting Students & Scholars
+
+Authenticated administrators must be able to:
+
+- create opportunities
+- edit opportunities
+- publish/unpublish
+- change Open/Closed/Hidden
+- archive/unarchive
+- change display order
+- delete an opportunity only if the existing admin architecture safely supports deletion
+
+Public visitors must only see records satisfying:
+published = true
+archived = false
+status != Hidden
+
+Do not expose private admin fields unnecessarily.
+
+If there are no published opportunities, show:
+
+"Opportunity information will be posted here when available."
+
+Do not invent current openings.
+
+B. GET INVOLVED PAGE
+
+Use the existing /get-involved route.
+
+Make it consume the real public opportunities API.
+
+Keep the five required categories visible even when empty.
+
+For each published opportunity, show only the information actually provided by the administrator.
+
+Optional fields must disappear when empty.
+
+Include a neutral general contact path using the verified P3 Health Lab contact information already present in the project.
+
+Do not create fake opportunities.
+
+C. CONTACT PAGE
+
+Implement/update the existing /contact page using verified information already available in the project.
+
+Use:
+
+Department of Epidemiology and Biostatistics
+Western University
+Office: PHFM 3129
+Email: ekalisa2@uwo.ca
+
+Do not invent:
+
+- phone numbers
+- office hours
+- postal address
+- social-media accounts
+- biography
+- additional staff
+- map locations
+
+If any contact information may need to change in the future, do NOT hard-code it if an existing admin/profile resource can safely provide it.
+
+Where appropriate, reuse the existing authenticated Profile / Site Information admin resource.
+
+D. EXTERNAL PROFILE LINKS
+
+The existing admin-managed external profile links must remain functional.
+
+Recognized links include:
+
+- Google Scholar
+- ORCID
+- CV
+- Publication Profile
+
+Public pages may display these only when a valid HTTP(S) URL exists.
+
+Do not show empty links.
+
+Use the existing safe public API pattern.
+
+E. FOOTER
+
+Update only what is required to use verified contact/profile information.
+
+Do not redesign the footer.
+
+Preserve:
+
+- footer structure
+- restrained styling
+- footer-logo triple-click admin entry
+- existing admin authentication behavior
+
+If the footer needs editable information that is not currently available through admin, add it to the appropriate existing Profile / Site Information editing surface instead of hard-coding a second source of truth.
+
+F. ADMIN AS SOURCE OF TRUTH
+
+GENERAL RULE FOR THIS PHASE:
+
+If a website value is likely to change and there is no verified source for its current value, do not invent it and do not hard-code it.
+
+Instead:
+
+1. identify the value,
+2. store it in the appropriate existing database/admin resource,
+3. expose it through the authenticated admin UI,
+4. render it publicly only when populated.
+
+Do not create unnecessary separate admin systems if an existing Profile / Site Information resource can safely hold the information.
+
+G. SECURITY
+
+Admin create/edit/publish/archive operations must require the existing authenticated admin session.
+
+Unauthenticated requests must not be able to create, edit, publish, archive, or delete opportunities.
+
+Public opportunity reads must expose only published, non-archived, non-hidden records.
+
+Do not weaken existing authentication, authorization, upload, or database security.
+
+H. DESIGN
+
+Use the existing restrained academic design:
+
+- off-white background
+- charcoal typography
+- muted teal accent
+- ruled lists
+- plain links
+- restrained spacing
+- minimal animation
+
+Do NOT introduce:
+
+- gradients
+- glowing cards
+- glassmorphism
+- large decorative graphics
+- excessive rounded cards
+- heavy animation
+- AI-template styling
+
+Keep mobile layout working at approximately 390px.
+
+I. VALIDATION
+
+Before finishing, verify previous work still exists:
+
+People: 37 unique records
+Projects: 8
+HumekaNeza initiatives: 8
+Teaching courses: 9
+Research themes: 6
+About/Profile: present
+Publications: present
+/upload: present
+Footer-logo triple-click: present
+
+Then validate this phase:
+
+- frontend typecheck
+- frontend production build
+- API typecheck
+- API build
+- /contact HTTP 200
+- /get-involved HTTP 200
+- /about HTTP 200
+- /publications HTTP 200
+- /people HTTP 200
+- /projects HTTP 200
+- /humekaneza HTTP 200
+- /teaching HTTP 200
+- desktop preview around 1280px
+- mobile preview around 390px
+- no horizontal overflow
+- browser console has no application errors
+- public opportunity API returns only allowed records
+- unauthenticated admin opportunity create/edit requests return 401
+- publication/profile links still work
+- existing upload/authentication behavior remains intact
+- footer-logo triple-click remains intact
+- git diff --check passes
+
+Do not treat an existing non-fatal Vite sourcemap warning as a failure if the build otherwise succeeds.
+
+J. GIT
+
+Commit the completed work on:
+
+phase5-3-part3-contact-opportunities
+
+Use a clear commit message.
+
+Do not merge into main.
+Do not deploy.
+
+FINAL REPORT — ONLY THIS FORMAT
+
+STATUS: PASS / BLOCKED
+
+PREVIOUS WORK:
+
+- People:
+- Projects:
+- HumekaNeza:
+- Teaching:
+- Research:
+- About:
+- Publications:
+- /upload:
+
+CHANGED:
+
+ADMIN EDITABILITY:
+
+PUBLIC DISPLAY:
+
+SECURITY:
+
+VALIDATION:
+
+NOT CHANGED:
+
+BLOCKERS:
+
+NEXT:

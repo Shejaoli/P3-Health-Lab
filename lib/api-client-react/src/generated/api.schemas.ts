@@ -66,3 +66,73 @@ export interface MediaUploadVerificationRequest {
   size: number;
   contentType: MediaUploadVerificationRequestContentType;
 }
+
+export interface PublicProfileLink {
+  label: string;
+  url: string;
+}
+
+export interface PublicContactProfile {
+  /** @nullable */
+  name: string | null;
+  /** @nullable */
+  appointment: string | null;
+  /** @nullable */
+  labName: string | null;
+  /** @nullable */
+  directorRole: string | null;
+  /** @nullable */
+  department: string | null;
+  /** @nullable */
+  university: string | null;
+  /** @nullable */
+  office: string | null;
+  /** @nullable */
+  contactEmail: string | null;
+  /** @nullable */
+  labEmail: string | null;
+}
+
+export interface PublicProfileResponse {
+  externalLinks: PublicProfileLink[];
+  contact: PublicContactProfile;
+}
+
+export type PublicOpportunityCategory = typeof PublicOpportunityCategory[keyof typeof PublicOpportunityCategory];
+
+
+export const PublicOpportunityCategory = {
+  Graduate_Students: 'Graduate Students',
+  Postdoctoral_Researchers: 'Postdoctoral Researchers',
+  'Research_Assistants_&_Staff': 'Research Assistants & Staff',
+  'Undergraduate_/_Research_Students': 'Undergraduate / Research Students',
+  'Visiting_Students_&_Scholars': 'Visiting Students & Scholars',
+} as const;
+
+export type PublicOpportunityStatus = typeof PublicOpportunityStatus[keyof typeof PublicOpportunityStatus];
+
+
+export const PublicOpportunityStatus = {
+  Open: 'Open',
+  Closed: 'Closed',
+} as const;
+
+export interface PublicOpportunity {
+  title: string;
+  category: PublicOpportunityCategory;
+  shortDescription: string;
+  fullDetails: string;
+  applicationInstructions: string;
+  /** @nullable */
+  applicationEmail: string | null;
+  /** @nullable */
+  applicationUrl: string | null;
+  /** @nullable */
+  deadline: string | null;
+  status: PublicOpportunityStatus;
+}
+
+export interface PublicOpportunitiesResponse {
+  opportunities: PublicOpportunity[];
+}
+

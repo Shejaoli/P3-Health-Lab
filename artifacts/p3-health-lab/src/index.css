@@ -2840,3 +2840,201 @@ body {
     margin-top: 28px;
   }
 }
+
+/* Opportunities and verified contact details */
+.opportunities-empty {
+  margin: 0;
+  padding: 16px 0;
+  border-top: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  font-size: .88rem;
+}
+
+.opportunity-category-list {
+  margin-top: 32px;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.opportunity-category {
+  display: grid;
+  grid-template-columns: minmax(190px, .75fr) minmax(0, 1.5fr);
+  gap: 40px;
+  padding: 26px 0;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.opportunity-category > h3 {
+  margin: 0;
+  font-family: var(--app-font-serif);
+  font-size: clamp(1.25rem, 2.2vw, 1.8rem);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.opportunity-record-list {
+  min-width: 0;
+}
+
+.opportunity-record + .opportunity-record {
+  border-top: 1px solid hsl(var(--border));
+}
+
+.opportunity-record {
+  padding: 8px 0 22px;
+}
+
+.opportunity-record:last-child {
+  padding-bottom: 0;
+}
+
+.opportunity-record-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.opportunity-record-heading h4 {
+  margin: 0;
+  font-family: var(--app-font-serif);
+  font-size: 1.18rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.opportunity-status {
+  flex: 0 0 auto;
+  color: hsl(var(--primary));
+  font-family: var(--app-font-mono);
+  font-size: .63rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.opportunity-status.is-closed {
+  color: hsl(var(--muted-foreground));
+}
+
+.opportunity-short-description,
+.opportunity-prose p {
+  margin: 10px 0 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .88rem;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+
+.opportunity-prose .eyebrow,
+.opportunity-deadline .eyebrow {
+  display: block;
+  margin-top: 16px;
+}
+
+.opportunity-deadline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin: 12px 0 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .82rem;
+}
+
+.opportunity-deadline .eyebrow {
+  margin-top: 0;
+}
+
+.opportunity-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  margin-top: 16px;
+}
+
+.opportunity-links a,
+.contact-detail-list a,
+.general-lab-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: hsl(var(--primary));
+  font-size: .8rem;
+  overflow-wrap: anywhere;
+}
+
+.contact-profile-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: 70px;
+  align-items: start;
+}
+
+.contact-profile-grid h2 {
+  max-width: 540px;
+  margin: 14px 0 20px;
+  font-family: var(--app-font-serif);
+  font-size: clamp(2rem, 4vw, 3.45rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+}
+
+.contact-detail-list {
+  margin: 24px 0 0;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.contact-detail-list > div {
+  display: grid;
+  grid-template-columns: minmax(85px, .45fr) minmax(0, 1fr);
+  gap: 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.contact-detail-list dt {
+  color: hsl(var(--muted-foreground));
+  font-family: var(--app-font-mono);
+  font-size: .65rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.contact-detail-list dd {
+  min-width: 0;
+  margin: 0;
+  color: hsl(var(--foreground));
+  font-size: .9rem;
+  overflow-wrap: anywhere;
+}
+
+.general-lab-contact,
+.contact-loading {
+  margin: 18px 0 0;
+  color: hsl(var(--muted-foreground));
+  font-size: .82rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .opportunity-category,
+  .contact-profile-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .opportunity-category {
+    padding: 22px 0;
+  }
+
+  .opportunity-record-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .contact-profile-grid {
+    gap: 42px;
+  }
+}

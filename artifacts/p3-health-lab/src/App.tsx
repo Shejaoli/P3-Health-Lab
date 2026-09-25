@@ -6,6 +6,7 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
+import { useGetPublicOpportunities, useGetPublicProfile } from '@workspace/api-client-react';
 import logo from '@assets/p3_logo_1789065448410.png';
 
 const queryClient = new QueryClient();
@@ -510,17 +511,22 @@ function Shell({ children }: { children: ReactNode }) {
 }
 
 function Footer({ onLogoClick }: { onLogoClick: () => void }) {
+  const { data } = useGetPublicProfile();
+  const profile = data?.contact;
+  const directorDetails = [profile?.name, profile?.directorRole].filter((value): value is string => Boolean(value)).join(", ");
   return <footer className="footer">
     <div className="container-wide footer-compact">
       <div className="footer-id">
         <button type="button" className="footer-logo-button" onClick={onLogoClick} aria-label="P3 Health Lab logo"><img className="footer-logo" src={logo} alt="" /></button>
         <div>
-          <p className="footer-name">P3 Health Lab</p>
-          <p>Dr. Egide Kalisa, Director<br />Western University, London, Ontario, Canada</p>
+          <p className="footer-name">{profile?.labName || "P3 Health Lab"}</p>
+          {(directorDetails || profile?.university) && <p>{directorDetails}{directorDetails && profile?.university && <br />}{profile?.university}</p>}
         </div>
       </div>
       <div className="footer-links">
-        <a href="mailto:p3healthlab@uwo.ca" data-testid="link-footer-email">p3healthlab@uwo.ca</a>
+        {profile?.labEmail
+          ? <a href={`mailto:${profile.labEmail}`} data-testid="link-footer-email">{profile.labEmail}</a>
+          : <Link href="/contact" data-testid="link-footer-email">Contact</Link>}
         <Link href="/about" data-testid="link-footer-about">About</Link>
         <Link href="/humekaneza" data-testid="link-footer-humekaneza">HumekaNeza</Link>
         <a href="https://www.uwo.ca" target="_blank" rel="noreferrer" data-testid="link-western">Western University <ExternalLink size={12} aria-hidden="true" /></a>
@@ -929,7 +935,41 @@ function News() {
 }
 
 function Contact() {
-  return <><PageHero eyebrow="Contact / 09" title={<>A clear way to <em>connect.</em></>} text="P3 Health Lab / HELTH Lab is directed by Dr. Egide Kalisa at Western University." /><section className="section" data-reveal="up"><div className="container-wide intro-grid"><div><span className="eyebrow">Lab contact</span><h2>Dr. Egide Kalisa</h2><div className="intro-stat"><b>01</b><span>Assistant Professor · Western University</span></div><div className="intro-stat" style={{ marginTop: 30 }}><b>02</b><span>Director · P3 Health Lab / HELTH Lab</span></div></div><div><p className="intro-copy">Connect with <mark>the lab.</mark></p><p className="tiny-copy">For inquiries, use the verified lab email.</p><a className="button-secondary" href="mailto:p3healthlab@uwo.ca" data-testid="link-contact-email">p3healthlab@uwo.ca <ArrowUpRight size={14} aria-hidden="true" /></a></div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide section-head"><div><span className="eyebrow">Location</span><h2>Western University</h2></div><div><p>London, Ontario<br />Canada</p><a className="button-secondary" href="https://www.uwo.ca" target="_blank" rel="noreferrer" data-testid="link-contact-western">Visit Western University <ExternalLink size={12} aria-hidden="true" /></a></div></div></section><section className="section" data-reveal="up"><div className="container-wide section-head"><div><span className="eyebrow">Additional details</span><h2>Contact information is being updated.</h2></div><p>No verified phone number, office number, department, or additional academic profile links are currently available.</p></div></section></>;
+  const { data, isLoading } = useGetPublicProfile();
+  const profile = data?.contact;
+  const contactRows: Array<{ label: string; value: string }> = [
+    { label: "Department", value: profile?.department ?? "" },
+    { label: "University", value: profile?.university ?? "" },
+    { label: "Office", value: profile?.office ?? "" },
+    { label: "Email", value: profile?.contactEmail ?? "" },
+  ].filter(({ value }) => Boolean(value.trim()));
+
+  return <>
+    <PageHero eyebrow="Contact / 09" title={<>A clear way to <em>connect.</em></>} text="Verified contact details for P3 Health Lab / HELTH Lab." />
+    <section className="section" data-reveal="up">
+      <div className="container-wide contact-profile-grid">
+        <div>
+          <span className="eyebrow">Faculty contact</span>
+          <h2>{profile?.name || "P3 Health Lab"}</h2>
+          {profile?.appointment && <div className="intro-stat"><b>01</b><span>{profile.appointment}</span></div>}
+          {profile?.directorRole && <div className="intro-stat" style={{ marginTop: 24 }}><b>02</b><span>{profile.directorRole}</span></div>}
+        </div>
+        <div>
+          <p className="intro-copy">Connect with <mark>the lab.</mark></p>
+          <p className="tiny-copy">Use the verified contact information below.</p>
+          {isLoading && !contactRows.length && <p className="contact-loading" role="status">Loading contact information…</p>}
+          {contactRows.length > 0 && <dl className="contact-detail-list">
+            {contactRows.map(({ label, value }) => <div key={label}>
+              <dt>{label}</dt>
+              <dd>{label === "Email" ? <a href={`mailto:${value}`} data-testid="link-contact-email">{value}</a> : value}</dd>
+            </div>)}
+          </dl>}
+          {!isLoading && !contactRows.length && <p className="contact-loading" role="status">Contact information is not currently available.</p>}
+          {profile?.labEmail && <p className="general-lab-contact">General lab inquiries: <a href={`mailto:${profile.labEmail}`}>{profile.labEmail}</a></p>}
+        </div>
+      </div>
+    </section>
+  </>;
 }
 
 function Teaching() {
@@ -1104,15 +1144,69 @@ function Humekaneza() {
   </>;
 }
 
+const opportunityCategories = [
+  "Graduate Students",
+  "Postdoctoral Researchers",
+  "Research Assistants & Staff",
+  "Undergraduate / Research Students",
+  "Visiting Students & Scholars",
+];
+
 function GetInvolved() {
-  const categories = [
-    ['01', 'PhD Students'],
-    ['02', 'MSc Students'],
-    ['03', 'Postdoctoral Fellows'],
-    ['04', 'Undergraduate Researchers'],
-    ['05', 'Visiting Researchers & Students'],
-  ];
-  return <><PageHero eyebrow="Get involved / 06" title={<>Join the <em>lab.</em></>} text="P3 Health Lab welcomes questions from students, researchers, and potential collaborators. Current recruitment details are not specified in the available project material." /><section className="section" id="opportunities" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Prospective members</span><h2>Opportunities are not currently specified.</h2></div><p>The lab’s available materials identify these academic categories, but do not confirm current openings or eligibility.</p></div><div className="path-grid">{categories.map(([number, title], index) => <article className="path-card" key={title} data-reveal="scale" style={{ transitionDelay: `${index * 70}ms` }} data-testid={`card-opportunity-${index}`}><div className="card-number"><span>{number}</span></div><h3>{title}</h3><p>Current availability is not provided.</p></article>)}</div></div></section><section className="section section-tinted" data-reveal="up"><div className="container-wide section-head"><div><span className="eyebrow">Application information</span><h2>Requirements and deadlines are not published.</h2></div><p>Funding, application deadlines, required documents, and other recruitment instructions are not currently specified in the verified project material.</p></div></section><section className="contact-band" id="contact" data-reveal="up"><div className="container-wide contact-grid"><div><span className="eyebrow">Contact the lab</span><h2>Ask about the current path.</h2><p>For a current question about joining or collaborating, use the lab’s existing contact address.</p></div><a className="button-primary" href="mailto:p3healthlab@uwo.ca" data-testid="link-involved-email">Email the lab <ArrowUpRight size={15} aria-hidden="true" /></a></div></section></>;
+  const { data, isLoading, isError } = useGetPublicOpportunities();
+  const { data: profileData } = useGetPublicProfile();
+  const opportunities = data?.opportunities ?? [];
+  const noOpportunities = !isLoading && !isError && opportunities.length === 0;
+  const generalEmail = profileData?.contact.labEmail;
+
+  return <>
+    <PageHero eyebrow="Get involved / 06" title={<>Join the <em>lab.</em></>} text="Browse published opportunities by audience. General questions are welcome through the lab’s verified contact path." />
+    <section className="section" id="opportunities" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Prospective members</span><h2>Opportunities</h2></div>
+          <p>Only published, current listings appear here.</p>
+        </div>
+        {noOpportunities && <p className="opportunities-empty" role="status">Opportunity information will be posted here when available.</p>}
+        {isLoading && <p className="opportunities-empty" role="status">Loading opportunity information…</p>}
+        {isError && <p className="opportunities-empty" role="alert">Opportunity information could not be loaded. Please check again later.</p>}
+        <div className="opportunity-category-list">
+          {opportunityCategories.map((category, index) => {
+            const categoryOpportunities = opportunities.filter((opportunity) => opportunity.category === category);
+            return <section className="opportunity-category" key={category} data-testid={`card-opportunity-${index}`}>
+              <h3>{category}</h3>
+              <div className="opportunity-record-list">
+                {categoryOpportunities.map((opportunity, opportunityIndex) => (
+                  <article className="opportunity-record" key={`${opportunity.title}-${opportunityIndex}`}>
+                    <div className="opportunity-record-heading">
+                      <h4>{opportunity.title}</h4>
+                      <span className={`opportunity-status is-${opportunity.status.toLowerCase()}`}>{opportunity.status}</span>
+                    </div>
+                    {opportunity.shortDescription.trim() && <p className="opportunity-short-description">{opportunity.shortDescription}</p>}
+                    {opportunity.fullDetails.trim() && <div className="opportunity-prose"><p>{opportunity.fullDetails}</p></div>}
+                    {opportunity.applicationInstructions.trim() && <div className="opportunity-prose"><span className="eyebrow">Application instructions</span><p>{opportunity.applicationInstructions}</p></div>}
+                    {opportunity.deadline && <p className="opportunity-deadline"><span className="eyebrow">Deadline</span><time dateTime={opportunity.deadline}>{opportunity.deadline}</time></p>}
+                    {(opportunity.applicationEmail || opportunity.applicationUrl) && <div className="opportunity-links">
+                      {opportunity.applicationEmail && <a href={`mailto:${opportunity.applicationEmail}`}>Email {opportunity.applicationEmail} <ArrowUpRight size={14} aria-hidden="true" /></a>}
+                      {opportunity.applicationUrl && <a href={opportunity.applicationUrl} target="_blank" rel="noreferrer">View application details <ArrowUpRight size={14} aria-hidden="true" /></a>}
+                    </div>}
+                  </article>
+                ))}
+              </div>
+            </section>;
+          })}
+        </div>
+      </div>
+    </section>
+    <section className="contact-band" id="contact" data-reveal="up">
+      <div className="container-wide contact-grid">
+        <div><span className="eyebrow">General inquiries</span><h2>Ask about getting involved.</h2><p>For general questions about joining or collaborating, contact P3 Health Lab.</p></div>
+        {generalEmail
+          ? <a className="button-primary" href={`mailto:${generalEmail}`} data-testid="link-involved-email">Email the lab <ArrowUpRight size={15} aria-hidden="true" /></a>
+          : <Link className="button-primary" href="/contact" data-testid="link-involved-email">Contact the lab <ArrowUpRight size={15} aria-hidden="true" /></Link>}
+      </div>
+    </section>
+  </>;
 }
 
 function NotFound() {
