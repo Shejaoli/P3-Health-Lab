@@ -1,0 +1,171 @@
+P3 HEALTH LAB — PHASE 6.2: TEACHING PHILOSOPHY + SUPERVISION + JOIN THE LAB
+
+IMPORTANT WORKFLOW:
+This is a new Replit session/account. Do NOT spend most of the task auditing old phases. First make the requested code changes. Then run a compact validation. Preserve working features and avoid unnecessary investigation.
+
+PHASE STATUS:
+Phase 6.1 Teaching course data is already PASS and must remain intact:
+
+- 9 total courses
+- 2026–2027: 2
+- 2025–2026: 5
+- 2024–2025: 2
+- Existing structured course data/admin editing must remain unchanged.
+
+GOAL:
+Complete Phase 6.2 by implementing the Teaching philosophy/supervision content and the Join the Lab page content. Do not redesign the whole website.
+
+BEFORE CODING:
+Do only a quick check:
+
+1. Confirm current branch/worktree.
+2. Locate the existing Teaching page and /get-involved or Join the Lab implementation.
+3. Confirm the existing 9-course data is present.
+   Then START CODING. Do not spend credits reconstructing old phase history.
+
+HARD RULES:
+
+- Work on a new branch named "phase6-2-teaching-join".
+- Never modify main directly.
+- Never deploy.
+- Do not change Git configuration.
+- Do not reset, rebase, force-push, or delete existing work.
+- Preserve Phase 6.1 course data exactly.
+- Preserve People, Research, Projects, HumekaNeza, About, Publications, Contact, header/footer, admin authentication, /upload, and footer-logo triple-click.
+- Do not modify admin/auth/database/API unless absolutely required for this phase.
+- Use the existing restrained academic design.
+- No gradients, glowing effects, decorative cards, unnecessary animations, or AI-template styling.
+- Do not invent facts, courses, quotations, supervisors, programs, outcomes, partners, deadlines, funding, or opportunities.
+- If a piece of information is not supplied or already verified in the project, do not invent it.
+- Keep desktop and mobile responsive with no horizontal overflow.
+
+TASK A — TEACHING PAGE
+
+Keep the existing 9-course section from Phase 6.1 exactly as it is.
+
+Ensure the Teaching page contains these sections after/beside the course content as appropriate:
+
+1. TEACHING PHILOSOPHY
+
+Use the verified Teaching Philosophy content already supplied for Phase 5/6 work in the project. If it already exists, preserve it rather than rewriting it.
+
+Present it as a restrained academic section:
+
+- clear heading
+- readable paragraph text
+- no decorative poster/card treatment
+- good spacing on mobile
+
+2. GRADUATE SUPERVISION
+
+Keep the existing verified Graduate Supervision content if already present.
+
+It should clearly communicate the lab's graduate supervision context without inventing:
+
+- student names
+- degrees
+- supervisors
+- projects
+- outcomes
+- funding
+
+If the existing project contains only verified general supervision text, use that text.
+
+3. EXPERIENTIAL & FIELD-BASED TEACHING
+
+Preserve the existing verified section if already present.
+
+Keep it academic and concise. Do not add unsupported examples.
+
+TASK B — JOIN THE LAB
+
+Use the existing "/get-involved" route as the public Join the Lab page unless the project already has a dedicated "/join-the-lab" route.
+
+The page should retain the five verified opportunity categories already implemented:
+
+- Graduate Students
+- Postdoctoral Researchers
+- Research Assistants & Staff
+- Undergraduate / Research Students
+- Visiting Students & Scholars
+
+Keep the existing database-backed opportunity behavior:
+
+- published records are public
+- archived records are hidden
+- hidden records are hidden
+- empty categories show neutral availability text
+- no invented openings
+
+Use the existing opportunity admin system if present. Do not create a second opportunity/content system.
+
+The public page should have a restrained academic introduction and clear category structure, using only verified project content.
+
+If a category has no published opportunities, use the existing neutral message:
+“Opportunity information will be posted here when available.”
+
+GENERAL CONTENT-EDITABILITY RULE:
+For any NEW content introduced in this phase that is expected to change over time, first check whether an existing admin/content resource can already manage it.
+
+If an appropriate admin field/resource exists, use it.
+
+Do NOT build a duplicate CMS or parallel database system.
+
+If a genuinely new editable field is necessary, implement the smallest compatible extension to the existing admin/content architecture. Keep static verified academic text static when there is no appropriate admin field.
+
+IMPORTANT:
+Do not add fake opportunities just to demonstrate the page.
+
+LINKS:
+Keep existing navigation and internal links working.
+Do not change unrelated routes.
+
+VALIDATION — AFTER CODING:
+Run only the necessary checks:
+
+1. Frontend typecheck.
+2. Production build.
+3. Render "/teaching" at approximately 1280px and 390px.
+4. Render "/get-involved" at approximately 1280px and 390px.
+5. Confirm no visible horizontal overflow.
+6. Confirm all 9 Phase 6.1 courses remain.
+7. Confirm Teaching Philosophy, Graduate Supervision, and Experiential & Field-Based Teaching are present.
+8. Confirm all five Join the Lab categories are present.
+9. Confirm empty opportunity states remain neutral if there are no published records.
+10. Confirm footer-logo triple-click/admin entry remains unchanged.
+11. Confirm no deployment occurred.
+
+Do NOT spend credits on extensive screenshots, unrelated route testing, or a full historical audit unless a failure directly affects this phase.
+
+GIT:
+Commit the completed work on "phase6-2-teaching-join" with a clear message such as:
+"Complete Phase 6.2 Teaching philosophy and Join the Lab"
+
+Do not merge into main or deploy.
+
+FINAL REPORT — ONLY THIS FORMAT:
+
+STATUS: PASS / BLOCKED
+
+CHANGED:
+
+- ...
+
+NOT CHANGED:
+
+- ...
+
+VALIDATION:
+
+- ...
+
+ADMIN EDITABILITY:
+
+- ...
+
+BLOCKERS:
+
+- ...
+
+NEXT:
+Phase 6.3 — Recruitment structure + QA
