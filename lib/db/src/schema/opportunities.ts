@@ -21,8 +21,8 @@ export const opportunityCategories = [
 
 export const opportunityStatuses = ["Open", "Closed", "Hidden"] as const;
 
-const opportunityCategoryEnum = pgEnum("opportunity_category", opportunityCategories);
-const opportunityStatusEnum = pgEnum("opportunity_status", opportunityStatuses);
+export const opportunityCategoryEnum = pgEnum("opportunity_category", opportunityCategories);
+export const opportunityStatusEnum = pgEnum("opportunity_status", opportunityStatuses);
 
 export const opportunitiesTable = pgTable("admin_opportunities", {
   id: serial("id").primaryKey(),
