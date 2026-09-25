@@ -816,6 +816,19 @@ function People() {
 function About() {
   const { data: profileData } = useGetPublicProfile();
   const contact = profileData?.contact;
+  const profileName = contact?.name?.trim() || "About P3 Health Lab";
+  const profileSummary = [
+    contact?.appointment,
+    contact?.department,
+    contact?.university,
+    contact?.directorRole,
+  ].filter((value): value is string => Boolean(value)).join(" · ");
+  const labSummary = [
+    contact?.name,
+    contact?.directorRole,
+    contact?.labName,
+    contact?.university,
+  ].filter((value): value is string => Boolean(value)).join(" · ");
   const relatedPages = [
     ['Research', '/research'],
     ['People', '/people'],
@@ -826,20 +839,20 @@ function About() {
   return <div className="about-profile-page">
     <PageHero
       eyebrow="About / 07"
-      title="Dr. Egide Kalisa"
-      text="Assistant Professor in the Department of Epidemiology and Biostatistics at Western University. Director, P3 Health Lab / HELTH Lab."
+      title={profileName}
+      text={profileSummary || "Verified profile information is not currently available."}
     />
     <section className="section about-profile-identity" data-reveal="up">
       <div className="container-wide about-profile-identity-grid">
         <div>
           <span className="eyebrow">Academic profile</span>
-          <h2>Dr. Egide Kalisa</h2>
-          <p className="about-profile-role">Assistant Professor</p>
-          <p className="about-profile-lab">Director, P3 Health Lab / HELTH Lab</p>
+          <h2>{profileName}</h2>
+          {contact?.appointment && <p className="about-profile-role">{contact.appointment}</p>}
+          {contact?.directorRole && <p className="about-profile-lab">{contact.directorRole}</p>}
         </div>
         <dl className="about-profile-facts">
-          <div><dt>Department</dt><dd>Department of Epidemiology and Biostatistics</dd></div>
-          <div><dt>Institution</dt><dd>Western University</dd></div>
+          {contact?.department && <div><dt>Department</dt><dd>{contact.department}</dd></div>}
+          {contact?.university && <div><dt>Institution</dt><dd>{contact.university}</dd></div>}
         </dl>
       </div>
     </section>
@@ -859,10 +872,10 @@ function About() {
       <div className="container-wide about-profile-lab-grid">
         <div>
           <span className="eyebrow">About the lab</span>
-          <h2 id="about-lab-title">A lab led by Dr. Egide Kalisa.</h2>
+          <h2 id="about-lab-title">{contact?.name ? `A lab led by ${contact.name}.` : "About the lab."}</h2>
         </div>
         <div>
-          <p className="about-profile-copy">Dr. Egide Kalisa is the Director of P3 Health Lab / HELTH Lab at Western University.</p>
+          <p className="about-profile-copy">{labSummary || "Verified lab profile information is not currently available."}</p>
           <nav className="about-profile-links" aria-label="P3 Health Lab pages">
             {relatedPages.map(([label, href]) => <Link href={href} key={href}>{label}<ArrowUpRight size={14} aria-hidden="true" /></Link>)}
           </nav>
