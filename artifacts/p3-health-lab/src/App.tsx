@@ -8,6 +8,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
 import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
 import logo from '@assets/p3_logo_1789065448410.png';
+import heroImage from '@assets/IMG-20260925-WA0006_1790363975752.jpg';
 import humekanezaLogo from '@assets/IMG-20260910-WA0000_1790353414570.jpg';
 import egideKalisaPhoto from '@assets/1._Dr._Egide_Kalisa_1790358118214.webp';
 import mdPervezKabirPhoto from '@assets/2._Dr._Md_Pervez_Kabir_1790358118262.jpeg';
@@ -663,10 +664,14 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 
 function Home() {
   return <>
-    <section className="home-hero" aria-labelledby="home-title" style={{ backgroundImage: `url(${import.meta.env.BASE_URL}images/home-air-pollution-hero.jpg)` }}>
+    <section className="home-hero" aria-labelledby="home-title" style={{ backgroundImage: `url(${heroImage})` }}>
       <div className="home-hero-scrim" aria-hidden="true" />
-      <div className="container-wide">
-        <h1 id="home-title" className="sr-only">Air Pollution &amp; Environmental Health</h1>
+      <div className="container-wide home-hero-inner">
+        <div className="home-hero-copy">
+          <span className="home-hero-eyebrow">CLEAN AIR · HEALTHY PEOPLE · THRIVING PLANET</span>
+          <h1 id="home-title">Air Pollution &amp; Environmental Health</h1>
+          <p>Research for cleaner air, healthier lives, brighter tomorrows.</p>
+        </div>
       </div>
     </section>
 
