@@ -206,6 +206,62 @@ const projects: Project[] = [
   },
 ];
 
+type ResearchMapLocation = {
+  id: string;
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  mapX: number;
+  mapY: number;
+  projectSlug: string;
+  projectTitle: string;
+  description: string;
+  displayOrder: number;
+};
+
+const researchMapLocations: ResearchMapLocation[] = [
+  {
+    id: 'rwanda',
+    name: 'Rwanda',
+    country: 'Rwanda',
+    latitude: -1.94,
+    longitude: 29.87,
+    mapX: 58.3,
+    mapY: 51.1,
+    projectSlug: projects[0].slug,
+    projectTitle: projects[0].title,
+    description: projects[0].description[0],
+    displayOrder: 1,
+  },
+  {
+    id: 'hamilton',
+    name: 'Hamilton',
+    country: 'Canada',
+    latitude: 43.26,
+    longitude: -79.87,
+    mapX: 23.8,
+    mapY: 23.5,
+    projectSlug: projects[7].slug,
+    projectTitle: projects[7].title,
+    description: projects[7].description[0],
+    displayOrder: 2,
+  },
+  {
+    id: 'london',
+    name: 'London',
+    country: 'Canada',
+    latitude: 42.98,
+    longitude: -81.25,
+    mapX: 30.8,
+    mapY: 34.5,
+    projectSlug: projects[7].slug,
+    projectTitle: projects[7].title,
+    description: projects[7].description[0],
+    displayOrder: 3,
+  },
+];
+
 const profileResearchInterests = [
   'Air Pollution',
   'Climate Change',
@@ -369,6 +425,7 @@ function Shell({ children }: { children: ReactNode }) {
   const adminClickRef = useRef({ count: 0, lastClick: 0 });
   const nav: { label: string; href: string; children?: [string, string][] }[] = [
     { label: 'Research', href: '/research' },
+    { label: 'Global Research Map', href: '/research-map' },
     { label: 'People', href: '/people' },
     { label: 'Publications', href: '/publications' },
     { label: 'Teaching', href: '/teaching' },
@@ -596,7 +653,13 @@ function Home() {
 
     <section className="home-block" aria-labelledby="home-research-title">
       <div className="container-wide">
-        <div className="home-block-head"><h2 id="home-research-title">Research areas</h2><Link href="/research" className="text-link" data-testid="link-home-research-all">All research</Link></div>
+        <div className="home-block-head">
+          <h2 id="home-research-title">Research areas</h2>
+          <div className="home-block-head-links">
+            <Link href="/research" className="text-link" data-testid="link-home-research-all">All research</Link>
+            <Link href="/research-map" className="text-link" data-testid="link-home-research-map">Global research map</Link>
+          </div>
+        </div>
         <ul className="home-list">
           {researchThemes.map((theme, index) => <li key={theme.id}><Link href={`/research#${theme.id}`} data-testid={`card-home-research-${index}`}><h3>{theme.title}</h3><p>{theme.text}</p></Link></li>)}
         </ul>
@@ -609,6 +672,17 @@ function Home() {
         <ul className="home-list">
           {featuredProjects.map((project, index) => <li key={project.title}><Link href={`/projects#${project.slug}`} data-testid={`card-home-project-${index}`}><h3>{project.title}</h3><p>{project.text}</p></Link></li>)}
         </ul>
+      </div>
+    </section>
+
+    <section className="home-block home-updates" aria-labelledby="home-updates-title">
+      <div className="container-wide home-updates-row">
+        <div>
+          <span className="eyebrow">Updates</span>
+          <h2 id="home-updates-title">News and updates</h2>
+          <p>Announcements and updates from P3 Health Lab.</p>
+        </div>
+        <Link href="/news" className="text-link" data-testid="link-home-news">View all news</Link>
       </div>
     </section>
 
@@ -669,6 +743,7 @@ function Research() {
       <div className="container-wide">
         <ul className="research-links">
           <li><Link href="/projects" className="text-link" data-testid="link-research-projects">Projects</Link></li>
+          <li><Link href="/research-map" className="text-link" data-testid="link-research-map">Global Research Map</Link></li>
           <li><Link href="/publications" className="text-link" data-testid="link-research-publications">Publications</Link></li>
           <li><Link href="/people" className="text-link" data-testid="link-research-people">People</Link></li>
         </ul>
@@ -709,7 +784,95 @@ function Projects() {
         </div>
         <div className="projects-related-link">
           <Link href="/humekaneza" className="text-link" data-testid="link-projects-humekaneza">Learn more about HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></Link>
+          <Link href="/research-map" className="text-link" data-testid="link-projects-research-map">View global research map <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>
+      </div>
+    </section>
+  </>;
+}
+
+function ResearchMap() {
+  const [selectedId, setSelectedId] = useState(researchMapLocations[0].id);
+  const selectedLocation = researchMapLocations.find((location) => location.id === selectedId) ?? researchMapLocations[0];
+
+  return <>
+    <PageHero
+      eyebrow="Global Research Map"
+      title={<>Research Across <em>Communities</em></>}
+      text="A geographic view of communities and settings connected to P3 Health Lab research and initiatives."
+    />
+    <section className="section research-map-section" data-reveal="up">
+      <div className="container-wide">
+        <div className="research-map-layout">
+          <div className="research-map-visual-panel">
+            <div className="research-map-heading">
+              <div>
+                <span className="eyebrow">Verified locations</span>
+                <h2>Connected settings, clearly placed.</h2>
+              </div>
+              <span className="research-map-count">{researchMapLocations.length} locations</span>
+            </div>
+            <div className="research-map-canvas" aria-label="Schematic geographic view of verified P3 Health Lab locations">
+              <svg className="research-map-grid" viewBox="0 0 1000 480" aria-hidden="true">
+                <g className="research-map-graticule">
+                  <path d="M0 80H1000M0 160H1000M0 240H1000M0 320H1000M0 400H1000" />
+                  <path d="M125 0V480M250 0V480M375 0V480M500 0V480M625 0V480M750 0V480M875 0V480" />
+                </g>
+                <path className="research-map-contour" d="M92 147c42-29 86-30 126-4 26 17 45 13 73 5 31-9 65 2 89 29 19 22 33 34 70 39 35 5 55 23 57 48 2 25-24 38-65 31-43-7-74 11-111 18-39 8-72-7-99-27-25-18-53-32-82-48-35-19-70-60-58-91Zm488 125c30-25 64-35 96-24 28 10 42 30 63 44 23 15 53 14 72 36 15 18 9 40-12 50-32 15-67-5-88-17-24-14-45-15-74-10-31 6-66-7-73-32-5-17 1-34 16-47Zm224-212c21-12 48-9 67 5 15 11 20 28 13 41-11 19-42 21-64 9-19-10-35-32-26-47 3-4 6-6 10-8Z" />
+              </svg>
+              {researchMapLocations.map((location) => (
+                <button
+                  type="button"
+                  className={`research-map-marker ${selectedId === location.id ? 'is-selected' : ''}`}
+                  key={location.id}
+                  style={{ left: `${location.mapX}%`, top: `${location.mapY}%` }}
+                  onClick={() => setSelectedId(location.id)}
+                  aria-label={`Show verified research connected to ${location.name}, ${location.country}`}
+                  aria-pressed={selectedId === location.id}
+                >
+                  <span className="research-map-marker-dot" aria-hidden="true" />
+                  <span className="research-map-marker-label">{location.name}</span>
+                </button>
+              ))}
+            </div>
+            <p className="research-map-note">Schematic geographic view, not to scale. Locations appear only where existing project content names the setting.</p>
+          </div>
+          <aside className="research-map-detail" aria-live="polite">
+            <span className="eyebrow">Selected location</span>
+            <h2>{selectedLocation.name}</h2>
+            <p className="research-map-country">{selectedLocation.country}</p>
+            <p>{selectedLocation.description}</p>
+            <div className="research-map-detail-record">
+              <span className="eyebrow">Connected initiative</span>
+              <strong>{selectedLocation.projectTitle}</strong>
+              <Link className="text-link" href={`/projects#${selectedLocation.projectSlug}`}>View project record <ArrowUpRight size={14} aria-hidden="true" /></Link>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section className="section section-tinted research-map-list-section" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Accessible location list</span><h2>The same record, in plain text.</h2></div>
+          <p>Select a location to update the map detail, or follow the project link to read the full verified record.</p>
+        </div>
+        <div className="research-map-location-list">
+          {researchMapLocations.map((location) => (
+            <article className={`research-map-list-item ${selectedId === location.id ? 'is-selected' : ''}`} key={location.id}>
+              <button type="button" onClick={() => setSelectedId(location.id)} aria-pressed={selectedId === location.id}>
+                <span className="research-map-list-index">{String(location.displayOrder).padStart(2, '0')}</span>
+                <span><strong>{location.name}</strong><small>{location.country}</small></span>
+                <ChevronRight size={16} aria-hidden="true" />
+              </button>
+              <div className="research-map-list-record">
+                <span>{location.projectTitle}</span>
+                <Link className="text-link" href={`/projects#${location.projectSlug}`}>Project record <ArrowUpRight size={14} aria-hidden="true" /></Link>
+              </div>
+            </article>
+          ))}
+        </div>
+        <p className="research-map-incomplete">Additional research locations will appear here as verified information becomes available.</p>
       </div>
     </section>
   </>;
@@ -1290,6 +1453,7 @@ function Router() {
   return <RoutedErrorBoundary><Switch>
     <Route path="/" component={Home} />
     <Route path="/research" component={Research} />
+    <Route path="/research-map" component={ResearchMap} />
     <Route path="/projects" component={Projects} />
     <Route path="/people" component={People} />
     <Route path="/about" component={About} />

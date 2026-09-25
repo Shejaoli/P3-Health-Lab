@@ -1,0 +1,173 @@
+PHASE 7.3 — Homepage + News + Research Map Connections + QA
+
+Branch: phase7-3-connections-qa
+
+IMPORTANT:
+- Do NOT work directly on main.
+- Preserve all completed Phase 1–7.2 work.
+- Do not redesign the homepage.
+- Do not invent News records, map locations, projects, people, or other content.
+- Do not create fake database records just for testing.
+- Do not build a new CMS/admin system.
+- Do not deploy.
+- Coding first; then perform focused validation.
+- Save credits: do not perform a historical repo audit or investigate unrelated pre-existing errors.
+
+GOAL:
+Connect the newly completed News and Global Research Map pages into the existing public-site navigation/homepage in the smallest appropriate way, while preserving the restrained academic design.
+
+TASK 1 — HOMEPAGE CONNECTIONS
+
+Inspect the existing homepage only as needed to understand its current sections.
+
+Add minimal, natural discoverability for:
+1. News
+2. Global Research Map
+
+Use existing homepage design patterns and spacing.
+
+If the homepage already has a suitable research/projects area, integrate the Research Map link there rather than creating a large new section.
+
+For News:
+- If verified published News records exist, show the appropriate existing news content/preview pattern and link to /news.
+- If there are no News records, do NOT invent any.
+- Keep the existing neutral empty-state behavior.
+- A simple “News” / “View all news” connection is acceptable where appropriate.
+
+For Research Map:
+- Add a restrained link or small supporting section connected to the existing research/project content.
+- Link to /research-map.
+- Do not duplicate the map itself on the homepage unless an existing design pattern makes a small preview clearly appropriate.
+- Prefer a simple text/rule-based academic presentation over a new card-heavy component.
+
+TASK 2 — NAVIGATION CONNECTIONS
+
+Inspect the existing header/navigation.
+
+Make /news and /research-map discoverable from navigation only if this fits the existing navigation structure.
+
+Do not overcrowd the navigation or redesign it.
+
+Preserve:
+- existing responsive navigation
+- mobile menu behavior
+- existing typography
+- existing footer
+- footer-logo triple-click behavior
+
+TASK 3 — CROSS-PAGE CONNECTIONS
+
+Verify that relevant existing pages link naturally to the new pages where appropriate.
+
+Use only existing verified routes/slugs.
+
+Examples:
+- Projects/research content → /research-map where geographically relevant.
+- Homepage → /news.
+- Homepage → /research-map.
+- News → relevant existing pages only when the relationship is actually supported by the existing News data.
+- Research Map → existing verified project routes.
+
+Do NOT invent relationships between News, projects, research areas, people, or locations.
+
+TASK 4 — EMPTY/DATA STATES
+
+Do not add database records.
+
+Confirm:
+- /news behaves correctly with its current empty dataset.
+- /research-map behaves correctly with its existing verified project-derived data.
+- Homepage remains valid whether News has zero or populated records.
+- No broken links are introduced.
+
+Do not spend credits creating temporary records.
+
+TASK 5 — FOCUSED QA
+
+Run only the necessary checks:
+
+1. Frontend typecheck.
+   - If the previously documented API-client export / implicit-any errors remain, do not expand scope to fix them.
+   - Report them as pre-existing unless this phase introduced them.
+
+2. Production build.
+
+3. Check at:
+   - desktop ~1280px
+   - mobile ~390px
+
+Check:
+- homepage
+- /news
+- /research-map
+- /research
+- /projects
+- /humekaneza
+- /people
+- /teaching
+- /about
+
+Verify:
+- no horizontal overflow
+- no new browser/runtime errors
+- navigation works
+- mobile menu works
+- News links work
+- Research Map links work
+- project/map links resolve
+- restrained academic visual style remains consistent
+- footer remains unchanged
+
+Use existing project commands:
+
+cd artifacts/p3-health-lab
+pnpm install --filter @workspace/p3-health-lab... --frozen-lockfile
+PORT=4173 BASE_PATH=/ pnpm run typecheck
+PORT=4173 BASE_PATH=/ pnpm run build
+
+Do not spend time fixing unrelated workspace/API errors.
+
+COMMIT:
+
+Commit only the Phase 7.3 changes with:
+
+Connect homepage, news, and research map
+
+FINAL REPORT — KEEP SHORT:
+
+STATUS:
+PASS / PASS WITH BLOCKER
+
+CHANGED:
+- Exact files/components changed.
+- Exact homepage/navigation connections added.
+
+NOT CHANGED:
+- Confirm no database records were added.
+- Confirm no production data changed.
+- Confirm no unrelated pages/admin/auth were changed.
+
+CONNECTIONS:
+- Homepage → News
+- Homepage → Research Map
+- Navigation changes, if any
+- Cross-page links verified
+
+VALIDATION:
+- Typecheck
+- Build
+- Desktop/mobile
+- Routes
+- Runtime errors/overflow
+
+BLOCKERS:
+- Only genuine blockers.
+- If the known pre-existing typecheck/API issues remain, state them without expanding scope.
+
+PHASE 7:
+7.1 News: PASS
+7.2 Global Research Map: PASS
+7.3 Connections + QA: [RESULT]
+
+NEXT:
+Phase 8.1 — Typography / spacing / layout polish
