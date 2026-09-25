@@ -203,6 +203,8 @@ const projects: Project[] = [
     ],
     closing: 'The project centres community voices and aims to make air-quality information more relevant, accessible, trusted, and actionable.',
   },
+];
+
 const profileResearchInterests = [
   'Air Pollution',
   'Climate Change',
@@ -211,7 +213,6 @@ const profileResearchInterests = [
   'One Health',
   'Exposure Science',
 ] as const;
-];
 
 const featuredProjects = [
   { title: 'HumekaNeza School Air-Quality Campaign', slug: 'school-air-quality-campaign', text: 'The original HumekaNeza campaign was launched in schools in Rwanda to improve children’s understanding of air pollution and empower them to participate in solutions.' },
@@ -877,6 +878,7 @@ function Publications() {
   const getExternalLink = (label: string) => externalLinks.find((link) => link.label === label);
   const googleScholar = getExternalLink('Google Scholar');
   const orcid = getExternalLink('ORCID');
+  const additionalProfileLinks = externalLinks.filter(({ label }) => ['CV', 'Publication Profile', 'CV / Publication Profile'].includes(label));
 
   return <div className="publications-page">
     <PageHero
@@ -900,6 +902,14 @@ function Publications() {
             <p>View Dr. Egide Kalisa’s ORCID profile for a persistent record of research outputs and scholarly contributions.</p>
             {orcid && <a href={orcid.url} target="_blank" rel="noreferrer">View ORCID Profile <ArrowUpRight size={14} aria-hidden="true" /></a>}
           </article>
+          {additionalProfileLinks.map((link) => (
+            <article className="publication-profile-record" key={`${link.label}-${link.url}`}>
+              <span className="eyebrow">{link.label}</span>
+              <h2>{link.label}</h2>
+              <p>View the verified {link.label} for additional academic information and publication details.</p>
+              <a href={link.url} target="_blank" rel="noreferrer">Open {link.label} <ArrowUpRight size={14} aria-hidden="true" /></a>
+            </article>
+          ))}
         </div>
         <div className="publication-themes">
           <div className="section-head">
