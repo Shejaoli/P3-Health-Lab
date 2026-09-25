@@ -1,6 +1,6 @@
 import { type MouseEvent as ReactMouseEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ArrowUpRight, ChevronRight, Check, CircleArrowUp, ExternalLink, X } from 'lucide-react';
+import { ArrowUpRight, ChevronRight, Check, CircleArrowUp, ExternalLink, UserRound, X } from 'lucide-react';
 import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -941,7 +941,10 @@ function People() {
                       <div className={`person-record-photo ${person.photo ? '' : 'is-empty'}`}>
                         {person.photo
                           ? <img src={person.photo} alt={`${person.name} portrait`} loading="lazy" />
-                          : <span>Portrait not provided</span>}
+                          : <div className="person-record-placeholder">
+                              <UserRound size={34} strokeWidth={1.5} aria-hidden="true" />
+                              <span>Portrait not provided</span>
+                            </div>}
                       </div>
                       <h3>{person.name}</h3>
                       <dl className="person-record-details">
