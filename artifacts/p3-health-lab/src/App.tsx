@@ -653,7 +653,13 @@ function Home() {
 
     <section className="home-block" aria-labelledby="home-research-title">
       <div className="container-wide">
-        <div className="home-block-head"><h2 id="home-research-title">Research areas</h2><Link href="/research" className="text-link" data-testid="link-home-research-all">All research</Link></div>
+        <div className="home-block-head">
+          <h2 id="home-research-title">Research areas</h2>
+          <div className="home-block-head-links">
+            <Link href="/research" className="text-link" data-testid="link-home-research-all">All research</Link>
+            <Link href="/research-map" className="text-link" data-testid="link-home-research-map">Global research map</Link>
+          </div>
+        </div>
         <ul className="home-list">
           {researchThemes.map((theme, index) => <li key={theme.id}><Link href={`/research#${theme.id}`} data-testid={`card-home-research-${index}`}><h3>{theme.title}</h3><p>{theme.text}</p></Link></li>)}
         </ul>
@@ -666,6 +672,17 @@ function Home() {
         <ul className="home-list">
           {featuredProjects.map((project, index) => <li key={project.title}><Link href={`/projects#${project.slug}`} data-testid={`card-home-project-${index}`}><h3>{project.title}</h3><p>{project.text}</p></Link></li>)}
         </ul>
+      </div>
+    </section>
+
+    <section className="home-block home-updates" aria-labelledby="home-updates-title">
+      <div className="container-wide home-updates-row">
+        <div>
+          <span className="eyebrow">Updates</span>
+          <h2 id="home-updates-title">News and updates</h2>
+          <p>Announcements and updates from P3 Health Lab.</p>
+        </div>
+        <Link href="/news" className="text-link" data-testid="link-home-news">View all news</Link>
       </div>
     </section>
 
@@ -726,6 +743,7 @@ function Research() {
       <div className="container-wide">
         <ul className="research-links">
           <li><Link href="/projects" className="text-link" data-testid="link-research-projects">Projects</Link></li>
+          <li><Link href="/research-map" className="text-link" data-testid="link-research-map">Global Research Map</Link></li>
           <li><Link href="/publications" className="text-link" data-testid="link-research-publications">Publications</Link></li>
           <li><Link href="/people" className="text-link" data-testid="link-research-people">People</Link></li>
         </ul>
@@ -766,6 +784,7 @@ function Projects() {
         </div>
         <div className="projects-related-link">
           <Link href="/humekaneza" className="text-link" data-testid="link-projects-humekaneza">Learn more about HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></Link>
+          <Link href="/research-map" className="text-link" data-testid="link-projects-research-map">View global research map <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>
       </div>
     </section>
