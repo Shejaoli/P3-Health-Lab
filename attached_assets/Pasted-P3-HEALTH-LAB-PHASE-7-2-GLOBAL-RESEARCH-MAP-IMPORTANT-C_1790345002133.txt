@@ -1,0 +1,290 @@
+P3 HEALTH LAB — PHASE 7.2: GLOBAL RESEARCH MAP
+
+IMPORTANT — CREDIT-SAVING WORKFLOW:
+
+This is a new Replit session/account.
+
+DO NOT spend most of the task auditing previous phases or Git history.
+
+FIRST:
+1. Confirm current branch/worktree.
+2. Locate the existing research data/page structure.
+3. Locate any existing map/location-related code or assets.
+4. Then START CODING immediately.
+
+Implement first. Validate afterward.
+
+PHASE STATUS:
+Phase 7.1 News is PASS:
+- /news implemented
+- API-backed
+- neutral empty state
+- existing News admin resource reused
+- commit 9ba983c on phase7-1-news
+
+BRANCH:
+Create/use:
+`phase7-2-research-map`
+
+Never modify main directly.
+Never deploy.
+Do not force-push, reset, rebase, or change Git configuration.
+
+GOAL:
+Create a restrained academic Global Research Map page showing where P3 Health Lab research/engagement is connected geographically.
+
+ROUTE:
+Use `/research-map`.
+
+If an existing route/navigation pattern already exists, reuse it.
+
+HARD RULES:
+- Do NOT invent countries, cities, institutions, collaborators, projects, research sites, partnerships, or geographic claims.
+- Use only geographic information already verified in the repository/project content.
+- If the available verified geographic data is incomplete, build the map structure around the verified locations only.
+- Do not create fake map points just to make the map look populated.
+- Do not modify unrelated pages.
+- Preserve People, Projects, HumekaNeza, Research, Teaching, About, Publications, Contact, News, Join the Lab, header/footer, admin/authentication, /upload, and footer-logo triple-click.
+- No deployment.
+- No production database changes.
+- No fake database records.
+- Keep the existing restrained academic design.
+
+MAP CONTENT:
+
+Use verified geographic information already present in the project.
+
+Known verified geographic references may include locations explicitly attached to existing project/research content, such as:
+- Rwanda
+- Hamilton
+- London
+- Canada
+- other locations only if already supported by the repository's verified content
+
+IMPORTANT:
+Do not assume that a country mentioned in a person's biography means it is a research location.
+
+Only map a location when the source clearly connects P3 Health Lab work/research/initiative activity to that location.
+
+PAGE STRUCTURE:
+
+1. HERO
+
+Eyebrow:
+`Global Research Map`
+
+Title:
+`Research Across Communities`
+
+Use a restrained explanatory paragraph based only on verified project content.
+
+If no verified map-specific introductory copy exists, use a neutral description such as:
+
+`A geographic view of communities and settings connected to P3 Health Lab research and initiatives.`
+
+Do not claim worldwide coverage unless the verified data supports it.
+
+2. MAP
+
+Create a clean interactive or visual map using the simplest reliable implementation available in the existing project.
+
+Requirements:
+- responsive
+- usable on mobile
+- no horizontal overflow
+- restrained academic appearance
+- clear location markers
+- accessible labels
+- no unnecessary animation
+
+If a full geographic library is already installed, reuse it.
+
+If no map library exists, do NOT spend excessive credits installing a large dependency just for decoration. A lightweight implementation is acceptable.
+
+3. LOCATION DETAILS
+
+When a user selects a location, show only verified information connected to that location.
+
+For example, if Rwanda is supported by the Projects data, connect it to the relevant verified project(s).
+
+If Hamilton and London are supported, connect them only to the verified project that explicitly names those locations.
+
+Do not invent:
+- collaborators
+- universities
+- dates
+- outcomes
+- statistics
+- funding
+- personnel
+- research findings
+
+4. ACCESSIBLE LIST
+
+Because maps are not accessible to everyone, include a plain-text/ruled location list below the map.
+
+Each location should show:
+- location name
+- associated verified initiative/research item
+- internal link where appropriate
+
+The list must contain the same verified locations represented on the map.
+
+5. CONNECTIONS TO EXISTING PAGES
+
+Where a location corresponds to an existing project, link to:
+
+`/projects#<verified-project-slug>`
+
+Where it corresponds to an existing research theme, use the existing Research route/link.
+
+Do not invent new project slugs.
+
+6. EMPTY/INCOMPLETE DATA
+
+If the verified geographic dataset is limited, do NOT fabricate locations.
+
+Use a neutral explanation such as:
+
+`Additional research locations will appear here as verified information becomes available.`
+
+Only use this if needed.
+
+DATA ARCHITECTURE:
+
+Make the map data-driven.
+
+Use one structured source for map locations rather than scattering location data throughout the component.
+
+Each map item should support, where appropriate:
+- location name
+- country
+- latitude/longitude
+- related project/research slug
+- short verified description
+- display order
+
+Do not duplicate unrelated People data.
+
+ADMIN EDITABILITY:
+
+Before creating any new admin system, inspect the existing architecture.
+
+If the map can safely derive its data from existing verified Projects/Research data, prefer that approach.
+
+Do NOT create a second copy of project information just for the map if it can be derived from existing data.
+
+If future map locations genuinely need independent editing, use the existing admin/content architecture rather than creating a parallel CMS.
+
+Do not add fake records.
+
+VISUAL STYLE:
+
+Follow the restrained academic style already used by:
+- Research
+- Projects
+- Teaching
+- About
+- Publications
+- News
+
+Use:
+- off-white
+- charcoal
+- muted teal accent
+- plain typography
+- ruled lists
+- generous but controlled spacing
+
+Avoid:
+- gradients
+- glowing map markers
+- 3D maps
+- decorative graphics
+- excessive rounded cards
+- heavy animation
+- stock imagery
+
+RESPONSIVE:
+
+Test approximately:
+- 1280px desktop
+- 390px mobile
+
+The map must not create horizontal scrolling.
+
+Mobile should prioritize:
+1. map
+2. location list
+3. related links
+
+VALIDATION — AFTER CODING:
+
+Run only focused checks:
+
+1. Frontend typecheck.
+2. Production build.
+3. `/research-map` desktop.
+4. `/research-map` mobile.
+5. Confirm no horizontal overflow.
+6. Confirm every displayed location is backed by verified project/research content.
+7. Confirm map and plain-text location list contain the same locations.
+8. Confirm project links resolve correctly.
+9. Confirm no browser application errors.
+10. Confirm `/news`, `/research`, `/projects`, `/humekaneza`, `/people`, `/teaching`, and `/about` still return successfully.
+11. Confirm footer-logo triple-click/admin entry remains unchanged.
+
+CREDIT-SAVING RULE:
+
+Do NOT:
+- perform a full repository history audit
+- inspect hundreds of unrelated files
+- create fake locations
+- create fake database records
+- install unnecessary large dependencies
+- repeatedly restart services
+- investigate unrelated warnings
+- rebuild unrelated workspaces
+
+If development data is empty, validate the static/derived map structure without inventing records.
+
+GIT:
+
+Commit on:
+`phase7-2-research-map`
+
+Suggested commit:
+`Implement Phase 7.2 Global Research Map`
+
+Do not merge into main.
+Do not deploy.
+
+FINAL REPORT — ONLY THIS FORMAT:
+
+STATUS: PASS / BLOCKED
+
+CHANGED:
+- ...
+
+NOT CHANGED:
+- ...
+
+MAP DATA:
+- Verified locations used: ...
+- Source: ...
+
+VALIDATION:
+- ...
+
+ADMIN EDITABILITY:
+- ...
+
+BLOCKERS:
+- ...
+
+PHASE 7:
+- 7.1 News: PASS
+- 7.2 Global Research Map: PASS / BLOCKED
+
+NEXT:
+Phase 7.3 — Homepage + News + Research Map connections + QA
