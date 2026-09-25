@@ -9,6 +9,19 @@ import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
 import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
 import logo from '@assets/p3_logo_1789065448410.png';
 import humekanezaLogo from '@assets/IMG-20260910-WA0000_1790353414570.jpg';
+import egideKalisaPhoto from '@assets/1._Dr._Egide_Kalisa_1790358118214.webp';
+import mdPervezKabirPhoto from '@assets/2._Dr._Md_Pervez_Kabir_1790358118262.jpeg';
+import allisonPertPhoto from '@assets/Allison_Pert0_1790358118374.webp';
+import augustineOmodiekePhoto from '@assets/Augustine_Omodieke_(2)_1790358118959.jpg';
+import oluWaseunBajulayePhoto from '@assets/Bajulaye_Oluwaseun_Oyindamola_1790358118831.webp';
+import dioumacorFayePhoto from '@assets/Dioumacor_FAYE_(1)_1790358118917.png';
+import dorothyNamatovuPhoto from '@assets/Dorothy_Namatovu1)_1790358118875.png';
+import emilyAirhartPhoto from '@assets/Emily_Airhart1)_1790358118999.png';
+import farhanaRamizaPhoto from '@assets/Farhana_Rokaiya_Ramiza_1790358118660.webp';
+import francisAcquahPhoto from '@assets/Francis_N._Acquah_1790358118740.webp';
+import angeLisaIkireziPhoto from '@assets/IKIREZI_Ange_Lisa3_1790358118788.webp';
+import victoriaBurseyPhoto from '@assets/Victoria_Bursey_1790358119044.png';
+import zohaIrfanPhoto from '@assets/Zoha_Irfan-9_1790358118502.webp';
 
 const queryClient = new QueryClient();
 
@@ -33,7 +46,16 @@ function useScrollReveal(routeKey: string) {
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
     elements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
+    const revealInitialViewport = window.requestAnimationFrame(() => {
+      elements.forEach((element) => {
+        const bounds = element.getBoundingClientRect();
+        if (bounds.top < window.innerHeight && bounds.bottom > 0) element.classList.add('is-visible');
+      });
+    });
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(revealInitialViewport);
+    };
   }, [routeKey]);
 }
 
@@ -281,6 +303,7 @@ const featuredProjects = [
 type PersonRecord = {
   name: string;
   role: string;
+  photo?: string;
   institution?: string;
   country?: string;
   currentPosition?: string;
@@ -297,6 +320,7 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Dr. Egide Kalisa',
         role: 'Assistant Professor; Director, HELTH/P3 Health Lab',
+        photo: egideKalisaPhoto,
         institution: 'Western University',
         researchFocus: 'Environmental health; air pollution; climate change; children’s health; environmental justice; One Health; exposure science',
       },
@@ -309,6 +333,7 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Dr. Md Pervez Kabir',
         role: 'Postdoctoral Fellow',
+        photo: mdPervezKabirPhoto,
         institution: 'Western University',
       },
     ],
@@ -320,6 +345,7 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Allison Pert',
         role: 'PhD Student',
+        photo: allisonPertPhoto,
         institution: 'Western University',
         formerRole: 'MSc Student',
         status: 'Alumni / Current PhD',
@@ -327,12 +353,13 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Augustine Omodieke',
         role: 'PhD Student',
+        photo: augustineOmodiekePhoto,
         institution: 'Western University',
         researchFocus: 'Environmental epidemiology; air pollution; health economics',
         formerRole: 'MSc Student',
         status: 'Alumni / Current PhD',
       },
-      { name: 'Francis Acquah', role: 'PhD Student', institution: 'Western University' },
+      { name: 'Francis Acquah', role: 'PhD Student', photo: francisAcquahPhoto, institution: 'Western University' },
       { name: 'Daniel Twum', role: 'PhD Student', institution: 'Western University' },
       { name: 'Abdul Rasheed Rasheed', role: 'PhD Student', institution: 'Western University' },
     ],
@@ -344,11 +371,12 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Zoha Irfan',
         role: 'MSc Student',
+        photo: zohaIrfanPhoto,
         institution: 'Western University',
         researchFocus: 'PAHs; air pollution; exposure science',
       },
-      { name: 'Oluwaseun Bajulaye', role: 'MSc Student', institution: 'Western University' },
-      { name: 'Farhana Ramiza', role: 'MSc Student', institution: 'Western University' },
+      { name: 'Oluwaseun Bajulaye', role: 'MSc Student', photo: oluWaseunBajulayePhoto, institution: 'Western University' },
+      { name: 'Farhana Ramiza', role: 'MSc Student', photo: farhanaRamizaPhoto, institution: 'Western University' },
       { name: 'Ignatius Atuguba', role: 'MSc Student', institution: 'Western University' },
     ],
   },
@@ -397,9 +425,9 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
     id: 'visiting-international',
     title: 'Visiting International Students',
     people: [
-      { name: 'Dioumacor Faye', role: 'PhD Student', institution: 'Visiting International Student', country: 'Senegal' },
-      { name: 'Dorothy Namatovu', role: 'MSc Student', institution: 'Visiting International Student', country: 'Uganda' },
-      { name: 'Ange Lisa Ikirezi', role: 'MSc Student', institution: 'Visiting International Student', country: 'Rwanda' },
+      { name: 'Dioumacor Faye', role: 'PhD Student', photo: dioumacorFayePhoto, institution: 'Visiting International Student', country: 'Senegal' },
+      { name: 'Dorothy Namatovu', role: 'MSc Student', photo: dorothyNamatovuPhoto, institution: 'Visiting International Student', country: 'Uganda' },
+      { name: 'Ange Lisa Ikirezi', role: 'MSc Student', photo: angeLisaIkireziPhoto, institution: 'Visiting International Student', country: 'Rwanda' },
       { name: 'Marie Ange Tuyime', role: 'Undergraduate Student', institution: 'Visiting International Student', country: 'Rwanda' },
       { name: 'Isabel Ajagu', role: 'MSc Student / Visiting Scholar', institution: 'Visiting International Student', country: 'Nigeria' },
     ],
@@ -408,8 +436,8 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
     id: 'undergraduate-alumni',
     title: 'Undergraduate Alumni',
     people: [
-      { name: 'Victoria Bursey', role: 'Undergraduate Researcher', currentPosition: 'MSc Public Health, University of Toronto', status: 'Alumni' },
-      { name: 'Emily Airhart', role: 'Undergraduate Researcher', currentPosition: 'MSc Student, University of Toronto', status: 'Alumni' },
+      { name: 'Victoria Bursey', role: 'Undergraduate Researcher', photo: victoriaBurseyPhoto, currentPosition: 'MSc Public Health, University of Toronto', status: 'Alumni' },
+      { name: 'Emily Airhart', role: 'Undergraduate Researcher', photo: emilyAirhartPhoto, currentPosition: 'MSc Student, University of Toronto', status: 'Alumni' },
       { name: 'Shagun Chander', role: 'Undergraduate Researcher', institution: 'Western University', status: 'Current' },
     ],
   },
@@ -910,6 +938,11 @@ function People() {
                 <div className="people-record-grid">
                   {group.people.map((person) => (
                     <article className="person-record" key={person.name} data-testid={`card-person-${person.name.toLowerCase().replaceAll(' ', '-')}`}>
+                      <div className={`person-record-photo ${person.photo ? '' : 'is-empty'}`}>
+                        {person.photo
+                          ? <img src={person.photo} alt={`${person.name} portrait`} loading="lazy" />
+                          : <span>Portrait not provided</span>}
+                      </div>
                       <h3>{person.name}</h3>
                       <dl className="person-record-details">
                         <div>
