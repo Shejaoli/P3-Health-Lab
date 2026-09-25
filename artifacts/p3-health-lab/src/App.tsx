@@ -514,6 +514,7 @@ function Footer({ onLogoClick }: { onLogoClick: () => void }) {
   const { data } = useGetPublicProfile();
   const profile = data?.contact;
   const directorDetails = [profile?.name, profile?.directorRole].filter((value): value is string => Boolean(value)).join(", ");
+  const footerEmail = profile?.labEmail ?? profile?.contactEmail;
   return <footer className="footer">
     <div className="container-wide footer-compact">
       <div className="footer-id">
@@ -524,8 +525,8 @@ function Footer({ onLogoClick }: { onLogoClick: () => void }) {
         </div>
       </div>
       <div className="footer-links">
-        {profile?.labEmail
-          ? <a href={`mailto:${profile.labEmail}`} data-testid="link-footer-email">{profile.labEmail}</a>
+        {footerEmail
+          ? <a href={`mailto:${footerEmail}`} data-testid="link-footer-email">{footerEmail}</a>
           : <Link href="/contact" data-testid="link-footer-email">Contact</Link>}
         <Link href="/about" data-testid="link-footer-about">About</Link>
         <Link href="/humekaneza" data-testid="link-footer-humekaneza">HumekaNeza</Link>
@@ -539,6 +540,8 @@ function Footer({ onLogoClick }: { onLogoClick: () => void }) {
 function ContactModal({ onClose }: { onClose: () => void }) {
   const [sent, setSent] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
+  const { data: profileData, isLoading: isProfileLoading } = useGetPublicProfile();
+  const contactEmail = profileData?.contact.contactEmail ?? profileData?.contact.labEmail;
   useEffect(() => {
     modalRef.current?.querySelector<HTMLElement>('input, textarea, button')?.focus();
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -566,7 +569,19 @@ function ContactModal({ onClose }: { onClose: () => void }) {
   return <div className="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="contact-title">
     <div className="modal" ref={modalRef}>
       <div className="modal-head"><div><span className="eyebrow">Open door</span><h2 id="contact-title">Start a conversation.</h2></div><button className="close-btn" onClick={onClose} aria-label="Close contact form" data-testid="button-close-contact"><X size={22} aria-hidden="true" /></button></div>
-      {sent ? <div className="success-note" role="status" data-testid="status-contact-success"><strong>Your message is ready to send.</strong><br />Your email app should open with the lab’s address and your message.</div> : <form onSubmit={(event) => { event.preventDefault(); const formData = new FormData(event.currentTarget); const name = String(formData.get('name') ?? ''); const email = String(formData.get('email') ?? ''); const message = String(formData.get('message') ?? ''); const body = `Name: ${name}\nEmail: ${email}\n\n${message}`; window.location.href = `mailto:p3healthlab@uwo.ca?subject=${encodeURIComponent('P3 Health Lab enquiry')}&body=${encodeURIComponent(body)}`; setSent(true); }} data-testid="form-contact">
+      {sent ? <div className="success-note" role="status" data-testid="status-contact-success"><strong>Your message is ready to send.</strong><br />Your email app should open with the verified contact address and your message.</div>
+        : isProfileLoading && !contactEmail ? <p className="success-note" role="status">Loading verified contact information…</p>
+          : !contactEmail ? <p className="success-note" role="status">Contact information is not currently available.</p>
+            : <form onSubmit={(event) => {
+              event.preventDefault();
+              const formData = new FormData(event.currentTarget);
+              const name = String(formData.get('name') ?? '');
+              const email = String(formData.get('email') ?? '');
+              const message = String(formData.get('message') ?? '');
+              const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+              window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent('P3 Health Lab enquiry')}&body=${encodeURIComponent(body)}`;
+              setSent(true);
+            }} data-testid="form-contact">
         <div className="field"><label htmlFor="contact-name">Your name</label><input id="contact-name" name="name" required placeholder="Name" data-testid="input-contact-name" /></div>
         <div className="field"><label htmlFor="contact-email">Email</label><input id="contact-email" name="email" type="email" required placeholder="you@example.com" data-testid="input-contact-email" /></div>
         <div className="field"><label htmlFor="contact-message">How can we work together?</label><textarea id="contact-message" name="message" required placeholder="Tell us a little about your idea, question, or project." data-testid="input-contact-message" /></div>
@@ -799,6 +814,8 @@ function People() {
 }
 
 function About() {
+  const { data: profileData } = useGetPublicProfile();
+  const contact = profileData?.contact;
   const relatedPages = [
     ['Research', '/research'],
     ['People', '/people'],
@@ -856,9 +873,11 @@ function About() {
       <div className="container-wide about-profile-contact-grid">
         <div><span className="eyebrow">Academic / institutional contact</span><h2 id="about-contact-title">Connect with the professor.</h2></div>
         <address className="about-profile-contact-details">
-          <p><strong>Department of Epidemiology and Biostatistics</strong><br />Western University</p>
-          <p>Office: PHFM 3129</p>
-          <p><a href="mailto:ekalisa2@uwo.ca">ekalisa2@uwo.ca <ArrowUpRight size={14} aria-hidden="true" /></a></p>
+          {contact?.department && <p><strong>{contact.department}</strong>{contact.university && <><br />{contact.university}</>}</p>}
+          {!contact?.department && contact?.university && <p>{contact.university}</p>}
+          {contact?.office && <p>Office: {contact.office}</p>}
+          {contact?.contactEmail && <p><a href={`mailto:${contact.contactEmail}`}>{contact.contactEmail} <ArrowUpRight size={14} aria-hidden="true" /></a></p>}
+          {!contact?.department && !contact?.university && !contact?.office && !contact?.contactEmail && <p>Contact information is not currently available.</p>}
         </address>
       </div>
     </section>
@@ -1157,7 +1176,7 @@ function GetInvolved() {
   const { data: profileData } = useGetPublicProfile();
   const opportunities = data?.opportunities ?? [];
   const noOpportunities = !isLoading && !isError && opportunities.length === 0;
-  const generalEmail = profileData?.contact.labEmail;
+  const generalEmail = profileData?.contact.labEmail ?? profileData?.contact.contactEmail;
 
   return <>
     <PageHero eyebrow="Get involved / 06" title={<>Join the <em>lab.</em></>} text="Browse published opportunities by audience. General questions are welcome through the lab’s verified contact path." />
