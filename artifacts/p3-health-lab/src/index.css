@@ -2121,6 +2121,33 @@ body {
   border-top: 1px solid hsl(var(--border));
 }
 
+.projects-humeka-identity {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+  padding: 20px 0 22px;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.projects-humeka-identity img {
+  display: block;
+  flex: 0 0 104px;
+  width: 104px;
+  height: 104px;
+  padding: 4px;
+  border: 1px solid hsl(var(--border));
+  background: #fff;
+  object-fit: contain;
+}
+
+.projects-humeka-copy {
+  display: grid;
+  justify-items: start;
+  gap: 9px;
+  min-width: 0;
+}
+
 .projects-related-link a,
 .humeka-involve-links a,
 .humeka-initiative-list a {
@@ -2150,6 +2177,23 @@ body {
 .humeka-hero-note {
   padding: 24px 0;
   border-bottom: 1px solid hsl(var(--border));
+}
+
+.humeka-identity {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr);
+  align-items: center;
+  gap: 28px;
+}
+
+.humeka-identity-logo {
+  display: block;
+  width: 148px;
+  height: 148px;
+  padding: 4px;
+  border: 1px solid hsl(var(--border));
+  background: #fff;
+  object-fit: contain;
 }
 
 .humeka-hero-note p {
@@ -2251,10 +2295,30 @@ body {
 }
 
 .humeka-initiative-list a {
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   width: 100%;
-  min-height: 68px;
+  gap: 12px;
   padding: 18px 0;
+}
+
+.humeka-initiative-copy {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.humeka-initiative-copy strong {
+  color: hsl(var(--foreground));
+  font-size: .92rem;
+  line-height: 1.35;
+}
+
+.humeka-initiative-description {
+  color: hsl(var(--muted-foreground));
+  font-size: .82rem;
+  line-height: 1.55;
 }
 
 .humeka-initiative-list a svg {
@@ -2306,6 +2370,26 @@ body {
 
   .humeka-hero-note {
     padding: 20px 0;
+  }
+
+  .humeka-identity {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .humeka-identity-logo {
+    width: 88px;
+    height: 88px;
+  }
+
+  .projects-humeka-identity {
+    gap: 14px;
+  }
+
+  .projects-humeka-identity img {
+    flex-basis: 76px;
+    width: 76px;
+    height: 76px;
   }
 
   .humeka-intro {

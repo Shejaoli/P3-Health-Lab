@@ -8,6 +8,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
 import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
 import logo from '@assets/p3_logo_1789065448410.png';
+import humekanezaLogo from '@assets/IMG-20260910-WA0000_1790353414570.jpg';
 
 const queryClient = new QueryClient();
 
@@ -759,6 +760,13 @@ function Projects() {
     <section className="section projects-section" data-reveal="up">
       <div className="container-wide">
         <div className="projects-list">
+          <div className="projects-humeka-identity">
+            <img src={humekanezaLogo} alt="HumekaNeza Breathe Easy logo with a tree and roots" width="1600" height="1600" loading="lazy" decoding="async" data-testid="img-projects-humekaneza-logo" />
+            <div className="projects-humeka-copy">
+              <span className="eyebrow">HumekaNeza initiative</span>
+              <Link href="/humekaneza" className="text-link" data-testid="link-projects-humekaneza">About HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></Link>
+            </div>
+          </div>
           {projects.map((project, index) => <article className="project-entry" id={project.slug} key={project.id} data-testid={`project-${project.slug}`}>
             <div className="project-entry-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
             <div className="project-entry-content">
@@ -784,7 +792,6 @@ function Projects() {
           </article>)}
         </div>
         <div className="projects-related-link">
-          <Link href="/humekaneza" className="text-link" data-testid="link-projects-humekaneza">Learn more about HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></Link>
           <Link href="/research-map" className="text-link" data-testid="link-projects-research-map">View global research map <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>
       </div>
@@ -1060,7 +1067,10 @@ function Publications() {
   }, []);
 
   const getExternalLink = (label: string) => externalLinks.find((link) => link.label === label);
-  const googleScholar = getExternalLink('Google Scholar');
+  const googleScholar = {
+    label: 'Google Scholar',
+    url: 'https://scholar.google.co.nz/citations?user=yAPiYq8AAAAJ&hl=en',
+  };
   const orcid = getExternalLink('ORCID');
   const additionalProfileLinks = externalLinks.filter(({ label }) => ['CV', 'Publication Profile', 'CV / Publication Profile'].includes(label));
 
@@ -1078,7 +1088,7 @@ function Publications() {
             <span className="eyebrow">Google Scholar</span>
             <h2>Google Scholar</h2>
             <p>For the most up-to-date list of publications, citations, and scholarly impact:</p>
-            {googleScholar && <a href={googleScholar.url} target="_blank" rel="noreferrer">View Dr. Egide Kalisa’s Publications on Google Scholar <ArrowUpRight size={14} aria-hidden="true" /></a>}
+            <a href={googleScholar.url} target="_blank" rel="noopener noreferrer" data-testid="link-publications-google-scholar">View Dr. Egide Kalisa’s Publications on Google Scholar <ArrowUpRight size={14} aria-hidden="true" /></a>
           </article>
           <article className="publication-profile-record">
             <span className="eyebrow">ORCID</span>
@@ -1304,7 +1314,8 @@ function Humekaneza() {
   return <>
     <PageHero eyebrow="HumekaNeza" title="Breathe Easy" text="Empowering children and communities to understand, monitor, and improve the air they breathe." />
     <section className="humeka-hero-note" aria-label="HumekaNeza introduction">
-      <div className="container-wide">
+      <div className="container-wide humeka-identity">
+        <img className="humeka-identity-logo" src={humekanezaLogo} alt="HumekaNeza Breathe Easy logo with a tree and roots" width="1600" height="1600" decoding="async" data-testid="img-humekaneza-logo" />
         <p>HumekaNeza is an initiative of P3 Health Lab, led by Dr. Egide Kalisa at Western University.</p>
       </div>
     </section>
@@ -1336,7 +1347,7 @@ function Humekaneza() {
           <h2>Featured initiatives</h2>
         </div>
         <ul className="humeka-initiative-list">
-          {projects.map((project) => <li key={project.slug}><Link href={`/projects#${project.slug}`} data-testid={`link-humekaneza-project-${project.slug}`}>{project.title}<ArrowUpRight size={14} aria-hidden="true" /></Link></li>)}
+          {projects.map((project) => <li key={project.slug}><Link href={`/projects#${project.slug}`} data-testid={`link-humekaneza-project-${project.slug}`}><span className="humeka-initiative-copy"><strong>{project.title}</strong><span className="humeka-initiative-description">{project.description[0]}</span></span><ArrowUpRight size={14} aria-hidden="true" /></Link></li>)}
         </ul>
       </div>
     </section>
