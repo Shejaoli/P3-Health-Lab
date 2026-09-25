@@ -12,6 +12,9 @@ import {
   teachingRecordsTable,
   profileInfoTable,
   mediaTable,
+  opportunitiesTable,
+  opportunityCategories,
+  opportunityStatuses,
 } from "@workspace/db";
 import {
   allowLoginAttempt,
@@ -91,6 +94,18 @@ const resourceSchemas = {
     role: z.string().max(200).default(""),
     ...common,
   }),
+  opportunities: z.object({
+    title: z.string().trim().min(1).max(300),
+    category: z.enum(opportunityCategories),
+    shortDescription: z.string().max(1000).default(""),
+    fullDetails: z.string().max(10000).default(""),
+    applicationInstructions: z.string().max(5000).default(""),
+    applicationEmail: z.string().email().nullable().optional(),
+    applicationUrl: url.nullable().optional(),
+    deadline: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(),
+    status: z.enum(opportunityStatuses).default("Hidden"),
+    ...common,
+  }),
   profile: z.object({
     name: z.string().max(200).default(""),
     appointment: z.string().max(300).default(""),
@@ -98,7 +113,10 @@ const resourceSchemas = {
     directorRole: z.string().max(300).default(""),
     researchInterests: stringList,
     labEmail: z.string().email().nullable().optional(),
+    contactEmail: z.string().email().nullable().optional(),
+    department: z.string().max(300).default(""),
     university: z.string().max(300).default(""),
+    office: z.string().max(100).default(""),
     externalLinks: z.array(z.object({ label: z.string().max(100), url })).default([]),
   }),
   media: z.object({
@@ -119,6 +137,7 @@ const resources = {
   news: { table: newsTable, schema: resourceSchemas.news },
   researchAreas: { table: researchAreasTable, schema: resourceSchemas.researchAreas },
   teaching: { table: teachingRecordsTable, schema: resourceSchemas.teaching },
+  opportunities: { table: opportunitiesTable, schema: resourceSchemas.opportunities },
   profile: { table: profileInfoTable, schema: resourceSchemas.profile },
   media: { table: mediaTable, schema: resourceSchemas.media },
 } as const;

@@ -121,7 +121,10 @@ export const profileInfoTable = pgTable("admin_profile_info", {
   directorRole: text("director_role").notNull().default(""),
   researchInterests: jsonb("research_interests").$type<string[]>().notNull().default([]),
   labEmail: text("lab_email"),
+  contactEmail: text("contact_email"),
+  department: text("department").notNull().default(""),
   university: text("university").notNull().default(""),
+  office: text("office").notNull().default(""),
   externalLinks: jsonb("external_links").$type<Array<{ label: string; url: string }>>().notNull().default([]),
   ...timestamps,
 });

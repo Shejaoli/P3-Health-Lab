@@ -87,6 +87,24 @@ const resourceConfig: Record<string, { label: string; labelField: string; fields
       { key: "archived", label: "Archived", type: "checkbox" },
     ],
   },
+  opportunities: {
+    label: "Opportunities",
+    labelField: "title",
+    fields: [
+      { key: "title", label: "Title", type: "text" },
+      { key: "category", label: "Category", type: "select", options: ["Graduate Students", "Postdoctoral Researchers", "Research Assistants & Staff", "Undergraduate / Research Students", "Visiting Students & Scholars"] },
+      { key: "shortDescription", label: "Short description", type: "textarea" },
+      { key: "fullDetails", label: "Full details", type: "textarea" },
+      { key: "applicationInstructions", label: "Application instructions", type: "textarea" },
+      { key: "applicationEmail", label: "Application/contact email", type: "email" },
+      { key: "applicationUrl", label: "Application URL", type: "url" },
+      { key: "deadline", label: "Deadline", type: "date" },
+      { key: "status", label: "Status", type: "select", options: ["Hidden", "Open", "Closed"] },
+      { key: "displayOrder", label: "Display order", type: "number" },
+      { key: "published", label: "Published", type: "checkbox" },
+      { key: "archived", label: "Archived", type: "checkbox" },
+    ],
+  },
   profile: {
     label: "Profile / Site information",
     labelField: "name",
@@ -97,7 +115,10 @@ const resourceConfig: Record<string, { label: string; labelField: string; fields
       { key: "directorRole", label: "Director role", type: "text" },
       { key: "researchInterests", label: "Research interests", type: "json" },
       { key: "labEmail", label: "Lab email", type: "email" },
+      { key: "contactEmail", label: "Contact email", type: "email" },
+      { key: "department", label: "Department", type: "text" },
       { key: "university", label: "University", type: "text" },
+      { key: "office", label: "Office", type: "text" },
       { key: "externalLinks", label: "Verified external links", type: "json", help: 'JSON array like [{"label":"Google Scholar","url":"https://..."},{"label":"ORCID","url":"https://..."},{"label":"CV","url":"https://..."}]. Empty links stay hidden publicly.' },
     ],
   },
@@ -119,7 +140,7 @@ const resourceConfig: Record<string, { label: string; labelField: string; fields
   },
 };
 
-const nullableFieldKeys = new Set(["linkedinUrl", "photoMediaId", "imageMediaId", "date", "labEmail", "associatedType", "associatedId"]);
+const nullableFieldKeys = new Set(["linkedinUrl", "photoMediaId", "imageMediaId", "date", "labEmail", "contactEmail", "applicationEmail", "applicationUrl", "deadline", "associatedType", "associatedId"]);
 
 const defaultValue = (field: Field): unknown => {
   if (field.type === "checkbox") return false;
@@ -499,7 +520,7 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
         {resource === "media" && <label className="admin-upload-button"><Upload size={15} /> Upload image<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadMedia(file); event.currentTarget.value = ""; }} /></label>}
         {message && <p className="admin-message" role="status">{message}</p>}
         {busy && !draft && <p className="admin-muted">Loading…</p>}
-        <div className="admin-record-list">{items.map((item) => <article className={`admin-record ${item.archived ? "is-archived" : ""}`} key={String(item.id)}><div><span className="admin-record-meta">{item.published ? "Published" : "Draft"}{item.archived ? " · Archived" : ""}</span><h3>{String(item[config.labelField] ?? "Untitled record")}</h3><p>{resource === "media" ? `${String(item.contentType ?? "")} · ${String(item.size ?? "")} bytes` : String(item.summary ?? item.role ?? item.description ?? "")}</p></div><div className="admin-record-actions"><button className="admin-quiet-button" onClick={() => edit(item)}><Pencil size={14} /> Edit</button><button className="admin-quiet-button danger" onClick={() => void archive(item.id)}>Archive</button></div></article>)}</div>
+         <div className="admin-record-list">{items.map((item) => <article className={`admin-record ${item.archived ? "is-archived" : ""}`} key={String(item.id)}><div><span className="admin-record-meta">{item.published ? "Published" : "Draft"}{item.archived ? " · Archived" : ""}{item.status ? ` · ${String(item.status)}` : ""}</span><h3>{String(item[config.labelField] ?? "Untitled record")}</h3><p>{resource === "media" ? `${String(item.contentType ?? "")} · ${String(item.size ?? "")} bytes` : String(item.summary ?? item.role ?? item.description ?? item.shortDescription ?? "")}</p></div><div className="admin-record-actions"><button className="admin-quiet-button" onClick={() => edit(item)}><Pencil size={14} /> Edit</button><button className="admin-quiet-button danger" onClick={() => void archive(item.id)}>Archive</button></div></article>)}</div>
         {!items.length && !busy && <div className="admin-empty"><Check size={18} /><p>No records yet. Add only verified information.</p></div>}
         {draft && <form className="admin-editor" onSubmit={save}><div className="admin-editor-heading"><h3>{draft.id ? "Edit record" : "New record"}</h3><button type="button" className="admin-icon-button" onClick={() => setDraft(null)} aria-label="Close editor"><X size={18} /></button></div><div className="admin-form-grid">{fields.map((field) => <AdminField key={field.key} field={field} value={draft[field.key]} onChange={(value) => updateDraft(field.key, value)} />)}</div><div className="admin-editor-actions"><button type="button" className="button-secondary" onClick={() => setDraft(null)}>Cancel</button><button type="submit" className="button-primary" disabled={busy}>{busy ? "Saving…" : "Save record"}</button></div></form>}
       </main>
