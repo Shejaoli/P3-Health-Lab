@@ -1,0 +1,267 @@
+PHASE 8.3 — COMPLETE PUBLIC-SITE QA
+
+Branch: phase8-3-final-public-qa
+
+IMPORTANT:
+- Do NOT work directly on main.
+- Preserve all completed Phase 1–8.2 work.
+- This is a FINAL QA and targeted-fix phase.
+- Do NOT redesign the site.
+- Do NOT add new features or content.
+- Do NOT add fake records, placeholder data, or unverified images.
+- Do NOT deploy.
+- Do NOT perform a historical repository audit.
+- Do NOT spend credits investigating unrelated issues.
+- Fix only genuine public-site defects discovered during this QA.
+- Do not fix the known API-client/typecheck errors or existing API 404s unless they directly break a public page.
+
+GOAL:
+
+Perform a complete but focused QA pass of the finished public P3 Health Lab website and fix only concrete user-facing defects.
+
+TASK 1 — PUBLIC ROUTE QA
+
+Verify these routes:
+
+/
+/research
+/projects
+/humekaneza
+/people
+/publications
+/about
+/teaching
+/get-involved
+/news
+/research-map
+/contact
+
+For each route check:
+- HTTP 200
+- page loads correctly
+- no blank/unfinished sections
+- no broken internal links
+- no obvious missing assets
+- no unexpected runtime exception
+
+TASK 2 — DESKTOP QA
+
+Test approximately 1280px width.
+
+Review:
+- header/navigation
+- homepage
+- page heroes
+- typography
+- spacing
+- research sections
+- project sections
+- People
+- Publications
+- About
+- Teaching
+- Get Involved
+- News
+- Research Map
+- Contact
+- footer
+
+Check for:
+- alignment problems
+- inconsistent spacing
+- clipped content
+- broken links
+- awkward empty areas
+- accidental duplicate content
+- visual regressions from Phase 8.1/8.2
+
+Do not redesign anything that is simply a matter of personal preference.
+
+TASK 3 — MOBILE QA
+
+Test approximately 390px width.
+
+Check:
+- header
+- mobile navigation
+- page titles
+- long headings
+- paragraphs
+- lists
+- links
+- images
+- map/list presentation
+- footer
+
+Verify:
+- no horizontal scrolling
+- no clipped text
+- no elements extending beyond viewport
+- no overlapping content
+- no unusable navigation
+- no broken image sizing
+
+TASK 4 — CONTENT / LINK INTEGRITY
+
+Check the major internal connections:
+
+Homepage:
+- News → /news
+- Research Map → /research-map
+- research/project links work
+
+Research:
+- Research Map link works
+
+Projects:
+- project links work
+- Research Map links work
+
+HumekaNeza:
+- all verified project links work
+- contact/get-involved links work
+
+People:
+- profile links work where present
+
+Teaching:
+- course presentation remains intact
+
+News:
+- empty state remains correct if there are no records
+
+Research Map:
+- verified project locations remain linked correctly
+
+Do NOT invent missing relationships.
+
+TASK 5 — RESPONSIVE / ASSET QA
+
+Confirm:
+- existing logo renders correctly
+- existing research illustration renders correctly
+- no distorted images
+- no missing assets
+- no unexpected loading behavior
+- no image overflow
+
+Do not add new imagery.
+
+TASK 6 — ACCESSIBILITY SMOKE CHECK
+
+Perform a focused check of:
+- heading hierarchy
+- link clarity
+- meaningful image alt text
+- keyboard-accessible navigation
+- visible focus where applicable
+- buttons/links with usable labels
+- mobile menu accessibility
+
+Do not introduce a new accessibility framework.
+
+TASK 7 — HEADER / FOOTER PRESERVATION
+
+Confirm:
+- desktop navigation works
+- mobile navigation works
+- footer links work
+- footer layout remains intact
+- footer-logo triple-click behavior remains unchanged
+
+Do not redesign either component.
+
+TASK 8 — EXISTING BLOCKERS
+
+The following are already documented and should NOT expand this phase:
+
+1. Frontend typecheck:
+   existing API-client export / implicit-any errors.
+
+2. Existing browser/API 404 responses:
+   including /api/public/profile and other previously documented public API responses.
+
+3. Existing non-fatal tooltip source-map warning during build.
+
+If they remain unchanged, simply report them as pre-existing blockers.
+
+TASK 9 — BUILD VALIDATION
+
+Run:
+
+cd artifacts/p3-health-lab
+
+PORT=4173 BASE_PATH=/ pnpm run typecheck
+PORT=4173 BASE_PATH=/ pnpm run build
+
+Expected:
+- build should pass
+- typecheck may continue to show the documented pre-existing errors
+
+Do not fix unrelated errors.
+
+TASK 10 — FIX ONLY REAL DEFECTS
+
+If QA discovers a genuine public-facing defect:
+- make the smallest targeted fix
+- do not restructure the application
+- do not change verified content
+- do not change database/admin architecture
+- re-test the affected route
+- ensure the fix does not regress desktop/mobile behavior
+
+If no genuine defects are found, make no unnecessary code changes.
+
+COMMIT:
+
+If fixes are required:
+
+Final public-site QA fixes
+
+If no fixes are required:
+
+Complete final public-site QA
+
+FINAL REPORT — KEEP SHORT:
+
+STATUS:
+PASS / PASS WITH BLOCKER
+
+FIXES:
+- Exact user-facing defects fixed.
+- Or “No additional defects found.”
+
+QA:
+- Desktop
+- Mobile
+- Routes
+- Links
+- Images/assets
+- Accessibility smoke check
+- Runtime errors
+- Horizontal overflow
+
+BUILD:
+- Typecheck result
+- Production build result
+
+PRE-EXISTING BLOCKERS:
+- API-client/typecheck errors
+- Existing API 404 responses
+- Existing source-map warning
+
+NOT CHANGED:
+- No fake data
+- No new imagery
+- No production changes
+- No deployment
+- No admin/auth changes unless explicitly required for a genuine public defect
+
+PHASE 8:
+8.1 Typography / spacing / layout: PASS WITH BLOCKER
+8.2 Images / assets / responsive presentation: PASS WITH BLOCKER
+8.3 Complete public-site QA: [RESULT]
+
+NEXT:
+If PASS: prepare the completed public-site branch for review/merge.
+If a genuine blocker remains: report only that blocker and stop.
