@@ -476,6 +476,7 @@ function Shell({ children }: { children: ReactNode }) {
       if (event.key === 'Escape') {
         setOpenMenu(null);
         setOpenMobileMenu(null);
+        setMenuOpen(false);
       }
     };
     const closeOnOutsideClick = (event: MouseEvent) => {
@@ -524,7 +525,7 @@ function Shell({ children }: { children: ReactNode }) {
               </div>
             ) : <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-nav-${item.label.toLowerCase()}`}>{item.label}</Link>)}
           </nav>
-          <button className={`menu-btn ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} data-testid="button-mobile-menu">
+          <button className={`menu-btn ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} data-testid="button-mobile-menu">
             <span className="hamburger-icon" aria-hidden="true"><span /><span /><span /></span>
           </button>
         </div>

@@ -1,2 +1,3 @@
 - [Admin system maintenance](admin-system.md) — private media reads and generated API exports need explicit security/typecheck guardrails.
 - [Development database setup](development-db.md) — the provisioned development database may start empty; push the existing Drizzle schema before endpoint validation.
+- [Shell runtime auto-configuration](shell-runtime.md) — one-off Python QA can add an unnecessary Python module to `.replit`; review and revert it.
