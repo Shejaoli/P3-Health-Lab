@@ -460,6 +460,11 @@ button { cursor: pointer; }
 .side-panel { padding: 28px; background: hsl(var(--secondary)); }
 .side-panel h3 { margin-top: 0; font-family: var(--app-font-serif); font-size: 1.55rem; letter-spacing: -.04em; }
 .side-panel p { color: hsl(213 32% 25% / .76); font-size: .8rem; line-height: 1.55; }
+.teaching-approach-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid hsl(var(--border)); }
+.teaching-approach-item { min-width: 0; padding: 24px 28px 0 0; }
+.teaching-approach-item + .teaching-approach-item { padding-left: 28px; border-left: 1px solid hsl(var(--border)); }
+.teaching-approach-item h2 { margin: 42px 0 16px; font-family: var(--app-font-serif); font-size: clamp(1.45rem, 2.4vw, 2.1rem); font-weight: 500; line-height: 1.05; letter-spacing: -.04em; }
+.teaching-approach-item p { margin: 0; color: hsl(var(--muted-foreground)); font-size: .86rem; line-height: 1.7; }
 .initiative-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 80px; align-items: start; }
 .initiative-visual { min-height: 420px; position: relative; background: hsl(var(--primary)); overflow: hidden; }
 .initiative-visual::before { content: ''; position: absolute; width: 70%; aspect-ratio: 1; border-radius: 50%; background: hsl(var(--accent)); right: -18%; top: -14%; animation: breathe 6.8s ease-in-out infinite; }
@@ -648,6 +653,9 @@ button { cursor: pointer; }
   .team-category-status { grid-column: 2; }
   .course-card { grid-template-columns: 1fr; gap: 8px; }
   .course-term { white-space: normal; }
+  .teaching-approach-grid { grid-template-columns: 1fr; }
+  .teaching-approach-item, .teaching-approach-item + .teaching-approach-item { padding: 24px 0 0; border-left: 0; }
+  .teaching-approach-item + .teaching-approach-item { margin-top: 28px; border-top: 1px solid hsl(var(--border)); }
   .path-grid { grid-template-columns: 1fr 1fr; }
   .path-card { min-height: 205px; }
   .contact-grid { display: block; }
