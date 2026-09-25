@@ -9,6 +9,8 @@ export type {
   MediaUploadRequestContentType,
   MediaUploadResponse,
   PublicContactProfile,
+  PublicNewsItem,
+  PublicNewsResponse,
   PublicOpportunity,
   PublicOpportunityCategory,
   PublicOpportunityStatus,

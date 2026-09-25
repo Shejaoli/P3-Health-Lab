@@ -18,6 +18,8 @@ export * from './mediaUploadResponse';
 export * from './mediaUploadVerificationRequest';
 export * from './mediaUploadVerificationRequestContentType';
 export * from './publicContactProfile';
+export * from './publicNewsItem';
+export * from './publicNewsResponse';
 export * from './publicOpportunitiesResponse';
 export * from './publicOpportunity';
 export * from './publicOpportunityCategory';

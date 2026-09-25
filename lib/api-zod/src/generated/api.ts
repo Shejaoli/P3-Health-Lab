@@ -150,6 +150,19 @@ export const GetPublicProfileResponse = zod.object({
 
 
 /**
+ * @summary List published, non-archived news
+ */
+export const GetPublicNewsResponse = zod.object({
+  "news": zod.array(zod.object({
+  "headline": zod.string(),
+  "date": zod.coerce.date().nullable(),
+  "summary": zod.string(),
+  "body": zod.string()
+}))
+})
+
+
+/**
  * @summary List published, non-archived, visible opportunities
  */
 export const GetPublicOpportunitiesResponse = zod.object({

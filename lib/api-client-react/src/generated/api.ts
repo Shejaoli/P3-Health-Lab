@@ -28,6 +28,7 @@ import type {
   MediaUploadRequest,
   MediaUploadResponse,
   MediaUploadVerificationRequest,
+  PublicNewsResponse,
   PublicOpportunitiesResponse,
   PublicProfileResponse,
   PublicTeachingListing
@@ -951,6 +952,83 @@ export function useGetPublicProfile<TData = Awaited<ReturnType<typeof getPublicP
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetPublicProfileQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetPublicNewsUrl = () => {
+
+
+
+
+  return `/api/public/news`
+}
+
+/**
+ * @summary List published, non-archived news
+ */
+export const getPublicNews = async ( options?: Parameters<typeof customFetch>[1]): Promise<PublicNewsResponse> => {
+
+  return customFetch<PublicNewsResponse>(getGetPublicNewsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetPublicNewsQueryKey = () => {
+    return [
+    `/api/public/news`
+    ] as const;
+    }
+
+
+export const getGetPublicNewsQueryOptions = <TData = Awaited<ReturnType<typeof getPublicNews>>, TError = ErrorType<void>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicNews>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPublicNewsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPublicNews>>> = ({ signal }) => getPublicNews({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPublicNews>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPublicNewsQueryResult = NonNullable<Awaited<ReturnType<typeof getPublicNews>>>
+export type GetPublicNewsQueryError = ErrorType<void>
+
+
+/**
+ * @summary List published, non-archived news
+ */
+
+export function useGetPublicNews<TData = Awaited<ReturnType<typeof getPublicNews>>, TError = ErrorType<void>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicNews>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetPublicNewsQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
