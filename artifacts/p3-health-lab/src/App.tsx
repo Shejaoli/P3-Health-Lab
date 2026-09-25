@@ -1179,7 +1179,6 @@ function GetInvolved() {
   const { data, isLoading, isError } = useGetPublicOpportunities();
   const { data: profileData } = useGetPublicProfile();
   const opportunities = data?.opportunities ?? [];
-  const noOpportunities = !isLoading && !isError && opportunities.length === 0;
   const generalEmail = profileData?.contact.labEmail ?? profileData?.contact.contactEmail;
 
   return <>
@@ -1190,7 +1189,6 @@ function GetInvolved() {
           <div><span className="eyebrow">Prospective members</span><h2>Opportunities</h2></div>
           <p>Only published, current listings appear here.</p>
         </div>
-        {noOpportunities && <p className="opportunities-empty" role="status">Opportunity information will be posted here when available.</p>}
         {isLoading && <p className="opportunities-empty" role="status">Loading opportunity information…</p>}
         {isError && <p className="opportunities-empty" role="alert">Opportunity information could not be loaded. Please check again later.</p>}
         <div className="opportunity-category-list">
@@ -1199,7 +1197,7 @@ function GetInvolved() {
             return <section className="opportunity-category" key={category} data-testid={`card-opportunity-${index}`}>
               <h3>{category}</h3>
               <div className="opportunity-record-list">
-                {categoryOpportunities.map((opportunity, opportunityIndex) => (
+                {categoryOpportunities.length > 0 ? categoryOpportunities.map((opportunity, opportunityIndex) => (
                   <article className="opportunity-record" key={`${opportunity.title}-${opportunityIndex}`}>
                     <div className="opportunity-record-heading">
                       <h4>{opportunity.title}</h4>
@@ -1214,7 +1212,7 @@ function GetInvolved() {
                       {opportunity.applicationUrl && <a href={opportunity.applicationUrl} target="_blank" rel="noreferrer">View application details <ArrowUpRight size={14} aria-hidden="true" /></a>}
                     </div>}
                   </article>
-                ))}
+                )) : !isLoading && !isError && <p className="opportunities-empty" role="status">Opportunity information will be posted here when available.</p>}
               </div>
             </section>;
           })}
