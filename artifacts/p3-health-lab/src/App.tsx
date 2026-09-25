@@ -663,13 +663,10 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 
 function Home() {
   return <>
-    <section className="home-hero" aria-labelledby="home-title">
+    <section className="home-hero" aria-labelledby="home-title" style={{ backgroundImage: `url(${import.meta.env.BASE_URL}images/home-air-pollution-hero.jpg)` }}>
+      <div className="home-hero-scrim" aria-hidden="true" />
       <div className="container-wide">
-        <span className="eyebrow">P3 Health Lab · People · Planet · Place</span>
-        <h1 id="home-title"><span>Understanding exposures.</span> <span>Designing interventions.</span> <span>Improving health.</span></h1>
-        <p className="home-lede">We study how environmental exposures, climate change, and the places where people live, learn, work, and move influence health—and design interventions to reduce those risks.</p>
-        <div className="home-identity"><strong>Dr. Egide Kalisa</strong><span>Assistant Professor, Western University</span><span>Director, P3 Health Lab / HELTH Lab</span></div>
-        <div className="hero-actions"><Link href="/research" className="button-primary" data-testid="link-hero-research">Explore Our Research</Link><Link href="/people" className="button-secondary" data-testid="link-hero-people">Meet Our People</Link></div>
+        <h1 id="home-title" className="sr-only">Air Pollution &amp; Environmental Health</h1>
       </div>
     </section>
 

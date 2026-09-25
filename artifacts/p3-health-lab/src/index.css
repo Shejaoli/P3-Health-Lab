@@ -3741,3 +3741,57 @@ body {
     padding-top: 48px;
   }
 }
+
+/* Homepage banner hero */
+.home-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: clamp(360px, 58vh, 680px);
+  max-height: 680px;
+  align-items: end;
+  overflow: hidden;
+  border-bottom: 1px solid hsl(var(--border));
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.home-hero-scrim {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 72%, hsl(213 32% 16% / .14));
+}
+
+.home-hero .container-wide {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 760px) {
+  .home-hero {
+    min-height: clamp(340px, 50vh, 480px);
+    max-height: 480px;
+    background-position: 38% center;
+  }
+
+  .home-hero-scrim {
+    background: linear-gradient(to bottom, transparent 60%, hsl(213 32% 16% / .2));
+  }
+}
