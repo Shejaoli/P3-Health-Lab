@@ -3747,12 +3747,12 @@ body {
   position: relative;
   isolation: isolate;
   display: grid;
-  min-height: clamp(360px, 58vh, 680px);
-  max-height: 680px;
+  min-height: clamp(320px, 48vh, 560px);
+  max-height: 560px;
   align-items: end;
   overflow: hidden;
   border-bottom: 1px solid hsl(var(--border));
-  background-position: center;
+  background-position: left center;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -3786,9 +3786,9 @@ body {
 
 @media (max-width: 760px) {
   .home-hero {
-    min-height: clamp(340px, 50vh, 480px);
-    max-height: 480px;
-    background-position: 38% center;
+    min-height: clamp(320px, 46vh, 440px);
+    max-height: 440px;
+    background-position: left center;
   }
 
   .home-hero-scrim {
