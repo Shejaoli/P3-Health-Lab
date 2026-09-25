@@ -1,0 +1,254 @@
+P3 HEALTH LAB — RECOVER VERIFIED PHASE WORK
+
+IMPORTANT:
+The previous read-only recovery audit FOUND the completed work on GitHub.
+
+Do NOT rebuild these phases from scratch.
+
+RECOVERY SOURCES FOUND:
+- phase3-projects
+  Commit: 296365a433c0331a0659b3c2a4d0faeca2a27c64
+  Contains completed Phase 3 Projects + HumekaNeza.
+
+- phase4-2-part2
+  Commit: 097928b4039ea117ebdfeb32b1d5e52314949edf
+  Contains Phase 4.2 Part 2.
+
+- phase4-2-part3
+  Commit: 9b2b2d07a880e864e5e0da5ca2d07da16a3112c6
+  Contains Phase 4.2 Part 3.
+
+- phase5-1-teaching
+  Commit: a62d55046992507d102bd716bef8d589727d34dd
+  Contains Phase 5.1 Teaching.
+
+- phase5-3-part1-publications
+  Commit: b526f0a1834c68e5a3ca46dc61cf9ae40ce1f3ed
+  Contains Phase 5.3 Part 1 Publications.
+
+The recovery audit also confirmed Phase 5.2 About/Profile is present in the recovered phase history.
+
+CURRENT MAIN:
+ac5c6b58c485d940b60fc4e8134b5df7d77f4815
+
+==================================================
+RULES
+==================================================
+
+Create a NEW recovery branch:
+
+recovery-verified-phases
+
+Do NOT modify main.
+
+Do NOT deploy.
+
+Do NOT force-push.
+
+Do NOT change Git configuration.
+
+Do NOT modify admin/auth/database/API unless required by the recovered commits themselves.
+
+Do not reconstruct missing work.
+
+Preserve the current main branch as-is.
+
+==================================================
+STEP 1 — INSPECT BEFORE CHANGING
+==================================================
+
+Before making changes, inspect the exact diffs between current main and each recovery source.
+
+Determine which files/commits contain the verified work.
+
+Do NOT blindly merge entire branches if that would overwrite unrelated newer work.
+
+Report what would be restored first.
+
+==================================================
+STEP 2 — RESTORE VERIFIED WORK
+==================================================
+
+Restore the verified completed implementations for:
+
+1. Phase 3 Projects
+   - all 8 real project descriptions
+   - correct project anchors
+   - project data structure
+
+2. Phase 3 HumekaNeza
+   - Breathe Easy hero
+   - lab relationship
+   - Intro
+   - Learn
+   - Measure
+   - Communicate
+   - Act
+   - all 8 Featured Initiatives
+   - Why HumekaNeza Matters
+   - Our Vision
+   - Get Involved
+
+3. Phase 4.2
+   - preserve all 37 verified People records
+   - preserve photo/admin upload work already present in the recovered implementation
+
+4. Phase 5.1 Teaching
+   - exactly 9 verified courses
+   - teaching philosophy
+   - graduate supervision
+   - experiential/field-based teaching
+
+5. Phase 5.2 About/Profile
+   - completed verified academic profile
+   - Dr. Egide Kalisa information
+   - six research interests
+   - verified institutional/contact information
+   - existing internal links
+
+6. Phase 5.3 Part 1 Publications
+   - completed Publications page
+   - six research themes
+   - Google Scholar
+   - ORCID
+   - CV/publication profile conditional links
+   - admin-managed external links
+   - public rendering of valid configured links
+
+==================================================
+STEP 3 — DO NOT RESTORE THIS YET
+==================================================
+
+Do NOT implement or invent:
+
+- Phase 5.3 Part 2 Opportunities admin editor
+- Phase 5.3 Part 3 Contact/footer integration
+- missing photos
+- missing Scholar/ORCID/CV URLs
+- funders
+- partners
+- news
+- map data
+- other unavailable information
+
+Those will be handled in later phases.
+
+==================================================
+STEP 4 — VERIFY PROTECTED AREAS
+==================================================
+
+Confirm these remain unchanged unless explicitly part of the recovered implementation:
+
+- authentication
+- authorization
+- admin entry
+- footer-logo triple-click
+- database security
+- API security
+- Git configuration
+- deployment configuration
+
+Also preserve the existing /upload functionality.
+
+==================================================
+STEP 5 — VALIDATE
+==================================================
+
+Run:
+
+- frontend typecheck
+- frontend production build
+- API typecheck/build if affected
+
+Check:
+
+/research
+/projects
+/humekaneza
+/people
+/teaching
+/about
+/publications
+
+Check desktop approximately 1280px and mobile approximately 390px.
+
+Verify:
+
+- no horizontal overflow
+- no obvious runtime errors
+- all 8 projects are present
+- all 8 HumekaNeza initiatives are present
+- 37 unique People records remain
+- 9 Teaching courses remain
+- About profile remains
+- Publications renders correctly
+- admin entry remains present
+- /upload remains protected
+
+==================================================
+STEP 6 — PROJECT LINK VERIFICATION
+==================================================
+
+Specifically check:
+
+Homepage Featured Projects → correct /projects#<slug>
+
+Research → Classroom Clean-Air Interventions →
+/projects#classroom-clean-air-interventions
+
+Do not leave these as generic /projects links.
+
+==================================================
+STEP 7 — COMMIT
+==================================================
+
+Only after validation passes:
+
+Commit on:
+
+recovery-verified-phases
+
+Use a clear message such as:
+
+Restore verified P3 Health Lab phase implementations
+
+Do NOT merge into main.
+
+Do NOT deploy.
+
+==================================================
+FINAL REPORT
+==================================================
+
+STATUS: PASS / BLOCKED
+
+RECOVERED:
+- Projects
+- HumekaNeza
+- People
+- Teaching
+- About
+- Publications
+
+NOT RECOVERED:
+- Opportunities admin editor
+- Contact/footer integration
+- other future-phase items
+
+BRANCH:
+recovery-verified-phases
+
+COMMIT:
+<commit>
+
+VALIDATION:
+<results>
+
+PROTECTED AREAS:
+<results>
+
+REMAINING WORK:
+<list>
+
+IMPORTANT:
+If any recovery source conflicts with current main, STOP and report the conflict instead of guessing.

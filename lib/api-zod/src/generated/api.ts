@@ -56,7 +56,7 @@ export const AdminLogoutResponse = zod.unknown()
  * @summary List protected content records
  */
 export const ListAdminContentParams = zod.object({
-  "resource": zod.enum(['people', 'projects', 'news', 'researchAreas', 'teaching', 'profile', 'media'])
+  "resource": zod.enum(['people', 'projects', 'news', 'researchAreas', 'teaching', 'opportunities', 'profile', 'media'])
 })
 
 export const ListAdminContentResponse = zod.object({
@@ -68,7 +68,7 @@ export const ListAdminContentResponse = zod.object({
  * @summary Create a protected content record
  */
 export const CreateAdminContentParams = zod.object({
-  "resource": zod.enum(['people', 'projects', 'news', 'researchAreas', 'teaching', 'profile', 'media'])
+  "resource": zod.enum(['people', 'projects', 'news', 'researchAreas', 'teaching', 'opportunities', 'profile', 'media'])
 })
 
 export const CreateAdminContentBody = zod.record(zod.string(), zod.unknown())
@@ -80,7 +80,7 @@ export const CreateAdminContentResponse = zod.record(zod.string(), zod.unknown()
  * @summary Update a protected content record
  */
 export const UpdateAdminContentParams = zod.object({
-  "resource": zod.enum(['people', 'projects', 'news', 'researchAreas', 'teaching', 'profile', 'media']),
+  "resource": zod.enum(['people', 'projects', 'news', 'researchAreas', 'teaching', 'opportunities', 'profile', 'media']),
   "id": zod.coerce.number().int()
 })
 
@@ -93,7 +93,7 @@ export const UpdateAdminContentResponse = zod.record(zod.string(), zod.unknown()
  * @summary Archive a protected content record
  */
 export const ArchiveAdminContentParams = zod.object({
-  "resource": zod.enum(['people', 'projects', 'news', 'researchAreas', 'teaching', 'profile', 'media']),
+  "resource": zod.enum(['people', 'projects', 'news', 'researchAreas', 'teaching', 'opportunities', 'profile', 'media']),
   "id": zod.coerce.number().int()
 })
 
@@ -125,3 +125,57 @@ export const VerifyAdminMediaUploadBody = zod.object({
 })
 
 export const VerifyAdminMediaUploadResponse = zod.unknown()
+
+
+/**
+ * @summary Get verified public profile and contact information
+ */
+export const GetPublicProfileResponse = zod.object({
+  "externalLinks": zod.array(zod.object({
+  "label": zod.string(),
+  "url": zod.string().url()
+})),
+  "contact": zod.object({
+  "name": zod.string().nullable(),
+  "appointment": zod.string().nullable(),
+  "labName": zod.string().nullable(),
+  "directorRole": zod.string().nullable(),
+  "department": zod.string().nullable(),
+  "university": zod.string().nullable(),
+  "office": zod.string().nullable(),
+  "contactEmail": zod.string().email().nullable(),
+  "labEmail": zod.string().email().nullable()
+})
+})
+
+
+/**
+ * @summary List published, non-archived, visible opportunities
+ */
+export const GetPublicOpportunitiesResponse = zod.object({
+  "opportunities": zod.array(zod.object({
+  "title": zod.string(),
+  "category": zod.enum(['Graduate Students', 'Postdoctoral Researchers', 'Research Assistants & Staff', 'Undergraduate / Research Students', 'Visiting Students & Scholars']),
+  "shortDescription": zod.string(),
+  "fullDetails": zod.string(),
+  "applicationInstructions": zod.string(),
+  "applicationEmail": zod.string().email().nullable(),
+  "applicationUrl": zod.string().url().nullable(),
+  "deadline": zod.coerce.date().nullable(),
+  "status": zod.enum(['Open', 'Closed'])
+}))
+})
+
+
+/**
+ * @summary List published, non-archived teaching courses
+ */
+export const GetPublicTeachingResponse = zod.object({
+  "courses": zod.array(zod.object({
+  "academicYear": zod.string(),
+  "courseCode": zod.string(),
+  "title": zod.string()
+}))
+})
+
+

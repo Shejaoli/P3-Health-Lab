@@ -1,0 +1,219 @@
+P3 HEALTH LAB — RECOVERY RESTORATION TASK
+
+We are on a NEW ACCOUNT. Do NOT spend this task repeatedly explaining old history or asking me to approve already-verified recovery sources. The goal is to BUILD and restore the missing verified work now.
+
+CURRENT MAIN:
+main at 9c22182 / current checkout may differ. First inspect the actual current HEAD and worktree.
+
+VERIFIED RECOVERY SOURCES:
+
+1. Phase 3:
+   branch: phase3-projects
+   remote: origin/phase3-projects
+   commit: 296365a433c0331a0659b3c2a4d0faeca2a27c64
+   Also known project commit: bc76c91 = Projects 5–8.
+
+This recovery source contains the verified:
+
+- Projects page with all 8 real project descriptions
+- HumekaNeza page with the complete restrained implementation
+- project hash anchors and related Phase 3 content
+
+2. Phase 5.3 Part 1:
+   branch: phase5-3-part1-publications
+   remote: origin/phase5-3-part1-publications
+   commit: b526f0a1834c68e5a3ca46dc61cf9ae40ce1f3ed
+
+This recovery source contains verified:
+
+- Phase 5.2 About/Profile implementation
+- Phase 5.3 Part 1 Publications implementation
+- admin-managed external profile/publication links
+- public Google Scholar / ORCID rendering
+
+3. Current main already contains verified:
+
+- 37 People records
+- 9 Teaching courses
+- Research
+- existing admin/auth/upload infrastructure
+
+IMPORTANT:
+Do NOT reset main.
+Do NOT force-push.
+Do NOT deploy.
+Do NOT modify Git configuration.
+Do NOT delete verified current People/Teaching work.
+Do NOT modify admin authentication/security unnecessarily.
+
+TASK:
+
+A. CREATE RECOVERY BRANCH
+Create:
+recovery-verified-phases
+
+All restoration work must happen on this branch.
+
+B. RESTORE PHASE 3
+Do NOT stop merely because cherry-pick conflicts.
+
+Inspect the Phase 3 branch and current main side-by-side.
+
+The objective is to restore the verified Phase 3 functionality while preserving newer verified current-main work.
+
+Restore:
+
+- all 8 real Projects
+- complete HumekaNeza page
+- all project slug anchors
+- homepage Featured Project hash links
+- Research → Classroom Clean-Air Interventions hash link
+
+If a cherry-pick conflicts in App.tsx or index.css, resolve it manually by preserving BOTH:
+
+1. current-main verified functionality
+2. verified Phase 3 functionality
+
+Do not choose the easy option of abandoning Phase 3.
+
+C. RESTORE PHASE 5.2 ABOUT
+From the verified recovery source, restore the completed About/Profile implementation.
+
+It must preserve:
+
+- Dr. Egide Kalisa identity
+- verified department/institution/Director role
+- verified research statement
+- six research interests
+- About the Lab content
+- internal links
+- verified contact information
+
+Do not invent biography, awards, degrees, publications, funding, photos, or external links.
+
+D. RESTORE PHASE 5.3 PART 1 PUBLICATIONS
+Restore the verified Publications implementation from:
+phase5-3-part1-publications
+
+Ensure:
+
+- Publications page is no longer a placeholder
+- verified introductory content is present
+- six research themes are present
+- Google Scholar / ORCID / CV / Publication Profile links display when valid
+- empty links remain hidden
+- admin-managed external links continue working
+- existing authentication/security remains intact
+
+E. ADMIN EDITABILITY RULE — IMPORTANT FOR FUTURE CONTENT
+For ANY verified website information that is required by the design but is not currently available as editable content, do NOT invent it.
+
+Instead, where practical, provide an authenticated admin editing mechanism so the administrator can add/edit that information later.
+
+Examples:
+
+- People photos → /upload or appropriate admin resource
+- external profile links → existing Profile/Site Information editor
+- opportunities → authenticated Opportunities admin resource
+- future editable project/profile/site content → use an appropriate admin resource rather than hardcoding invented information
+
+Do not turn verified static scientific copy into fake editable data just for convenience.
+
+F. DO NOT REBUILD UNRELATED FEATURES
+Protected:
+
+- People
+- Teaching
+- Research
+- Header
+- Footer
+- footer-logo triple-click admin entry
+- authentication
+- database security
+- existing /upload
+- admin access control
+- API architecture
+
+Only modify these when required to correctly integrate the recovered verified work.
+
+G. VALIDATION — ACTUALLY RUN IT
+After implementation:
+
+1. Typecheck frontend.
+2. Build frontend.
+3. Typecheck/build API if affected.
+4. Test:
+   /projects
+   /humekaneza
+   /about
+   /publications
+   /people
+   /teaching
+5. Test desktop approximately 1280px.
+6. Test mobile approximately 390px.
+7. Confirm no horizontal overflow.
+8. Confirm 8 Projects.
+9. Confirm 8 HumekaNeza initiatives.
+10. Confirm 37 People.
+11. Confirm 9 Teaching courses.
+12. Confirm About content.
+13. Confirm Publications external links.
+14. Confirm footer-logo triple-click still works.
+15. Confirm admin/auth protected areas remain protected.
+16. Run git diff --check.
+
+H. FINAL GIT STATE
+Commit the completed recovery work on:
+recovery-verified-phases
+
+Do NOT merge into main.
+Do NOT deploy.
+
+FINAL REPORT — ONLY THIS FORMAT:
+
+STATUS: PASS / BLOCKED
+
+RECOVERED:
+
+- Projects
+- HumekaNeza
+- About/Profile
+- Publications
+
+PRESERVED:
+
+- People
+- Teaching
+- Research
+- Admin/auth/upload
+- Header/footer
+- Footer-logo admin entry
+
+VALIDATION:
+
+- Typecheck:
+- Build:
+- Routes:
+- Desktop:
+- Mobile:
+- Horizontal overflow:
+- People count:
+- Project count:
+- HumekaNeza count:
+- Teaching count:
+- Publications:
+- Admin/auth:
+- git diff --check:
+
+BRANCH:
+COMMIT:
+
+BLOCKERS:
+Only list real blockers that prevented implementation.
+
+CRITICAL:
+If a conflict occurs, resolve it and continue. Do not stop merely because the old recovery commit conflicts with current main.
+
+If a particular historical commit cannot be cherry-picked cleanly, use its actual files/content as the recovery source and manually integrate the verified implementation.
+
+The objective of this task is RESTORATION AND BUILDING, not another recovery report.

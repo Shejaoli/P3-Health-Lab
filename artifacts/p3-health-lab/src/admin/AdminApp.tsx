@@ -115,8 +115,11 @@ const resourceConfig: Record<string, { label: string; labelField: string; fields
       { key: "directorRole", label: "Director role", type: "text" },
       { key: "researchInterests", label: "Research interests", type: "json" },
       { key: "labEmail", label: "Lab email", type: "email" },
+      { key: "contactEmail", label: "Contact email", type: "email" },
+      { key: "department", label: "Department", type: "text" },
       { key: "university", label: "University", type: "text" },
-      { key: "externalLinks", label: "Verified external links", type: "json", help: 'JSON array like [{"label":"Western","url":"https://..."}].' },
+      { key: "office", label: "Office", type: "text" },
+      { key: "externalLinks", label: "Verified external links", type: "json", help: 'JSON array like [{"label":"Google Scholar","url":"https://..."},{"label":"ORCID","url":"https://..."},{"label":"CV","url":"https://..."}]. Empty links stay hidden publicly.' },
     ],
   },
   media: {
@@ -137,7 +140,7 @@ const resourceConfig: Record<string, { label: string; labelField: string; fields
   },
 };
 
-const nullableFieldKeys = new Set(["linkedinUrl", "photoMediaId", "imageMediaId", "date", "labEmail", "associatedType", "associatedId", "applicationEmail", "applicationUrl", "deadline"]);
+const nullableFieldKeys = new Set(["linkedinUrl", "photoMediaId", "imageMediaId", "date", "labEmail", "contactEmail", "applicationEmail", "applicationUrl", "deadline", "associatedType", "associatedId"]);
 
 const defaultValue = (field: Field): unknown => {
   if (field.type === "checkbox") return false;
@@ -446,15 +449,25 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
       setBusy(false);
     }
   };
-  const archive = async (id: unknown) => {
-    if (typeof id !== "number" || !window.confirm("Archive this record?")) return;
+  const archive = async (item: RecordValue) => {
+    const id = item.id;
+    const isArchived = item.archived === true;
+    if (typeof id !== "number" || (!isArchived && !window.confirm("Archive this record?"))) return;
     setBusy(true);
     try {
-      await api(`/admin/content/${resource}/${id}`, { method: "DELETE" });
-      setMessage("Record archived.");
+      if (isArchived) {
+        await api(`/admin/content/${resource}/${id}`, {
+          method: "PATCH",
+          body: JSON.stringify({ archived: false }),
+        });
+        setMessage("Record unarchived. Republish it separately when ready.");
+      } else {
+        await api(`/admin/content/${resource}/${id}`, { method: "DELETE" });
+        setMessage("Record archived.");
+      }
       await load();
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to archive record");
+      setMessage(error instanceof Error ? error.message : "Unable to update archive status");
     } finally {
       setBusy(false);
     }
@@ -517,7 +530,7 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
         {resource === "media" && <label className="admin-upload-button"><Upload size={15} /> Upload image<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadMedia(file); event.currentTarget.value = ""; }} /></label>}
         {message && <p className="admin-message" role="status">{message}</p>}
         {busy && !draft && <p className="admin-muted">Loading…</p>}
-        <div className="admin-record-list">{items.map((item) => <article className={`admin-record ${item.archived ? "is-archived" : ""}`} key={String(item.id)}><div><span className="admin-record-meta">{item.published ? "Published" : "Draft"}{item.archived ? " · Archived" : ""}</span><h3>{String(item[config.labelField] ?? "Untitled record")}</h3><p>{resource === "media" ? `${String(item.contentType ?? "")} · ${String(item.size ?? "")} bytes` : String(item.summary ?? item.role ?? item.description ?? "")}</p></div><div className="admin-record-actions"><button className="admin-quiet-button" onClick={() => edit(item)}><Pencil size={14} /> Edit</button><button className="admin-quiet-button danger" onClick={() => void archive(item.id)}>Archive</button></div></article>)}</div>
+         <div className="admin-record-list">{items.map((item) => <article className={`admin-record ${item.archived ? "is-archived" : ""}`} key={String(item.id)}><div><span className="admin-record-meta">{item.published ? "Published" : "Draft"}{item.archived ? " · Archived" : ""}{item.status ? ` · ${String(item.status)}` : ""}</span><h3>{String(item[config.labelField] ?? "Untitled record")}</h3><p>{resource === "media" ? `${String(item.contentType ?? "")} · ${String(item.size ?? "")} bytes` : String(item.summary ?? item.role ?? item.description ?? item.shortDescription ?? "")}</p></div><div className="admin-record-actions"><button className="admin-quiet-button" onClick={() => edit(item)}><Pencil size={14} /> Edit</button><button className={`admin-quiet-button ${item.archived ? "" : "danger"}`} onClick={() => void archive(item)}>{item.archived ? "Unarchive" : "Archive"}</button></div></article>)}</div>
         {!items.length && !busy && <div className="admin-empty"><Check size={18} /><p>No records yet. Add only verified information.</p></div>}
         {draft && <form className="admin-editor" onSubmit={save}><div className="admin-editor-heading"><h3>{draft.id ? "Edit record" : "New record"}</h3><button type="button" className="admin-icon-button" onClick={() => setDraft(null)} aria-label="Close editor"><X size={18} /></button></div><div className="admin-form-grid">{fields.map((field) => <AdminField key={field.key} field={field} value={draft[field.key]} onChange={(value) => updateDraft(field.key, value)} />)}</div><div className="admin-editor-actions"><button type="button" className="button-secondary" onClick={() => setDraft(null)}>Cancel</button><button type="submit" className="button-primary" disabled={busy}>{busy ? "Saving…" : "Save record"}</button></div></form>}
       </main>

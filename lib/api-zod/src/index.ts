@@ -8,4 +8,13 @@ export type {
   MediaUploadRequest,
   MediaUploadRequestContentType,
   MediaUploadResponse,
+  PublicContactProfile,
+  PublicOpportunity,
+  PublicOpportunityCategory,
+  PublicOpportunityStatus,
+  PublicOpportunitiesResponse,
+  PublicProfileLink,
+  PublicProfileResponse,
+  PublicTeachingCourse,
+  PublicTeachingListing,
 } from "./generated/types";

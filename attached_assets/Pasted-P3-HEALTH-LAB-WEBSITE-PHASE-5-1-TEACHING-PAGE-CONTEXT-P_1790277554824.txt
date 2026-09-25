@@ -1,0 +1,133 @@
+P3 HEALTH LAB WEBSITE — PHASE 5.1: TEACHING PAGE
+
+CONTEXT
+Phase 3 Projects + HumekaNeza and Phase 4 People work were completed previously. This is a NEW session, so FIRST verify the existing work before editing anything.
+
+HARD RULE: DO NOT EDIT until the verification below passes.
+
+STEP 1 — VERIFY PREVIOUS WORK
+Check:
+- Current branch and git status.
+- People page contains 37 unique people.
+- Projects page still contains all 8 projects.
+- /humekaneza still contains the restrained Phase 3 page and all 8 initiative links.
+- Homepage Featured Project links still use project hash anchors.
+- Research → Classroom Clean-Air Interventions still points to /projects#classroom-clean-air-interventions.
+- Footer-logo triple-click/admin entry remains unchanged.
+- Admin/auth/API/database files are untouched.
+
+If any of these checks fail, STOP and report STATUS: BLOCKED. Do not repair them in this phase.
+
+STEP 2 — SCOPE
+Create a new branch named phase5-1-teaching.
+Do not touch main, deploy, or change Git configuration.
+
+Only modify the Teaching page and the minimum CSS/data required for it.
+Do not modify People, Projects, HumekaNeza, Research, Home, Header, Footer, Admin, Auth, API, or Database.
+
+TEACHING PAGE
+
+Replace the current Teaching content with a restrained academic page.
+
+Hero:
+Eyebrow: Teaching
+Title: Teaching
+Short introductory text:
+"Teaching in global health and One Health connects foundational knowledge with field-based learning, interdisciplinary collaboration, and real-world environmental and population-health challenges."
+
+CURRENT COURSES
+
+Use exactly these verified courses:
+
+2026–2027
+- GHS 9100: Foundations of Global Health
+- GHS 9112: International Field School
+
+2025–2026
+- GHS 9100: Foundations of Global Health
+- OH 3300A: Foundations in One Health
+- OH 3600: One Health in Action
+- GHS 9112: International Field School
+- MPH 9015: Issues in Global Health
+
+2024–2025
+- GHS 9100: Foundations of Global Health
+- OH 3600: One Health in Action
+
+Display each course with:
+Course code
+Course title
+
+Do NOT invent program names, teaching roles, descriptions, dates, or course links.
+
+TEACHING PHILOSOPHY
+Add a section titled "Teaching Philosophy".
+
+Use only this factual concept:
+Teaching connects global health, One Health, environmental health, and field-based learning. Emphasize interdisciplinary learning, practical experience, critical thinking, and connecting evidence to real-world health challenges.
+
+Do not create a quotation or attribute invented words to Dr. Kalisa.
+
+GRADUATE SUPERVISION
+Add a section titled "Graduate Supervision".
+
+Do not invent specific supervision details. Use only a concise statement that graduate supervision is connected to the lab's research areas, including environmental health, exposure science, air pollution, climate-health, One Health, global health, epidemiology, and intervention research.
+
+TEACHING INNOVATIONS
+Add a section titled "Experiential & Field-Based Teaching".
+
+Use only the supplied information:
+- International Field School
+- field-based learning
+- interdisciplinary learning
+- connection between evidence and real-world health challenges
+
+Do not invent awards, technologies, course platforms, student numbers, or outcomes.
+
+DESIGN
+Use the existing restrained academic style:
+- off-white/white
+- charcoal text
+- one muted teal accent
+- generous whitespace
+- simple ruled lists
+- minimal rounded containers
+- no gradients
+- no glowing effects
+- no decorative graphics
+- no excessive animation
+- no marketing language
+
+Keep mobile layout clean at approximately 390px.
+
+VALIDATION
+Run:
+- typecheck
+- production build
+- /teaching at approximately 1280px
+- /teaching at approximately 390px
+- confirm no horizontal overflow
+- confirm all 9 course entries are present with the correct academic year
+- confirm no invented course information
+- verify previous People/Projects/HumekaNeza work remains intact
+- verify footer-logo triple-click remains unchanged
+- check git diff for scope violations
+
+Do NOT deploy.
+
+FINAL REPORT ONLY:
+
+STATUS: PASS / BLOCKED
+
+PREVIOUS WORK VERIFICATION:
+People:
+Projects:
+HumekaNeza:
+Research links:
+Admin/footer-logo:
+
+CHANGED:
+NOT CHANGED:
+VALIDATION:
+BLOCKERS:
+NEXT: Phase 5.2 — About / Professor Profile

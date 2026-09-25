@@ -113,7 +113,10 @@ const resourceSchemas = {
     directorRole: z.string().max(300).default(""),
     researchInterests: stringList,
     labEmail: z.string().email().nullable().optional(),
+    contactEmail: z.string().email().nullable().optional(),
+    department: z.string().max(300).default(""),
     university: z.string().max(300).default(""),
+    office: z.string().max(100).default(""),
     externalLinks: z.array(z.object({ label: z.string().max(100), url })).default([]),
   }),
   media: z.object({

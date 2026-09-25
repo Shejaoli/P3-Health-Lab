@@ -27,7 +27,10 @@ import type {
   HealthStatus,
   MediaUploadRequest,
   MediaUploadResponse,
-  MediaUploadVerificationRequest
+  MediaUploadVerificationRequest,
+  PublicOpportunitiesResponse,
+  PublicProfileResponse,
+  PublicTeachingListing
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -89,6 +92,7 @@ export const getHealthCheckQueryKey = () => {
     `/api/healthz`
     ] as const;
     }
+
 
 export const getHealthCheckQueryOptions = <TData = Awaited<ReturnType<typeof healthCheck>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof healthCheck>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
 ) => {
@@ -373,7 +377,7 @@ export const useAdminLogout = <TError = ErrorType<unknown>,
       return useMutation(getAdminLogoutMutationOptions(options));
     }
 
-export const getListAdminContentUrl = (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media',) => {
+export const getListAdminContentUrl = (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media',) => {
 
 
 
@@ -384,7 +388,7 @@ export const getListAdminContentUrl = (resource: 'people' | 'projects' | 'news' 
 /**
  * @summary List protected content records
  */
-export const listAdminContent = async (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media', options?: Parameters<typeof customFetch>[1]): Promise<ContentListResponse> => {
+export const listAdminContent = async (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media', options?: Parameters<typeof customFetch>[1]): Promise<ContentListResponse> => {
 
   return customFetch<ContentListResponse>(getListAdminContentUrl(resource),
   {
@@ -399,14 +403,14 @@ export const listAdminContent = async (resource: 'people' | 'projects' | 'news' 
 
 
 
-export const getListAdminContentQueryKey = (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media',) => {
+export const getListAdminContentQueryKey = (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media',) => {
     return [
     `/api/admin/content/${resource}`
     ] as const;
     }
 
 
-export const getListAdminContentQueryOptions = <TData = Awaited<ReturnType<typeof listAdminContent>>, TError = ErrorType<void>>(resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media', options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAdminContent>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+export const getListAdminContentQueryOptions = <TData = Awaited<ReturnType<typeof listAdminContent>>, TError = ErrorType<void>>(resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media', options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAdminContent>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -433,7 +437,7 @@ export type ListAdminContentQueryError = ErrorType<void>
  */
 
 export function useListAdminContent<TData = Awaited<ReturnType<typeof listAdminContent>>, TError = ErrorType<void>>(
- resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media', options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAdminContent>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+ resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media', options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAdminContent>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
 
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
@@ -450,7 +454,7 @@ export function useListAdminContent<TData = Awaited<ReturnType<typeof listAdminC
 
 
 
-export const getCreateAdminContentUrl = (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media',) => {
+export const getCreateAdminContentUrl = (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media',) => {
 
 
 
@@ -461,7 +465,7 @@ export const getCreateAdminContentUrl = (resource: 'people' | 'projects' | 'news
 /**
  * @summary Create a protected content record
  */
-export const createAdminContent = async (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media',
+export const createAdminContent = async (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media',
     contentRecord: ContentRecord, options?: Parameters<typeof customFetch>[1]): Promise<ContentRecord> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
@@ -523,7 +527,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateAdminContentMutationResult = NonNullable<Awaited<ReturnType<typeof createAdminContent>>>
     export type CreateAdminContentMutationBody = BodyType<ContentRecord>
     export type CreateAdminContentMutationError = ErrorType<void>
-    export type CreateAdminContentMutationVariables = {resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media';data: BodyType<ContentRecord>}
+    export type CreateAdminContentMutationVariables = {resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media';data: BodyType<ContentRecord>}
 
     /**
  * @summary Create a protected content record
@@ -539,7 +543,7 @@ export const useCreateAdminContent = <TError = ErrorType<void>,
       return useMutation(getCreateAdminContentMutationOptions(options));
     }
 
-export const getUpdateAdminContentUrl = (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media',
+export const getUpdateAdminContentUrl = (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media',
     id: number,) => {
 
 
@@ -551,7 +555,7 @@ export const getUpdateAdminContentUrl = (resource: 'people' | 'projects' | 'news
 /**
  * @summary Update a protected content record
  */
-export const updateAdminContent = async (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media',
+export const updateAdminContent = async (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media',
     id: number,
     contentRecord: ContentRecord, options?: Parameters<typeof customFetch>[1]): Promise<ContentRecord> => {
 
@@ -614,7 +618,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateAdminContentMutationResult = NonNullable<Awaited<ReturnType<typeof updateAdminContent>>>
     export type UpdateAdminContentMutationBody = BodyType<ContentRecord>
     export type UpdateAdminContentMutationError = ErrorType<void>
-    export type UpdateAdminContentMutationVariables = {resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media';id: number;data: BodyType<ContentRecord>}
+    export type UpdateAdminContentMutationVariables = {resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media';id: number;data: BodyType<ContentRecord>}
 
     /**
  * @summary Update a protected content record
@@ -630,7 +634,7 @@ export const useUpdateAdminContent = <TError = ErrorType<void>,
       return useMutation(getUpdateAdminContentMutationOptions(options));
     }
 
-export const getArchiveAdminContentUrl = (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media',
+export const getArchiveAdminContentUrl = (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media',
     id: number,) => {
 
 
@@ -642,7 +646,7 @@ export const getArchiveAdminContentUrl = (resource: 'people' | 'projects' | 'new
 /**
  * @summary Archive a protected content record
  */
-export const archiveAdminContent = async (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media',
+export const archiveAdminContent = async (resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media',
     id: number, options?: Parameters<typeof customFetch>[1]): Promise<void> => {
 
   return customFetch<void>(getArchiveAdminContentUrl(resource,id),
@@ -690,7 +694,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type ArchiveAdminContentMutationResult = NonNullable<Awaited<ReturnType<typeof archiveAdminContent>>>
 
     export type ArchiveAdminContentMutationError = ErrorType<void>
-    export type ArchiveAdminContentMutationVariables = {resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'profile' | 'media';id: number}
+    export type ArchiveAdminContentMutationVariables = {resource: 'people' | 'projects' | 'news' | 'researchAreas' | 'teaching' | 'opportunities' | 'profile' | 'media';id: number}
 
     /**
  * @summary Archive a protected content record
@@ -881,3 +885,235 @@ export const useVerifyAdminMediaUpload = <TError = ErrorType<void>,
       > => {
       return useMutation(getVerifyAdminMediaUploadMutationOptions(options));
     }
+
+export const getGetPublicProfileUrl = () => {
+
+
+
+
+  return `/api/public/profile`
+}
+
+/**
+ * @summary Get verified public profile and contact information
+ */
+export const getPublicProfile = async ( options?: Parameters<typeof customFetch>[1]): Promise<PublicProfileResponse> => {
+
+  return customFetch<PublicProfileResponse>(getGetPublicProfileUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetPublicProfileQueryKey = () => {
+    return [
+    `/api/public/profile`
+    ] as const;
+    }
+
+
+export const getGetPublicProfileQueryOptions = <TData = Awaited<ReturnType<typeof getPublicProfile>>, TError = ErrorType<void>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicProfile>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPublicProfileQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPublicProfile>>> = ({ signal }) => getPublicProfile({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPublicProfile>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPublicProfileQueryResult = NonNullable<Awaited<ReturnType<typeof getPublicProfile>>>
+export type GetPublicProfileQueryError = ErrorType<void>
+
+
+/**
+ * @summary Get verified public profile and contact information
+ */
+
+export function useGetPublicProfile<TData = Awaited<ReturnType<typeof getPublicProfile>>, TError = ErrorType<void>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicProfile>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetPublicProfileQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetPublicOpportunitiesUrl = () => {
+
+
+
+
+  return `/api/public/opportunities`
+}
+
+/**
+ * @summary List published, non-archived, visible opportunities
+ */
+export const getPublicOpportunities = async ( options?: Parameters<typeof customFetch>[1]): Promise<PublicOpportunitiesResponse> => {
+
+  return customFetch<PublicOpportunitiesResponse>(getGetPublicOpportunitiesUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetPublicOpportunitiesQueryKey = () => {
+    return [
+    `/api/public/opportunities`
+    ] as const;
+    }
+
+
+export const getGetPublicOpportunitiesQueryOptions = <TData = Awaited<ReturnType<typeof getPublicOpportunities>>, TError = ErrorType<void>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicOpportunities>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPublicOpportunitiesQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPublicOpportunities>>> = ({ signal }) => getPublicOpportunities({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPublicOpportunities>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPublicOpportunitiesQueryResult = NonNullable<Awaited<ReturnType<typeof getPublicOpportunities>>>
+export type GetPublicOpportunitiesQueryError = ErrorType<void>
+
+
+/**
+ * @summary List published, non-archived, visible opportunities
+ */
+
+export function useGetPublicOpportunities<TData = Awaited<ReturnType<typeof getPublicOpportunities>>, TError = ErrorType<void>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicOpportunities>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetPublicOpportunitiesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetPublicTeachingUrl = () => {
+
+
+
+
+  return `/api/public/teaching`
+}
+
+/**
+ * @summary List published, non-archived teaching courses
+ */
+export const getPublicTeaching = async ( options?: Parameters<typeof customFetch>[1]): Promise<PublicTeachingListing> => {
+
+  return customFetch<PublicTeachingListing>(getGetPublicTeachingUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetPublicTeachingQueryKey = () => {
+    return [
+    `/api/public/teaching`
+    ] as const;
+    }
+
+
+export const getGetPublicTeachingQueryOptions = <TData = Awaited<ReturnType<typeof getPublicTeaching>>, TError = ErrorType<void>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicTeaching>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPublicTeachingQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPublicTeaching>>> = ({ signal }) => getPublicTeaching({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPublicTeaching>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPublicTeachingQueryResult = NonNullable<Awaited<ReturnType<typeof getPublicTeaching>>>
+export type GetPublicTeachingQueryError = ErrorType<void>
+
+
+/**
+ * @summary List published, non-archived teaching courses
+ */
+
+export function useGetPublicTeaching<TData = Awaited<ReturnType<typeof getPublicTeaching>>, TError = ErrorType<void>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicTeaching>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetPublicTeachingQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
