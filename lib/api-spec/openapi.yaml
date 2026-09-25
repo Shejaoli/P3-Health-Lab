@@ -197,6 +197,20 @@ paths:
                 $ref: "#/components/schemas/PublicProfileResponse"
         "500":
           description: Unable to load profile information
+  /public/news:
+    get:
+      operationId: getPublicNews
+      tags: [public]
+      summary: List published, non-archived news
+      responses:
+        "200":
+          description: Public news items
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublicNewsResponse"
+        "500":
+          description: Unable to load news
   /public/opportunities:
     get:
       operationId: getPublicOpportunities
@@ -354,6 +368,27 @@ components:
         labEmail:
           type: ["string", "null"]
           format: email
+    PublicNewsResponse:
+      type: object
+      required: [news]
+      properties:
+        news:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicNewsItem"
+    PublicNewsItem:
+      type: object
+      required: [headline, date, summary, body]
+      properties:
+        headline:
+          type: string
+        date:
+          type: ["string", "null"]
+          format: date
+        summary:
+          type: string
+        body:
+          type: string
     PublicOpportunitiesResponse:
       type: object
       required: [opportunities]

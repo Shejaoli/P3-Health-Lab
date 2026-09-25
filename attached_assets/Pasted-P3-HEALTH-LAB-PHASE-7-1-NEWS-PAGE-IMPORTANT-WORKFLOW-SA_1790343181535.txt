@@ -1,0 +1,211 @@
+P3 HEALTH LAB — PHASE 7.1: NEWS PAGE
+
+IMPORTANT WORKFLOW — SAVE CREDITS:
+This is a new Replit session/account.
+
+DO NOT spend the session performing a long history/recovery audit.
+
+First do only a QUICK PREFLIGHT:
+1. Confirm current branch/worktree.
+2. Locate the existing News route/page and current App.tsx/index.css structure.
+3. Confirm the existing restrained academic design patterns.
+4. Then START CODING immediately.
+
+Focus on implementation first. Validation comes AFTER the code changes.
+
+PHASE CONTEXT:
+Phases 1–6 are already substantially implemented.
+Phase 6.3 was just validated for the Join the Lab/recruitment structure.
+The development database may be empty. Do NOT create fake News records or fake Teaching records to make validation pass.
+
+GOAL:
+Build the public P3 Health Lab News page as a restrained academic/news section that can later be connected to admin-managed News content.
+
+BRANCH:
+Create/use:
+`phase7-1-news`
+
+Never modify main directly.
+Never deploy.
+Do not force-push, reset, rebase, or change Git configuration.
+
+HARD RULES:
+- Preserve all existing completed pages.
+- Do not change People, Projects, HumekaNeza, Research, Teaching, About, Publications, Contact, Join the Lab, header, footer, authentication, /upload, or footer-logo triple-click unless a tiny link update is directly required.
+- Do not invent real news stories, dates, authors, publications, awards, grants, events, partners, results, statistics, or quotations.
+- Do not create fake News records merely for demonstration.
+- Use only verified content already present in the repository or supplied project materials.
+- If there is no verified News content, build the structure and neutral empty state rather than inventing articles.
+- Keep the existing restrained academic visual language:
+  off-white background, charcoal text, muted teal accent, ruled lists, plain typography.
+- No gradients, glows, decorative illustrations, huge rounded cards, or heavy animations.
+- No horizontal overflow on mobile.
+
+TASK 1 — NEWS PAGE
+
+Implement/refine `/news`.
+
+Hero:
+- Eyebrow: `News`
+- Title: `News`
+- Use a concise verified introductory line if one already exists in the project.
+- If no verified introduction exists, use a neutral line such as:
+  `Updates from P3 Health Lab.`
+
+Do not add invented claims about the lab.
+
+TASK 2 — NEWS LIST STRUCTURE
+
+Create a clean data-driven News structure.
+
+Each news item should support, where available:
+- title
+- date
+- category/type
+- short summary
+- full content or details
+- optional external/internal URL
+- published state
+- archived state
+- display order
+
+Do not show fields that have no verified value.
+
+Public behavior:
+- published items may appear
+- archived/unpublished items must remain hidden
+- if there are no published News items, show a neutral empty state such as:
+  `News and updates will be posted here when available.`
+
+Do NOT seed fake records.
+
+TASK 3 — ADMIN EDITABILITY
+
+IMPORTANT:
+News is content that will change over time.
+
+Before creating any new database/admin system, inspect the existing admin architecture.
+
+If an existing News/Content resource already exists:
+- reuse it.
+
+If no News resource exists:
+- implement the smallest compatible admin-managed News resource using the existing authentication/database/API patterns.
+- Do NOT create a parallel CMS.
+- Do NOT change authentication architecture.
+- Do NOT expose unpublished/archived News publicly.
+
+The admin should eventually allow editing of the actual News fields used by the public page.
+
+Do not require images for News unless the existing project already has a verified media workflow suitable for it.
+
+TASK 4 — PUBLIC ROUTE
+
+Ensure `/news` is publicly accessible.
+
+News should be loaded from the existing API/data layer where appropriate rather than hard-coded article records.
+
+If the development database has zero News rows:
+- the page must still render correctly
+- show the neutral empty state
+- do not insert sample content
+
+TASK 5 — DESIGN
+
+Follow the same restrained academic patterns already used on:
+- Research
+- Projects
+- Teaching
+- About
+- Publications
+- Join the Lab
+
+Prefer:
+- ruled article/list rows
+- date + category metadata
+- strong readable titles
+- plain text links
+- restrained spacing
+
+Avoid:
+- blog-card grids
+- image-heavy cards
+- gradients
+- excessive rounded containers
+- decorative animations
+
+TASK 6 — RESPONSIVE
+
+Ensure:
+- desktop approximately 1280px works
+- mobile approximately 390px works
+- no horizontal overflow
+- long titles and dates wrap correctly
+- links remain usable on mobile
+
+VALIDATION — AFTER CODING ONLY:
+
+Run focused checks:
+
+1. Frontend typecheck.
+2. Production build.
+3. `/news` desktop ~1280px.
+4. `/news` mobile ~390px.
+5. Confirm no horizontal overflow.
+6. Confirm empty News state works if the development database contains no records.
+7. Confirm unpublished/archived News is not publicly exposed if testable without creating fake records.
+8. Confirm no browser application errors.
+9. Confirm existing Teaching, Projects, HumekaNeza, People and About routes still load.
+10. Confirm footer-logo triple-click/admin entry remains unchanged.
+
+CREDIT-SAVING RULE:
+Do NOT:
+- perform a full repository audit
+- inspect unrelated Git history
+- repeatedly restart services
+- create fake News records
+- repair unrelated database problems
+- rebuild unrelated workspaces
+- spend time proving old phases that are already known to be complete
+
+If an unrelated existing warning appears, report it instead of investigating it unless it blocks this phase.
+
+TEACHING DATABASE NOTE:
+The previous session found that the development database has no Teaching records. Do not fabricate or restore Teaching records during Phase 7.1.
+Keep the verified 9-course source implementation unchanged.
+Report this only if it directly affects validation.
+
+GIT:
+Commit the implementation on:
+`phase7-1-news`
+
+Suggested commit:
+`Implement Phase 7.1 News page`
+
+Do not merge into main.
+Do not deploy.
+
+FINAL REPORT — ONLY THIS FORMAT:
+
+STATUS: PASS / BLOCKED
+
+CHANGED:
+- ...
+
+NOT CHANGED:
+- ...
+
+VALIDATION:
+- ...
+
+ADMIN EDITABILITY:
+- ...
+
+BLOCKERS:
+- ...
+
+PHASE 7:
+- 7.1 News: PASS / BLOCKED
+
+NEXT:
+Phase 7.2 — Global Research Map

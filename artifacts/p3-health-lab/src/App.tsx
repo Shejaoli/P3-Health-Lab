@@ -6,7 +6,7 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
-import { useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
+import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
 import logo from '@assets/p3_logo_1789065448410.png';
 
 const queryClient = new QueryClient();
@@ -944,8 +944,60 @@ function Publications() {
   </div>;
 }
 
+function formatNewsDate(value: Date | string | null) {
+  if (!value) return null;
+  const date = value instanceof Date
+    ? value
+    : new Date(value.length === 10 ? `${value}T00:00:00Z` : value);
+  if (Number.isNaN(date.getTime())) return null;
+  return {
+    dateTime: date.toISOString().slice(0, 10),
+    label: new Intl.DateTimeFormat('en', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    }).format(date),
+  };
+}
+
 function News() {
-  return <><PageHero eyebrow="News / 08" title={<>The work, <em>as it unfolds.</em></>} text="Verified news from P3 Health Lab will be shared here as records become available." /><section className="section" data-reveal="up"><div className="container-wide"><div className="section-head"><div><span className="eyebrow">Lab news</span><h2>A careful record is being prepared.</h2></div><p>No verified news items are currently available in the project material.</p></div><div className="publication-list"><div className="publication-empty news-empty" data-testid="empty-news"><span className="publication-year">Pending</span><div><h3>Verified lab news is not available yet.</h3><p>Dates, headlines, summaries, images, and links will be added only when source records are verified.</p></div><span className="pub-type">Record pending</span></div></div></div></section></>;
+  const { data, isLoading, isError } = useGetPublicNews();
+  const newsItems = data?.news ?? [];
+
+  return <div className="news-page">
+    <PageHero eyebrow="News" title="News" text="Updates from P3 Health Lab." />
+    <section className="section" aria-labelledby="news-section-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">News</span><h2 id="news-section-title">News and updates</h2></div>
+        </div>
+        {isLoading && <p className="news-state" role="status">Loading news and updates…</p>}
+        {isError && <p className="news-state" role="alert">News and updates could not be loaded. Please try again later.</p>}
+        {!isLoading && !isError && newsItems.length === 0 && (
+          <p className="news-empty-state" role="status" data-testid="empty-news">News and updates will be posted here when available.</p>
+        )}
+        {!isLoading && !isError && newsItems.length > 0 && (
+          <div className="news-list">
+            {newsItems.map((item, index) => {
+              const displayDate = formatNewsDate(item.date);
+              return <article
+                className={`news-item${displayDate ? '' : ' news-item-no-date'}`}
+                key={`${item.headline}-${item.date ?? 'undated'}-${index}`}
+              >
+                {displayDate && <time className="news-item-date" dateTime={displayDate.dateTime}>{displayDate.label}</time>}
+                <div className="news-item-copy">
+                  <h3>{item.headline}</h3>
+                  {item.summary.trim() && <p className="news-item-summary">{item.summary}</p>}
+                  {item.body.trim() && <p className="news-item-body">{item.body}</p>}
+                </div>
+              </article>;
+            })}
+          </div>
+        )}
+      </div>
+    </section>
+  </div>;
 }
 
 function Contact() {

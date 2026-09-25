@@ -9,7 +9,7 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const opportunityCategories = [
   "Graduate Students",

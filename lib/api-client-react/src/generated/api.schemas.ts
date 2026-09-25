@@ -98,6 +98,18 @@ export interface PublicProfileResponse {
   contact: PublicContactProfile;
 }
 
+export interface PublicNewsItem {
+  headline: string;
+  /** @nullable */
+  date: string | null;
+  summary: string;
+  body: string;
+}
+
+export interface PublicNewsResponse {
+  news: PublicNewsItem[];
+}
+
 export type PublicOpportunityCategory = typeof PublicOpportunityCategory[keyof typeof PublicOpportunityCategory];
 
 
