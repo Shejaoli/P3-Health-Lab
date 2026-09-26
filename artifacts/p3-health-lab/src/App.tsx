@@ -9,6 +9,7 @@ import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
 import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
 import logo from '@assets/p3_logo_1789065448410.png';
 import heroImage from '@assets/IMG-20260925-WA0006_1790363975752.jpg';
+import labFilm from '@assets/VID-20260925-WA0008_1790438330372.mp4';
 import humekanezaLogo from '@assets/IMG-20260910-WA0000_1790353414570.jpg';
 import egideKalisaPhoto from '@assets/1._Dr._Egide_Kalisa_1790358118214.webp';
 import mdPervezKabirPhoto from '@assets/2._Dr._Md_Pervez_Kabir_1790358118262.jpeg';
@@ -683,6 +684,8 @@ function Home() {
       </div>
     </section>
 
+    <HomeFilmSection />
+
     <section className="home-block" aria-labelledby="home-research-title">
       <div className="container-wide">
         <div className="home-block-head">
@@ -732,6 +735,118 @@ function Home() {
       </div>
     </section>
   </>;
+}
+
+function HomeFilmSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const video = videoRef.current;
+    if (!section || !video) return;
+
+    let isVisible = false;
+    let observer: IntersectionObserver | undefined;
+    let retryTimer: number | undefined;
+
+    const playWhileVisible = () => {
+      if (!isVisible || document.hidden) return;
+      video.volume = 0.5;
+      video.muted = false;
+      if (!video.paused && !video.ended) return;
+      if (video.ended) video.currentTime = 0;
+      const playAttempt = video.play();
+      playAttempt?.catch(() => {
+        // Browsers may defer audible autoplay until the visitor interacts.
+        // Keep the requested 50% volume and retry on the next interaction.
+      });
+    };
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        video.pause();
+      } else {
+        playWhileVisible();
+      }
+    };
+
+    const retryAfterInteraction = () => {
+      if (!isVisible) return;
+      window.clearTimeout(retryTimer);
+      retryTimer = window.setTimeout(playWhileVisible, 0);
+    };
+
+    observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        playWhileVisible();
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
+    }, { threshold: [0, 0.15] });
+
+    observer.observe(section);
+    video.addEventListener('pause', playWhileVisible);
+    video.addEventListener('ended', playWhileVisible);
+    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('pointerdown', retryAfterInteraction, { passive: true });
+    window.addEventListener('keydown', retryAfterInteraction);
+
+    return () => {
+      observer?.disconnect();
+      video.removeEventListener('pause', playWhileVisible);
+      video.removeEventListener('ended', playWhileVisible);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('pointerdown', retryAfterInteraction);
+      window.removeEventListener('keydown', retryAfterInteraction);
+      window.clearTimeout(retryTimer);
+      video.pause();
+    };
+  }, []);
+
+  const blockVideoInteraction = (event: ReactMouseEvent<HTMLVideoElement>) => {
+    event.preventDefault();
+  };
+
+  return (
+    <section className="home-film-section" ref={sectionRef} aria-labelledby="home-film-title">
+      <div className="container-wide">
+        <div className="home-film-heading">
+          <div>
+            <span className="eyebrow">P3 Health Lab / In motion</span>
+            <h2 id="home-film-title">The air around us shapes how we live.</h2>
+          </div>
+          <p>A short film about clean air, environmental health, and the places that shape wellbeing.</p>
+        </div>
+        <div className="home-film-frame">
+          <video
+            ref={videoRef}
+            className="home-film-video"
+            src={labFilm}
+            autoPlay
+            loop
+            playsInline
+            preload="metadata"
+            controls={false}
+            controlsList="nodownload noplaybackrate noremoteplayback"
+            disablePictureInPicture
+            disableRemotePlayback
+            volume={0.5}
+            aria-label="P3 Health Lab film about clean air and environmental health"
+            onContextMenu={blockVideoInteraction}
+            onClick={blockVideoInteraction}
+            onDragStart={blockVideoInteraction}
+          />
+          <div className="home-film-caption" aria-hidden="true">
+            <span>Clean air · Healthy people · Thriving planet</span>
+            <span>24 sec / loop</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function PageHero({ eyebrow, title, text, action }: { eyebrow: string; title: ReactNode; text: string; action?: ReactNode }) {
