@@ -1036,6 +1036,13 @@ function Research() {
                 </section>
               </div>
             </div>
+            <nav className="research-program-resources" aria-label={`Related resources for ${program.title}`}>
+              <a href="#research-methods" data-testid={`link-research-methods-${program.id}`}>Methods</a>
+              <Link href="/research-map" data-testid={`link-research-places-${program.id}`}>Study locations</Link>
+              <a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" data-testid={`link-research-outputs-${program.id}`}>
+                Selected outputs <ExternalLink size={13} aria-hidden="true" />
+              </a>
+            </nav>
           </div>
         </article>)}
       </div>
@@ -1045,17 +1052,26 @@ function Research() {
       <div className="container-wide">
         <h2 id="research-context-title">Research domains, methods &amp; health outcomes</h2>
         <div className="research-context-grid">
-          <div>
+          <div id="research-domains">
             <h3>Research domains</h3>
-            <p>Air pollution · Built environment · Chemical exposures · Biological exposures · Climate &amp; environmental change · One Health / global health</p>
+            <ul className="research-context-list">
+              <li>Air pollution</li><li>Built environment</li><li>Chemical exposures</li>
+              <li>Biological exposures</li><li>Climate &amp; environmental change</li><li>One Health / global health</li>
+            </ul>
           </div>
-          <div>
+          <div id="research-methods">
             <h3>Methods</h3>
-            <p>Exposure assessment · Mixture analysis · Risk assessment · Spatial statistics · Epidemiology · Citizen science</p>
+            <ul className="research-context-list">
+              <li>Exposure assessment</li><li>Mixture analysis</li><li>Risk assessment</li>
+              <li>Spatial statistics</li><li>Epidemiology</li><li>Citizen science</li>
+            </ul>
           </div>
-          <div>
+          <div id="health-outcomes">
             <h3>Health outcomes</h3>
-            <p>Respiratory health · Cardiovascular disease · Children’s environmental health · Asthma / lung cancer · Infectious disease · Microbiome</p>
+            <ul className="research-context-list">
+              <li>Respiratory health</li><li>Cardiovascular disease</li><li>Children’s environmental health</li>
+              <li>Asthma / lung cancer</li><li>Infectious disease</li><li>Microbiome</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -1066,7 +1082,7 @@ function Research() {
         <ul className="research-links">
           <li><Link href="/projects" className="text-link" data-testid="link-research-projects">Projects</Link></li>
           <li><Link href="/research-map" className="text-link" data-testid="link-research-map">Global Research Map</Link></li>
-          <li><Link href="/publications" className="text-link" data-testid="link-research-publications">Publications</Link></li>
+          <li><a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" className="text-link" data-testid="link-research-publications">Google Scholar <ExternalLink size={14} aria-hidden="true" /></a></li>
           <li><Link href="/people" className="text-link" data-testid="link-research-people">People</Link></li>
         </ul>
       </div>
@@ -1651,6 +1667,7 @@ function Humekaneza() {
     { slug: 'making-the-invisible-visible', title: 'Making the Invisible Visible', label: 'Youth knowledge & participation', text: 'Youth ambassador learning, behaviour-change workshops, family dialogue and youth-created knowledge-translation products.' },
     { slug: 'shared-skies', title: 'SHARED SKIES / Global Classroom', label: 'Learning across communities', text: projects[5].description[1] },
     { slug: 'one-sensor-per-school', title: 'One Sensor Per School', label: 'School monitoring', text: projects[2].description[1] },
+    { slug: 'clean-air-school-zones', title: 'Clean Air School Zones', label: 'Behaviour-change work', text: 'Anti-idling campaigns, safer school travel and community engagement around cleaner school environments.' },
   ];
   return <div className="humeka-page">
     <section className="humeka-masthead" aria-labelledby="humeka-title">
@@ -1767,7 +1784,7 @@ function Humekaneza() {
           <article><span className="eyebrow">In schools</span><h3>Learning by observing and measuring</h3><p>The Rwanda campaign includes school-based education, low-cost monitoring, air-quality flag activities and student-led environmental monitoring.</p></article>
           <article><span className="eyebrow">With young people</span><h3>Making knowledge shareable</h3><p>Making the Invisible Visible includes youth ambassador learning, behaviour-change workshops, family dialogue and youth-created knowledge-translation products.</p></article>
           <nav className="humeka-proof-links" aria-label="Explore lab evidence and updates">
-            <Link href="/publications" data-testid="link-humekaneza-publications">Publications <ArrowUpRight size={14} aria-hidden="true" /></Link>
+            <a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" data-testid="link-humekaneza-publications">Google Scholar <ExternalLink size={14} aria-hidden="true" /></a>
             <Link href="/news" data-testid="link-humekaneza-news">Lab news <ArrowUpRight size={14} aria-hidden="true" /></Link>
             <Link href="/projects#classroom-clean-air-interventions" data-testid="link-humekaneza-classroom-research">Classroom research <ArrowUpRight size={14} aria-hidden="true" /></Link>
           </nav>
