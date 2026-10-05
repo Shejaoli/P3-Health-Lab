@@ -740,8 +740,8 @@ function Home() {
           <img src="/images/home-classroom-fieldwork.jpg" alt="Dr. Egide Kalisa teaching students during a classroom air-quality workshop." />
         </div>
         <div className="home-hero-copy">
-          <span className="home-hero-eyebrow">People · Place · Planet</span>
           <h1 id="home-title">P3 Health Lab</h1>
+          <span className="home-hero-eyebrow">People · Place · Planet</span>
           <p className="home-hero-summary">Professor-led environmental health research on air pollution, climate, children, mobility and environmental justice.</p>
           <div className="home-hero-identity">
             <strong>{director.name}</strong>
