@@ -52,7 +52,13 @@ export default function VideoTemplate({
   const lastSceneKeyRef = useRef<string | null>(null);
   const sceneStartSeconds = Object.keys(SCENE_DURATIONS).reduce<Record<string, number>>(
     (starts, key, index, keys) => {
-      starts[key] = keys.slice(0, index).reduce((total, previousKey) => total + SCENE_DURATIONS[previousKey], 0) / 1000;
+      starts[key] = keys
+        .slice(0, index)
+        .reduce(
+          (total, previousKey) =>
+            total + SCENE_DURATIONS[previousKey as keyof typeof SCENE_DURATIONS],
+          0,
+        ) / 1000;
       return starts;
     },
     {},

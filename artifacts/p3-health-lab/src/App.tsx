@@ -959,7 +959,6 @@ function HomeFilmSection() {
             controlsList="nodownload noplaybackrate noremoteplayback"
             disablePictureInPicture
             disableRemotePlayback
-            volume={0.5}
             aria-label="P3 Health Lab film about clean air and environmental health"
             onContextMenu={blockVideoInteraction}
             onClick={blockVideoInteraction}
