@@ -8,7 +8,6 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
 import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
 import logo from '@assets/p3_logo_1789065448410.png';
-import heroImage from '@assets/IMG-20260925-WA0006_1790363975752.jpg';
 import labFilm from '@assets/VID-20260925-WA0008_1790438330372.mp4';
 import humekanezaLogo from '@assets/IMG-20260910-WA0000_1790353414570.jpg';
 import egideKalisaPhoto from '@assets/1._Dr._Egide_Kalisa_1790358118214.webp';
@@ -26,6 +25,7 @@ import victoriaBurseyPhoto from '@assets/Victoria_Bursey_1790358119044.png';
 import zohaIrfanPhoto from '@assets/Zoha_Irfan-9_1790358118502.webp';
 
 const queryClient = new QueryClient();
+const googleScholarUrl = 'https://scholar.google.co.nz/citations?user=yAPiYq8AAAAJ&hl=en';
 
 function useScrollReveal(routeKey: string) {
   useEffect(() => {
@@ -512,11 +512,11 @@ function Shell({ children }: { children: ReactNode }) {
   const [openMobileMenu, setOpenMobileMenu] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const adminClickRef = useRef({ count: 0, lastClick: 0 });
-  const nav: { label: string; href: string; children?: [string, string][] }[] = [
+  const nav: { label: string; href: string; external?: boolean; children?: [string, string][] }[] = [
     { label: 'Research', href: '/research' },
     { label: 'Global Research Map', href: '/research-map' },
     { label: 'People', href: '/people' },
-    { label: 'Publications', href: '/publications' },
+    { label: 'Publications', href: googleScholarUrl, external: true },
     { label: 'Teaching', href: '/teaching' },
     { label: 'Projects', href: '/projects' },
     { label: 'News', href: '/news' },
@@ -612,7 +612,9 @@ function Shell({ children }: { children: ReactNode }) {
                   {item.children.map(([childLabel, childHref]) => <Link key={childHref} href={childHref} className="dropdown-link" onClick={(event) => handleSubnavClick(event, childHref)}>{childLabel}</Link>)}
                 </div>}
               </div>
-            ) : <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-nav-${item.label.toLowerCase()}`}>{item.label}</Link>)}
+            ) : item.external
+              ? <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" className="nav-link" data-testid={`link-nav-${item.label.toLowerCase()}`}>{item.label}<ExternalLink size={12} aria-hidden="true" /></a>
+              : <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-nav-${item.label.toLowerCase()}`}>{item.label}</Link>)}
           </nav>
           <button className={`menu-btn ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} data-testid="button-mobile-menu">
             <span className="hamburger-icon" aria-hidden="true"><span /><span /><span /></span>
@@ -628,7 +630,9 @@ function Shell({ children }: { children: ReactNode }) {
                 {item.children.map(([childLabel, childHref]) => <Link key={childHref} href={childHref} className="mobile-sublink" onClick={(event) => handleSubnavClick(event, childHref)} data-testid={`link-mobile-${childLabel.toLowerCase().replaceAll(' ', '-')}`}>{childLabel}</Link>)}
               </div>}
             </div>
-          ) : <Link key={item.href} href={item.href} className={`mobile-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>{item.label}</Link>)}
+          ) : item.external
+            ? <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" className="mobile-link" onClick={() => setMenuOpen(false)} data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>{item.label}<ExternalLink size={13} aria-hidden="true" /></a>
+            : <Link key={item.href} href={item.href} className={`mobile-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>{item.label}</Link>)}
         </nav>}
       </header>
       <main>{children}</main>
@@ -659,6 +663,7 @@ function Footer({ onLogoClick }: { onLogoClick: () => void }) {
           : <Link href="/contact" data-testid="link-footer-email">Contact</Link>}
         <Link href="/about" data-testid="link-footer-about">About</Link>
         <Link href="/humekaneza" data-testid="link-footer-humekaneza">HumekaNeza</Link>
+        <a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" data-testid="link-footer-google-scholar">Google Scholar <ExternalLink size={12} aria-hidden="true" /></a>
         <a href="https://www.uwo.ca" target="_blank" rel="noreferrer" data-testid="link-western">Western University <ExternalLink size={12} aria-hidden="true" /></a>
       </div>
     </div>
@@ -722,74 +727,137 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 }
 
 function Home() {
+  const { data: newsData, isLoading: isNewsLoading, isError: isNewsError } = useGetPublicNews();
+  const latestNews = (newsData?.news ?? []).slice(0, 2);
+  const schoolProgram = researchPrograms.find((program) => program.id === 'children-schools-exposure');
+  const director = peopleGroups[0].people[0];
+  const mappedCountries = Array.from(new Set(researchMapLocations.map((location) => location.country)));
+
   return <>
-    <section className="home-hero" aria-labelledby="home-title" style={{ backgroundImage: `url(${heroImage})` }}>
-      <div className="home-hero-scrim" aria-hidden="true" />
+    <section className="home-hero" aria-labelledby="home-title">
       <div className="container-wide home-hero-inner">
-        <div className="home-hero-copy">
-          <span className="home-hero-eyebrow">CLEAN AIR · HEALTHY PEOPLE · THRIVING PLANET</span>
-          <h1 id="home-title">Air Pollution &amp; Environmental Health</h1>
-          <p>Research for cleaner air, healthier lives, brighter tomorrows.</p>
+        <div className="home-hero-media">
+          <img src="/images/home-classroom-fieldwork.jpg" alt="Dr. Egide Kalisa teaching students during a classroom air-quality workshop." />
         </div>
-      </div>
-    </section>
-
-    <section className="home-block" aria-labelledby="home-intro-title">
-      <div className="container-wide home-intro">
-        <h2 id="home-intro-title">Addressing the growing health impacts of environmental change</h2>
-        <p>At P3 Health Lab, led by Dr. Egide Kalisa at Western University, we study how environmental exposures and the places where people live, learn, work, and move shape human health. Our research combines exposure science, epidemiology, passive and active environmental sampling, environmental microbiology, citizen science, artificial intelligence, and population-health methods to better understand chemical and biological exposures, including air pollution, bioaerosols, microbial communities, and antimicrobial resistance.</p>
-        <Link href="/research" className="text-link" data-testid="link-home-intro-research">Explore our research</Link>
-      </div>
-    </section>
-
-    <HomeFilmSection />
-
-    <section className="home-block" aria-labelledby="home-research-title">
-      <div className="container-wide">
-        <div className="home-block-head">
-          <h2 id="home-research-title">Research areas</h2>
-          <div className="home-block-head-links">
-            <Link href="/research" className="text-link" data-testid="link-home-research-all">All research</Link>
-            <Link href="/research-map" className="text-link" data-testid="link-home-research-map">Global research map</Link>
+        <div className="home-hero-copy">
+          <span className="home-hero-eyebrow">People · Place · Planet</span>
+          <h1 id="home-title">P3 Health Lab</h1>
+          <p className="home-hero-summary">Professor-led environmental health research on air pollution, climate, children, mobility and environmental justice.</p>
+          <div className="home-hero-identity">
+            <strong>{director.name}</strong>
+            <span>{director.role}</span>
+            <span>{director.institution}</span>
+          </div>
+          <div className="home-hero-actions">
+            <Link href="/research" className="button-primary" data-testid="link-home-hero-research">Explore research <ArrowUpRight size={15} aria-hidden="true" /></Link>
+            <Link href="/people" className="home-hero-secondary" data-testid="link-home-hero-people">Meet the team <ChevronRight size={15} aria-hidden="true" /></Link>
           </div>
         </div>
-        <ul className="home-list">
-          {researchPrograms.map((program, index) => <li key={program.id}><Link href={`/research#${program.id}`} data-testid={`card-home-research-${index}`}><h3>{program.title}</h3><p>{program.text}</p></Link></li>)}
-        </ul>
       </div>
     </section>
 
-    <section className="home-block" aria-labelledby="home-projects-title">
+    <section className="home-block home-research-block" aria-labelledby="home-research-title">
       <div className="container-wide">
-        <div className="home-block-head"><h2 id="home-projects-title">Featured projects</h2><Link href="/projects" className="text-link" data-testid="link-home-projects-all">All projects</Link></div>
-        <ul className="home-list">
-          {featuredProjects.map((project, index) => <li key={project.title}><Link href={`/projects#${project.slug}`} data-testid={`card-home-project-${index}`}><h3>{project.title}</h3><p>{project.text}</p></Link></li>)}
-        </ul>
-      </div>
-    </section>
-
-    <section className="home-block home-updates" aria-labelledby="home-updates-title">
-      <div className="container-wide home-updates-row">
-        <div>
-          <span className="eyebrow">Updates</span>
-          <h2 id="home-updates-title">News and updates</h2>
-          <p>Announcements and updates from P3 Health Lab.</p>
+        <div className="home-block-head">
+          <div><span className="eyebrow">Research / programs</span><h2 id="home-research-title">Research programs</h2></div>
+          <Link href="/research" className="text-link" data-testid="link-home-research-all">All research <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>
-        <Link href="/news" className="text-link" data-testid="link-home-news">View all news</Link>
+        <div className="home-research-layout">
+          {schoolProgram && <Link href={`/research#${schoolProgram.id}`} className="home-school-teaser" data-testid="card-home-school-program">
+            <img src={`/images/${schoolProgram.image}`} alt={schoolProgram.imageAlt} />
+            <div className="home-school-teaser-copy">
+              <span className="eyebrow">Children &amp; schools</span>
+              <h3>{schoolProgram.title}</h3>
+              <p>{schoolProgram.text}</p>
+              <span className="home-inline-action">Explore this program <ArrowUpRight size={14} aria-hidden="true" /></span>
+            </div>
+          </Link>}
+          <ul className="home-list home-program-list">
+            {researchPrograms.filter((program) => program.id !== schoolProgram?.id).map((program, index) => <li key={program.id}><Link href={`/research#${program.id}`} data-testid={`card-home-research-${index}`}><h3>{program.title}</h3><p>{program.text}</p></Link></li>)}
+          </ul>
+        </div>
       </div>
     </section>
 
-    <section className="home-block" aria-label="Publications and team">
-      <div className="container-wide home-pair">
-        <Link href="/publications" data-testid="link-home-publications"><h2>Publications</h2><p>Research and scholarship from the lab.</p></Link>
-        <Link href="/people" data-testid="link-home-people"><h2>Meet the Team</h2><p>The people of P3 Health Lab.</p></Link>
+    <section className="home-block home-projects-block" aria-labelledby="home-projects-title">
+      <div className="container-wide">
+        <div className="home-block-head"><div><span className="eyebrow">Selected work</span><h2 id="home-projects-title">Featured projects</h2></div><Link href="/projects" className="text-link" data-testid="link-home-projects-all">All projects <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
+        <div className="home-projects-layout">
+          <ul className="home-list home-project-list">
+            {featuredProjects.map((project, index) => <li key={project.title}><Link href={`/projects#${project.slug}`} data-testid={`card-home-project-${index}`}><h3>{project.title}</h3><p>{project.text}</p></Link></li>)}
+          </ul>
+          <figure className="home-methods-photo">
+            <img src="/images/research-air-monitoring.jpg" alt="Field air-quality monitoring equipment beside a road and trees." />
+            <figcaption>Field monitoring in the environments where people live and move.</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
-    <section className="home-join" aria-labelledby="home-join-title">
-      <div className="container-wide home-join-inner">
-        <div><h2 id="home-join-title">Join the Lab</h2><p>P3 Health Lab welcomes questions from students, researchers, and potential collaborators.</p></div>
-        <Link href="/get-involved" className="button-primary" data-testid="link-home-get-involved">How to join</Link>
+    <section className="home-block home-footprint-block" aria-labelledby="home-footprint-title">
+      <div className="container-wide home-footprint-layout">
+        <div className="home-footprint-copy">
+          <span className="eyebrow">Global footprint</span>
+          <h2 id="home-footprint-title">Research across connected communities.</h2>
+          <p>Current verified project settings include {mappedCountries.join(' and ')}. The map shows locations named in existing project records.</p>
+          <Link href="/research-map" className="text-link" data-testid="link-home-research-map">Explore the global research map <ArrowUpRight size={14} aria-hidden="true" /></Link>
+        </div>
+        <Link href="/research-map" className="home-map-preview" aria-label="Open the global research map showing Rwanda, Hamilton and London">
+          <div className="home-map-canvas" aria-hidden="true">
+            <svg viewBox="0 0 1000 480" preserveAspectRatio="none">
+              <g className="home-map-graticule"><path d="M0 80H1000M0 160H1000M0 240H1000M0 320H1000M0 400H1000" /><path d="M125 0V480M250 0V480M375 0V480M500 0V480M625 0V480M750 0V480M875 0V480" /></g>
+              <path className="home-map-contour" d="M92 147c42-29 86-30 126-4 26 17 45 13 73 5 31-9 65 2 89 29 19 22 33 34 70 39 35 5 55 23 57 48 2 25-24 38-65 31-43-7-74 11-111 18-39 8-72-7-99-27-25-18-53-32-82-48-35-19-70-60-58-91Zm488 125c30-25 64-35 96-24 28 10 42 30 63 44 23 15 53 14 72 36 15 18 9 40-12 50-32 15-67-5-88-17-24-14-45-15-74-10-31 6-66-7-73-32-5-17 1-34 16-47Zm224-212c21-12 48-9 67 5 15 11 20 28 13 41-11 19-42 21-64 9-19-10-35-32-26-47 3-4 6-6 10-8Z" />
+            </svg>
+            {researchMapLocations.map((location) => <span className="home-map-marker" key={location.id} style={{ left: `${location.mapX}%`, top: `${location.mapY}%` }}><span className="home-map-marker-dot" /><span className="home-map-marker-label">{location.name}</span></span>)}
+          </div>
+          <ul className="home-map-key">
+            {researchMapLocations.map((location) => <li key={location.id}><strong>{location.name}</strong><span>{location.country}</span></li>)}
+          </ul>
+        </Link>
+      </div>
+    </section>
+
+    <section className="home-block home-team-block" aria-labelledby="home-team-title">
+      <div className="container-wide home-team-layout">
+        <div className="home-team-copy">
+          <span className="eyebrow">Meet the team</span>
+          <h2 id="home-team-title">People behind the work.</h2>
+          <p>P3 Health Lab is led by Dr. Egide Kalisa at Western University, with students and researchers working across environmental health and exposure science.</p>
+          <Link href="/people" className="text-link" data-testid="link-home-people">Meet the full team <ArrowUpRight size={14} aria-hidden="true" /></Link>
+        </div>
+        <article className="home-team-lead">
+          {director.photo && <img src={director.photo} alt={`Portrait of ${director.name}.`} />}
+          <div><strong>{director.name}</strong><span>{director.role}</span><span>{director.institution}</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section className="home-block home-scholar-news-block" aria-labelledby="home-scholar-news-title">
+      <div className="container-wide">
+        <div className="home-block-head"><div><span className="eyebrow">Publications &amp; updates</span><h2 id="home-scholar-news-title">Google Scholar and latest news</h2></div></div>
+        <div className="home-scholar-news-layout">
+          <div className="home-scholar-feature">
+            <span className="eyebrow">Publications</span>
+            <h3>Dr. Egide Kalisa on Google Scholar</h3>
+            <p>Find the current list of publications, citations, and scholarly activity on Google Scholar.</p>
+            <a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" className="text-link" data-testid="link-home-publications">View Google Scholar <ExternalLink size={14} aria-hidden="true" /></a>
+          </div>
+          <div className="home-latest-news">
+            <div className="home-latest-news-heading"><h3>Latest news</h3><Link href="/news" className="text-link" data-testid="link-home-news">All news <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
+            {isNewsLoading && <p className="home-news-state" role="status">Loading news and updates…</p>}
+            {isNewsError && <p className="home-news-state" role="alert">News and updates could not be loaded. Please try again later.</p>}
+            {!isNewsLoading && !isNewsError && latestNews.length === 0 && <p className="home-news-state" role="status">News and updates will be posted here when available.</p>}
+            {!isNewsLoading && !isNewsError && latestNews.length > 0 && <div className="home-news-list">
+              {latestNews.map((item, index) => {
+                const displayDate = formatNewsDate(item.date);
+                return <article className="home-news-item" key={`${item.headline}-${item.date ?? 'undated'}-${index}`}>
+                  {displayDate && <time dateTime={displayDate.dateTime}>{displayDate.label}</time>}
+                  <div><h4>{item.headline}</h4>{item.summary.trim() && <p>{item.summary}</p>}</div>
+                </article>;
+              })}
+            </div>}
+          </div>
+        </div>
       </div>
     </section>
   </>;
