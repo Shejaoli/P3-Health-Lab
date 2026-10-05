@@ -2180,30 +2180,45 @@ body {
 
 
 /* ==========================================================================
-   Phase 2: Research page (lab's six themes)
+   Research page: five editorial programs
    ========================================================================== */
 .research-page .page-hero { padding: 64px 0 52px; }
 .research-page .page-hero h1 { max-width: 760px; margin: 14px 0 20px; font-size: clamp(1.9rem, 4.4vw, 3rem); line-height: 1.12; letter-spacing: -.025em; font-weight: 600; }
 .research-page .page-hero p { max-width: 720px; font-size: 1.02rem; }
 
-.research-intro { padding: 56px 0; border-bottom: 1px solid hsl(var(--border)); }
-.research-intro-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px 64px; }
-.research-intro h2 { margin: 0 0 12px; font-family: var(--app-font-serif); font-size: 1.2rem; font-weight: 600; }
-.research-intro p { max-width: 520px; margin: 0; color: hsl(var(--muted-foreground)); line-height: 1.7; }
-.research-intro ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-.research-intro li a { color: hsl(var(--primary)); font-size: .95rem; line-height: 1.4; border-bottom: 1px solid transparent; }
-.research-intro li a:hover { border-bottom-color: hsl(var(--primary) / .5); }
+.research-program-nav { padding: 0 0 28px; border-bottom: 1px solid hsl(var(--border)); }
+.research-program-nav ol { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px 24px; margin: 0; padding: 0; list-style: none; }
+.research-program-nav a { display: grid; align-content: start; gap: 8px; height: 100%; color: hsl(var(--foreground)); font-size: .9rem; line-height: 1.4; text-decoration: none; }
+.research-program-nav a:hover { color: hsl(var(--primary)); }
+.research-program-nav a span { color: hsl(var(--muted-foreground)); font-family: var(--app-font-mono); font-size: .72rem; letter-spacing: .1em; }
 
-.research-themes { padding: 24px 0 8px; }
-.theme { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 16px 48px; padding: 44px 0; border-bottom: 1px solid hsl(var(--border)); scroll-margin-top: 72px; }
-.theme:last-child { border-bottom: 0; }
-.theme h2 { margin: 0; font-family: var(--app-font-serif); font-size: clamp(1.3rem, 2.2vw, 1.6rem); font-weight: 600; line-height: 1.25; letter-spacing: -.015em; }
-.theme-body p { max-width: 640px; margin: 0 0 14px; color: hsl(var(--muted-foreground)); line-height: 1.75; }
-.theme-body p:first-of-type { color: hsl(var(--foreground)); }
-.theme-figure { margin: 0 0 22px; }
-.theme-figure img { display: block; width: 100%; max-width: 640px; height: auto; border: 1px solid hsl(var(--border)); }
-.theme-figure figcaption { margin-top: 6px; color: hsl(var(--muted-foreground)); font-size: .78rem; }
-.theme-related { margin-top: 4px; font-size: .92rem; }
+.research-programs { padding: 0 0 12px; }
+.research-program { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); gap: 20px 48px; padding: 44px 0 48px; border-bottom: 1px solid hsl(var(--border)); scroll-margin-top: 76px; }
+.research-program:last-child { border-bottom: 0; }
+.research-program-head { display: flex; align-items: baseline; gap: 14px; }
+.research-program-number { flex: 0 0 auto; color: hsl(var(--muted-foreground)); font-family: var(--app-font-mono); font-size: .75rem; letter-spacing: .08em; }
+.research-program-head h2 { margin: 0; font-family: var(--app-font-serif); font-size: clamp(1.25rem, 2vw, 1.55rem); font-weight: 600; line-height: 1.28; letter-spacing: -.015em; }
+.research-program-main { min-width: 0; }
+.research-program-summary { max-width: 720px; margin: 0 0 22px; color: hsl(var(--foreground)); font-size: 1.06rem; line-height: 1.6; }
+.research-program-content { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 30px; align-items: start; }
+.research-program-figure { margin: 0; }
+.research-program-figure img { display: block; width: 100%; aspect-ratio: 1.45 / 1; object-fit: cover; border: 1px solid hsl(var(--border)); }
+.research-program-details { display: grid; gap: 22px; }
+.research-program-details section + section { padding-top: 18px; border-top: 1px solid hsl(var(--border)); }
+.research-program-details h3,
+.research-context h3 { margin: 0 0 10px; font-family: var(--app-font-serif); font-size: 1.02rem; font-weight: 600; }
+.research-question-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.research-question-list li { color: hsl(var(--muted-foreground)); font-size: .92rem; line-height: 1.55; }
+.research-project-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; margin: 0; padding: 0; list-style: none; }
+.research-project-list li { font-size: .9rem; line-height: 1.45; }
+.research-project-list a { color: hsl(var(--primary)); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.research-project-list a:hover { text-decoration-thickness: 2px; }
+
+.research-context { padding: 42px 0 50px; border-top: 1px solid hsl(var(--border)); }
+.research-context > .container-wide > h2 { margin: 0 0 24px; font-family: var(--app-font-serif); font-size: 1.35rem; font-weight: 600; }
+.research-context-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 36px; }
+.research-context-grid > div { padding-top: 16px; border-top: 1px solid hsl(var(--border)); }
+.research-context-grid p { margin: 0; color: hsl(var(--muted-foreground)); font-size: .9rem; line-height: 1.75; }
 .research-more { border-bottom: 0; border-top: 1px solid hsl(var(--border)); padding: 40px 0 56px; }
 .research-links { display: flex; flex-wrap: wrap; gap: 12px 32px; margin: 0; padding: 0; list-style: none; }
 
@@ -2455,9 +2470,11 @@ body {
 
 @media (max-width: 760px) {
   .research-page .page-hero { padding: 44px 0 36px; }
-  .research-intro { padding: 40px 0; }
-  .research-intro-grid { grid-template-columns: 1fr; }
-  .theme { grid-template-columns: 1fr; padding: 32px 0; }
+  .research-program-nav ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .research-program { grid-template-columns: 1fr; gap: 14px; padding: 32px 0 36px; }
+  .research-program-content { grid-template-columns: 1fr; gap: 22px; }
+  .research-program-figure img { aspect-ratio: 1.55 / 1; }
+  .research-context-grid { grid-template-columns: 1fr; gap: 20px; }
 
   .humeka-hero-note {
     padding: 20px 0;
@@ -3585,7 +3602,7 @@ body {
 .page-hero h1,
 .home-block h2,
 .home-list h3,
-.theme h2,
+.research-program-head h2,
 .people-group > h2,
 .teaching-section-heading h2,
 .about-profile-identity h2 {
@@ -3675,12 +3692,6 @@ body {
   padding-block: 60px 52px;
 }
 
-.research-intro {
-  padding-block: 48px;
-}
-
-.research-intro p,
-.theme-body p,
 .humeka-prose p,
 .about-profile-contact-details,
 .opportunity-short-description,
@@ -3689,8 +3700,8 @@ body {
   line-height: 1.68;
 }
 
-.theme {
-  padding-block: 38px;
+.research-program {
+  padding-block: 38px 42px;
 }
 
 .project-entry {
@@ -3731,8 +3742,17 @@ body {
     width: min(100% - 44px, 720px);
   }
 
-  .research-intro-grid {
-    gap: 34px 48px;
+  .research-program-nav ol {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .research-program {
+    grid-template-columns: minmax(0, 190px) minmax(0, 1fr);
+    gap: 20px 32px;
+  }
+
+  .research-program-content {
+    gap: 22px;
   }
 }
 
@@ -3799,16 +3819,28 @@ body {
     line-height: 1.68;
   }
 
-  .research-intro {
-    padding-block: 38px;
-  }
-
   .section {
     padding-block: 64px;
   }
 
-  .theme {
-    padding-block: 28px;
+  .research-program-nav ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .research-program {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding-block: 28px 32px;
+  }
+
+  .research-program-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .research-program-figure img {
+    aspect-ratio: 1.55 / 1;
   }
 
   .project-entry {
@@ -3890,7 +3922,9 @@ body {
 /* Current homepage hero image and live text overlay */
 .home-hero {
   align-items: center;
-  background-position: center center;
+  min-height: clamp(320px, 48vh, 560px);
+  max-height: 560px;
+  background-position: left center;
 }
 
 .home-hero-scrim {
@@ -3938,7 +3972,9 @@ body {
 @media (max-width: 760px) {
   .home-hero {
     align-items: start;
-    background-position: 34% center;
+    min-height: clamp(320px, 46vh, 440px);
+    max-height: 440px;
+    background-position: left center;
   }
 
   .home-hero-inner {

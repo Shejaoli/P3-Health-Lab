@@ -61,44 +61,102 @@ function useScrollReveal(routeKey: string) {
   }, [routeKey]);
 }
 
-const researchThemes: { id: string; title: string; text: string; more: string; related?: { label: string; href: string } }[] = [
+const researchPrograms: {
+  id: string;
+  title: string;
+  text: string;
+  image: string;
+  imageAlt: string;
+  questions: string[];
+  projects: { label: string; href?: string }[];
+}[] = [
   {
-    id: 'air-pollution',
-    title: 'Air Pollution & Environmental Health',
-    text: 'We investigate ambient, household, and personal air pollution exposures and their impacts on human health.',
-    more: 'Our work examines where exposures occur, who is most affected, and how exposure can be reduced through monitoring, epidemiology, and intervention research.',
+    id: 'air-we-breathe',
+    title: 'The Air We Breathe: Beyond PM2.5',
+    text: 'Understanding the chemical and biological mixtures that shape what people actually breathe.',
+    image: 'research-air-monitoring.jpg',
+    imageAlt: 'Air-quality sampling instruments beside a road and trees.',
+    questions: [
+      'What does PM2.5 mass miss about chemical and biological composition?',
+      'How do source mixtures vary across places and seasons?',
+      'How can passive and low-cost monitoring expand exposure science?',
+    ],
+    projects: [
+      { label: 'Beyond PM2.5' },
+      { label: 'APAM-Net' },
+      { label: 'Canadian air microbiome' },
+      { label: 'Amazon air microbiome' },
+    ],
   },
   {
-    id: 'exposure-science',
-    title: 'Exposure Science, Environmental Microbiology & AMR',
-    text: 'We use passive and active environmental sampling to characterize complex chemical and biological exposures across indoor and outdoor environments.',
-    more: 'Our research includes particulate matter, gases, organic pollutants, metals, bioaerosols, microbial communities, the aerobiome, and antimicrobial resistance.',
+    id: 'children-schools-exposure',
+    title: 'Children, Schools & Personal Exposure',
+    text: 'Studying children’s exposure across the school day, in classrooms, and along routes to school.',
+    image: 'research-children-exposure.jpg',
+    imageAlt: 'A researcher demonstrates air-quality monitoring equipment to children indoors.',
+    questions: [
+      'How do children’s exposures vary across classrooms, school days, and journeys to school?',
+      'Which practical changes can support cleaner air in classrooms and school zones?',
+      'How can personal and school-based monitoring inform healthier learning environments?',
+    ],
+    projects: [
+      { label: '24-Hour Schoolchild' },
+      { label: 'Cleaner classrooms', href: '/projects#classroom-clean-air-interventions' },
+      { label: 'Routes to school', href: '/projects#clean-air-school-zones' },
+      { label: 'CLEAN RIDE' },
+    ],
   },
   {
-    id: 'climate',
-    title: 'Climate Change, Wildfires & Extreme Heat',
-    text: 'We study the health impacts of wildfire smoke, extreme heat, and compound climate-related exposures.',
-    more: 'Our work focuses on exposure, vulnerability, adaptation, resilience, and strategies to protect populations during increasingly frequent extreme environmental events.',
+    id: 'climate-wildfire-resilience',
+    title: 'Climate, Wildfire & Environmental Resilience',
+    text: 'Examining how climate-related hazards, including heat and wildfire smoke, affect exposure and health.',
+    image: 'research-climate-monitoring.jpg',
+    imageAlt: 'Outdoor weather and air-monitoring equipment at a fenced field site in winter.',
+    questions: [
+      'How do heat and air pollution combine to shape environmental exposure?',
+      'How do wildfire smoke and other climate hazards affect communities?',
+      'Which locally relevant strategies can strengthen protection and resilience?',
+    ],
+    projects: [
+      { label: 'BREATHE-East Africa' },
+      { label: 'Heat x air pollution' },
+      { label: 'Wildfire protection', href: '/projects#equitable-air-quality-communication' },
+    ],
   },
   {
-    id: 'children',
-    title: 'Children’s Environmental Health',
-    text: 'We investigate environmental exposures affecting children across homes, schools, transportation systems, and communities.',
-    more: 'Our work combines exposure monitoring, epidemiology, citizen science, education, and youth engagement to support healthier environments for children and families.',
-    related: { label: 'HumekaNeza', href: '/humekaneza' },
+    id: 'healthy-equitable-mobility',
+    title: 'Healthy & Equitable Mobility',
+    text: 'Connecting transportation, everyday exposure, and healthier, more equitable ways to move.',
+    image: 'research-healthy-mobility.jpg',
+    imageAlt: 'A field researcher carrying exposure monitors while walking on a tree-lined street.',
+    questions: [
+      'How do transport patterns shape exposure along everyday routes?',
+      'Which mobility choices can reduce exposure while supporting active travel?',
+      'How do transport, urban environments, and equity intersect in different places?',
+    ],
+    projects: [
+      { label: 'MOVE-Africa' },
+      { label: 'MOVE-Canada' },
+      { label: 'Rwanda healthy mobility' },
+    ],
   },
   {
-    id: 'clinical-trials',
-    title: 'Clinical Trials & Environmental Health Interventions',
-    text: 'We design and evaluate randomized controlled trials and real-world interventions to reduce harmful environmental exposures and improve health.',
-    more: 'Our work includes clean-cooking and household air-pollution interventions using cleaner fuels such as LPG, with outcomes including exposure reduction, lung function, and blood pressure. We also evaluate classroom air-cleaning interventions, including portable air purifiers, and examine effects on indoor air quality, health, learning, and academic performance.',
-    related: { label: 'Classroom Clean-Air Interventions', href: '/projects#classroom-clean-air-interventions' },
-  },
-  {
-    id: 'global-health',
-    title: 'Global Health, One Health & Sustainable Cities',
-    text: 'We apply Global Health and One Health perspectives to study connections among human, animal, environmental, and ecosystem health.',
-    more: 'Our research also examines sustainable transport, e-mobility, environmental justice, urban environments, and healthy-city solutions across diverse global settings.',
+    id: 'citizen-science-environmental-justice',
+    title: 'Citizen Science & Environmental Justice',
+    text: 'Supporting meaningful community participation in environmental-health research and action.',
+    image: 'research-citizen-science.jpg',
+    imageAlt: 'Students observe a researcher demonstrating air-quality monitoring equipment.',
+    questions: [
+      'How can citizen science make environmental exposures visible and useful to communities?',
+      'How can young people participate in environmental-health research and decision-making?',
+      'How can research support more equitable access to information and action?',
+    ],
+    projects: [
+      { label: 'Making the Invisible Visible', href: '/projects#making-the-invisible-visible' },
+      { label: 'ACB youth' },
+      { label: 'SHARED SKIES', href: '/projects#shared-skies' },
+      { label: 'I Am an Air Quality Scientist', href: '/projects#i-am-an-air-quality-scientist' },
+    ],
   },
 ];
 
@@ -696,7 +754,7 @@ function Home() {
           </div>
         </div>
         <ul className="home-list">
-          {researchThemes.map((theme, index) => <li key={theme.id}><Link href={`/research#${theme.id}`} data-testid={`card-home-research-${index}`}><h3>{theme.title}</h3><p>{theme.text}</p></Link></li>)}
+          {researchPrograms.map((program, index) => <li key={program.id}><Link href={`/research#${program.id}`} data-testid={`card-home-research-${index}`}><h3>{program.title}</h3><p>{program.text}</p></Link></li>)}
         </ul>
       </div>
     </section>
@@ -855,34 +913,83 @@ function PageHero({ eyebrow, title, text, action }: { eyebrow: string; title: Re
 
 function Research() {
   return <div className="research-page">
-    <PageHero eyebrow="Research" title="From Exposure Science to Intervention" text="P3 Health Lab examines how environmental exposures, climate change, and the places where people live, learn, work, and move influence health. Our research integrates exposure assessment, epidemiology, environmental microbiology, intervention science, and global health to understand environmental risks and develop practical solutions." />
+    <PageHero eyebrow="Research" title="From Exposure Science to Intervention" text="We study what people breathe and experience across homes, schools, streets, and changing climates. Our five research programs connect exposure science with community-engaged research and practical, evidence-led solutions." />
 
-    <section className="research-intro" aria-label="Methods and research areas">
-      <div className="container-wide research-intro-grid">
-        <div>
-          <h2>Methods</h2>
-          <p>Our research combines exposure science, epidemiology, passive and active environmental sampling, environmental microbiology, citizen science, artificial intelligence, and population-health methods.</p>
-        </div>
-        <nav aria-label="Research areas">
-          <h2>Research areas</h2>
-          <ul>
-            {researchThemes.map((theme, index) => <li key={theme.id}><a href={`#${theme.id}`} data-testid={`link-research-anchor-${index}`}>{theme.title}</a></li>)}
-          </ul>
-        </nav>
+    <nav className="research-program-nav" aria-label="Research programs">
+      <div className="container-wide">
+        <ol>
+          {researchPrograms.map((program, index) => <li key={program.id}>
+            <a href={`#${program.id}`} data-testid={`link-research-anchor-${index}`}>
+              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              {program.title}
+            </a>
+          </li>)}
+        </ol>
+      </div>
+    </nav>
+
+    <section className="research-programs" aria-label="Research programs in detail">
+      <div className="container-wide">
+        {researchPrograms.map((program, index) => <article className="research-program" id={program.id} key={program.id} aria-labelledby={`research-program-title-${program.id}`} data-testid={`card-research-${index}`}>
+          <header className="research-program-head">
+            <span className="research-program-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <h2 id={`research-program-title-${program.id}`}>{program.title}</h2>
+          </header>
+          <div className="research-program-main">
+            <p className="research-program-summary">{program.text}</p>
+            <div className="research-program-content">
+              <figure className="research-program-figure">
+                <img
+                  src={`${import.meta.env.BASE_URL}images/${program.image}`}
+                  alt={program.imageAlt}
+                  width="1040"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
+                  data-testid={`img-research-${program.id}`}
+                />
+              </figure>
+              <div className="research-program-details">
+                <section aria-labelledby={`research-questions-title-${program.id}`}>
+                  <h3 id={`research-questions-title-${program.id}`}>Research questions</h3>
+                  <ul className="research-question-list">
+                    {program.questions.map((question, questionIndex) => <li key={question} data-testid={`text-research-question-${program.id}-${questionIndex}`}>{question}</li>)}
+                  </ul>
+                </section>
+                <section aria-labelledby={`research-projects-title-${program.id}`}>
+                  <h3 id={`research-projects-title-${program.id}`}>Current projects</h3>
+                  <ul className="research-project-list">
+                    {program.projects.map((project, projectIndex) => <li key={project.label}>
+                      {project.href
+                        ? <Link href={project.href} data-testid={`link-research-project-${program.id}-${projectIndex}`}>{project.label}</Link>
+                        : <span>{project.label}</span>}
+                    </li>)}
+                  </ul>
+                </section>
+              </div>
+            </div>
+          </div>
+        </article>)}
       </div>
     </section>
 
-    <section className="research-themes" aria-label="Research areas in detail">
+    <section className="research-context" aria-labelledby="research-context-title">
       <div className="container-wide">
-        {researchThemes.map((theme, index) => <article className="theme" id={theme.id} key={theme.id} data-testid={`card-research-${index}`}>
-          <h2>{theme.title}</h2>
-          <div className="theme-body">
-            {index === 0 && <figure className="theme-figure"><img src={`${import.meta.env.BASE_URL}images/air-pollution-environmental-health.jpg`} alt="Illustration of a city skyline and river with people in the foreground" width="1040" height="460" loading="lazy" decoding="async" /><figcaption>Illustrative image</figcaption></figure>}
-            <p>{theme.text}</p>
-            <p>{theme.more}</p>
-            {theme.related && <p className="theme-related">Related: <Link href={theme.related.href} className="text-link">{theme.related.label}</Link></p>}
+        <h2 id="research-context-title">Research domains, methods &amp; health outcomes</h2>
+        <div className="research-context-grid">
+          <div>
+            <h3>Research domains</h3>
+            <p>Air pollution · Built environment · Chemical exposures · Biological exposures · Climate &amp; environmental change · One Health / global health</p>
           </div>
-        </article>)}
+          <div>
+            <h3>Methods</h3>
+            <p>Exposure assessment · Mixture analysis · Risk assessment · Spatial statistics · Epidemiology · Citizen science</p>
+          </div>
+          <div>
+            <h3>Health outcomes</h3>
+            <p>Respiratory health · Cardiovascular disease · Children’s environmental health · Asthma / lung cancer · Infectious disease · Microbiome</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1263,7 +1370,7 @@ function Publications() {
             <div><span className="eyebrow">Research themes</span><h2>Selected Research Themes</h2></div>
           </div>
           <div className="publication-theme-list">
-            {researchThemes.map((theme, index) => <div className="publication-theme" key={theme.id}><span>{String(index + 1).padStart(2, '0')}</span><h3>{theme.title}</h3></div>)}
+            {researchPrograms.map((program, index) => <div className="publication-theme" key={program.id}><span>{String(index + 1).padStart(2, '0')}</span><h3>{program.title}</h3></div>)}
           </div>
         </div>
       </div>
