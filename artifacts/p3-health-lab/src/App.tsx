@@ -1663,7 +1663,6 @@ function Humekaneza() {
     ['Explore a cleaner school day', 'Consider idling, school routes, classroom air and outdoor activities as part of healthier environments.'],
   ];
   const initiatives = [
-    { slug: 'school-air-quality-campaign', title: 'Rwanda school air-quality campaign', label: 'A school-based beginning', text: projects[0].description[0] },
     { slug: 'making-the-invisible-visible', title: 'Making the Invisible Visible', label: 'Youth knowledge & participation', text: 'Youth ambassador learning, behaviour-change workshops, family dialogue and youth-created knowledge-translation products.' },
     { slug: 'shared-skies', title: 'SHARED SKIES / Global Classroom', label: 'Learning across communities', text: projects[5].description[1] },
     { slug: 'one-sensor-per-school', title: 'One Sensor Per School', label: 'School monitoring', text: projects[2].description[1] },

@@ -2221,7 +2221,7 @@ body {
 .research-context > .container-wide > h2 { margin: 0 0 24px; font-family: var(--app-font-serif); font-size: 1.35rem; font-weight: 600; }
 .research-context-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 36px; }
 .research-context-grid > div { padding-top: 16px; border-top: 1px solid hsl(var(--border)); }
-.research-context-list { display: grid; gap: 5px; margin: 0; padding-left: 18px; color: hsl(var(--muted-foreground)); }
+.research-context-list { display: grid; gap: 5px; margin: 0; padding-left: 18px; color: hsl(var(--muted-foreground)); list-style: disc; }
 .research-context-list li { font-size: .9rem; line-height: 1.55; }
 .research-context-list li::marker { color: hsl(var(--primary)); }
 .research-more { border-bottom: 0; border-top: 1px solid hsl(var(--border)); padding: 40px 0 56px; }
