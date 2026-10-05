@@ -2,3 +2,4 @@
 - [Development database setup](development-db.md) — the provisioned development database may start empty; push the existing Drizzle schema before endpoint validation.
 - [Shell runtime auto-configuration](shell-runtime.md) — one-off Python QA can add an unnecessary Python module to `.replit`; review and revert it.
 - [Video audio fallback](video-audio-fallback.md) — keep the film's audio bed at the locked visual runtime when generated music is unavailable.
+- [HumekaNeza evidence boundaries](humekaneza-evidence.md) — do not add unverified impact figures, press or policy outcomes, funders, or logos.
