@@ -1648,9 +1648,9 @@ function Humekaneza() {
   ];
   const initiatives = [
     { slug: 'school-air-quality-campaign', title: 'Rwanda school air-quality campaign', label: 'A school-based beginning', text: projects[0].description[0] },
-    { slug: 'making-the-invisible-visible', title: 'Making the Invisible Visible', label: 'Youth knowledge & participation', text: projects[6].description[0] },
+    { slug: 'making-the-invisible-visible', title: 'Making the Invisible Visible', label: 'Youth knowledge & participation', text: 'Youth ambassador learning, behaviour-change workshops, family dialogue and youth-created knowledge-translation products.' },
     { slug: 'shared-skies', title: 'SHARED SKIES / Global Classroom', label: 'Learning across communities', text: projects[5].description[1] },
-    { slug: 'classroom-clean-air-interventions', title: 'Monitoring & behaviour-change work', label: 'Evidence into everyday practice', text: 'From low-cost monitoring and student-led environmental learning to practical classroom and school-zone approaches.' },
+    { slug: 'one-sensor-per-school', title: 'One Sensor Per School', label: 'School monitoring', text: projects[2].description[1] },
   ];
   return <div className="humeka-page">
     <section className="humeka-masthead" aria-labelledby="humeka-title">
@@ -1694,8 +1694,8 @@ function Humekaneza() {
         </div>
         <div className="humeka-community-gallery">
           <figure className="humeka-community-photo">
-            <img src="/images/research-air-monitoring.jpg" alt="Air-quality monitoring equipment beside a tree-lined road." loading="lazy" decoding="async" data-testid="img-humekaneza-field-monitor" />
-            <figcaption><strong>Monitoring shared environments</strong><span>Field equipment in an outdoor setting</span></figcaption>
+            <img src="/images/research-citizen-science.jpg" alt="Participants explore air-quality monitoring equipment during a citizen-science activity." loading="lazy" decoding="async" data-testid="img-humekaneza-field-monitor" />
+            <figcaption><strong>Learning through citizen science</strong><span>People working with air-quality monitoring tools</span></figcaption>
           </figure>
           <figure className="humeka-community-photo">
             <img src="/images/research-healthy-mobility.jpg" alt="A field researcher wearing an air-quality monitoring pack walks along a roadside in Rwanda as traffic passes." loading="lazy" decoding="async" data-testid="img-humekaneza-community-route" />
