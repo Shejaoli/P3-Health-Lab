@@ -1634,92 +1634,168 @@ function Teaching() {
 
 function Humekaneza() {
   const approach = [
-    ['LEARN', 'Children learn about air pollution, climate change, chemicals, environmental exposures, and their effects on health through interactive workshops, demonstrations, games, and school-based learning.'],
-    ['MEASURE', 'Students participate in citizen science using low-cost sensors, passive and active sampling, and other environmental-monitoring tools to better understand the environments around them.'],
-    ['COMMUNICATE', 'Children translate science into accessible messages through posters, artwork, storytelling, presentations, family discussions, and youth-led knowledge-translation activities.'],
-    ['ACT', 'HumekaNeza supports practical actions such as reducing vehicle idling, improving classroom air quality, identifying cleaner routes to school, using air-quality information to guide activities, and promoting healthier school environments.'],
+    { number: '01', title: 'Learn', text: 'Explore air pollution, environmental exposures and health through workshops, demonstrations and school-based learning.' },
+    { number: '02', title: 'Measure', text: 'Use low-cost sensors and other monitoring tools to notice how air quality changes around school and community.' },
+    { number: '03', title: 'Understand', text: 'Make sense of observations together: what might shape the air, what the information can tell us, and what it cannot.' },
+    { number: '04', title: 'Act', text: 'Turn learning into practical steps—from reducing idling to sharing clear messages with families and school communities.' },
   ];
-  return <>
-    <PageHero eyebrow="HumekaNeza" title="Breathe Easy" text="Empowering children and communities to understand, monitor, and improve the air they breathe." />
-    <section className="humeka-hero-note" aria-label="HumekaNeza introduction">
-      <div className="container-wide humeka-identity">
-        <img className="humeka-identity-logo" src={humekanezaLogo} alt="HumekaNeza Breathe Easy logo with a tree and roots" width="1600" height="1600" decoding="async" data-testid="img-humekaneza-logo" />
-        <p>HumekaNeza is an initiative of P3 Health Lab, led by Dr. Egide Kalisa at Western University.</p>
+  const activities = [
+    ['Try the air-quality flag', 'Connect air-quality information with classroom conversations and daily decisions.'],
+    ['Become a young air scientist', 'Ask questions, use monitors and explore what measurements reveal about the places we learn.'],
+    ['Make the invisible visible', 'Create posters, presentations and other ways to share environmental-health knowledge.'],
+    ['Talk with family and community', 'Bring learning beyond the classroom through discussion, communication and shared ideas.'],
+    ['Explore a cleaner school day', 'Consider idling, school routes, classroom air and outdoor activities as part of healthier environments.'],
+  ];
+  const initiatives = [
+    { slug: 'school-air-quality-campaign', title: 'Rwanda school air-quality campaign', label: 'A school-based beginning', text: projects[0].description[0] },
+    { slug: 'making-the-invisible-visible', title: 'Making the Invisible Visible', label: 'Youth knowledge & participation', text: projects[6].description[0] },
+    { slug: 'shared-skies', title: 'SHARED SKIES / Global Classroom', label: 'Learning across communities', text: projects[5].description[1] },
+    { slug: 'classroom-clean-air-interventions', title: 'Monitoring & behaviour-change work', label: 'Evidence into everyday practice', text: 'From low-cost monitoring and student-led environmental learning to practical classroom and school-zone approaches.' },
+  ];
+  return <div className="humeka-page">
+    <section className="humeka-masthead" aria-labelledby="humeka-title">
+      <div className="container-wide humeka-masthead-inner">
+        <div className="humeka-masthead-copy">
+          <div className="humeka-brandline">
+            <img src={humekanezaLogo} alt="HumekaNeza Breathe Easy emblem" width="1600" height="1600" data-testid="img-humekaneza-logo" />
+            <span className="eyebrow">P3 Health Lab · Western University</span>
+          </div>
+          <h1 id="humeka-title">HumekaNeza<small>Breathe Easy</small></h1>
+          <p className="humeka-tagline">Empowering schools and communities through air-quality citizen science.</p>
+          <div className="humeka-hero-credits">
+            <span>Child- and youth-centred environmental health</span>
+            <span>Led by Dr. Egide Kalisa</span>
+          </div>
+          <a className="humeka-hero-link" href="#humeka-approach" data-testid="link-humekaneza-explore">Explore the approach <ArrowUpRight size={16} aria-hidden="true" /></a>
+        </div>
+        <figure className="humeka-hero-photo">
+          <img src="/images/home-classroom-fieldwork.jpg" alt="A school workshop in a bright brick classroom, with a facilitator speaking to students gathered around desks." fetchPriority="high" data-testid="img-humekaneza-classroom" />
+          <figcaption><span>Learning together, in a real school setting</span><span>HumekaNeza · Rwanda</span></figcaption>
+        </figure>
+        <div className="humeka-orbit-label" aria-hidden="true">People <i /> Planet <i /> Place</div>
       </div>
     </section>
-    <section className="section humeka-intro" data-reveal="up">
-      <div className="container-wide humeka-prose">
-        <p>HumekaNeza is a child- and youth-centred environmental-health initiative founded by Dr. Egide Kalisa. It began through school-based air-quality education in Rwanda and has grown into a broader platform connecting environmental-health education, citizen science, behaviour change, youth leadership, community engagement, and practical interventions.</p>
-        <p>The initiative helps children understand environmental risks, participate in hands-on science, communicate what they learn, and take practical action to create healthier schools, homes, and communities.</p>
-      </div>
-    </section>
-    <section className="section section-tinted humeka-approach" data-reveal="up">
-      <div className="container-wide">
-        <div className="humeka-section-heading">
-          <span className="eyebrow">Our approach</span>
-          <h2>Learn · Measure · Communicate · Act</h2>
-          <p>HumekaNeza combines environmental-health education with hands-on research and community action.</p>
-        </div>
-        <div className="humeka-approach-list">
-          {approach.map(([title, text]) => <article className="humeka-approach-item" key={title}>
-            <h3>{title}</h3>
-            <p>{text}</p>
-          </article>)}
-        </div>
-      </div>
-    </section>
-    <section className="section humeka-initiatives" data-reveal="up">
-      <div className="container-wide">
-        <div className="humeka-section-heading">
-          <span className="eyebrow">Featured initiatives</span>
-          <h2>Featured initiatives</h2>
-        </div>
-        <ul className="humeka-initiative-list">
-          {projects.map((project) => <li key={project.slug}><Link href={`/projects#${project.slug}`} data-testid={`link-humekaneza-project-${project.slug}`}><span className="humeka-initiative-copy"><strong>{project.title}</strong><span className="humeka-initiative-description">{project.description[0]}</span></span><ArrowUpRight size={14} aria-hidden="true" /></Link></li>)}
-        </ul>
-      </div>
-    </section>
-    <section className="section section-tinted humeka-matters" data-reveal="up">
-      <div className="container-wide">
-        <div className="humeka-section-heading">
-          <span className="eyebrow">Why HumekaNeza matters</span>
-          <h2>Why HumekaNeza matters</h2>
-        </div>
+
+    <section className="humeka-intro section" aria-labelledby="humeka-intro-title" data-reveal="up">
+      <div className="container-wide humeka-intro-grid">
+        <div><span className="eyebrow">A little about us</span><h2 id="humeka-intro-title">Start with a question.<br /><em>Find a way forward.</em></h2></div>
         <div className="humeka-prose">
-          <p>Children are especially vulnerable to environmental exposures, but they can also be powerful participants in environmental-health solutions.</p>
-          <p>HumekaNeza gives children and youth the knowledge, tools, and opportunities to understand their environment, participate in science, communicate with their families and communities, and contribute to decisions that affect their health.</p>
-          <p>By connecting education, citizen science, intervention, behaviour change, and community engagement, HumekaNeza turns environmental-health knowledge into practical action.</p>
+          <p>HumekaNeza is a child- and youth-centred environmental-health initiative founded by Dr. Egide Kalisa and led through P3 Health Lab at Western University. It began with school-based air-quality education in Rwanda, empowering children to understand air pollution and take part in solutions.</p>
+          <p>Today, the work connects schools and communities to environmental-health learning, citizen science, research and practical action. Young people investigate their surroundings, make sense of what they learn, and share ideas that can support healthier schools, homes and communities.</p>
         </div>
       </div>
     </section>
-    <section className="section humeka-vision" data-reveal="up">
-      <div className="container-wide humeka-vision-grid">
-        <div className="humeka-section-heading">
-          <span className="eyebrow">Our vision</span>
-          <h2>Every Child Should Understand the Environment That Shapes Their Health</h2>
+
+    <section className="humeka-community section" aria-labelledby="humeka-community-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="humeka-community-heading">
+          <div><span className="eyebrow">Schools &amp; communities</span><h2 id="humeka-community-title">Air-quality questions live in everyday places.</h2></div>
+          <p>Classrooms, streets and shared spaces are where people learn about the air around them—and where practical questions begin.</p>
         </div>
-        <div className="humeka-prose">
-          <p>HumekaNeza aims to build a generation of environmentally informed young people who can understand environmental risks, interpret evidence, communicate confidently, and participate meaningfully in creating healthier and more equitable communities.</p>
-          <p className="humeka-final-line">Learn. Measure. Communicate. Act. Breathe Easy.</p>
+        <div className="humeka-community-gallery">
+          <figure className="humeka-community-photo">
+            <img src="/images/research-air-monitoring.jpg" alt="Air-quality monitoring equipment beside a tree-lined road." loading="lazy" decoding="async" data-testid="img-humekaneza-field-monitor" />
+            <figcaption><strong>Monitoring shared environments</strong><span>Field equipment in an outdoor setting</span></figcaption>
+          </figure>
+          <figure className="humeka-community-photo">
+            <img src="/images/research-healthy-mobility.jpg" alt="A field researcher wearing an air-quality monitoring pack walks along a roadside in Rwanda as traffic passes." loading="lazy" decoding="async" data-testid="img-humekaneza-community-route" />
+            <figcaption><strong>Learning from daily routes</strong><span>People, movement and the air around us</span></figcaption>
+          </figure>
         </div>
       </div>
     </section>
-    <section className="section section-tinted humeka-involve" data-reveal="up">
-      <div className="container-wide humeka-involve-grid">
+
+    <section className="humeka-process section" id="humeka-approach" aria-labelledby="humeka-process-title" data-reveal="up">
+      <div className="container-wide">
         <div className="humeka-section-heading">
-          <span className="eyebrow">Get involved</span>
-          <h2>Get involved</h2>
+          <span className="eyebrow">The HumekaNeza learning loop</span>
+          <h2 id="humeka-process-title">From curiosity<br />to community action.</h2>
+          <p>Four connected steps make environmental-health science tangible—and put young people’s questions at the centre.</p>
         </div>
-        <div>
-          <p className="humeka-involve-copy">HumekaNeza welcomes collaboration with schools, teachers, students, families, community organizations, researchers, government agencies, and environmental-health partners.</p>
-          <div className="humeka-involve-links">
-            <a href="mailto:p3healthlab@uwo.ca" data-testid="link-humekaneza-partner">Partner With HumekaNeza <ArrowUpRight size={14} aria-hidden="true" /></a>
-            <Link href="/contact" data-testid="link-humekaneza-contact">Contact P3 Health Lab <ArrowUpRight size={14} aria-hidden="true" /></Link>
+        <ol className="humeka-process-list">
+          {approach.map((step) => <li className="humeka-process-step" key={step.number} data-testid={`step-humekaneza-${step.title.toLowerCase()}`}>
+            <span className="humeka-step-number">{step.number}</span><div><h3>{step.title}</h3><p>{step.text}</p></div>
+          </li>)}
+        </ol>
+      </div>
+    </section>
+
+    <section className="humeka-activities section" aria-labelledby="humeka-activities-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="humeka-section-heading humeka-activity-heading">
+          <span className="eyebrow">A school day, with fresh eyes</span><h2 id="humeka-activities-title">Learning you can take<br />back to the classroom.</h2>
+          <p>Possible ways to take part across HumekaNeza’s connected work.</p>
+        </div>
+        <div className="humeka-activity-layout">
+          <ul className="humeka-activity-list">
+            {activities.map(([title, text], index) => <li key={title} data-testid={`activity-humekaneza-${index + 1}`}><span className="humeka-activity-index">0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section className="humeka-initiatives-section section" aria-labelledby="humeka-initiatives-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="humeka-section-heading humeka-feature-head">
+          <div><span className="eyebrow">Connected initiatives</span><h2 id="humeka-initiatives-title">Different places.<br /><em>Shared questions.</em></h2></div>
+          <p>Projects bring together school learning, youth knowledge, community participation and environmental-health research.</p>
+        </div>
+        <div className="humeka-initiative-featured">
+          <figure className="humeka-initiative-photo">
+            <img src="/images/research-children-exposure.jpg" alt="A researcher demonstrates air-quality monitoring equipment to children gathered around a table." loading="lazy" decoding="async" data-testid="img-humekaneza-initiative-learning" />
+            <figcaption><strong>Hands-on environmental-health learning</strong><span>A P3 Health Lab school activity</span></figcaption>
+          </figure>
+          <ul className="humeka-feature-grid">
+            {initiatives.map((item, index) => <li key={item.slug} className={`humeka-feature-card humeka-feature-card-${index + 1}`}>
+              <span className="humeka-feature-label">{item.label}</span>
+              <h3>{item.title}</h3><p>{item.text}</p>
+              <Link href={`/projects#${item.slug}`} data-testid={`link-humekaneza-project-${item.slug}`}>Explore initiative <ArrowUpRight size={15} aria-hidden="true" /></Link>
+            </li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section className="humeka-evidence section" aria-labelledby="humeka-evidence-title" data-reveal="up">
+      <div className="container-wide humeka-evidence-grid">
+        <div className="humeka-section-heading">
+          <span className="eyebrow">Learning in practice</span><h2 id="humeka-evidence-title">Research that stays close to real life.</h2>
+          <p>HumekaNeza connects questions from schools and communities with P3 Health Lab’s broader work in exposure science, children’s environmental health and citizen science.</p>
+          <Link className="humeka-evidence-link" href="/research" data-testid="link-humekaneza-research">Explore P3 research <ArrowUpRight size={15} aria-hidden="true" /></Link>
+        </div>
+        <div className="humeka-evidence-notes">
+          <article><span className="eyebrow">In schools</span><h3>Learning by observing and measuring</h3><p>The Rwanda campaign includes school-based education, low-cost monitoring, air-quality flag activities and student-led environmental monitoring.</p></article>
+          <article><span className="eyebrow">With young people</span><h3>Making knowledge shareable</h3><p>Making the Invisible Visible includes youth ambassador learning, behaviour-change workshops, family dialogue and youth-created knowledge-translation products.</p></article>
+          <nav className="humeka-proof-links" aria-label="Explore lab evidence and updates">
+            <Link href="/publications" data-testid="link-humekaneza-publications">Publications <ArrowUpRight size={14} aria-hidden="true" /></Link>
+            <Link href="/news" data-testid="link-humekaneza-news">Lab news <ArrowUpRight size={14} aria-hidden="true" /></Link>
+            <Link href="/projects#classroom-clean-air-interventions" data-testid="link-humekaneza-classroom-research">Classroom research <ArrowUpRight size={14} aria-hidden="true" /></Link>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <section className="humeka-partners" aria-label="P3 Health Lab and Western University affiliation">
+      <div className="container-wide humeka-partners-inner">
+        <span className="eyebrow">Institutional affiliation</span>
+        <div className="humeka-affiliation-mark"><img src={logo} alt="P3 Health Lab emblem" width="1600" height="1600" loading="lazy" decoding="async" data-testid="img-humekaneza-p3-logo" /><strong>P3 Health Lab</strong></div>
+        <a className="humeka-western-mark" href="https://www.uwo.ca" target="_blank" rel="noopener noreferrer" data-testid="link-humekaneza-western">Western University <ExternalLink size={13} aria-hidden="true" /></a>
+        <p>HumekaNeza is part of P3 Health Lab’s research, collaboration and community-engaged work.</p>
+      </div>
+    </section>
+
+    <section className="humeka-contact section" id="get-involved" aria-labelledby="humeka-contact-title" data-reveal="up">
+      <div className="container-wide humeka-contact-inner">
+        <div><span className="eyebrow">Schools · families · collaborators</span><h2 id="humeka-contact-title">Have a question<br />for HumekaNeza?</h2></div>
+        <div><p>We welcome conversations with teachers, students, families, community organizations, researchers and environmental-health partners.</p>
+          <div className="humeka-contact-actions">
+            <a className="button-primary" href="mailto:p3healthlab@uwo.ca" data-testid="link-humekaneza-partner">Email P3 Health Lab <ArrowUpRight size={15} aria-hidden="true" /></a>
+            <Link className="button-secondary" href="/contact" data-testid="link-humekaneza-contact">Contact page <ArrowUpRight size={15} aria-hidden="true" /></Link>
           </div>
         </div>
       </div>
     </section>
-  </>;
+  </div>;
 }
 
 const opportunityCategories = [
