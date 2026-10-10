@@ -63,14 +63,23 @@ function useScrollReveal(routeKey: string) {
   }, [routeKey]);
 }
 
+type ResearchImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  fit?: 'cover' | 'contain';
+};
+
 const researchPrograms: {
   id: string;
   title: string;
   text: string;
   image: string;
   imageAlt: string;
+  gallery: ResearchImage[];
   questions: string[];
-  projects: { label: string; href?: string }[];
+  projects: { label: string; href?: string; logo?: string }[];
 }[] = [
   {
     id: 'air-we-breathe',
@@ -78,6 +87,12 @@ const researchPrograms: {
     text: 'Understanding the chemical and biological mixtures that shape what people actually breathe.',
     image: 'research-air-monitoring-upright.jpg',
     imageAlt: 'Air-quality sampling instruments beside a road and trees.',
+    gallery: [
+      { src: 'p3/research/program-1-air-we-breathe/chemical-biological-mixture-diagram.png', alt: 'Diagram of chemical and biological mixtures in the air.', width: 2285, height: 880, fit: 'contain' },
+      { src: 'p3/research/program-1-air-we-breathe/canadian-air-microbiome-study-design.jpg', alt: 'Study design for measuring the Canadian air microbiome.', width: 9600, height: 6900, fit: 'contain' },
+      { src: 'p3/research/program-1-air-we-breathe/air-sampling-field-illustration.png', alt: 'Illustration of air sampling in the field.', width: 2240, height: 1260, fit: 'contain' },
+      { src: 'p3/research/program-1-air-we-breathe/pollution-sources-illustration.png', alt: 'Illustration of common sources of air pollution.', width: 1770, height: 420, fit: 'contain' },
+    ],
     questions: [
       'What does PM2.5 mass miss about chemical and biological composition?',
       'How do source mixtures vary across places and seasons?',
@@ -85,7 +100,7 @@ const researchPrograms: {
     ],
     projects: [
       { label: 'Beyond PM2.5' },
-      { label: 'APAM-Net' },
+      { label: 'APAM-Net', logo: '/images/p3/logos/project/bacana-logo.png' },
       { label: 'Canadian air microbiome' },
       { label: 'Amazon air microbiome' },
     ],
@@ -96,6 +111,11 @@ const researchPrograms: {
     text: 'Studying children’s exposure across the school day, in classrooms, and along routes to school.',
     image: 'research-children-exposure.jpg',
     imageAlt: 'A researcher demonstrates air-quality monitoring equipment to children indoors.',
+    gallery: [
+      { src: 'p3/research/program-2-children-schools/school-neighbourhood-traffic-illustration.jpg', alt: 'Illustration of traffic and exposure around a school neighbourhood.', width: 856, height: 609, fit: 'contain' },
+      { src: 'p3/research/program-2-children-schools/home-to-school-route-sensors.jpg', alt: 'Sensors measure air quality along a home-to-school route.', width: 1833, height: 1033 },
+      { src: 'p3/research/program-2-children-schools/indoor-exposure-house-model.jpg', alt: 'Model illustrating indoor exposure across different parts of a home.', width: 4093, height: 2894, fit: 'contain' },
+    ],
     questions: [
       'How do children’s exposures vary across classrooms, school days, and journeys to school?',
       'Which practical changes can support cleaner air in classrooms and school zones?',
@@ -114,6 +134,10 @@ const researchPrograms: {
     text: 'Examining how climate-related hazards, including heat and wildfire smoke, affect exposure and health.',
     image: 'research-climate-monitoring.jpg',
     imageAlt: 'Outdoor weather and air-monitoring equipment at a fenced field site in winter.',
+    gallery: [
+      { src: 'p3/research/program-3-climate-wildfire/kigali-greenspace-map.png', alt: 'Map of green spaces in Kigali.', width: 1040, height: 734, fit: 'contain' },
+      { src: 'p3/projects/08-equitable-air-quality-communication/smoky-industry-illustration.jpg', alt: 'Illustration of industrial air pollution and exposure risks.', width: 4093, height: 2894, fit: 'contain' },
+    ],
     questions: [
       'How do heat and air pollution combine to shape environmental exposure?',
       'How do wildfire smoke and other climate hazards affect communities?',
@@ -131,6 +155,12 @@ const researchPrograms: {
     text: 'Connecting transportation, everyday exposure, and healthier, more equitable ways to move.',
     image: 'research-healthy-mobility.jpg',
     imageAlt: 'A field researcher carrying exposure monitors while walking on a tree-lined street.',
+    gallery: [
+      { src: 'p3/research/program-4-mobility/commute-mode-exposure-clean.png', alt: 'Diagram comparing exposure across different commute modes.', width: 5267, height: 2858, fit: 'contain' },
+      { src: 'p3/research/program-4-mobility/cyclists-illustration.jpg', alt: 'Illustration of people cycling as an active travel option.', width: 742, height: 525, fit: 'contain' },
+      { src: 'p3/research/program-4-mobility/green-electric-bus-illustration.jpg', alt: 'Illustration of an electric bus in a greener transport system.', width: 748, height: 529, fit: 'contain' },
+      { src: 'p3/research/program-4-mobility/bike-with-sensor-photo-b.jpg', alt: 'A bicycle equipped with a sensor for exposure monitoring.', width: 612, height: 816 },
+    ],
     questions: [
       'How do transport patterns shape exposure along everyday routes?',
       'Which mobility choices can reduce exposure while supporting active travel?',
@@ -146,8 +176,9 @@ const researchPrograms: {
     id: 'citizen-science-environmental-justice',
     title: 'Citizen Science & Environmental Justice',
     text: 'Supporting meaningful community participation in environmental-health research and action.',
-    image: 'research-citizen-science.jpg',
-    imageAlt: 'Students observe a researcher demonstrating air-quality monitoring equipment.',
+    image: 'p3/projects/02-i-am-an-air-quality-scientist/students-measuring-experiment.jpg',
+    imageAlt: 'Students take part in an air-quality science experiment.',
+    gallery: [],
     questions: [
       'How can citizen science make environmental exposures visible and useful to communities?',
       'How can young people participate in environmental-health research and decision-making?',
@@ -1074,17 +1105,31 @@ function Research() {
           <div className="research-program-main">
             <p className="research-program-summary">{program.text}</p>
             <div className="research-program-content">
-              <figure className="research-program-figure">
-                <img
-                  src={`${import.meta.env.BASE_URL}images/${program.image}`}
-                  alt={program.imageAlt}
-                  width="1040"
-                  height="720"
-                  loading="lazy"
-                  decoding="async"
-                  data-testid={`img-research-${program.id}`}
-                />
-              </figure>
+              <div className="research-program-media">
+                <figure className="research-program-figure">
+                  <img
+                    src={`${import.meta.env.BASE_URL}images/${program.image}`}
+                    alt={program.imageAlt}
+                    width="1040"
+                    height="720"
+                    loading="lazy"
+                    decoding="async"
+                    data-testid={`img-research-${program.id}`}
+                  />
+                </figure>
+                {program.gallery.length > 0 && <div className="research-program-gallery" aria-label={`Images related to ${program.title}`}>
+                  {program.gallery.map((image) => <figure className={`research-program-gallery-image${image.fit === 'contain' ? ' is-diagram' : ''}`} key={image.src}>
+                    <img
+                      src={`${import.meta.env.BASE_URL}images/${image.src}`}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </figure>)}
+                </div>}
+              </div>
               <div className="research-program-details">
                 <section aria-labelledby={`research-questions-title-${program.id}`}>
                   <h3 id={`research-questions-title-${program.id}`}>Research questions</h3>
@@ -1097,8 +1142,8 @@ function Research() {
                   <ul className="research-project-list">
                     {program.projects.map((project, projectIndex) => <li key={project.label}>
                       {project.href
-                        ? <Link href={project.href} data-testid={`link-research-project-${program.id}-${projectIndex}`}>{project.label}</Link>
-                        : <span>{project.label}</span>}
+                        ? <Link href={project.href} data-testid={`link-research-project-${program.id}-${projectIndex}`}>{project.logo && <img className="research-project-logo" src={project.logo} alt="" width="32" height="42" loading="lazy" decoding="async" />}{project.label}</Link>
+                        : <span>{project.logo && <img className="research-project-logo" src={project.logo} alt="" width="32" height="42" loading="lazy" decoding="async" />}{project.label}</span>}
                     </li>)}
                   </ul>
                 </section>
@@ -1119,7 +1164,7 @@ function Research() {
     <section className="research-wum-air section" aria-labelledby="research-wum-air-title">
       <div className="container-wide">
         <div className="section-head">
-          <div><span className="eyebrow">Field research</span><h2 id="research-wum-air-title">Mobile Air Quality Monitoring Trailer</h2></div>
+          <div><span className="eyebrow">Field research</span><h2 id="research-wum-air-title">Mobile Air Quality Monitoring Trailer (WUM-AIR): Empowering Communities to Tackle Air Pollution</h2></div>
           <p>Mobile monitoring supports air-quality research in the places where people live, learn and work.</p>
         </div>
         <div className="research-wum-air-gallery">
@@ -1128,7 +1173,7 @@ function Research() {
             <figcaption>WUM-AIR mobile monitoring trailer</figcaption>
           </figure>
           <figure>
-            <img src="/images/wum-air-field-photo.webp" alt="WUM-AIR field research photograph supplied by the client." width="1200" height="800" loading="lazy" decoding="async" />
+            <img src="/images/wum-air-field-photo.webp" alt="A researcher conducts field monitoring with WUM-AIR equipment." width="1200" height="800" loading="lazy" decoding="async" />
             <figcaption>Field research with WUM-AIR</figcaption>
           </figure>
         </div>
