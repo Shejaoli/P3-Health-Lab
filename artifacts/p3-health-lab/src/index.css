@@ -599,6 +599,7 @@ button { cursor: pointer; }
 .footer-logo { width: 62px; height: 62px; object-fit: contain; }
 .footer-logo-button { display: block; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .footer-logo-button:focus-visible { outline: 2px solid hsl(42 36% 96%); outline-offset: 4px; }
+.footer-logo-button img { display: block; width: 220px; max-width: 100%; height: auto; }
 .footer p { max-width: 255px; color: hsl(42 36% 96% / .6); font-size: .77rem; line-height: 1.6; }
 .footer h4 { margin: 4px 0 17px; color: hsl(42 36% 96% / .48); font-family: var(--app-font-mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; }
 .footer a { display: block; margin: 0 0 11px; color: hsl(42 36% 96% / .72); font-size: .78rem; transition: color .2s; }
@@ -2202,7 +2203,7 @@ body {
 .research-program-summary { max-width: 720px; margin: 0 0 22px; color: hsl(var(--foreground)); font-size: 1.06rem; line-height: 1.6; }
 .research-program-content { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 30px; align-items: start; }
 .research-program-figure { margin: 0; }
-.research-program-figure img { display: block; width: 100%; aspect-ratio: 1.45 / 1; object-fit: cover; border: 1px solid hsl(var(--border)); }
+.research-program-figure img { display: block; width: 100%; aspect-ratio: 1.45 / 1; object-fit: cover; object-position: center; border: 1px solid hsl(var(--border)); }
 .research-program-details { display: grid; gap: 22px; }
 .research-program-details section + section { padding-top: 18px; border-top: 1px solid hsl(var(--border)); }
 .research-program-details h3,
@@ -2556,9 +2557,8 @@ body {
 .humeka-community-heading .eyebrow { grid-column: 1 / -1; color: hsl(var(--humeka-leaf)); }
 .humeka-community-heading h2 { max-width: 700px; margin: 8px 0 0; color: hsl(var(--humeka-forest)); font-family: var(--app-font-serif); font-size: clamp(2.2rem, 4vw, 3.75rem); font-weight: 500; letter-spacing: -.05em; line-height: .98; }
 .humeka-community-heading > p { max-width: 390px; margin: 0 0 3px; color: hsl(var(--humeka-ink) / .68); font-size: .9rem; line-height: 1.7; }
-.humeka-community-gallery { display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(18px, 3.2vw, 42px); align-items: end; }
+.humeka-community-gallery { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(18px, 3.2vw, 42px); align-items: end; }
 .humeka-community-photo { min-width: 0; margin: 0; }
-.humeka-community-photo:nth-child(2) { margin-bottom: 38px; }
 .humeka-community-photo img { display: block; width: 100%; aspect-ratio: 1.38; object-fit: cover; }
 .humeka-community-photo figcaption { display: grid; gap: 3px; padding-top: 11px; color: hsl(var(--humeka-forest)); }
 .humeka-community-photo figcaption strong { font-size: .86rem; font-weight: 600; }
@@ -2595,11 +2595,7 @@ body {
 .humeka-feature-head { display: flex; justify-content: space-between; gap: 50px; align-items: end; max-width: none; margin-bottom: 44px; }
 .humeka-feature-head h2 { margin-bottom: 0; color: hsl(var(--humeka-forest)); }
 .humeka-feature-head p { max-width: 330px; margin: 0 0 5px; color: hsl(var(--humeka-ink) / .67); font-size: .9rem; line-height: 1.7; }
-.humeka-initiative-featured { display: grid; grid-template-columns: minmax(270px, .88fr) minmax(0, 1.12fr); gap: clamp(26px, 4vw, 54px); align-items: start; }
-.humeka-initiative-photo { min-width: 0; margin: 0; }
-.humeka-initiative-photo img { display: block; width: 100%; aspect-ratio: .88; object-fit: cover; object-position: center; }
-.humeka-initiative-photo figcaption { padding-top: 12px; color: hsl(var(--humeka-forest)); font-size: .83rem; line-height: 1.45; }
-.humeka-initiative-photo figcaption span { color: hsl(var(--humeka-ink) / .62); font-family: var(--app-font-mono); font-size: .58rem; letter-spacing: .04em; text-transform: uppercase; }
+.humeka-initiative-featured { display: block; }
 .humeka-feature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 0; border-top: 1px solid hsl(var(--humeka-forest) / .23); border-left: 1px solid hsl(var(--humeka-forest) / .23); list-style: none; }
 .humeka-feature-card { display: flex; min-height: 290px; flex-direction: column; align-items: flex-start; padding: 26px 30px 25px; border-right: 1px solid hsl(var(--humeka-forest) / .23); border-bottom: 1px solid hsl(var(--humeka-forest) / .23); }
 .humeka-feature-card-2 { background: hsl(43 62% 93%); }
@@ -2625,9 +2621,16 @@ body {
 .humeka-proof-links { display: flex; flex-wrap: wrap; gap: 13px 28px; padding-top: 19px; }
 .humeka-proof-links a { margin: 0; font-size: .7rem; }
 
+.humeka-video { background: hsl(43 51% 97%); }
+.humeka-video .humeka-section-heading { max-width: 800px; margin-bottom: 28px; }
+.humeka-video-frame { position: relative; overflow: hidden; width: min(100%, 980px); aspect-ratio: 16 / 9; margin-inline: auto; background: hsl(var(--humeka-forest)); }
+.humeka-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
 .humeka-partners { padding: 27px 0; border-block: 1px solid hsl(var(--humeka-forest) / .15); background: hsl(43 51% 97%); }
 .humeka-partners-inner { display: flex; align-items: center; gap: 28px; }
 .humeka-partners .eyebrow { flex: 0 0 auto; color: hsl(var(--humeka-leaf)); }
+.humeka-affiliation-mark { display: flex; align-items: center; gap: 12px; }
+.humeka-affiliation-mark img { display: block; width: 120px; height: 120px; object-fit: contain; }
 .humeka-western-mark { display: flex; align-items: center; gap: 10px; color: hsl(var(--humeka-forest)); }
 .humeka-western-mark span { display: grid; width: 35px; height: 35px; place-items: center; border: 1px solid hsl(var(--humeka-forest) / .38); border-radius: 50%; font-family: var(--app-font-serif); font-size: 1.18rem; font-weight: 600; }
 .humeka-western-mark strong { font-family: var(--app-font-serif); font-size: 1.05rem; font-weight: 500; }
@@ -2650,7 +2653,6 @@ body {
   .research-program-nav ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .research-program { grid-template-columns: 1fr; gap: 14px; padding: 32px 0 36px; }
   .research-program-content { grid-template-columns: 1fr; gap: 22px; }
-  .research-program-figure img { aspect-ratio: 1.55 / 1; }
   .research-context-grid { grid-template-columns: 1fr; gap: 20px; }
 
   .humeka-hero-note {
@@ -2727,7 +2729,6 @@ body {
   .humeka-community-heading { grid-template-columns: 1fr; gap: 12px; }
   .humeka-community-heading .eyebrow { grid-column: auto; }
   .humeka-community-gallery { grid-template-columns: minmax(0, 1fr); gap: 26px; }
-  .humeka-community-photo:nth-child(2) { margin-bottom: 0; }
   .humeka-intro h2 { font-size: clamp(2.5rem, 11vw, 3.7rem); }
   .humeka-process { padding: 66px 0 70px; }
   .humeka-process .humeka-section-heading { grid-template-columns: 1fr; gap: 12px; margin-bottom: 34px; }
@@ -2742,8 +2743,6 @@ body {
   .humeka-activity-list li:last-child { grid-column: auto; max-width: none; }
   .humeka-feature-head { display: block; }
   .humeka-feature-head p { margin-top: 19px; }
-  .humeka-initiative-featured { grid-template-columns: minmax(0, 1fr); gap: 28px; }
-  .humeka-initiative-photo img { aspect-ratio: 1.25; }
   .humeka-feature-grid { grid-template-columns: minmax(0, 1fr); }
   .humeka-feature-card { min-height: 245px; padding: 22px; }
   .humeka-feature-card h3 { margin-top: 28px; }
@@ -3512,9 +3511,17 @@ body {
   line-height: 1.6;
 }
 
+.contact-location-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 70px); align-items: center; }
+.contact-location-copy h2 { margin: 12px 0; font-family: var(--app-font-serif); font-size: clamp(1.8rem, 3.4vw, 2.8rem); font-weight: 500; }
+.contact-location-copy address { margin-bottom: 16px; color: hsl(var(--foreground)); font-size: .92rem; font-style: normal; line-height: 1.6; }
+.contact-location-copy a { display: inline-flex; align-items: center; gap: 6px; color: hsl(var(--primary)); font-size: .82rem; }
+.contact-map-frame { overflow: hidden; border: 1px solid hsl(var(--border)); background: hsl(var(--card)); }
+.contact-map-frame iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
+
 @media (max-width: 760px) {
   .opportunity-category,
-  .contact-profile-grid {
+  .contact-profile-grid,
+  .contact-location-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
@@ -4106,10 +4113,6 @@ body {
   .research-program-content {
     grid-template-columns: minmax(0, 1fr);
     gap: 22px;
-  }
-
-  .research-program-figure img {
-    aspect-ratio: 1.55 / 1;
   }
 
   .project-entry {
@@ -4870,20 +4873,6 @@ body {
   background: hsl(42 36% 98%);
 }
 
-.footer-logo-placeholder {
-  display: grid;
-  width: 62px;
-  height: 62px;
-  place-items: center;
-  border: 1px dashed hsl(42 36% 96% / .65);
-  color: hsl(42 36% 96%);
-  font-family: var(--app-font-mono);
-  font-size: .54rem;
-  line-height: 1.35;
-  text-align: center;
-  text-transform: uppercase;
-}
-
 .home-funders-section h2 {
   max-width: 760px;
   margin: 0 auto 30px;
@@ -5002,21 +4991,6 @@ body {
   letter-spacing: .04em;
 }
 
-.research-map-header-placeholder {
-  display: grid;
-  min-height: 170px;
-  place-items: center;
-  padding: 24px;
-  border: 1px dashed hsl(var(--border));
-  color: hsl(var(--muted-foreground));
-  background: hsl(var(--card));
-  font-family: var(--app-font-mono);
-  font-size: .72rem;
-  letter-spacing: .05em;
-  text-align: center;
-  text-transform: uppercase;
-}
-
 .research-map-image-figure img {
   display: block;
   width: 100%;
@@ -5099,11 +5073,6 @@ body {
 }
 
 @media (max-width: 760px) {
-  .footer-logo-placeholder {
-    width: 48px;
-    height: 48px;
-  }
-
   .home-funders-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
