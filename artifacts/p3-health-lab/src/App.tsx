@@ -10,7 +10,6 @@ import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGe
 import logo from '@assets/p3_logo_1789065448410.png';
 import labFilm from '@assets/VID-20260925-WA0008_1790438330372.mp4';
 import humekanezaLogo from '@assets/IMG-20260910-WA0000_1790353414570.jpg';
-import egideKalisaPhoto from '@assets/1._Dr._Egide_Kalisa_1790358118214.webp';
 import mdPervezKabirPhoto from '@assets/2._Dr._Md_Pervez_Kabir_1790358118262.jpeg';
 import allisonPertPhoto from '@assets/Allison_Pert0_1790358118374.webp';
 import augustineOmodiekePhoto from '@assets/Augustine_Omodieke_(2)_1790358118959.jpg';
@@ -360,6 +359,18 @@ const featuredProjects = [
   { title: 'One Sensor Per School', slug: 'one-sensor-per-school', text: 'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools.' },
 ];
 
+const funderLogos = [
+  { src: '/images/funder-logo-01.png', alt: 'Environment and Climate Change Canada and Canada wordmark' },
+  { src: '/images/funder-logo-02.png', alt: 'Natural Sciences and Engineering Research Council of Canada, NSERC and CRSNG' },
+  { src: '/images/funder-logo-03.png', alt: 'Canadian Institutes of Health Research, CIHR and IRSC' },
+  { src: '/images/funder-logo-04.png', alt: 'Social Sciences and Humanities Research Council of Canada, SSHRC and CRSH' },
+  { src: '/images/funder-logo-05.png', alt: 'American Geophysical Union, AGU' },
+  { src: '/images/funder-logo-06.png', alt: 'National Institutes of Health, NIH' },
+  { src: '/images/funder-logo-07.png', alt: 'Schulich School of Medicine & Dentistry at Western University' },
+  { src: '/images/funder-logo-08.png', alt: 'The World Academy of Sciences, TWAS' },
+  { src: '/images/funder-logo-09.png', alt: 'National Council for Science and Technology, NCST' },
+];
+
 type PersonRecord = {
   name: string;
   role: string;
@@ -380,7 +391,7 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
       {
         name: 'Dr. Egide Kalisa',
         role: 'Assistant Professor; Director, HELTH/P3 Health Lab',
-        photo: egideKalisaPhoto,
+        photo: '/images/profile-egide-purple-square.webp',
         institution: 'Western University',
         researchFocus: 'Environmental health; air pollution; climate change; children’s health; environmental justice; One Health; exposure science',
       },
@@ -651,7 +662,9 @@ function Footer({ onLogoClick }: { onLogoClick: () => void }) {
   return <footer className="footer">
     <div className="container-wide footer-compact">
       <div className="footer-id">
-        <button type="button" className="footer-logo-button" onClick={onLogoClick} aria-label="P3 Health Lab logo"><img className="footer-logo" src={logo} alt="" /></button>
+        <button type="button" className="footer-logo-button footer-logo-placeholder" onClick={onLogoClick} aria-label="P3 Health Lab logo">
+          <span aria-hidden="true">Logo<br />pending</span>
+        </button>
         <div>
           <p className="footer-name">{profile?.labName || "P3 Health Lab"}</p>
           {(directorDetails || profile?.university) && <p>{directorDetails}{directorDetails && profile?.university && <br />}{profile?.university}</p>}
@@ -826,7 +839,7 @@ function Home() {
           <Link href="/people" className="text-link" data-testid="link-home-people">Meet the full team <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>
         <article className="home-team-lead">
-          {director.photo && <img src={director.photo} alt={`Portrait of ${director.name}.`} />}
+          <img src="/images/profile-egide-purple-wide.webp" alt={`Portrait of ${director.name}.`} width="1600" height="900" loading="lazy" decoding="async" />
           <div><strong>{director.name}</strong><span>{director.role}</span><span>{director.institution}</span></div>
         </article>
       </div>
@@ -858,6 +871,18 @@ function Home() {
             </div>}
           </div>
         </div>
+      </div>
+    </section>
+    <section className="home-funders-section" aria-labelledby="home-funders-title">
+      <div className="container-wide">
+        <h2 id="home-funders-title">A huge thank you to our funders and project partners who make our research possible</h2>
+        <ul className="home-funders-grid">
+          {funderLogos.map((funder) => (
+            <li key={funder.src}>
+              <img src={funder.src} alt={funder.alt} width="240" height="120" loading="lazy" decoding="async" />
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   </>;
@@ -982,6 +1007,19 @@ function Research() {
   return <div className="research-page">
     <PageHero eyebrow="Research" title="From Exposure Science to Intervention" text="We study what people breathe and experience across homes, schools, streets, and changing climates. Our five research programs connect exposure science with community-engaged research and practical, evidence-led solutions." />
 
+    <section className="research-framework-section" aria-labelledby="research-framework-title">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Our approach</span><h2 id="research-framework-title">Research framework</h2></div>
+        </div>
+        <figure className="research-framework-figure">
+          <div className="research-framework-image-scroll">
+            <img src="/images/research-framework.png" alt="P3 Health Lab research framework diagram." width="1672" height="941" loading="lazy" decoding="async" />
+          </div>
+        </figure>
+      </div>
+    </section>
+
     <nav className="research-program-nav" aria-label="Research programs">
       <div className="container-wide">
         <ol>
@@ -1044,6 +1082,25 @@ function Research() {
             </nav>
           </div>
         </article>)}
+      </div>
+    </section>
+
+    <section className="research-wum-air section" aria-labelledby="research-wum-air-title">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Field research</span><h2 id="research-wum-air-title">Mobile Air Quality Monitoring Trailer</h2></div>
+          <p>Mobile monitoring supports air-quality research in the places where people live, learn and work.</p>
+        </div>
+        <div className="research-wum-air-gallery">
+          <figure>
+            <img src="/images/wum-air-trailer-illustration.webp" alt="Illustration of the WUM-AIR mobile air-quality monitoring trailer." width="1200" height="800" loading="lazy" decoding="async" />
+            <figcaption>WUM-AIR mobile monitoring trailer</figcaption>
+          </figure>
+          <figure>
+            <img src="/images/wum-air-field-photo.webp" alt="WUM-AIR field research photograph supplied by the client." width="1200" height="800" loading="lazy" decoding="async" />
+            <figcaption>Field research with WUM-AIR</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
@@ -1135,87 +1192,44 @@ function Projects() {
 }
 
 function ResearchMap() {
-  const [selectedId, setSelectedId] = useState(researchMapLocations[0].id);
-  const selectedLocation = researchMapLocations.find((location) => location.id === selectedId) ?? researchMapLocations[0];
-
   return <>
     <PageHero
       eyebrow="Global Research Map"
       title={<>Research Across <em>Communities</em></>}
       text="A geographic view of communities and settings connected to P3 Health Lab research and initiatives."
     />
-    <section className="section research-map-section" data-reveal="up">
+    <section className="research-map-header-image section" aria-label="Research Across Communities header image">
       <div className="container-wide">
-        <div className="research-map-layout">
-          <div className="research-map-visual-panel">
-            <div className="research-map-heading">
-              <div>
-                <span className="eyebrow">Verified locations</span>
-                <h2>Connected settings, clearly placed.</h2>
-              </div>
-              <span className="research-map-count">{researchMapLocations.length} locations</span>
-            </div>
-            <div className="research-map-canvas" aria-label="Schematic geographic view of verified P3 Health Lab locations">
-              <svg className="research-map-grid" viewBox="0 0 1000 480" aria-hidden="true">
-                <g className="research-map-graticule">
-                  <path d="M0 80H1000M0 160H1000M0 240H1000M0 320H1000M0 400H1000" />
-                  <path d="M125 0V480M250 0V480M375 0V480M500 0V480M625 0V480M750 0V480M875 0V480" />
-                </g>
-                <path className="research-map-contour" d="M92 147c42-29 86-30 126-4 26 17 45 13 73 5 31-9 65 2 89 29 19 22 33 34 70 39 35 5 55 23 57 48 2 25-24 38-65 31-43-7-74 11-111 18-39 8-72-7-99-27-25-18-53-32-82-48-35-19-70-60-58-91Zm488 125c30-25 64-35 96-24 28 10 42 30 63 44 23 15 53 14 72 36 15 18 9 40-12 50-32 15-67-5-88-17-24-14-45-15-74-10-31 6-66-7-73-32-5-17 1-34 16-47Zm224-212c21-12 48-9 67 5 15 11 20 28 13 41-11 19-42 21-64 9-19-10-35-32-26-47 3-4 6-6 10-8Z" />
-              </svg>
-              {researchMapLocations.map((location) => (
-                <button
-                  type="button"
-                  className={`research-map-marker ${selectedId === location.id ? 'is-selected' : ''}`}
-                  key={location.id}
-                  style={{ left: `${location.mapX}%`, top: `${location.mapY}%` }}
-                  onClick={() => setSelectedId(location.id)}
-                  aria-label={`Show verified research connected to ${location.name}, ${location.country}`}
-                  aria-pressed={selectedId === location.id}
-                >
-                  <span className="research-map-marker-dot" aria-hidden="true" />
-                  <span className="research-map-marker-label">{location.name}</span>
-                </button>
-              ))}
-            </div>
-            <p className="research-map-note">Schematic geographic view, not to scale. Locations appear only where existing project content names the setting.</p>
-          </div>
-          <aside className="research-map-detail" aria-live="polite">
-            <span className="eyebrow">Selected location</span>
-            <h2>{selectedLocation.name}</h2>
-            <p className="research-map-country">{selectedLocation.country}</p>
-            <p>{selectedLocation.description}</p>
-            <div className="research-map-detail-record">
-              <span className="eyebrow">Connected initiative</span>
-              <strong>{selectedLocation.projectTitle}</strong>
-              <Link className="text-link" href={`/projects#${selectedLocation.projectSlug}`}>View project record <ArrowUpRight size={14} aria-hidden="true" /></Link>
-            </div>
-          </aside>
+        <div className="research-map-header-placeholder" role="img" aria-label="Placeholder: a Research Across Communities header image has not been supplied.">
+          <span>Research Across Communities header image placeholder</span>
         </div>
       </div>
     </section>
-    <section className="section section-tinted research-map-list-section" data-reveal="up">
+    <section className="section research-map-section" data-reveal="up" aria-labelledby="research-map-locations-title">
       <div className="container-wide">
         <div className="section-head">
-          <div><span className="eyebrow">Accessible location list</span><h2>The same record, in plain text.</h2></div>
-          <p>Select a location to update the map detail, or follow the project link to read the full verified record.</p>
+          <div><span className="eyebrow">Research locations</span><h2 id="research-map-locations-title">Connected settings, clearly placed.</h2></div>
+          <p>The map and student-origin graphic are supplied client materials. Existing project records remain listed below.</p>
         </div>
-        <div className="research-map-location-list">
-          {researchMapLocations.map((location) => (
-            <article className={`research-map-list-item ${selectedId === location.id ? 'is-selected' : ''}`} key={location.id}>
-              <button type="button" onClick={() => setSelectedId(location.id)} aria-pressed={selectedId === location.id}>
-                <span className="research-map-list-index">{String(location.displayOrder).padStart(2, '0')}</span>
-                <span><strong>{location.name}</strong><small>{location.country}</small></span>
-                <ChevronRight size={16} aria-hidden="true" />
-              </button>
-              <div className="research-map-list-record">
-                <span>{location.projectTitle}</span>
-                <Link className="text-link" href={`/projects#${location.projectSlug}`}>Project record <ArrowUpRight size={14} aria-hidden="true" /></Link>
-              </div>
-            </article>
-          ))}
+        <figure className="research-map-image-figure">
+          <img src="/images/map-research-locations.png" alt="World map showing research locations across Canada, England, Japan, Senegal, French Guiana, Ghana, the Democratic Republic of the Congo, Uganda, Rwanda, Burundi, Tanzania and New Zealand." width="1672" height="941" loading="lazy" decoding="async" />
+          <figcaption>Global research locations</figcaption>
+        </figure>
+        <figure className="research-map-image-figure research-student-origins-figure">
+          <img src="/images/map-student-origins.png" alt="Map illustrating student origins, with geographic labels shown in the supplied graphic." width="1672" height="941" loading="lazy" decoding="async" />
+          <figcaption>Student origins</figcaption>
+        </figure>
+        <div className="research-map-verified-list">
+          <h3>Current verified project records</h3>
+          <ul>
+            {researchMapLocations.map((location) => (
+              <li key={location.id}>
+                <div><strong>{location.name}, {location.country}</strong><p>{location.description}</p></div>
+                <Link className="text-link" href={`/projects#${location.projectSlug}`}>View {location.projectTitle} <ArrowUpRight size={14} aria-hidden="true" /></Link>
+              </li>
+            ))}
+          </ul>
         </div>
-        <p className="research-map-incomplete">Additional research locations will appear here as verified information becomes available.</p>
       </div>
     </section>
   </>;
@@ -1223,7 +1237,7 @@ function ResearchMap() {
 
 function People() {
   return (
-    <>
+    <div className="people-page">
       <PageHero
         eyebrow="People / 02"
         title={<>The people behind the <em>work.</em></>}
@@ -1305,7 +1319,7 @@ function People() {
           <Link href="/get-involved" className="button-primary" data-testid="link-people-join">Find your pathway <ArrowUpRight size={15} aria-hidden="true" /></Link>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 
@@ -1745,6 +1759,10 @@ function Humekaneza() {
           <ul className="humeka-activity-list">
             {activities.map(([title, text], index) => <li key={title} data-testid={`activity-humekaneza-${index + 1}`}><span className="humeka-activity-index">0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
           </ul>
+          <figure className="humeka-app-figure">
+            <img src="/images/humeka-app-phone-illustration.webp" alt="Illustration of a phone displaying the HumekaNeza app." width="1200" height="1600" loading="lazy" decoding="async" />
+            <figcaption>HumekaNeza app illustration</figcaption>
+          </figure>
         </div>
       </div>
     </section>
