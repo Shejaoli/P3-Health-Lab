@@ -800,7 +800,7 @@ function Home() {
             {featuredProjects.map((project, index) => <li key={project.title}><Link href={`/projects#${project.slug}`} data-testid={`card-home-project-${index}`}><h3>{project.title}</h3><p>{project.text}</p></Link></li>)}
           </ul>
           <figure className="home-methods-photo">
-            <img src="/images/research-air-monitoring.jpg" alt="Field air-quality monitoring equipment beside a road and trees." />
+            <img src="/images/research-air-monitoring-upright.jpg" alt="Field air-quality monitoring equipment beside a road and trees." width="277" height="201" loading="lazy" decoding="async" />
             <figcaption>Field monitoring in the environments where people live and move.</figcaption>
           </figure>
         </div>
@@ -812,20 +812,19 @@ function Home() {
         <div className="home-footprint-copy">
           <span className="eyebrow">Global footprint</span>
           <h2 id="home-footprint-title">Research across connected communities.</h2>
-          <p>Current verified project settings include {mappedCountries.join(' and ')}. The map shows locations named in existing project records.</p>
+          <p>The supplied map highlights research locations across several countries; current verified project records include {mappedCountries.join(' and ')}.</p>
           <Link href="/research-map" className="text-link" data-testid="link-home-research-map">Explore the global research map <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>
-        <Link href="/research-map" className="home-map-preview" aria-label="Open the global research map showing Rwanda, Hamilton and London">
-          <div className="home-map-canvas" aria-hidden="true">
-            <svg viewBox="0 0 1000 480" preserveAspectRatio="none">
-              <g className="home-map-graticule"><path d="M0 80H1000M0 160H1000M0 240H1000M0 320H1000M0 400H1000" /><path d="M125 0V480M250 0V480M375 0V480M500 0V480M625 0V480M750 0V480M875 0V480" /></g>
-              <path className="home-map-contour" d="M92 147c42-29 86-30 126-4 26 17 45 13 73 5 31-9 65 2 89 29 19 22 33 34 70 39 35 5 55 23 57 48 2 25-24 38-65 31-43-7-74 11-111 18-39 8-72-7-99-27-25-18-53-32-82-48-35-19-70-60-58-91Zm488 125c30-25 64-35 96-24 28 10 42 30 63 44 23 15 53 14 72 36 15 18 9 40-12 50-32 15-67-5-88-17-24-14-45-15-74-10-31 6-66-7-73-32-5-17 1-34 16-47Zm224-212c21-12 48-9 67 5 15 11 20 28 13 41-11 19-42 21-64 9-19-10-35-32-26-47 3-4 6-6 10-8Z" />
-            </svg>
-            {researchMapLocations.map((location) => <span className="home-map-marker" key={location.id} style={{ left: `${location.mapX}%`, top: `${location.mapY}%` }}><span className="home-map-marker-dot" /><span className="home-map-marker-label">{location.name}</span></span>)}
-          </div>
-          <ul className="home-map-key">
-            {researchMapLocations.map((location) => <li key={location.id}><strong>{location.name}</strong><span>{location.country}</span></li>)}
-          </ul>
+        <Link href="/research-map" className="home-map-preview">
+          <img
+            className="home-map-image"
+            src="/images/map-research-locations.png"
+            alt="Research locations in Canada, England, Japan, Senegal, French Guiana, Ghana, the Democratic Republic of the Congo, Uganda, Rwanda, Burundi, Tanzania and New Zealand."
+            width="1672"
+            height="941"
+            loading="lazy"
+            decoding="async"
+          />
         </Link>
       </div>
     </section>
@@ -1261,7 +1260,10 @@ function People() {
                     <article className="person-record" key={person.name} data-testid={`card-person-${person.name.toLowerCase().replaceAll(' ', '-')}`}>
                       <div className={`person-record-photo ${person.photo ? '' : 'is-empty'}`}>
                         {person.photo
-                          ? <img src={person.photo} alt={`${person.name} portrait`} loading="lazy" />
+                          ? <picture>
+                              {group.id === 'principal-investigator' && <source media="(min-width: 448px)" srcSet="/images/profile-egide-purple-wide.webp" />}
+                              <img src={person.photo} alt={`${person.name} portrait`} width="447" height="447" loading="lazy" decoding="async" />
+                            </picture>
                           : <div className="person-record-placeholder">
                               <UserRound size={34} strokeWidth={1.5} aria-hidden="true" />
                               <span>Portrait not provided</span>
