@@ -1,8 +1,8 @@
 import { and, asc, desc, eq, ne } from "drizzle-orm";
 import { Router, type IRouter } from "express";
 import { z } from "zod";
-import { GetPublicOpportunitiesResponse, GetPublicProfileResponse } from "@workspace/api-zod";
-import { db, opportunitiesTable, profileInfoTable } from "@workspace/db";
+import { GetPublicNewsResponse, GetPublicOpportunitiesResponse, GetPublicProfileResponse, GetPublicTeachingResponse } from "@workspace/api-zod";
+import { db, newsTable, opportunitiesTable, profileInfoTable, teachingRecordsTable } from "@workspace/db";
 
 const router: IRouter = Router();
 const publicationLinkLabels = new Set(["Google Scholar", "ORCID", "CV", "Publication Profile", "CV / Publication Profile"]);
@@ -52,6 +52,29 @@ router.get("/public/publications", async (req, res): Promise<void> => {
   } catch (error) {
     req.log.error({ err: error }, "Public publication links failed");
     res.status(500).json({ error: "Unable to load publication links" });
+  }
+});
+
+router.get("/public/news", async (req, res): Promise<void> => {
+  try {
+    const news = await db
+      .select({
+        headline: newsTable.headline,
+        date: newsTable.date,
+        summary: newsTable.summary,
+        body: newsTable.body,
+      })
+      .from(newsTable)
+      .where(and(
+        eq(newsTable.published, true),
+        eq(newsTable.archived, false),
+      ))
+      .orderBy(asc(newsTable.displayOrder), desc(newsTable.date), asc(newsTable.id));
+
+    res.json(GetPublicNewsResponse.parse({ news }));
+  } catch (error) {
+    req.log.error({ err: error }, "Public news failed");
+    res.status(500).json({ error: "Unable to load news" });
   }
 });
 
@@ -138,6 +161,32 @@ router.get("/public/opportunities", async (req, res): Promise<void> => {
   } catch (error) {
     req.log.error({ err: error }, "Public opportunities failed");
     res.status(500).json({ error: "Unable to load opportunities" });
+  }
+});
+
+router.get("/public/teaching", async (req, res): Promise<void> => {
+  try {
+    const courses = await db
+      .select({
+        academicYear: teachingRecordsTable.academicYear,
+        courseCode: teachingRecordsTable.courseCode,
+        title: teachingRecordsTable.title,
+      })
+      .from(teachingRecordsTable)
+      .where(and(
+        eq(teachingRecordsTable.published, true),
+        eq(teachingRecordsTable.archived, false),
+      ))
+      .orderBy(
+        desc(teachingRecordsTable.academicYear),
+        asc(teachingRecordsTable.displayOrder),
+        asc(teachingRecordsTable.id),
+      );
+
+    res.json(GetPublicTeachingResponse.parse({ courses }));
+  } catch (error) {
+    req.log.error({ err: error }, "Public teaching courses failed");
+    res.status(500).json({ error: "Unable to load teaching courses" });
   }
 });
 

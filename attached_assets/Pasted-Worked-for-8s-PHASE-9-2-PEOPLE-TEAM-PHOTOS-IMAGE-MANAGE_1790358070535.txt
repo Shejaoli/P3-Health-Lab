@@ -1,0 +1,533 @@
+Worked for 8s
+
+---
+
+PHASE 9.2 — PEOPLE TEAM PHOTOS / IMAGE MANAGEMENT
+
+OBJECTIVE
+
+Implement the next client-feedback task: add real profile images/portraits to the existing People directory.
+
+Important workflow rule: Do the coding changes FIRST. Do not spend the session doing a long audit or repeatedly explaining what will be done. Make the narrowly scoped implementation, then run concise verification at the end.
+
+Do not deploy or push.
+
+1. PREVIOUS-WORK CHECK — VERY SHORT
+
+Before editing, quickly confirm:
+
+Current branch/worktree.
+
+/people exists.
+
+The existing 37 People records are present and unique.
+
+Existing /upload functionality exists.
+
+Existing authenticated admin protection remains in place.
+
+
+Do not stop merely because some people do not have photos yet. Missing photos are expected.
+
+If the required People records and upload system exist, proceed immediately with implementation.
+
+
+---
+
+2. PEOPLE PHOTOS
+
+Use the existing 37 People records. Do not create, rename, duplicate, remove, or reorder people.
+
+The existing groups are:
+
+Principal Investigator
+
+Dr. Egide Kalisa
+
+
+Postdoctoral Fellows
+
+Dr. Md Pervez Kabir
+
+
+PhD Students — Western University
+
+Allison Pert
+
+Augustine Omodieke
+
+Francis Acquah
+
+Daniel Twum
+
+Abdul Rasheed Rasheed
+
+
+MSc Students — Western University
+
+Zoha Irfan
+
+Oluwaseun Bajulaye
+
+Farhana Ramiza
+
+Ignatius Atuguba
+
+
+Global Health MSc Interns
+
+Jiaxuan Zhang
+
+Arshia Mohammadi-Sanjani
+
+Ihsan Khalifa
+
+Harini Kumaraverl
+
+Yuheng Lu
+
+Haiyan Li
+
+
+Research Assistants
+
+Ruiming Han
+
+Natasha Fortin
+
+Sydney Lessard
+
+Jiaqi Bi
+
+Shaikh Sumeet Jamil
+
+Sharika Jalali
+
+Innocent Twagirayezu
+
+
+International / Externally Co-supervised PhD Students
+
+Patrick Karakwende
+
+Adolphe Ndikubwimana
+
+Deborah
+
+Nibagwire
+
+Franck Kwabe
+
+
+Visiting International Students
+
+Dioumacor Faye
+
+Dorothy Namatovu
+
+Ange Lisa Ikirezi
+
+Marie Ange Tuyime
+
+Isabel Ajagu
+
+
+Undergraduate Alumni
+
+Victoria Bursey
+
+Emily Airhart
+
+Shagun Chander
+
+
+
+---
+
+3. PHOTO SOURCE RULES
+
+Use only:
+
+1. Images already present in the project/assets, or
+
+
+2. Images explicitly supplied by the user, or
+
+
+3. A clearly verified public profile image where the identity can be confidently matched to the correct person.
+
+
+
+Never generate artificial portraits.
+
+Never guess that a photograph belongs to someone.
+
+If a person does not currently have a verified image, leave their photo empty rather than inventing one.
+
+The absence of an image must not prevent the People page from rendering correctly.
+
+
+---
+
+4. PEOPLE PAGE DESIGN
+
+Improve the existing People cards so that when a verified portrait exists:
+
+It appears consistently on the person's profile/card.
+
+Image proportions are consistent.
+
+Use object-fit: cover or another appropriate restrained academic treatment.
+
+Avoid excessive rounded-card/AI-template styling.
+
+Preserve the existing restrained academic visual identity.
+
+Do not redesign the entire People page.
+
+Keep names, roles, institutions, research interests and alumni information unchanged.
+
+Do not introduce fake initials or fake portraits as permanent data.
+
+
+When no portrait exists, provide a clean neutral image-less state that does not look broken.
+
+
+---
+
+5. /UPLOAD ADMIN WORKFLOW
+
+Use the existing /upload system rather than creating another CMS.
+
+The authenticated admin should be able to:
+
+See/search the existing People records.
+
+Select a person.
+
+Upload their portrait.
+
+Preview it before saving.
+
+Replace an existing portrait.
+
+Remove/unlink a portrait without deleting the person.
+
+See which people already have photos and which do not.
+
+
+Supported image formats should remain whatever the existing upload implementation safely supports.
+
+Do not weaken authentication.
+
+Anonymous users must not gain upload, replace, delete, or media-management access.
+
+Do not expose private storage objects unnecessarily.
+
+
+---
+
+6. IMPORTANT FUTURE-UPLOAD BEHAVIOR
+
+Some team members currently have no image available.
+
+That is expected.
+
+Therefore the system must make it easy for me to return later and upload the missing portraits through /upload without changing code.
+
+Do not create placeholder database records merely to represent missing images.
+
+Do not modify the People roster simply because a photograph is unavailable.
+
+
+---
+
+7. MOBILE + DESKTOP
+
+Verify /people at approximately:
+
+1280px desktop
+
+390px mobile
+
+
+Check:
+
+No horizontal overflow.
+
+Images do not distort cards.
+
+Long names wrap correctly.
+
+Cards remain readable.
+
+Missing-photo states look intentional.
+
+Existing sections remain in the same order.
+
+Footer/header remain unchanged.
+
+
+
+---
+
+8. PROTECTED AREAS
+
+Do NOT modify unless technically required for the photo association:
+
+Projects
+
+HumekaNeza
+
+Research
+
+Teaching
+
+About
+
+Contact
+
+Publications
+
+News
+
+Research Map
+
+Header
+
+Footer
+
+Footer-logo triple-click/admin entry
+
+Authentication architecture
+
+Database security
+
+Production database
+
+Deployment configuration
+
+Git configuration
+
+
+Do not undo the existing HumekaNeza logo/client-feedback work.
+
+Do not change the 37-person roster.
+
+
+---
+
+9. VALIDATION
+
+After implementation, run only the useful checks:
+
+1. Frontend typecheck.
+
+
+2. Production build.
+
+
+3. /people desktop.
+
+
+4. /people mobile.
+
+
+5. /upload route.
+
+
+6. Confirm anonymous /upload access remains protected.
+
+
+7. Confirm one existing person can be selected by the admin UI.
+
+
+8. Confirm image association logic works without deleting/changing the People record.
+
+
+
+Do not spend time creating fake development people or fake portraits just to demonstrate the workflow.
+
+If the development database has no verified People/media records, report that limitation rather than inventing data.
+
+
+---
+
+10. FINAL REPORT
+
+Return a concise report:
+
+STATUS: PASS / PASS WITH BLOCKER / BLOCKED
+
+CHANGED:
+
+exact files/features changed
+
+
+PHOTOS:
+
+number of verified portraits connected
+
+number of People still without portraits
+
+
+UPLOAD:
+
+upload/replace/remove status
+
+authentication status
+
+
+VALIDATION:
+
+typecheck
+
+build
+
+desktop
+
+mobile
+
+/upload
+
+security
+
+
+NOT CHANGED:
+
+protected areas
+
+
+BLOCKERS: Only real blockers. Missing portraits are not a blocker.
+
+NEXT: Phase 9.3 / next client-feedback task.
+
+CREDIT/PACE RULE
+
+Prioritize coding first, verification second. Keep the audit short. Do not repeatedly inspect already-verified phases unless a concrete implementation dependency requires it. Do not rebuild/rewrite unrelated systems. Do not deploy. Do not push. Do not invent missing information.
+
+
+---
+
+
+MANDATORY PHOTO-TO-PERSON MATCHING
+
+THIS IS REQUIRED — DO NOT SKIP IT.
+
+Before associating any image with a person, inspect the filename of every supplied image.
+
+The filename is the primary source of truth for identifying who the image belongs to.
+
+For example:
+
+Dr-Egide-Kalisa.png
+
+Dr. Md Pervez Kabir.jpg
+
+Allison-Pert.webp
+
+Augustine-Omodieke.png
+
+
+The agent must:
+
+1. Read the filename.
+
+
+2. Extract the person's name from the filename.
+
+
+3. Normalize harmless differences such as:
+
+., -, _
+
+capitalization
+
+spaces
+
+common filename formatting
+
+
+
+4. Match that name against the existing 37 People records.
+
+
+5. Associate the image only when the filename can be confidently matched to an existing person.
+
+
+
+IMPORTANT — DO NOT GUESS
+
+Do not identify a person based only on:
+
+appearance
+
+facial similarity
+
+assumed identity
+
+image ordering
+
+folder ordering
+
+upload ordering
+
+metadata that does not clearly identify the person
+
+
+If the filename says a name that exists on the website, associate it with that person.
+
+If the filename contains a name that does not exist in the current People directory, ignore/drop that image. Do not create a new People record just because an image exists.
+
+For example:
+
+John-Smith.png
+
+If John Smith is not one of the existing People records, do not add John Smith and do not attach the image to somebody else.
+
+MULTIPLE IMAGES
+
+If multiple images resolve to the same person:
+
+do not create duplicate People records;
+
+choose the appropriate existing image according to the existing upload workflow;
+
+report the duplicate filename(s) rather than silently assigning them to another person.
+
+
+MISSING IMAGES
+
+If a person's name exists on the website but there is currently no matching image:
+
+leave that person's profile without a portrait;
+
+do not invent/generate one;
+
+do not use another person's image;
+
+do not block the rest of the implementation.
+
+
+The system must allow those missing portraits to be uploaded later through /upload.
+
+IMAGE INVENTORY REPORT
+
+Before finishing, provide a concise mapping such as:
+
+MATCHED
+Dr. Egide Kalisa → Dr-Egide-Kalisa.png
+Allison Pert → Allison-Pert.jpg
+Augustine Omodieke → Augustine-Omodieke.png
+
+NO MATCH / DROPPED
+Unknown Person → Unknown-Person.jpg
+
+NO IMAGE YET
+Dr. Md Pervez Kabir
+Francis Acquah
+...
+
+Do not include people in the "NO IMAGE YET" list if they already have a verified image.
+
+The filename-to-existing-name matching requirement takes priority over visual assumptions.

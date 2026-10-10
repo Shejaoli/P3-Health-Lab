@@ -1,0 +1,247 @@
+PHASE 8.1 — TYPOGRAPHY / SPACING / LAYOUT POLISH
+
+Branch: phase8-1-typography-spacing-layout
+
+IMPORTANT:
+- Do NOT work directly on main.
+- Preserve all completed Phase 1–7.3 work.
+- Do NOT redesign the site or change its information architecture.
+- Do NOT add new content, fake records, or placeholder data.
+- Do NOT modify database/admin/auth unless absolutely required for an existing visual issue.
+- Do NOT deploy.
+- Do NOT investigate historical repository issues.
+- Do NOT spend credits fixing the known pre-existing API-client/typecheck errors.
+- Coding first, then focused visual QA.
+- Keep the existing restrained academic identity.
+
+REFERENCE DESIGN DIRECTION:
+
+The site should feel like a serious university research lab website:
+- restrained
+- academic
+- editorial
+- highly readable
+- spacious but not oversized
+- neutral/off-white base
+- charcoal typography
+- muted teal used sparingly
+- ruled lists/dividers where appropriate
+
+Avoid:
+- gradients
+- glowing effects
+- excessive rounded cards
+- heavy shadows
+- glassmorphism
+- decorative blobs
+- excessive animations
+- oversized marketing-style headings
+- unnecessary UI redesigns
+
+TASK 1 — TYPOGRAPHY
+
+Review the existing global typography and make only targeted improvements.
+
+Check:
+- body font readability
+- heading hierarchy
+- page titles
+- section headings
+- eyebrow/label text
+- navigation text
+- body copy
+- links
+- metadata
+- footer text
+
+Ensure:
+- heading sizes have a consistent hierarchy
+- body text has comfortable line-height
+- long academic paragraphs remain readable
+- headings do not become unnecessarily huge
+- links remain clearly identifiable without excessive visual treatment
+
+Preserve any already-established typography that is working well.
+
+TASK 2 — SPACING RHYTHM
+
+Review the spacing between:
+- header and hero
+- hero title and description
+- major sections
+- section heading and content
+- paragraphs
+- ruled lists
+- links
+- footer sections
+
+Create a consistent vertical rhythm across the public pages.
+
+Avoid adding large empty spaces simply to make pages appear “premium”.
+
+TASK 3 — LAYOUT WIDTH
+
+Review the maximum content width and reading width.
+
+Ensure:
+- academic text is not stretched too wide
+- list/table-like content remains readable
+- important page content aligns consistently
+- hero and body content feel like part of the same system
+
+Do not force every section into identical widths if the existing design intentionally varies them.
+
+TASK 4 — PUBLIC PAGE CONSISTENCY
+
+Check the visual consistency of these representative routes:
+
+/
+ /research
+ /projects
+ /humekaneza
+ /people
+ /publications
+ /about
+ /teaching
+ /get-involved
+ /news
+ /research-map
+ /contact
+
+Where the same type of element appears on multiple pages, make its typography and spacing consistent.
+
+Examples:
+- page heroes
+- section headings
+- text links
+- ruled lists
+- metadata
+- empty states
+- internal navigation links
+
+Do not rewrite verified content.
+
+TASK 5 — RESPONSIVE TYPOGRAPHY
+
+Pay particular attention to mobile (~390px).
+
+Verify:
+- headings wrap naturally
+- no awkward single-word lines where avoidable
+- paragraphs remain readable
+- navigation remains intact
+- buttons/links do not overflow
+- lists remain usable
+- no horizontal scrolling
+
+Desktop target:
+~1280px
+
+Mobile target:
+~390px
+
+TASK 6 — ANIMATION RESTRAINT
+
+If any existing typography/layout animation is visually distracting, reduce it rather than introducing new animation.
+
+Do NOT add animation as part of this phase.
+
+TASK 7 — FOOTER / HEADER PRESERVATION
+
+Do not redesign the header or footer.
+
+Especially preserve:
+- existing navigation behavior
+- mobile menu
+- footer structure
+- footer-logo behavior, including the existing triple-click behavior
+
+TASK 8 — FOCUSED VALIDATION
+
+After coding, run:
+
+cd artifacts/p3-health-lab
+PORT=4173 BASE_PATH=/ pnpm run typecheck
+PORT=4173 BASE_PATH=/ pnpm run build
+
+If typecheck still fails with the already-documented API-client export / implicit-any errors:
+- do not expand scope
+- confirm no new errors were introduced
+
+Visually check representative pages at:
+- desktop ~1280px
+- mobile ~390px
+
+Prioritize:
+/
+ /research
+ /projects
+ /people
+ /about
+ /teaching
+ /news
+ /research-map
+
+Also confirm these routes still return HTTP 200:
+/
+/research
+/projects
+/humekaneza
+/people
+/teaching
+/get-involved
+/news
+/research-map
+/about
+/contact
+
+Check:
+- no horizontal overflow
+- no new runtime exceptions
+- typography is consistent
+- spacing is consistent
+- mobile wrapping is clean
+- existing links still work
+- no verified content disappeared
+- footer/header remain intact
+
+Do not spend credits taking excessive screenshots. Use focused screenshots only where needed to confirm a visual change.
+
+COMMIT:
+
+Commit only this phase with:
+
+Polish typography spacing and layout
+
+FINAL REPORT — KEEP SHORT:
+
+STATUS:
+PASS / PASS WITH BLOCKER
+
+CHANGED:
+- Exact visual areas/files changed.
+
+NOT CHANGED:
+- Content
+- Database
+- Admin/auth
+- Production
+- Header/footer structure
+
+VALIDATION:
+- Typecheck
+- Build
+- Desktop
+- Mobile
+- Routes
+- Overflow/runtime checks
+
+BLOCKERS:
+- Only genuine blockers.
+- Mention the existing API-client/typecheck issue if it remains.
+
+PHASE 8:
+8.1 Typography / spacing / layout: [RESULT]
+
+NEXT:
+Phase 8.2 — Images / assets / responsive presentation

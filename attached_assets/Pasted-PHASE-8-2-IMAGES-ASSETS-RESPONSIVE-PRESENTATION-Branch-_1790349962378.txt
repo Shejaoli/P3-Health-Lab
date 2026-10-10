@@ -1,0 +1,263 @@
+PHASE 8.2 — IMAGES / ASSETS / RESPONSIVE PRESENTATION
+
+Branch: phase8-2-images-assets-responsive
+
+IMPORTANT:
+- Do NOT work directly on main.
+- Preserve all completed Phase 1–8.1 work.
+- Do NOT redesign the site.
+- Do NOT invent images, people, locations, events, partners, or project photography.
+- Do NOT download random stock images from the web.
+- Do NOT add unverified portraits.
+- Do NOT create fake image records.
+- Do NOT build a new CMS/media system.
+- Do NOT deploy.
+- Do NOT investigate historical repository issues.
+- Do NOT spend credits fixing the known API-client/typecheck errors.
+- Coding first, then focused visual QA.
+
+GOAL:
+
+Improve the presentation of existing/verified images and image-capable areas across the public site without changing the site's restrained academic identity.
+
+TASK 1 — INVENTORY EXISTING ASSETS
+
+Quickly inspect the existing project assets and current image usage.
+
+Identify:
+- existing verified images
+- existing logo/assets
+- existing project/research images
+- existing People/profile photos
+- existing image components
+- any existing media URLs/data already supported by the application
+
+Do NOT perform a long historical audit.
+
+Do NOT add new images simply to make pages look fuller.
+
+TASK 2 — IMAGE PRESENTATION
+
+Where verified existing images are already used, improve only their presentation:
+
+Check:
+- aspect ratio
+- object-fit/object-position
+- cropping
+- image dimensions
+- loading behavior
+- consistent spacing
+- captions/alt text where appropriate
+- image-to-text relationship
+
+Avoid:
+- excessive rounded corners
+- heavy shadows
+- decorative frames
+- oversized image blocks
+- image carousels unless already part of the existing design
+
+Keep imagery editorial and academic.
+
+TASK 3 — PEOPLE / PROFILE IMAGES
+
+Review existing People/profile image presentation.
+
+If a verified photo exists:
+- display it consistently
+- preserve the person's identity/name relationship
+- use accessible alt text
+- avoid awkward cropping
+
+If no verified photo exists:
+- keep the existing text/neutral presentation
+- do NOT substitute stock portraits
+- do NOT use AI-generated portraits
+- do NOT invent identities
+
+TASK 4 — PROJECT / RESEARCH IMAGES
+
+Review Projects, Research, and HumekaNeza for existing verified imagery.
+
+If existing imagery is available:
+- make presentation consistent
+- preserve the current project text and links
+- ensure images remain secondary to the research content
+
+If imagery is not available:
+- do not create placeholder photos
+- do not add decorative stock imagery just to fill space
+
+The site's academic content should remain complete without requiring images.
+
+TASK 5 — RESPONSIVE IMAGE BEHAVIOR
+
+Test image-capable pages at:
+
+Desktop:
+~1280px
+
+Mobile:
+~390px
+
+Verify:
+- no stretched images
+- no distorted aspect ratios
+- no image overflow
+- no unexpected horizontal scrolling
+- no text/image collisions
+- image crops remain sensible
+- image spacing remains consistent
+- mobile images do not dominate the page
+
+TASK 6 — PERFORMANCE / ACCESSIBILITY
+
+For existing images where practical:
+- preserve appropriate dimensions
+- avoid unnecessary duplicate image loading
+- use lazy loading for below-the-fold images where appropriate
+- ensure meaningful alt text
+- decorative images should not create unnecessary screen-reader noise
+
+Do not introduce a new image optimization dependency unless absolutely necessary.
+
+TASK 7 — RESPONSIVE PRESENTATION BEYOND IMAGES
+
+While checking assets, fix only closely related presentation problems caused by:
+- image dimensions
+- media containers
+- responsive grids
+- image/text alignment
+- mobile image spacing
+
+Do NOT turn this into another general typography/layout pass.
+
+TASK 8 — PRESERVE DESIGN SYSTEM
+
+Maintain:
+- off-white/neutral base
+- charcoal typography
+- muted teal accent
+- restrained academic presentation
+- ruled lists
+- minimal visual decoration
+
+Avoid:
+- gradients
+- glowing effects
+- glassmorphism
+- large rounded cards
+- excessive shadows
+- decorative graphics
+- marketing-style image galleries
+
+TASK 9 — FOOTER / HEADER
+
+Do not redesign the header or footer.
+
+Preserve:
+- navigation
+- mobile menu
+- footer structure
+- footer-logo behavior, including the existing triple-click behavior
+
+TASK 10 — FOCUSED VALIDATION
+
+Run:
+
+cd artifacts/p3-health-lab
+PORT=4173 BASE_PATH=/ pnpm run typecheck
+PORT=4173 BASE_PATH=/ pnpm run build
+
+If the same documented API-client export / implicit-any typecheck errors remain:
+- do not expand scope
+- confirm they are pre-existing
+
+Visually check representative pages at ~1280px and ~390px:
+
+/
+ /research
+ /projects
+ /humekaneza
+ /people
+ /about
+ /teaching
+ /news
+ /research-map
+
+Pay particular attention to any pages that actually contain images.
+
+Check:
+- image rendering
+- responsive cropping
+- image/text alignment
+- accessibility/alt text
+- no horizontal overflow
+- no new runtime exceptions
+- no missing assets
+- no broken existing links
+- no verified content removed
+
+Also confirm HTTP 200 for:
+
+/
+/research
+/projects
+/humekaneza
+/people
+/teaching
+/get-involved
+/news
+/research-map
+/about
+/contact
+/publications
+
+Do not spend credits on excessive screenshots.
+
+COMMIT:
+
+Commit only this phase with:
+
+Improve image and asset presentation
+
+FINAL REPORT — KEEP SHORT:
+
+STATUS:
+PASS / PASS WITH BLOCKER
+
+CHANGED:
+- Exact files/components changed.
+- Exact image/asset presentation improvements.
+
+ASSETS:
+- Existing assets reused.
+- Confirm no unverified/fake imagery added.
+
+NOT CHANGED:
+- Content
+- Information architecture
+- Database
+- Admin/auth
+- Production
+- Header/footer structure
+
+VALIDATION:
+- Typecheck
+- Build
+- Desktop
+- Mobile
+- Routes
+- Image rendering
+- Overflow/runtime checks
+
+BLOCKERS:
+- Only genuine blockers.
+- Mention the existing API-client/typecheck issue if it remains.
+
+PHASE 8:
+8.1 Typography / spacing / layout: PASS WITH BLOCKER
+8.2 Images / assets / responsive presentation: [RESULT]
+
+NEXT:
+Phase 8.3 — Complete public-site QA

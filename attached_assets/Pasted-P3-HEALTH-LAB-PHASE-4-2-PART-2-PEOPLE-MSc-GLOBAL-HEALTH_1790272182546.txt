@@ -1,0 +1,101 @@
+P3 HEALTH LAB — PHASE 4.2 PART 2: PEOPLE — MSc + GLOBAL HEALTH INTERNS + RESEARCH ASSISTANTS
+
+FIRST: VERIFY PREVIOUS WORK
+Before changing anything, verify that Phase 4.2 Part 1 is already present:
+- Dr. Egide Kalisa
+- Dr. Md Pervez Kabir
+- Allison Pert
+- Augustine Omodieke
+- Francis Acquah
+- Daniel Twum
+- Abdul Rasheed Rasheed
+
+Report whether all 7 are present. If they are missing, restore only from the previously supplied verified data. Do not assume previous commits exist.
+
+TASK
+Update only the People page with these three groups:
+
+MSc Students — Western University
+1. Zoha Irfan — MSc Student — Western University — PAHs; air pollution; exposure science
+2. Oluwaseun Bajulaye — MSc Student — Western University
+3. Farhana Ramiza — MSc Student — Western University
+4. Ignatius Atuguba — MSc Student — Western University
+
+Global Health MSc Interns
+1. Jiaxuan Zhang — MSc Global Health Intern — Western University
+2. Arshia Mohammadi-Sanjani — MSc Global Health Intern — Western University
+3. Ihsan Khalifa — MSc Global Health Intern — Western University
+4. Harini Kumaraverl — MSc Global Health Intern — Western University
+5. Yuheng Lu — MSc Global Health Intern — Western University
+6. Haiyan Li — MSc Global Health Intern — Western University
+
+Research Assistants
+1. Ruiming Han — Research Assistant, MSc — Western University — Air pollution; PAHs; metals; exposure analysis
+2. Natasha Fortin — Research Assistant, MSc — Western University
+3. Sydney Lessard — Research Assistant, MSc — Western University
+4. Jiaqi Bi — Research Assistant, MSc — Western University
+5. Shaikh Sumeet Jamil — Research Assistant — Western University
+6. Sharika Jalali — Research Assistant — Western University
+7. Innocent Twagirayezu — Research Assistant, PhD — Western University
+
+HARD RULES
+- Do not invent missing research interests, photos, LinkedIn URLs, statuses, supervisors, programs, dates, or other details.
+- Where only the name, role and institution are supplied, show only those verified fields.
+- No placeholder portraits or fake initials.
+- Do not duplicate existing people. If a person already exists, update the existing record rather than creating another.
+- Preserve all existing People categories and records.
+- Keep the current restrained academic design.
+- No gradients, glowing effects, excessive animation, large social-media cards, or decorative graphics.
+- Keep mobile responsive with no horizontal overflow.
+- Do not modify Projects, HumekaNeza, Research, Teaching, About, Contact, News, header/footer, admin/auth/API/database, or footer-logo triple-click behavior.
+- Do not deploy.
+- Do not change Git configuration.
+
+BRANCH
+Create/use a dedicated branch:
+phase4-2-part2
+Never make these changes directly on main.
+
+VALIDATION
+After implementation:
+1. Verify People count and unique names.
+2. Confirm all 7 Part 1 people remain.
+3. Confirm MSc = 4/4.
+4. Confirm Global Health MSc Interns = 6/6.
+5. Confirm Research Assistants = 7/7.
+6. Confirm no duplicates.
+7. Test /people at approximately 1280px and 390px.
+8. Confirm no horizontal overflow.
+9. Run P3 typecheck.
+10. Run P3 production build.
+11. Confirm footer-logo triple-click/admin entry remains unchanged.
+12. Check git diff and ensure only intended People-page files changed.
+
+Do not fabricate missing information just to make cards look complete.
+
+FINAL REPORT ONLY:
+STATUS: PASS / BLOCKED
+
+PREVIOUS PART 1 VERIFICATION:
+- ...
+
+ADDED/UPDATED:
+- ...
+
+PEOPLE COUNTS:
+- ...
+
+VALIDATION:
+- Typecheck:
+- Build:
+- /people desktop:
+- /people mobile:
+- Duplicates:
+- Admin entry:
+- Protected files:
+
+NOT CHANGED:
+- ...
+
+REMAINING ISSUES:
+- ...

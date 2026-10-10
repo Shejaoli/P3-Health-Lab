@@ -1,0 +1,216 @@
+PHASE 9.1 — CLIENT FEEDBACK: TEAM + HUMEKA NEZA + PUBLICATIONS
+
+Branch: phase9-1-client-feedback
+
+IMPORTANT:
+- Do NOT work directly on main.
+- Preserve all completed Phase 1–8.3 work.
+- This is a targeted client-feedback implementation phase.
+- Do NOT redesign the entire website.
+- Do NOT invent people, team members, photos, projects, publications, partners, or credentials.
+- Do NOT create fake database records.
+- Do NOT deploy.
+- Do NOT fix the previously documented API-client/typecheck or public API 404 issues unless one directly blocks this requested work.
+- Coding first, then focused validation.
+- Keep the restrained academic design already established.
+
+CLIENT FEEDBACK:
+
+1. Add the team names/details provided for the P3 Health Lab.
+2. Give HumekaNeza its proper project visual treatment/design.
+3. Link Publications to Dr. Egide Kalisa's Google Scholar profile.
+
+TASK 1 — TEAM / PEOPLE
+
+Review the existing People page and existing verified team/person data.
+
+Use the existing People architecture and verified records.
+
+Make sure the team names already available in the project are presented clearly and consistently.
+
+Do NOT:
+- invent missing names
+- change people's roles without verified information
+- create duplicate people
+- add placeholder biographies
+
+If a person has no verified photo:
+- keep the existing neutral/no-photo presentation
+- do not use stock portraits
+- do not generate portraits
+
+If additional client-provided team names or photos are required but are NOT already present in the project, STOP and report exactly what is missing rather than inventing it.
+
+TASK 2 — HUMEKA NEZA VISUAL TREATMENT
+
+Improve the HumekaNeza presentation using the verified HumekaNeza logo asset supplied by the client.
+
+Use the existing logo appropriately on:
+- HumekaNeza page
+- relevant project/initiative presentation where genuinely appropriate
+- any existing HumekaNeza identity area
+
+Do NOT turn the page into a marketing landing page.
+
+Maintain:
+- restrained academic style
+- clean typography
+- muted/controlled use of green from the existing logo
+- generous whitespace
+- research-first presentation
+
+The HumekaNeza logo should support the project identity without overpowering the research content.
+
+Review the eight existing HumekaNeza initiatives.
+
+Ensure each project has:
+- clear title
+- concise supporting description
+- consistent visual treatment
+- correct existing project link
+
+Do not invent new project descriptions.
+
+Do not add stock photography.
+
+Do not create a new CMS.
+
+TASK 3 — PUBLICATIONS / GOOGLE SCHOLAR
+
+Add the client's verified Google Scholar profile as the primary external publication-profile link.
+
+Use the exact Google Scholar profile URL supplied by the client.
+
+Label it clearly, for example:
+“Google Scholar”
+
+Do not invent:
+- ORCID
+- CV
+- ResearchGate
+- publication metrics
+- citation counts
+- publication records
+
+If existing Publications/Profile admin fields already support external academic links, reuse that architecture.
+
+The Google Scholar link should be:
+- visible on the Publications page where appropriate
+- accessible from the relevant academic/profile area if that already exists
+- opened safely as an external academic link
+
+Do not create a duplicate publication system.
+
+TASK 4 — PUBLICATION DATA
+
+Do NOT attempt to import or scrape all Google Scholar publications in this phase.
+
+The client specifically requested the Publications link to Google Scholar.
+
+Keep the existing verified publication content unchanged unless a concrete link/display defect is discovered.
+
+TASK 5 — RESPONSIVE PRESENTATION
+
+Check:
+- HumekaNeza desktop ~1280px
+- HumekaNeza mobile ~390px
+- People desktop/mobile
+- Publications desktop/mobile
+
+Verify:
+- logo scales correctly
+- no image distortion
+- no horizontal overflow
+- names remain readable
+- project links work
+- Google Scholar link works
+- no new runtime errors
+
+TASK 6 — PRESERVE EXISTING SITE
+
+Do not modify:
+- header structure
+- footer structure
+- footer-logo triple-click behavior
+- admin/auth architecture
+- database architecture
+- existing research map
+- existing News implementation
+- unrelated pages
+
+TASK 7 — VALIDATION
+
+Run:
+
+cd artifacts/p3-health-lab
+PORT=4173 BASE_PATH=/ pnpm run typecheck
+PORT=4173 BASE_PATH=/ pnpm run build
+
+Known typecheck/API issues from previous phases should remain out of scope if unchanged.
+
+Check these routes:
+
+/
+/humekaneza
+/projects
+/people
+/publications
+/about
+/research
+
+Check:
+- HTTP 200
+- no horizontal overflow
+- no new runtime exceptions
+- logo renders correctly
+- team names render correctly
+- project links work
+- Google Scholar link works
+
+Do not create fake database records for testing.
+
+COMMIT:
+
+Client feedback: team, HumekaNeza, and Google Scholar
+
+FINAL REPORT — KEEP SHORT:
+
+STATUS:
+PASS / PASS WITH BLOCKER
+
+CHANGED:
+- Exact files/components changed.
+- Team presentation changes.
+- HumekaNeza visual changes.
+- Google Scholar link changes.
+
+ASSETS:
+- Confirm HumekaNeza logo reused.
+- Confirm no unverified/generated imagery added.
+
+PUBLICATIONS:
+- Confirm Google Scholar link added.
+- Confirm no publication data was invented/imported.
+
+NOT CHANGED:
+- Database
+- Admin/auth
+- Production
+- Header/footer structure
+- Unrelated pages
+
+VALIDATION:
+- Typecheck
+- Build
+- Desktop
+- Mobile
+- Routes
+- Links
+- Overflow/runtime checks
+
+BLOCKERS:
+- Only genuine blockers.
+- If additional client-provided names/photos are required but unavailable, state exactly what is missing.
+
+NEXT:
+Stop and wait for further client comments.

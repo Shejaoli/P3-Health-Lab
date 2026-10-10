@@ -1,0 +1,192 @@
+P3 HEALTH LAB — PHASE 6.3: RECRUITMENT STRUCTURE + FINAL PHASE 6 QA
+
+IMPORTANT:
+Phase 6.2 is already committed on branch `phase6-2-teaching-join`:
+3517e7a — Complete Phase 6.2 Teaching philosophy and Join the Lab.
+
+Do not spend this session doing a long historical recovery/audit. This is a new account/session. Make the requested code changes first, then perform compact validation.
+
+GOAL:
+Finish Phase 6 by making the Join the Lab/recruitment structure clear, consistent, maintainable, and ready for future opportunities, while preserving the existing Teaching implementation.
+
+WORKFLOW:
+1. QUICK PREFLIGHT ONLY:
+   - Confirm current branch/worktree.
+   - Locate `/teaching` and `/get-involved`.
+   - Confirm the existing structured Teaching course data exists.
+   - Confirm the existing opportunity/admin implementation or current public opportunity architecture.
+2. IMMEDIATELY IMPLEMENT CODE CHANGES.
+3. Only after coding, run focused typecheck/build and visual QA.
+4. Do not spend credits on extensive repository history analysis unless a direct implementation failure requires it.
+
+BRANCH:
+Create/use:
+`phase6-3-recruitment-qa`
+
+Never modify main directly.
+Never deploy.
+Never force-push, reset, rebase, or change Git configuration.
+
+HARD RULES:
+- Preserve Phase 6.1's 9 courses exactly.
+- Preserve Phase 6.2 Teaching Philosophy, Graduate Supervision, and Experiential & Field-Based Teaching.
+- Preserve all existing People, Research, Projects, HumekaNeza, About, Publications, Contact, News, header/footer, authentication, /upload, and footer-logo triple-click behavior.
+- Do not invent recruitment openings, salaries, funding, deadlines, eligibility, supervisors, projects, partners, or application requirements.
+- Do not create fake opportunity records for testing.
+- Do not create a second CMS or duplicate database system.
+- Use the existing restrained academic design.
+- No gradients, glowing effects, decorative graphics, heavy animations, or large rounded marketing cards.
+- Keep mobile responsive and prevent horizontal overflow.
+
+TASK 1 — RECRUITMENT STRUCTURE
+
+Review `/get-involved` as the Join the Lab/recruitment page.
+
+Keep these five verified recruitment categories:
+
+1. Graduate Students
+2. Postdoctoral Researchers
+3. Research Assistants & Staff
+4. Undergraduate / Research Students
+5. Visiting Students & Scholars
+
+Make the structure clear and consistent.
+
+Each category should support:
+- category heading
+- short verified explanatory text if already available
+- published opportunities when they exist
+- neutral empty state when none exist
+
+Use exactly this neutral empty message when a category has no available opportunity:
+
+“Opportunity information will be posted here when available.”
+
+Do not imply that positions are currently open when the database is empty.
+
+TASK 2 — OPPORTUNITY DATA FLOW
+
+Use the existing opportunity architecture.
+
+If the authenticated admin Opportunities resource already exists:
+- preserve it
+- ensure its fields remain editable
+- ensure published/hidden/archived behavior remains correct
+
+Expected editable fields include, where already implemented:
+- title
+- category
+- short description
+- details
+- application instructions
+- application/contact email
+- application URL
+- deadline
+- status
+- display order
+- published
+- archived
+
+Public behavior:
+- published + non-archived + non-hidden records may display
+- hidden records must not display
+- unpublished records must not display
+- archived records must not display
+- empty categories must show the neutral message
+
+If the development database is empty or unavailable, DO NOT invent records and DO NOT alter production data just to make validation pass.
+
+TASK 3 — ADMIN EDITABILITY RULE
+
+Anything on the recruitment page that is expected to change over time should use the existing admin/content system.
+
+Do not hard-code opportunity listings into the frontend.
+
+If a required editable field already exists, reuse it.
+
+If a genuinely missing field is necessary, make the smallest compatible change to the existing opportunity schema/admin resource. Do not build a new parallel CMS.
+
+TASK 4 — TEACHING PRESERVATION
+
+Do not rewrite Phase 6.1 or Phase 6.2.
+
+Confirm the Teaching page still contains:
+- 9 courses
+- Teaching Philosophy
+- Graduate Supervision
+- Experiential & Field-Based Teaching
+
+Do not change course data merely because the development endpoint/database is empty.
+
+The verified source code is the source of truth for this phase.
+
+TASK 5 — FINAL PHASE 6 QA
+
+After implementation, perform only focused validation:
+
+A. Typecheck
+B. Frontend production build
+C. `/teaching` desktop ~1280px
+D. `/teaching` mobile ~390px
+E. `/get-involved` desktop ~1280px
+F. `/get-involved` mobile ~390px
+
+Check:
+- no horizontal overflow
+- restrained academic layout
+- all five recruitment categories visible
+- neutral empty states work when no opportunities are returned
+- no application console errors
+- Teaching still has exactly 9 courses
+- all three Teaching sections remain
+- footer-logo triple-click/admin entry remains unchanged
+
+If the development opportunity database/table is unavailable, report that limitation honestly. Do not create sample opportunities merely to remove the blocker.
+
+IMPORTANT CREDIT-SAVING RULE:
+Do not:
+- inspect hundreds of unrelated files
+- perform a full Git history audit
+- repeatedly restart services unnecessarily
+- take excessive screenshots
+- rebuild unrelated workspaces
+- investigate unrelated warnings
+
+Only investigate something further if it directly blocks Phase 6.3.
+
+GIT:
+Commit the completed code on:
+`phase6-3-recruitment-qa`
+
+Suggested commit:
+`Complete Phase 6 recruitment structure and QA`
+
+Do not merge to main.
+Do not deploy.
+
+FINAL REPORT — ONLY THIS:
+
+STATUS: PASS / BLOCKED
+
+CHANGED:
+- ...
+
+NOT CHANGED:
+- ...
+
+VALIDATION:
+- ...
+
+ADMIN EDITABILITY:
+- ...
+
+BLOCKERS:
+- ...
+
+PHASE 6:
+- 6.1 Teaching course data: PASS
+- 6.2 Teaching + Join the Lab: PASS / BLOCKED
+- 6.3 Recruitment structure + QA: PASS / BLOCKED
+
+NEXT:
+Phase 7.1 — News page

@@ -1,0 +1,139 @@
+PHASE 6.1 — TEACHING COURSE DATA
+
+Continue the P3 Health Lab website from the CURRENT project state.
+
+IMPORTANT WORKFLOW:
+CODE FIRST → TARGETED VERIFY → REPORT.
+
+Do NOT spend this task doing another recovery audit or reconstructing project history. We already have the roadmap and established verified work.
+
+ROADMAP:
+Phase 6 — Teaching + Join the Lab
+6.1 Teaching course data
+6.2 Teaching philosophy/supervision + Join the Lab
+6.3 Recruitment structure + QA
+
+TASK:
+Implement Phase 6.1 now.
+
+Build/complete the structured Teaching course data for the existing Teaching page.
+
+VERIFIED COURSE TOTAL:
+
+- 2026–2027: 2 courses
+- 2025–2026: 5 courses
+- 2024–2025: 2 courses
+- TOTAL: 9 courses
+
+FIRST:
+Inspect only the minimum relevant Teaching files/data/API needed to implement this correctly.
+
+THEN CODE:
+
+- Implement the 9 verified course records using the existing project architecture.
+- Keep course data structured and maintainable.
+- Use the existing Teaching page/design.
+- Group/display courses clearly by academic year.
+- Keep one source of truth for the course records.
+- Reuse existing API/database/content patterns where appropriate.
+- Do not create a parallel content system.
+- Do not redesign the Teaching page.
+
+DATA ACCURACY:
+Use only course information already verified in the project.
+Do NOT invent:
+
+- course names
+- course codes
+- institutions
+- dates
+- descriptions
+- teaching roles
+- links
+- outcomes
+
+If a field is not verified, leave it absent/empty rather than inventing content.
+
+ADMIN EDITABILITY:
+Course information may need to be changed by the lab later.
+Use an existing admin/content mechanism if one already supports this.
+If full course CRUD does not yet exist, structure the implementation cleanly for future Admin CRUD (10.3), but DO NOT start Phase 10.3 in this task.
+
+PRESERVE:
+
+- Existing verified Teaching content.
+- Existing public header/footer.
+- Existing authentication/security.
+- Existing admin entry behavior.
+- Existing People, Research, Projects, HumekaNeza, About, Contact, Publications and other completed pages.
+- Development/production separation.
+
+DO NOT:
+
+- deploy
+- modify production database
+- change Git configuration
+- change authentication/security
+- change header/footer
+- start Phase 6.2
+- start Phase 6.3
+- start Phase 7
+- start Phase 8
+- start Admin CRUD 10.3
+- perform unrelated refactoring
+- spend the task investigating old recovery branches unless an actual coding blocker appears
+
+VERIFICATION — ONLY AFTER CODING:
+Run focused checks:
+
+1. Relevant TypeScript/typecheck.
+2. Relevant frontend/API build if applicable.
+3. Open the Teaching page.
+4. Confirm all 9 courses render.
+5. Confirm year grouping is correct:
+   - 2026–2027: 2
+   - 2025–2026: 5
+   - 2024–2025: 2
+6. Confirm no duplicate course records.
+7. Check approximately 1280px desktop.
+8. Check approximately 390px mobile.
+9. Check browser console for errors on Teaching.
+10. Review changed files/diff for unrelated modifications.
+
+If a check fails, fix that concrete issue and rerun only the affected check.
+
+IMPORTANT:
+Do not let the earlier Phase 4.2 /upload authentication blocker stop Phase 6.1. It is unrelated unless the current Teaching implementation actually depends on it.
+
+FINAL REPORT:
+STATUS: PASS / BLOCKED
+
+CODE CHANGED:
+
+- ...
+
+COURSE DATA:
+
+- 2026–2027: X
+- 2025–2026: X
+- 2024–2025: X
+- Total: X
+
+ADMIN EDITABILITY:
+
+- ...
+
+VALIDATION:
+
+- ...
+
+NOT CHANGED:
+
+- ...
+
+BLOCKERS:
+
+- ...
+
+NEXT:
+Phase 6.2 — Teaching philosophy/supervision + Join the Lab

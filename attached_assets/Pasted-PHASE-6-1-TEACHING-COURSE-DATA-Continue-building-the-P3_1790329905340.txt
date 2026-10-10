@@ -1,0 +1,141 @@
+PHASE 6.1 — TEACHING COURSE DATA
+
+Continue building the P3 Health Lab public website.
+
+IMPORTANT: CODE FIRST.
+Do not spend this task on a long repository recovery, historical audit, or explanation.
+
+WORKFLOW
+
+1. Inspect only the minimum current code needed to understand the Teaching page/data implementation.
+2. Immediately implement the Phase 6.1 changes.
+3. After coding, run focused verification only.
+4. Fix any concrete errors found.
+5. Do not deploy or modify production.
+6. Do not change unrelated pages or architecture.
+
+ROADMAP CONTEXT
+
+Phase 6 — Teaching + Join the Lab
+6.1 Teaching course data
+6.2 Teaching philosophy/supervision + Join the Lab
+6.3 Recruitment structure + QA
+
+TASK — PHASE 6.1
+
+Build/complete the structured Teaching course data for the existing Teaching page.
+
+Use the verified course information already established for this project:
+
+2026–2027
+
+- 2 verified courses
+
+2025–2026
+
+- 5 verified courses
+
+2024–2025
+
+- 2 verified courses
+
+TOTAL: 9 courses.
+
+Use the exact verified course names, years/terms, and descriptions already present in the project's established Teaching content. Do NOT invent course codes, institutions, dates, descriptions, outcomes, links, or teaching roles.
+
+IMPLEMENTATION REQUIREMENTS
+
+- Make the course information structured rather than maintaining a fragile block of duplicated hard-coded markup.
+- Preserve the existing Teaching page and restrained academic design.
+- Render the 9 verified course records clearly by academic year/term.
+- Keep the data easy to update later.
+- If the current architecture already has an appropriate database/API/content structure, reuse it rather than creating a duplicate system.
+- Do not create unnecessary new tables, routes, components, or dependencies.
+- Keep one source of truth for course records so the same course data is not duplicated across multiple UI sections.
+- Preserve existing Teaching Philosophy, Graduate Supervision, and other verified Teaching content; those belong to later Phase 6 work unless a small change is strictly required for integration.
+
+ADMIN EDITABILITY
+
+Any course field that the lab may need to change later should be maintainable through the existing authenticated admin/content system where that system already supports it.
+
+If course administration is not yet implemented, DO NOT expand this task into the full Admin CRUD phase (10.3). Structure the code/data cleanly so it can be connected to admin CRUD later.
+
+Do not invent missing information just to populate a field.
+
+DESIGN
+
+- Keep the existing academic visual language.
+- No redesign.
+- No unnecessary animations.
+- No new visual effects.
+- Desktop and mobile must remain clean.
+- No horizontal overflow.
+
+PROTECTED
+
+Do NOT:
+
+- modify production
+- deploy
+- change Git configuration
+- change authentication/security
+- change header/footer
+- remove verified Teaching content
+- invent course information
+- start Phase 6.2 or 6.3
+- start Phase 7 or 8
+- start Admin CRUD 10.3
+- perform unrelated refactoring
+
+FOCUSED VERIFICATION — AFTER CODING
+
+Only after implementing the code:
+
+1. Run the relevant TypeScript/typecheck.
+2. Run the relevant frontend/API build if applicable.
+3. Open the Teaching page.
+4. Confirm all 9 verified courses render.
+5. Confirm grouping by academic year/term is correct.
+6. Confirm no duplicate course records are displayed.
+7. Check desktop (~1280px) and mobile (~390px).
+8. Check browser console for errors on the Teaching page.
+9. Review the final diff and confirm no unrelated files/features were changed.
+
+Do NOT run a full repository recovery audit unless a concrete failure requires it.
+
+FINAL REPORT
+
+Return only:
+
+STATUS: PASS / BLOCKED
+
+CODE CHANGED:
+
+- ...
+
+COURSE DATA:
+
+- 2026–2027: 2
+- 2025–2026: 5
+- 2024–2025: 2
+- Total: 9
+
+ADMIN EDITABILITY:
+
+- ...
+
+VALIDATION:
+
+- ...
+
+NOT CHANGED:
+
+- ...
+
+BLOCKERS:
+
+- ...
+
+NEXT:
+
+- Phase 6.2 — Teaching philosophy/supervision + Join the Lab
