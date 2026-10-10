@@ -162,6 +162,14 @@ const researchPrograms: {
   },
 ];
 
+type ProjectImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  fit?: 'cover' | 'contain';
+};
+
 type Project = {
   id: string;
   slug: string;
@@ -173,6 +181,7 @@ type Project = {
   location?: string;
   closing?: string;
   process?: string;
+  images: ProjectImage[];
 };
 
 const projects: Project[] = [
@@ -196,6 +205,11 @@ const projects: Project[] = [
       'creative communication through posters and letters to families',
     ],
     closing: 'The campaign transforms schools into living environmental-health laboratories where children learn by observing, measuring, communicating, and acting.',
+    images: [
+      { src: '/images/p3/projects/01-humekaneza-school-campaign/orange-room-workshop.jpg', alt: 'A teacher leads students in an air-quality workshop in a classroom.', width: 1920, height: 1280 },
+      { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-enough-is-enough.jpg', alt: 'A child-created poster calling attention to air pollution.', width: 1920, height: 1280 },
+      { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-stop-cutting-trees.jpg', alt: 'A child-created poster encouraging protection of trees.', width: 1920, height: 1281 },
+    ],
   },
   {
     id: 'i-am-an-air-quality-scientist',
@@ -204,6 +218,9 @@ const projects: Project[] = [
     description: [
       'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities.',
       'The initiative introduces children to environmental-health science while building scientific literacy, curiosity, confidence, and practical understanding of environmental data.',
+    ],
+    images: [
+      { src: '/images/p3/projects/02-i-am-an-air-quality-scientist/students-measuring-experiment.jpg', alt: 'Students take part in an air-quality science experiment.', width: 1833, height: 1033 },
     ],
   },
   {
@@ -214,6 +231,9 @@ const projects: Project[] = [
       'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools.',
       'Students and teachers can observe how air pollution changes throughout the day and explore how traffic, weather, indoor activities, and other factors affect the air they breathe.',
     ],
+    images: [
+      { src: '/images/p3/projects/03-one-sensor-per-school/school-courtyard-sensor-trees.jpg', alt: 'Air-quality monitoring equipment installed in a tree-lined school courtyard.', width: 1920, height: 1083 },
+    ],
   },
   {
     id: 'classroom-clean-air-interventions',
@@ -222,6 +242,11 @@ const projects: Project[] = [
     description: [
       'HumekaNeza supports research evaluating practical approaches to improve classroom air quality, including the use of portable air purifiers.',
       'These interventions examine changes in indoor air pollution and explore potential effects on student health, learning, comfort, attendance, and academic performance.',
+    ],
+    images: [
+      { src: '/images/p3/projects/04-classroom-clean-air/classroom-air-purifier-diagram.jpg', alt: 'Diagram showing an air purifier cleaning air in a classroom.', width: 1448, height: 1086, fit: 'contain' },
+      { src: '/images/p3/projects/04-classroom-clean-air/green-classroom-illustration.jpg', alt: 'Illustration of a greener, more sustainable classroom.', width: 1833, height: 1033, fit: 'contain' },
+      { src: '/images/p3/projects/04-classroom-clean-air/green-classroom-students-sign.jpg', alt: 'Students display a classroom sign about cleaner, greener schools.', width: 1833, height: 1033, fit: 'contain' },
     ],
   },
   {
@@ -238,6 +263,12 @@ const projects: Project[] = [
       'low-emission school zones',
       'engagement with parents and school communities',
     ],
+    images: [
+      { src: '/images/p3/projects/05-clean-air-school-zones/school-zone-traffic-sensors.jpg', alt: 'Air-quality sensors monitor traffic near a school zone.', width: 1833, height: 1033 },
+      { src: '/images/p3/projects/05-clean-air-school-zones/children-walking-to-school-guide.jpg', alt: 'Illustrated guide to children walking to school by a cleaner route.', width: 1166, height: 831, fit: 'contain' },
+      { src: '/images/p3/projects/05-clean-air-school-zones/school-bus-drop-off.jpg', alt: 'School bus drop-off area near a school.', width: 1684, height: 1191 },
+      { src: '/images/p3/projects/05-clean-air-school-zones/ebus-vs-diesel-school-bus.jpg', alt: 'Illustration comparing an electric school bus with a diesel bus.', width: 1920, height: 1358, fit: 'contain' },
+    ],
   },
   {
     id: 'shared-skies',
@@ -247,6 +278,9 @@ const projects: Project[] = [
       'Shared Skies connects students across countries through environmental-health education and citizen science.',
       'Students collect and compare air-quality information from their communities and share findings through virtual exchanges, presentations, and Global Classroom activities.',
       'The initiative helps children recognize that air pollution is both a local and global challenge.',
+    ],
+    images: [
+      { src: '/images/p3/projects/06-shared-skies/canada-rwanda-global-classroom.png', alt: 'Graphic connecting a Canada–Rwanda classroom exchange.', width: 1920, height: 1111, fit: 'contain' },
     ],
   },
   {
@@ -269,6 +303,9 @@ const projects: Project[] = [
       'Ontario Youth CMP Conference',
     ],
     process: 'LISTEN → LEARN → SEE → TRANSLATE → SHARE → ACT → FEEDBACK',
+    images: [
+      { src: '/images/p3/projects/07-making-the-invisible-visible/school-interventions-circle.png', alt: 'Illustrated overview of school-based air-quality interventions.', width: 1920, height: 1082, fit: 'contain' },
+    ],
   },
   {
     id: 'equitable-air-quality-communication',
@@ -288,6 +325,10 @@ const projects: Project[] = [
       'co-designed communication and preparedness strategies',
     ],
     closing: 'The project centres community voices and aims to make air-quality information more relevant, accessible, trusted, and actionable.',
+    images: [
+      { src: '/images/p3/projects/08-equitable-air-quality-communication/children-walking-in-smoke.jpg', alt: 'Children walk along a road on a smoky day.', width: 694, height: 489 },
+      { src: '/images/p3/projects/08-equitable-air-quality-communication/smoky-industry-illustration.jpg', alt: 'Illustration of industrial air pollution and exposure risks.', width: 1920, height: 1358, fit: 'contain' },
+    ],
   },
 ];
 
@@ -1159,16 +1200,28 @@ function Projects() {
                 </div>
                 {project.location && <span className="project-location">{project.location}</span>}
               </div>
-              <div className="project-entry-body">
-                <div>
-                  {project.description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <div className="project-entry-layout">
+                <div className="project-entry-media">
+                  {project.images.slice(0, 1).map((image) => <figure className={`project-entry-image${image.fit === 'contain' ? ' is-diagram' : ''}`} key={image.src}>
+                    <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+                  </figure>)}
+                  {project.images.length > 1 && <div className="project-entry-image-strip">
+                    {project.images.slice(1).map((image) => <figure className={`project-entry-image${image.fit === 'contain' ? ' is-diagram' : ''}`} key={image.src}>
+                      <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+                    </figure>)}
+                  </div>}
                 </div>
-                {(project.activities || project.focus) && <div className="project-focus">
-                  <h3>{project.activities ? 'Activities' : 'Focus'}</h3>
-                  <ul>{(project.activities ?? project.focus)?.map((item) => <li key={item}>{item}</li>)}</ul>
-                </div>}
-                {project.process && <p className="project-process">{project.process}</p>}
-                {project.closing && <p className="project-closing">{project.closing}</p>}
+                <div className={`project-entry-body${project.activities || project.focus ? '' : ' is-single-column'}`}>
+                  <div>
+                    {project.description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                  </div>
+                  {(project.activities || project.focus) && <div className="project-focus">
+                    <h3>{project.activities ? 'Activities' : 'Focus'}</h3>
+                    <ul>{(project.activities ?? project.focus)?.map((item) => <li key={item}>{item}</li>)}</ul>
+                  </div>}
+                  {project.process && <p className="project-process">{project.process}</p>}
+                  {project.closing && <p className="project-closing">{project.closing}</p>}
+                </div>
               </div>
             </div>
           </article>)}
