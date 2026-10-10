@@ -4935,7 +4935,7 @@ body {
 }
 
 .research-framework-image-scroll {
-  overflow-x: auto;
+  overflow: visible;
   border: 1px solid hsl(var(--border));
   background: hsl(var(--background));
 }
@@ -4943,8 +4943,9 @@ body {
 .research-framework-image-scroll img {
   display: block;
   width: 100%;
-  min-width: 760px;
+  max-width: 100%;
   height: auto;
+  object-fit: contain;
 }
 
 .research-wum-air {
