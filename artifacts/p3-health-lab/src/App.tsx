@@ -1183,11 +1183,25 @@ function Projects() {
 
 function ResearchMap() {
   return <>
-    <PageHero
-      eyebrow="Global Research Map"
-      title={<>Research Across <em>Communities</em></>}
-      text="A geographic view of communities and settings connected to P3 Health Lab research and initiatives."
-    />
+    <section className="page-hero research-map-page-hero">
+      <div className="container-wide">
+        <div className="research-map-page-hero-grid">
+          <div>
+            <span className="eyebrow">Global Research Map</span>
+            <h1 className="display">Research Across <em>Communities</em></h1>
+            <p>A geographic view of communities and settings connected to P3 Health Lab research and initiatives.</p>
+          </div>
+          <img
+            src="/images/p3/global-map-banner-candidates/teacher-with-posters-classroom.jpg"
+            alt="A teacher presents environmental-health posters to students in a classroom."
+            width="1920"
+            height="1280"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </section>
     <section className="section research-map-section" data-reveal="up" aria-labelledby="research-map-locations-title">
       <div className="container-wide">
         <div className="section-head">

@@ -3519,6 +3519,14 @@ body {
 .contact-map-frame iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
 
 @media (max-width: 760px) {
+  .research-map-page-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    min-height: 0;
+  }
+
+  .research-map-page-hero { padding-block: 44px 40px; }
+
   .opportunity-category,
   .contact-profile-grid,
   .contact-location-grid {
@@ -4998,6 +5006,24 @@ body {
   height: auto;
   border: 1px solid hsl(var(--border));
   background: hsl(var(--card));
+}
+
+.research-map-page-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+  align-items: center;
+  gap: 40px;
+  min-height: 280px;
+}
+
+.research-map-page-hero { padding-block: 34px; }
+
+.research-map-page-hero-grid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius);
 }
 
 .research-student-origins-figure {
