@@ -367,7 +367,7 @@ const funderLogos = [
   { src: '/images/funder-logo-05.png', alt: 'American Geophysical Union, AGU' },
   { src: '/images/funder-logo-06.png', alt: 'National Institutes of Health, NIH' },
   { src: '/images/funder-logo-07.png', alt: 'Schulich School of Medicine & Dentistry at Western University' },
-  { src: '/images/funder-logo-08.png', alt: 'The World Academy of Sciences, TWAS' },
+  { src: '/images/funder-logo-08.png', alt: 'UNESCO and The World Academy of Sciences (TWAS)' },
   { src: '/images/funder-logo-09.png', alt: 'National Council for Science and Technology, NCST' },
 ];
 
