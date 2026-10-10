@@ -22,6 +22,11 @@ import zohaIrfanPhoto from '@assets/Zoha_Irfan-9_1790358118502.webp';
 
 const queryClient = new QueryClient();
 const googleScholarUrl = 'https://scholar.google.co.nz/citations?user=yAPiYq8AAAAJ&hl=en';
+const publicationCovers = [
+  { src: '/images/p3/publications-covers/acs-est-air-cover-a.jpg', alt: 'Cover of ACS ES&T Air.', width: 1860, height: 2474 },
+  { src: '/images/p3/publications-covers/acs-est-air-cover-b.jpg', alt: 'Cover of another ACS ES&T Air issue.', width: 1860, height: 2474 },
+  { src: '/images/p3/publications-covers/environmental-science-advances-cover.jpg', alt: 'Cover of Environmental Science: Advances.', width: 800, height: 1047 },
+];
 const humekaYouTubeVideoId = getYouTubeVideoId(import.meta.env.VITE_HUMEKA_YOUTUBE_URL);
 
 function getYouTubeVideoId(value: string | undefined) {
@@ -63,14 +68,23 @@ function useScrollReveal(routeKey: string) {
   }, [routeKey]);
 }
 
+type ResearchImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  fit?: 'cover' | 'contain';
+};
+
 const researchPrograms: {
   id: string;
   title: string;
   text: string;
   image: string;
   imageAlt: string;
+  gallery: ResearchImage[];
   questions: string[];
-  projects: { label: string; href?: string }[];
+  projects: { label: string; href?: string; logo?: string }[];
 }[] = [
   {
     id: 'air-we-breathe',
@@ -78,6 +92,12 @@ const researchPrograms: {
     text: 'Understanding the chemical and biological mixtures that shape what people actually breathe.',
     image: 'research-air-monitoring-upright.jpg',
     imageAlt: 'Air-quality sampling instruments beside a road and trees.',
+    gallery: [
+      { src: 'p3/research/program-1-air-we-breathe/chemical-biological-mixture-diagram.png', alt: 'Diagram of chemical and biological mixtures in the air.', width: 2285, height: 880, fit: 'contain' },
+      { src: 'p3/research/program-1-air-we-breathe/canadian-air-microbiome-study-design.jpg', alt: 'Study design for measuring the Canadian air microbiome.', width: 9600, height: 6900, fit: 'contain' },
+      { src: 'p3/research/program-1-air-we-breathe/air-sampling-field-illustration.png', alt: 'Illustration of air sampling in the field.', width: 2240, height: 1260, fit: 'contain' },
+      { src: 'p3/research/program-1-air-we-breathe/pollution-sources-illustration.png', alt: 'Illustration of common sources of air pollution.', width: 1770, height: 420, fit: 'contain' },
+    ],
     questions: [
       'What does PM2.5 mass miss about chemical and biological composition?',
       'How do source mixtures vary across places and seasons?',
@@ -85,7 +105,7 @@ const researchPrograms: {
     ],
     projects: [
       { label: 'Beyond PM2.5' },
-      { label: 'APAM-Net' },
+      { label: 'APAM-Net', logo: '/images/p3/logos/project/bacana-logo.png' },
       { label: 'Canadian air microbiome' },
       { label: 'Amazon air microbiome' },
     ],
@@ -96,6 +116,11 @@ const researchPrograms: {
     text: 'Studying children’s exposure across the school day, in classrooms, and along routes to school.',
     image: 'research-children-exposure.jpg',
     imageAlt: 'A researcher demonstrates air-quality monitoring equipment to children indoors.',
+    gallery: [
+      { src: 'p3/research/program-2-children-schools/school-neighbourhood-traffic-illustration.jpg', alt: 'Illustration of traffic and exposure around a school neighbourhood.', width: 856, height: 609, fit: 'contain' },
+      { src: 'p3/research/program-2-children-schools/home-to-school-route-sensors.jpg', alt: 'Sensors measure air quality along a home-to-school route.', width: 1833, height: 1033 },
+      { src: 'p3/research/program-2-children-schools/indoor-exposure-house-model.jpg', alt: 'Model illustrating indoor exposure across different parts of a home.', width: 4093, height: 2894, fit: 'contain' },
+    ],
     questions: [
       'How do children’s exposures vary across classrooms, school days, and journeys to school?',
       'Which practical changes can support cleaner air in classrooms and school zones?',
@@ -114,6 +139,10 @@ const researchPrograms: {
     text: 'Examining how climate-related hazards, including heat and wildfire smoke, affect exposure and health.',
     image: 'research-climate-monitoring.jpg',
     imageAlt: 'Outdoor weather and air-monitoring equipment at a fenced field site in winter.',
+    gallery: [
+      { src: 'p3/research/program-3-climate-wildfire/kigali-greenspace-map.png', alt: 'Map of green spaces in Kigali.', width: 1040, height: 734, fit: 'contain' },
+      { src: 'p3/projects/08-equitable-air-quality-communication/smoky-industry-illustration.jpg', alt: 'Illustration of industrial air pollution and exposure risks.', width: 4093, height: 2894, fit: 'contain' },
+    ],
     questions: [
       'How do heat and air pollution combine to shape environmental exposure?',
       'How do wildfire smoke and other climate hazards affect communities?',
@@ -131,6 +160,12 @@ const researchPrograms: {
     text: 'Connecting transportation, everyday exposure, and healthier, more equitable ways to move.',
     image: 'research-healthy-mobility.jpg',
     imageAlt: 'A field researcher carrying exposure monitors while walking on a tree-lined street.',
+    gallery: [
+      { src: 'p3/research/program-4-mobility/commute-mode-exposure-clean.png', alt: 'Diagram comparing exposure across different commute modes.', width: 5267, height: 2858, fit: 'contain' },
+      { src: 'p3/research/program-4-mobility/cyclists-illustration.jpg', alt: 'Illustration of people cycling as an active travel option.', width: 742, height: 525, fit: 'contain' },
+      { src: 'p3/research/program-4-mobility/green-electric-bus-illustration.jpg', alt: 'Illustration of an electric bus in a greener transport system.', width: 748, height: 529, fit: 'contain' },
+      { src: 'p3/research/program-4-mobility/bike-with-sensor-photo-b.jpg', alt: 'A bicycle equipped with a sensor for exposure monitoring.', width: 612, height: 816 },
+    ],
     questions: [
       'How do transport patterns shape exposure along everyday routes?',
       'Which mobility choices can reduce exposure while supporting active travel?',
@@ -146,8 +181,9 @@ const researchPrograms: {
     id: 'citizen-science-environmental-justice',
     title: 'Citizen Science & Environmental Justice',
     text: 'Supporting meaningful community participation in environmental-health research and action.',
-    image: 'research-citizen-science.jpg',
-    imageAlt: 'Students observe a researcher demonstrating air-quality monitoring equipment.',
+    image: 'p3/projects/02-i-am-an-air-quality-scientist/students-measuring-experiment.jpg',
+    imageAlt: 'Students take part in an air-quality science experiment.',
+    gallery: [],
     questions: [
       'How can citizen science make environmental exposures visible and useful to communities?',
       'How can young people participate in environmental-health research and decision-making?',
@@ -162,6 +198,14 @@ const researchPrograms: {
   },
 ];
 
+type ProjectImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  fit?: 'cover' | 'contain';
+};
+
 type Project = {
   id: string;
   slug: string;
@@ -173,6 +217,7 @@ type Project = {
   location?: string;
   closing?: string;
   process?: string;
+  images: ProjectImage[];
 };
 
 const projects: Project[] = [
@@ -196,6 +241,11 @@ const projects: Project[] = [
       'creative communication through posters and letters to families',
     ],
     closing: 'The campaign transforms schools into living environmental-health laboratories where children learn by observing, measuring, communicating, and acting.',
+    images: [
+      { src: '/images/p3/projects/01-humekaneza-school-campaign/orange-room-workshop.jpg', alt: 'A teacher leads students in an air-quality workshop in a classroom.', width: 1920, height: 1280 },
+      { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-enough-is-enough.jpg', alt: 'A child-created poster calling attention to air pollution.', width: 1920, height: 1280 },
+      { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-stop-cutting-trees.jpg', alt: 'A child-created poster encouraging protection of trees.', width: 1920, height: 1281 },
+    ],
   },
   {
     id: 'i-am-an-air-quality-scientist',
@@ -204,6 +254,9 @@ const projects: Project[] = [
     description: [
       'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities.',
       'The initiative introduces children to environmental-health science while building scientific literacy, curiosity, confidence, and practical understanding of environmental data.',
+    ],
+    images: [
+      { src: '/images/p3/projects/02-i-am-an-air-quality-scientist/students-measuring-experiment.jpg', alt: 'Students take part in an air-quality science experiment.', width: 1833, height: 1033 },
     ],
   },
   {
@@ -214,6 +267,9 @@ const projects: Project[] = [
       'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools.',
       'Students and teachers can observe how air pollution changes throughout the day and explore how traffic, weather, indoor activities, and other factors affect the air they breathe.',
     ],
+    images: [
+      { src: '/images/p3/projects/03-one-sensor-per-school/school-courtyard-sensor-trees.jpg', alt: 'Air-quality monitoring equipment installed in a tree-lined school courtyard.', width: 1920, height: 1083 },
+    ],
   },
   {
     id: 'classroom-clean-air-interventions',
@@ -222,6 +278,11 @@ const projects: Project[] = [
     description: [
       'HumekaNeza supports research evaluating practical approaches to improve classroom air quality, including the use of portable air purifiers.',
       'These interventions examine changes in indoor air pollution and explore potential effects on student health, learning, comfort, attendance, and academic performance.',
+    ],
+    images: [
+      { src: '/images/p3/projects/04-classroom-clean-air/classroom-air-purifier-diagram.jpg', alt: 'Diagram showing an air purifier cleaning air in a classroom.', width: 1448, height: 1086, fit: 'contain' },
+      { src: '/images/p3/projects/04-classroom-clean-air/green-classroom-illustration.jpg', alt: 'Illustration of a greener, more sustainable classroom.', width: 1833, height: 1033, fit: 'contain' },
+      { src: '/images/p3/projects/04-classroom-clean-air/green-classroom-students-sign.jpg', alt: 'Students display a classroom sign about cleaner, greener schools.', width: 1833, height: 1033, fit: 'contain' },
     ],
   },
   {
@@ -238,6 +299,12 @@ const projects: Project[] = [
       'low-emission school zones',
       'engagement with parents and school communities',
     ],
+    images: [
+      { src: '/images/p3/projects/05-clean-air-school-zones/school-zone-traffic-sensors.jpg', alt: 'Air-quality sensors monitor traffic near a school zone.', width: 1833, height: 1033 },
+      { src: '/images/p3/projects/05-clean-air-school-zones/children-walking-to-school-guide.jpg', alt: 'Illustrated guide to children walking to school by a cleaner route.', width: 1166, height: 831, fit: 'contain' },
+      { src: '/images/p3/projects/05-clean-air-school-zones/school-bus-drop-off.jpg', alt: 'School bus drop-off area near a school.', width: 1684, height: 1191 },
+      { src: '/images/p3/projects/05-clean-air-school-zones/ebus-vs-diesel-school-bus.jpg', alt: 'Illustration comparing an electric school bus with a diesel bus.', width: 1920, height: 1358, fit: 'contain' },
+    ],
   },
   {
     id: 'shared-skies',
@@ -247,6 +314,9 @@ const projects: Project[] = [
       'Shared Skies connects students across countries through environmental-health education and citizen science.',
       'Students collect and compare air-quality information from their communities and share findings through virtual exchanges, presentations, and Global Classroom activities.',
       'The initiative helps children recognize that air pollution is both a local and global challenge.',
+    ],
+    images: [
+      { src: '/images/p3/projects/06-shared-skies/canada-rwanda-global-classroom.png', alt: 'Graphic connecting a Canada–Rwanda classroom exchange.', width: 1920, height: 1111, fit: 'contain' },
     ],
   },
   {
@@ -269,6 +339,9 @@ const projects: Project[] = [
       'Ontario Youth CMP Conference',
     ],
     process: 'LISTEN → LEARN → SEE → TRANSLATE → SHARE → ACT → FEEDBACK',
+    images: [
+      { src: '/images/p3/projects/07-making-the-invisible-visible/school-interventions-circle.png', alt: 'Illustrated overview of school-based air-quality interventions.', width: 1920, height: 1082, fit: 'contain' },
+    ],
   },
   {
     id: 'equitable-air-quality-communication',
@@ -288,6 +361,10 @@ const projects: Project[] = [
       'co-designed communication and preparedness strategies',
     ],
     closing: 'The project centres community voices and aims to make air-quality information more relevant, accessible, trusted, and actionable.',
+    images: [
+      { src: '/images/p3/projects/08-equitable-air-quality-communication/children-walking-in-smoke.jpg', alt: 'Children walk along a road on a smoky day.', width: 694, height: 489 },
+      { src: '/images/p3/projects/08-equitable-air-quality-communication/smoky-industry-illustration.jpg', alt: 'Illustration of industrial air pollution and exposure risks.', width: 1920, height: 1358, fit: 'contain' },
+    ],
   },
 ];
 
@@ -607,7 +684,7 @@ function Shell({ children }: { children: ReactNode }) {
       <header className="site-header" ref={navRef}>
         <div className="container-wide header-inner">
           <Link href="/" className="brand" aria-label="P3 Health Lab home" data-testid="link-brand">
-            <img src={logo} alt="" />
+            <img src="/images/p3-mark.png" alt="" />
             <span className="brand-copy" aria-hidden="true"><span className="brand-p3">P3</span> <span className="brand-health">Health Lab</span></span>
           </Link>
           <nav className="nav" aria-label="Primary navigation">
@@ -1033,17 +1110,31 @@ function Research() {
           <div className="research-program-main">
             <p className="research-program-summary">{program.text}</p>
             <div className="research-program-content">
-              <figure className="research-program-figure">
-                <img
-                  src={`${import.meta.env.BASE_URL}images/${program.image}`}
-                  alt={program.imageAlt}
-                  width="1040"
-                  height="720"
-                  loading="lazy"
-                  decoding="async"
-                  data-testid={`img-research-${program.id}`}
-                />
-              </figure>
+              <div className="research-program-media">
+                <figure className="research-program-figure">
+                  <img
+                    src={`${import.meta.env.BASE_URL}images/${program.image}`}
+                    alt={program.imageAlt}
+                    width="1040"
+                    height="720"
+                    loading="lazy"
+                    decoding="async"
+                    data-testid={`img-research-${program.id}`}
+                  />
+                </figure>
+                {program.gallery.length > 0 && <div className="research-program-gallery" aria-label={`Images related to ${program.title}`}>
+                  {program.gallery.map((image) => <figure className={`research-program-gallery-image${image.fit === 'contain' ? ' is-diagram' : ''}`} key={image.src}>
+                    <img
+                      src={`${import.meta.env.BASE_URL}images/${image.src}`}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </figure>)}
+                </div>}
+              </div>
               <div className="research-program-details">
                 <section aria-labelledby={`research-questions-title-${program.id}`}>
                   <h3 id={`research-questions-title-${program.id}`}>Research questions</h3>
@@ -1056,8 +1147,8 @@ function Research() {
                   <ul className="research-project-list">
                     {program.projects.map((project, projectIndex) => <li key={project.label}>
                       {project.href
-                        ? <Link href={project.href} data-testid={`link-research-project-${program.id}-${projectIndex}`}>{project.label}</Link>
-                        : <span>{project.label}</span>}
+                        ? <Link href={project.href} data-testid={`link-research-project-${program.id}-${projectIndex}`}>{project.logo && <img className="research-project-logo" src={project.logo} alt="" width="32" height="42" loading="lazy" decoding="async" />}{project.label}</Link>
+                        : <span>{project.logo && <img className="research-project-logo" src={project.logo} alt="" width="32" height="42" loading="lazy" decoding="async" />}{project.label}</span>}
                     </li>)}
                   </ul>
                 </section>
@@ -1078,7 +1169,7 @@ function Research() {
     <section className="research-wum-air section" aria-labelledby="research-wum-air-title">
       <div className="container-wide">
         <div className="section-head">
-          <div><span className="eyebrow">Field research</span><h2 id="research-wum-air-title">Mobile Air Quality Monitoring Trailer</h2></div>
+          <div><span className="eyebrow">Field research</span><h2 id="research-wum-air-title">Mobile Air Quality Monitoring Trailer (WUM-AIR): Empowering Communities to Tackle Air Pollution</h2></div>
           <p>Mobile monitoring supports air-quality research in the places where people live, learn and work.</p>
         </div>
         <div className="research-wum-air-gallery">
@@ -1087,7 +1178,7 @@ function Research() {
             <figcaption>WUM-AIR mobile monitoring trailer</figcaption>
           </figure>
           <figure>
-            <img src="/images/wum-air-field-photo.webp" alt="WUM-AIR field research photograph supplied by the client." width="1200" height="800" loading="lazy" decoding="async" />
+            <img src="/images/wum-air-field-photo.webp" alt="A researcher conducts field monitoring with WUM-AIR equipment." width="1200" height="800" loading="lazy" decoding="async" />
             <figcaption>Field research with WUM-AIR</figcaption>
           </figure>
         </div>
@@ -1159,16 +1250,28 @@ function Projects() {
                 </div>
                 {project.location && <span className="project-location">{project.location}</span>}
               </div>
-              <div className="project-entry-body">
-                <div>
-                  {project.description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <div className="project-entry-layout">
+                <div className="project-entry-media">
+                  {project.images.slice(0, 1).map((image) => <figure className={`project-entry-image${image.fit === 'contain' ? ' is-diagram' : ''}`} key={image.src}>
+                    <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+                  </figure>)}
+                  {project.images.length > 1 && <div className="project-entry-image-strip">
+                    {project.images.slice(1).map((image) => <figure className={`project-entry-image${image.fit === 'contain' ? ' is-diagram' : ''}`} key={image.src}>
+                      <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+                    </figure>)}
+                  </div>}
                 </div>
-                {(project.activities || project.focus) && <div className="project-focus">
-                  <h3>{project.activities ? 'Activities' : 'Focus'}</h3>
-                  <ul>{(project.activities ?? project.focus)?.map((item) => <li key={item}>{item}</li>)}</ul>
-                </div>}
-                {project.process && <p className="project-process">{project.process}</p>}
-                {project.closing && <p className="project-closing">{project.closing}</p>}
+                <div className={`project-entry-body${project.activities || project.focus ? '' : ' is-single-column'}`}>
+                  <div>
+                    {project.description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                  </div>
+                  {(project.activities || project.focus) && <div className="project-focus">
+                    <h3>{project.activities ? 'Activities' : 'Focus'}</h3>
+                    <ul>{(project.activities ?? project.focus)?.map((item) => <li key={item}>{item}</li>)}</ul>
+                  </div>}
+                  {project.process && <p className="project-process">{project.process}</p>}
+                  {project.closing && <p className="project-closing">{project.closing}</p>}
+                </div>
               </div>
             </div>
           </article>)}
@@ -1183,11 +1286,25 @@ function Projects() {
 
 function ResearchMap() {
   return <>
-    <PageHero
-      eyebrow="Global Research Map"
-      title={<>Research Across <em>Communities</em></>}
-      text="A geographic view of communities and settings connected to P3 Health Lab research and initiatives."
-    />
+    <section className="page-hero research-map-page-hero">
+      <div className="container-wide">
+        <div className="research-map-page-hero-grid">
+          <div>
+            <span className="eyebrow">Global Research Map</span>
+            <h1 className="display">Research Across <em>Communities</em></h1>
+            <p>A geographic view of communities and settings connected to P3 Health Lab research and initiatives.</p>
+          </div>
+          <img
+            src="/images/p3/global-map-banner-candidates/teacher-with-posters-classroom.jpg"
+            alt="A teacher presents environmental-health posters to students in a classroom."
+            width="1920"
+            height="1280"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </section>
     <section className="section research-map-section" data-reveal="up" aria-labelledby="research-map-locations-title">
       <div className="container-wide">
         <div className="section-head">
@@ -1433,6 +1550,11 @@ function Publications() {
             <h2>Google Scholar</h2>
             <p>For the most up-to-date list of publications, citations, and scholarly impact:</p>
             <a href={googleScholar.url} target="_blank" rel="noopener noreferrer" data-testid="link-publications-google-scholar">View Dr. Egide Kalisa’s Publications on Google Scholar <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <div className="publication-covers">
+              {publicationCovers.map((cover) => <a key={cover.src} href={googleScholar.url} target="_blank" rel="noopener noreferrer">
+                <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} loading="lazy" decoding="async" />
+              </a>)}
+            </div>
           </article>
           <article className="publication-profile-record">
             <span className="eyebrow">ORCID</span>
