@@ -2840,87 +2840,122 @@ body {
   .humeka-page *, .humeka-page *::before, .humeka-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
 
-/* Phase 4.1: restrained, responsive People directory */
-.people-groups { display: grid; gap: 34px; }
-.people-group { min-width: 0; scroll-margin-top: 88px; }
-.people-group + .people-group { padding-top: 26px; border-top: 1px solid hsl(var(--border)); }
-.people-group > h2 { margin: 0 0 18px; font-family: var(--app-font-serif); font-size: clamp(1.3rem, 2.4vw, 1.65rem); font-weight: 500; line-height: 1.25; }
-.people-record-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 24px; align-items: stretch; }
-.people-group-featured .people-record-grid { grid-template-columns: minmax(0, 1fr); }
-.person-record { display: flex; min-width: 0; height: 100%; flex-direction: column; padding: 14px 14px 16px; border: 1px solid hsl(var(--border)); border-top: 2px solid hsl(var(--primary) / .6); border-radius: 2px; background: hsl(var(--card)); box-shadow: 0 2px 8px hsl(213 32% 16% / .035); overflow-wrap: anywhere; transition: transform var(--motion-normal) var(--motion-ease), box-shadow var(--motion-normal) ease, border-color var(--motion-normal) ease; }
-.person-record:hover { transform: translateY(-3px); border-color: hsl(var(--primary) / .35); box-shadow: 0 10px 24px hsl(213 32% 16% / .09); }
-.person-record-photo { display: grid; width: 100%; max-width: 280px; aspect-ratio: 4 / 5; margin-bottom: 18px; overflow: hidden; background: hsl(var(--muted) / .45); color: hsl(var(--muted-foreground)); }
-.person-record-photo picture { display: block; width: 100%; height: 100%; }
-.person-record-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.person-record-photo.is-empty { place-items: center; border: 1px solid hsl(var(--border)); background: hsl(var(--muted) / .35); }
-.person-record-placeholder { display: grid; justify-items: center; gap: 9px; color: hsl(var(--primary) / .62); text-align: center; }
-.person-record-placeholder span { color: hsl(var(--muted-foreground)); font-family: var(--app-font-mono); font-size: .58rem; letter-spacing: .06em; text-transform: uppercase; }
-.person-record h3 { margin: 0 0 11px; font-family: var(--app-font-serif); font-size: 1.2rem; font-weight: 500; line-height: 1.3; }
-.person-record-details { display: grid; align-content: start; gap: 7px; margin: 0; }
-.person-record-details > div { display: grid; grid-template-columns: 105px minmax(0, 1fr); gap: 12px; }
-.person-record-details dt { color: hsl(var(--muted-foreground)); font-family: var(--app-font-mono); font-size: .63rem; line-height: 1.55; text-transform: uppercase; }
-.person-record-details dd { min-width: 0; margin: 0; color: hsl(var(--foreground)); font-size: .82rem; line-height: 1.55; }
-.person-record-status { min-height: 1.1rem; margin: 12px 0 0; color: hsl(var(--primary)); font-family: var(--app-font-mono); font-size: .68rem; }
-
-@media (min-width: 761px) and (max-width: 1199px) {
-  .people-record-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* People directory */
+.pp {
+  --pp-purple: #4F2683;
+  --pp-link: hsl(188 38% 31%);
+  --pp-grey: #5b6670;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
 }
 
-@media (min-width: 1200px) {
-  .people-record-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pp h1 {
+  margin: 0 0 2.5rem;
+  color: var(--pp-purple);
+  font-family: var(--app-font-sans);
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
-.people-group-featured .person-record {
+.pp section + section { margin-top: 4.5rem; }
+
+.pp h2 {
+  margin: 0 0 2rem;
+  color: var(--pp-purple);
+  font-family: var(--app-font-sans);
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.pp-grid {
   display: grid;
-  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
-  column-gap: clamp(24px, 4vw, 48px);
-  align-items: start;
-}
-
-.people-group-featured .person-record-photo {
-  grid-column: 1;
-  grid-row: 1 / span 3;
-  max-width: 320px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.75rem 2rem;
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.people-group-featured .person-record-photo img {
-  object-position: 100% center;
+.pp-member {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+  text-align: center;
 }
 
-.people-group-featured .person-record h3,
-.people-group-featured .person-record-details,
-.people-group-featured .person-record-status {
-  grid-column: 2;
+.pp-photo {
+  display: block;
+  width: 144px;
+  height: 144px;
+  margin-bottom: .6rem;
+  border-radius: 50%;
+  background: #eee;
+  object-fit: cover;
+  object-position: center 20%;
 }
 
-.people-group-featured .person-record-details {
-  min-height: 0;
+.pp-initials {
+  display: grid;
+  place-items: center;
+  background: #E9E1F3;
+  color: var(--pp-purple);
+  font-family: var(--app-font-sans);
+  font-size: 2.2rem;
+  font-weight: 700;
 }
 
-.home-team-lead img {
-  object-position: 100% center;
+.pp-name {
+  color: var(--pp-link);
+  font-size: .875rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+span.pp-name { color: inherit; text-decoration: none; }
+
+.pp-role { color: var(--pp-grey); font-size: 1rem; }
+.pp-aff, .pp-tag { color: #6b7680; font-size: .9rem; }
+.pp-focus { max-width: 60ch; margin: 1rem auto 0; color: var(--pp-grey); }
+
+.pp-former {
+  columns: 2;
+  column-gap: 3rem;
+  margin: 0;
+  padding: 0;
+  font-size: .95rem;
+  list-style: none;
+}
+
+.pp-former li { break-inside: avoid; margin: 0 0 1.1rem; }
+.pp-former a { color: var(--pp-link); }
+.pp-former .now { display: block; color: var(--pp-grey); }
+.pp-former .pp-tag { display: block; }
+
+.home-team-lead img { object-position: 100% center; }
+
+@media (max-width: 900px) {
+  .pp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  .pp { padding-inline: 1rem; }
+  .pp h1 { font-size: 2.25rem; }
+  .pp h2 { font-size: 1.55rem; }
+  .pp-grid { grid-template-columns: minmax(0, 1fr); }
+  .pp-former { columns: 1; }
 }
 
 @media (max-width: 760px) {
-  .people-groups { gap: 28px; }
-  .people-group + .people-group { padding-top: 22px; }
-  .people-record-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; }
-  .people-group-featured .people-record-grid { grid-template-columns: minmax(0, 1fr); }
-  .person-record { padding: 10px 10px 12px; }
-  .person-record-photo { margin-bottom: 13px; }
-  .person-record h3 { font-size: 1rem; }
-  .person-record-details { gap: 6px; }
-  .person-record-details > div { display: block; }
-  .person-record-details dt { margin-bottom: 2px; font-size: .56rem; }
-  .person-record-details dd { font-size: .76rem; line-height: 1.45; }
-  .people-group-featured .person-record { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
-  .people-group-featured .person-record-photo,
-  .people-group-featured .person-record h3,
-  .people-group-featured .person-record-details,
-  .people-group-featured .person-record-status { grid-column: 1; }
-  .people-group-featured .person-record-photo { grid-row: auto; margin-bottom: 13px; }
-  .people-group-featured .person-record-photo img { object-position: center top; }
   .admin-main-heading,
   .admin-upload-page .admin-header { align-items: flex-start; flex-direction: column; }
   .admin-main-heading-actions { justify-content: flex-start; }
@@ -3969,7 +4004,6 @@ body {
 .home-block h2,
 .home-list h3,
 .research-program-head h2,
-.people-group > h2,
 .teaching-section-heading h2,
 .about-profile-identity h2 {
   text-wrap: balance;
@@ -4072,18 +4106,6 @@ body {
 
 .project-entry {
   padding-block: 40px 46px;
-}
-
-.people-groups {
-  gap: 30px;
-}
-
-.people-group + .people-group {
-  padding-top: 22px;
-}
-
-.people-record-details > div {
-  line-height: 1.5;
 }
 
 .teaching-courses {
@@ -4950,12 +4972,7 @@ body {
 }
 
 .people-page {
-  --ring: 269 50% 34%;
-  --primary: 269 50% 34%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 269 25% 92%;
-  --secondary-foreground: 269 50% 34%;
-  --accent: 269 36% 50%;
+  min-width: 0;
 }
 
 .people-page .button-primary:hover {

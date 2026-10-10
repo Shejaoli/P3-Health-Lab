@@ -1,24 +1,16 @@
 import { type MouseEvent as ReactMouseEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ArrowUpRight, ChevronRight, Check, CircleArrowUp, ExternalLink, UserRound, X } from 'lucide-react';
+import { ArrowUpRight, ChevronRight, Check, CircleArrowUp, ExternalLink, X } from 'lucide-react';
 import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
 import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
+import { people } from '@/data/people';
 import logo from '@assets/p3_logo_1789065448410.png';
 import labFilm from '@assets/VID-20260925-WA0008_1790438330372.mp4';
 import humekanezaLogo from '@assets/IMG-20260910-WA0000_1790353414570.jpg';
-import mdPervezKabirPhoto from '@assets/2._Dr._Md_Pervez_Kabir_1790358118262.jpeg';
-import allisonPertPhoto from '@assets/Allison_Pert0_1790358118374.webp';
-import augustineOmodiekePhoto from '@assets/Augustine_Omodieke_(2)_1790358118959.jpg';
-import oluWaseunBajulayePhoto from '@assets/Bajulaye_Oluwaseun_Oyindamola_1790358118831.webp';
-import dorothyNamatovuPhoto from '@assets/Dorothy_Namatovu1)_1790358118875.png';
-import farhanaRamizaPhoto from '@assets/Farhana_Rokaiya_Ramiza_1790358118660.webp';
-import francisAcquahPhoto from '@assets/Francis_N._Acquah_1790358118740.webp';
-import angeLisaIkireziPhoto from '@assets/IKIREZI_Ange_Lisa3_1790358118788.webp';
-import zohaIrfanPhoto from '@assets/Zoha_Irfan-9_1790358118502.webp';
 
 const queryClient = new QueryClient();
 const googleScholarUrl = 'https://scholar.google.co.nz/citations?user=yAPiYq8AAAAJ&hl=en';
@@ -451,149 +443,6 @@ const funderLogos = [
   { src: '/images/funder-logo-09.png', alt: 'National Council for Science and Technology, NCST' },
 ];
 
-type PersonRecord = {
-  name: string;
-  role: string;
-  photo?: string;
-  institution?: string;
-  country?: string;
-  currentPosition?: string;
-  formerRole?: string;
-  researchFocus?: string;
-  status?: string;
-};
-
-const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
-  {
-    id: 'principal-investigator',
-    title: 'Principal Investigator',
-    people: [
-      {
-        name: 'Dr. Egide Kalisa',
-        role: 'Assistant Professor; Director, HELTH/P3 Health Lab',
-        photo: '/images/profile-egide-purple-square.webp',
-        institution: 'Western University',
-        researchFocus: 'Environmental health; air pollution; climate change; children’s health; environmental justice; One Health; exposure science',
-      },
-    ],
-  },
-  {
-    id: 'postdoctoral',
-    title: 'Postdoctoral Fellows',
-    people: [
-      {
-        name: 'Dr. Md Pervez Kabir',
-        role: 'Postdoctoral Fellow',
-        photo: mdPervezKabirPhoto,
-        institution: 'Western University',
-      },
-    ],
-  },
-  {
-    id: 'phd',
-    title: 'PhD Students — Western University',
-    people: [
-      {
-        name: 'Allison Pert',
-        role: 'PhD Student',
-        photo: allisonPertPhoto,
-        institution: 'Western University',
-        formerRole: 'MSc Student',
-        status: 'Alumni / Current PhD',
-      },
-      {
-        name: 'Augustine Omodieke',
-        role: 'PhD Student',
-        photo: augustineOmodiekePhoto,
-        institution: 'Western University',
-        researchFocus: 'Environmental epidemiology; air pollution; health economics',
-        formerRole: 'MSc Student',
-        status: 'Alumni / Current PhD',
-      },
-      { name: 'Francis Acquah', role: 'PhD Student', photo: francisAcquahPhoto, institution: 'Western University' },
-      { name: 'Daniel Twum', role: 'PhD Student', institution: 'Western University' },
-      { name: 'Abdul Rasheed Rasheed', role: 'PhD Student', institution: 'Western University' },
-    ],
-  },
-  {
-    id: 'masters',
-    title: 'MSc Students — Western University',
-    people: [
-      {
-        name: 'Zoha Irfan',
-        role: 'MSc Student',
-        photo: zohaIrfanPhoto,
-        institution: 'Western University',
-        researchFocus: 'PAHs; air pollution; exposure science',
-      },
-      { name: 'Oluwaseun Bajulaye', role: 'MSc Student', photo: oluWaseunBajulayePhoto, institution: 'Western University' },
-      { name: 'Farhana Ramiza', role: 'MSc Student', photo: farhanaRamizaPhoto, institution: 'Western University' },
-      { name: 'Ignatius Atuguba', role: 'MSc Student', institution: 'Western University' },
-    ],
-  },
-  {
-    id: 'global-health-interns',
-    title: 'Global Health MSc Interns',
-    people: [
-      { name: 'Jiaxuan Zhang', role: 'MSc Global Health Intern', institution: 'Western University' },
-      { name: 'Arshia Mohammadi-Sanjani', role: 'MSc Global Health Intern', institution: 'Western University' },
-      { name: 'Ihsan Khalifa', role: 'MSc Global Health Intern', institution: 'Western University' },
-      { name: 'Harini Kumaraverl', role: 'MSc Global Health Intern', institution: 'Western University' },
-      { name: 'Yuheng Lu', role: 'MSc Global Health Intern', institution: 'Western University' },
-      { name: 'Haiyan Li', role: 'MSc Global Health Intern', institution: 'Western University' },
-    ],
-  },
-  {
-    id: 'staff',
-    title: 'Research Assistants',
-    people: [
-      {
-        name: 'Ruiming Han',
-        role: 'Research Assistant, MSc',
-        institution: 'Western University',
-        researchFocus: 'Air pollution; PAHs; metals; exposure analysis',
-      },
-      { name: 'Natasha Fortin', role: 'Research Assistant, MSc', institution: 'Western University' },
-      { name: 'Sydney Lessard', role: 'Research Assistant, MSc', institution: 'Western University' },
-      { name: 'Jiaqi Bi', role: 'Research Assistant, MSc', institution: 'Western University' },
-      { name: 'Shaikh Sumeet Jamil', role: 'Research Assistant', institution: 'Western University' },
-      { name: 'Sharika Jalali', role: 'Research Assistant', institution: 'Western University' },
-      { name: 'Innocent Twagirayezu', role: 'Research Assistant, PhD', institution: 'Western University' },
-    ],
-  },
-  {
-    id: 'international-phd',
-    title: 'International / Externally Co-supervised PhD Students',
-    people: [
-      { name: 'Patrick Karakwende', role: 'PhD Student' },
-      { name: 'Adolphe Ndikubwimana', role: 'PhD Student', institution: 'University of Rwanda', country: 'Rwanda' },
-      { name: 'Deborah', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria' },
-      { name: 'Nibagwire', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria' },
-      { name: 'Franck Kwabe', role: 'PhD Student', institution: 'ISP Bukavu', country: 'DR Congo' },
-    ],
-  },
-  {
-    id: 'visiting-international',
-    title: 'Visiting International Students',
-    people: [
-      { name: 'Dioumacor Faye', role: 'PhD Student', photo: '/images/dioumacor-faye.webp', institution: 'Visiting International Student', country: 'Senegal' },
-      { name: 'Dorothy Namatovu', role: 'MSc Student', photo: dorothyNamatovuPhoto, institution: 'Visiting International Student', country: 'Uganda' },
-      { name: 'Ange Lisa Ikirezi', role: 'MSc Student', photo: angeLisaIkireziPhoto, institution: 'Visiting International Student', country: 'Rwanda' },
-      { name: 'Marie Ange Tuyime', role: 'Undergraduate Student', institution: 'Visiting International Student', country: 'Rwanda' },
-      { name: 'Isabel Ajagu', role: 'MSc Student / Visiting Scholar', institution: 'Visiting International Student', country: 'Nigeria' },
-    ],
-  },
-  {
-    id: 'undergraduate-alumni',
-    title: 'Undergraduate Alumni',
-    people: [
-      { name: 'Victoria Bursey', role: 'Undergraduate Researcher', photo: '/images/victoria-bursey.webp', currentPosition: 'MSc Public Health, University of Toronto', status: 'Alumni' },
-      { name: 'Emily Airhart', role: 'Undergraduate Researcher', photo: '/images/emily-airhart.webp', currentPosition: 'MSc Student, University of Toronto', status: 'Alumni' },
-      { name: 'Shagun Chander', role: 'Undergraduate Researcher', institution: 'Western University', status: 'Current' },
-    ],
-  },
-];
-
 function Shell({ children }: { children: ReactNode }) {
   const [location, setLocation] = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -812,7 +661,7 @@ function Home() {
   const { data: newsData, isLoading: isNewsLoading, isError: isNewsError } = useGetPublicNews();
   const latestNews = (newsData?.news ?? []).slice(0, 2);
   const schoolProgram = researchPrograms.find((program) => program.id === 'children-schools-exposure');
-  const director = peopleGroups[0].people[0];
+  const director = people.director;
 
   return <>
     <section className="home-hero" aria-labelledby="home-title">
@@ -1336,87 +1185,99 @@ function ResearchMap() {
   </>;
 }
 
+function personInitials(name: string) {
+  return name
+    .replace(/^(Dr\.?|Prof\.?)\s+/i, '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join('')
+    .toUpperCase();
+}
+
+function formatPersonTag(tag: string) {
+  return tag.replace(' / ', ' · ');
+}
+
+function PersonAvatar({ person }: { person: (typeof people.sections)[number]['members'][number] | typeof people.director | (typeof people.former)[number] }) {
+  return person.photo
+    ? <img className="pp-photo" src={person.photo} alt={person.name} loading="lazy" width="144" height="144" decoding="async" />
+    : <span className="pp-photo pp-initials" role="img" aria-label={person.name}>{personInitials(person.name)}</span>;
+}
+
+function PersonName({ person }: { person: (typeof people.sections)[number]['members'][number] | typeof people.director | (typeof people.former)[number] }) {
+  return person.href
+    ? <a className="pp-name" href={person.href}>{person.name}</a>
+    : <span className="pp-name">{person.name}</span>;
+}
+
 function People() {
+  const { director, sections, former, collaborators } = people;
   return (
     <div className="people-page">
-      <PageHero
-        eyebrow="People / 02"
-        title={<>The people behind the <em>work.</em></>}
-        text="P3 Health Lab / HELTH Lab is directed by Dr. Egide Kalisa at Western University. Current and former team members are listed with the roles and affiliations provided."
-      />
-      <section className="section people-section" data-reveal="up">
-        <div className="container-wide">
-          <div className="section-head">
-            <div>
-              <span className="eyebrow">People at P3 Health Lab</span>
-              <h2>A careful record of the lab team.</h2>
-            </div>
-            <p>Roles, affiliations, and research interests are included only where supplied.</p>
-          </div>
-          <div className="people-groups">
-            {peopleGroups.map((group) => (
-              <section className={`people-group ${group.id === 'principal-investigator' ? 'people-group-featured' : ''}`} id={group.id} key={group.id}>
-                <h2>{group.title}</h2>
-                <div className="people-record-grid">
-                  {group.people.map((person) => (
-                    <article className="person-record" key={person.name} data-testid={`card-person-${person.name.toLowerCase().replaceAll(' ', '-')}`}>
-                      <div className={`person-record-photo ${person.photo ? '' : 'is-empty'}`}>
-                        {person.photo
-                          ? <picture>
-                              {group.id === 'principal-investigator' && <source media="(min-width: 448px)" srcSet="/images/profile-egide-purple-wide.webp" />}
-                              <img src={person.photo} alt={`${person.name} portrait`} width="447" height="447" loading="lazy" decoding="async" />
-                            </picture>
-                          : <div className="person-record-placeholder">
-                              <UserRound size={34} strokeWidth={1.5} aria-hidden="true" />
-                              <span>Portrait not provided</span>
-                            </div>}
-                      </div>
-                      <h3>{person.name}</h3>
-                      <dl className="person-record-details">
-                        <div>
-                          <dt>Role</dt>
-                          <dd>{person.role}</dd>
-                        </div>
-                        {person.institution && (
-                          <div>
-                            <dt>Institution</dt>
-                            <dd>{person.institution}</dd>
-                          </div>
-                        )}
-                        {person.country && (
-                          <div>
-                            <dt>Country</dt>
-                            <dd>{person.country}</dd>
-                          </div>
-                        )}
-                        {person.currentPosition && (
-                          <div>
-                            <dt>Current position</dt>
-                            <dd>{person.currentPosition}</dd>
-                          </div>
-                        )}
-                        {person.formerRole && (
-                          <div>
-                            <dt>Former role</dt>
-                            <dd>{person.formerRole}</dd>
-                          </div>
-                        )}
-                        {person.researchFocus && (
-                          <div>
-                            <dt>Research focus</dt>
-                            <dd>{person.researchFocus}</dd>
-                          </div>
-                        )}
-                      </dl>
-                      {person.status && <p className="person-record-status">{person.status}</p>}
-                    </article>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="pp">
+        <h1>People</h1>
+
+        <section>
+          <h2>Principal Investigator</h2>
+          <ul className="pp-grid">
+            <li className="pp-member">
+              <PersonAvatar person={director} />
+              <PersonName person={director} />
+              {director.role && <span className="pp-role">{director.role}</span>}
+              {director.affiliation && <span className="pp-aff">{director.affiliation}</span>}
+              {director.focus && <p className="pp-focus">{director.focus}</p>}
+            </li>
+          </ul>
+        </section>
+
+        {sections.map((section) => (
+          <section key={section.id} id={section.id}>
+            <h2>{section.title}</h2>
+            <ul className="pp-grid">
+              {section.members.map((person) => (
+                <li className="pp-member" key={person.name}>
+                  <PersonAvatar person={person} />
+                  <PersonName person={person} />
+                  {person.role && <span className="pp-role">{person.role}</span>}
+                  {(person.institution || person.country) && (
+                    <span className="pp-aff">{[person.institution, person.country].filter(Boolean).join(', ')}</span>
+                  )}
+                  {person.formerRole && <span className="pp-aff">Formerly: {person.formerRole}</span>}
+                  {person.status && <span className="pp-tag">{formatPersonTag(person.status)}</span>}
+                  {person.researchFocus && <p className="pp-focus">{person.researchFocus}</p>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+
+        {collaborators.length > 0 && (
+          <section>
+            <h2>Collaborating groups and centres</h2>
+            {collaborators.map((collaborator) => <p key={collaborator.name}><strong>{collaborator.name}.</strong> {collaborator.description}</p>)}
+          </section>
+        )}
+
+        {former.length > 0 && (
+          <section>
+            <h2>Former students and alumni</h2>
+            <ul className="pp-former">
+              {former.map((person) => (
+                <li key={person.name}>
+                  <strong><PersonName person={person} />{person.role ? `, ${person.role}` : ''}</strong>
+                  {person.status && <span className="pp-tag">{formatPersonTag(person.status)}</span>}
+                  {(person.now || person.institution || person.country) && (
+                    <span className="now">{person.now ?? [person.institution, person.country].filter(Boolean).join(', ')}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       <section className="contact-band" id="join" data-reveal="up">
         <div className="container-wide contact-grid">
           <div><span className="eyebrow">Join the lab</span><h2>Bring a question, not a template.</h2></div>
