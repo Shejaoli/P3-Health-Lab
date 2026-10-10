@@ -14,17 +14,20 @@ import mdPervezKabirPhoto from '@assets/2._Dr._Md_Pervez_Kabir_1790358118262.jpe
 import allisonPertPhoto from '@assets/Allison_Pert0_1790358118374.webp';
 import augustineOmodiekePhoto from '@assets/Augustine_Omodieke_(2)_1790358118959.jpg';
 import oluWaseunBajulayePhoto from '@assets/Bajulaye_Oluwaseun_Oyindamola_1790358118831.webp';
-import dioumacorFayePhoto from '@assets/Dioumacor_FAYE_(1)_1790358118917.png';
 import dorothyNamatovuPhoto from '@assets/Dorothy_Namatovu1)_1790358118875.png';
-import emilyAirhartPhoto from '@assets/Emily_Airhart1)_1790358118999.png';
 import farhanaRamizaPhoto from '@assets/Farhana_Rokaiya_Ramiza_1790358118660.webp';
 import francisAcquahPhoto from '@assets/Francis_N._Acquah_1790358118740.webp';
 import angeLisaIkireziPhoto from '@assets/IKIREZI_Ange_Lisa3_1790358118788.webp';
-import victoriaBurseyPhoto from '@assets/Victoria_Bursey_1790358119044.png';
 import zohaIrfanPhoto from '@assets/Zoha_Irfan-9_1790358118502.webp';
 
 const queryClient = new QueryClient();
 const googleScholarUrl = 'https://scholar.google.co.nz/citations?user=yAPiYq8AAAAJ&hl=en';
+const humekaYouTubeVideoId = getYouTubeVideoId(import.meta.env.VITE_HUMEKA_YOUTUBE_URL);
+
+function getYouTubeVideoId(value: string | undefined) {
+  const match = value?.trim().match(/^(?:https?:\/\/)?(?:www\.)?(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})(?:[?&#].*)?$/i);
+  return match?.[1] ?? null;
+}
 
 function useScrollReveal(routeKey: string) {
   useEffect(() => {
@@ -73,7 +76,7 @@ const researchPrograms: {
     id: 'air-we-breathe',
     title: 'The Air We Breathe: Beyond PM2.5',
     text: 'Understanding the chemical and biological mixtures that shape what people actually breathe.',
-    image: 'research-air-monitoring.jpg',
+    image: 'research-air-monitoring-upright.jpg',
     imageAlt: 'Air-quality sampling instruments beside a road and trees.',
     questions: [
       'What does PM2.5 mass miss about chemical and biological composition?',
@@ -496,7 +499,7 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
     id: 'visiting-international',
     title: 'Visiting International Students',
     people: [
-      { name: 'Dioumacor Faye', role: 'PhD Student', photo: dioumacorFayePhoto, institution: 'Visiting International Student', country: 'Senegal' },
+      { name: 'Dioumacor Faye', role: 'PhD Student', photo: '/images/dioumacor-faye.webp', institution: 'Visiting International Student', country: 'Senegal' },
       { name: 'Dorothy Namatovu', role: 'MSc Student', photo: dorothyNamatovuPhoto, institution: 'Visiting International Student', country: 'Uganda' },
       { name: 'Ange Lisa Ikirezi', role: 'MSc Student', photo: angeLisaIkireziPhoto, institution: 'Visiting International Student', country: 'Rwanda' },
       { name: 'Marie Ange Tuyime', role: 'Undergraduate Student', institution: 'Visiting International Student', country: 'Rwanda' },
@@ -507,8 +510,8 @@ const peopleGroups: { id: string; title: string; people: PersonRecord[] }[] = [
     id: 'undergraduate-alumni',
     title: 'Undergraduate Alumni',
     people: [
-      { name: 'Victoria Bursey', role: 'Undergraduate Researcher', photo: victoriaBurseyPhoto, currentPosition: 'MSc Public Health, University of Toronto', status: 'Alumni' },
-      { name: 'Emily Airhart', role: 'Undergraduate Researcher', photo: emilyAirhartPhoto, currentPosition: 'MSc Student, University of Toronto', status: 'Alumni' },
+      { name: 'Victoria Bursey', role: 'Undergraduate Researcher', photo: '/images/victoria-bursey.webp', currentPosition: 'MSc Public Health, University of Toronto', status: 'Alumni' },
+      { name: 'Emily Airhart', role: 'Undergraduate Researcher', photo: '/images/emily-airhart.webp', currentPosition: 'MSc Student, University of Toronto', status: 'Alumni' },
       { name: 'Shagun Chander', role: 'Undergraduate Researcher', institution: 'Western University', status: 'Current' },
     ],
   },
@@ -565,13 +568,6 @@ function Shell({ children }: { children: ReactNode }) {
     return () => window.cancelAnimationFrame(frame);
   }, [location]);
   useEffect(() => {
-    const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
-    if (favicon) {
-      favicon.type = 'image/png';
-      favicon.href = '/p3-logo.png';
-    }
-  }, []);
-  useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpenMenu(null);
@@ -594,13 +590,14 @@ function Shell({ children }: { children: ReactNode }) {
     window.addEventListener('open-contact', openContact);
     return () => window.removeEventListener('open-contact', openContact);
   }, []);
-  const handleAdminLogoClick = () => {
+  const handleAdminLogoClick = (event: ReactMouseEvent<HTMLAnchorElement>) => {
     const now = Date.now();
     if (now - adminClickRef.current.lastClick > 1400) adminClickRef.current.count = 0;
     adminClickRef.current.count += 1;
     adminClickRef.current.lastClick = now;
     if (adminClickRef.current.count === 3) {
       adminClickRef.current.count = 0;
+      event.preventDefault();
       setAdminEntryOpen(true);
     }
   };
@@ -654,21 +651,16 @@ function Shell({ children }: { children: ReactNode }) {
   );
 }
 
-function Footer({ onLogoClick }: { onLogoClick: () => void }) {
+function Footer({ onLogoClick }: { onLogoClick: (event: ReactMouseEvent<HTMLAnchorElement>) => void }) {
   const { data } = useGetPublicProfile();
   const profile = data?.contact;
-  const directorDetails = [profile?.name, profile?.directorRole].filter((value): value is string => Boolean(value)).join(", ");
   const footerEmail = profile?.labEmail ?? profile?.contactEmail;
   return <footer className="footer">
     <div className="container-wide footer-compact">
       <div className="footer-id">
-        <button type="button" className="footer-logo-button footer-logo-placeholder" onClick={onLogoClick} aria-label="P3 Health Lab logo">
-          <span aria-hidden="true">Logo<br />pending</span>
-        </button>
-        <div>
-          <p className="footer-name">{profile?.labName || "P3 Health Lab"}</p>
-          {(directorDetails || profile?.university) && <p>{directorDetails}{directorDetails && profile?.university && <br />}{profile?.university}</p>}
-        </div>
+        <Link href="/" className="footer-logo-button" onClick={onLogoClick} aria-label="P3 Health Lab home">
+          <img src="/images/p3-logo-footer-light.png" alt="P3 Health Lab — People, Place, Planet" />
+        </Link>
       </div>
       <div className="footer-links">
         {footerEmail
@@ -744,7 +736,6 @@ function Home() {
   const latestNews = (newsData?.news ?? []).slice(0, 2);
   const schoolProgram = researchPrograms.find((program) => program.id === 'children-schools-exposure');
   const director = peopleGroups[0].people[0];
-  const mappedCountries = Array.from(new Set(researchMapLocations.map((location) => location.country)));
 
   return <>
     <section className="home-hero" aria-labelledby="home-title">
@@ -812,7 +803,7 @@ function Home() {
         <div className="home-footprint-copy">
           <span className="eyebrow">Global footprint</span>
           <h2 id="home-footprint-title">Research across connected communities.</h2>
-          <p>The supplied map highlights research locations across several countries; current verified project records include {mappedCountries.join(' and ')}.</p>
+          <p>Research and project locations across Canada, Rwanda and other countries.</p>
           <Link href="/research-map" className="text-link" data-testid="link-home-research-map">Explore the global research map <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>
         <Link href="/research-map" className="home-map-preview">
@@ -1197,36 +1188,30 @@ function ResearchMap() {
       title={<>Research Across <em>Communities</em></>}
       text="A geographic view of communities and settings connected to P3 Health Lab research and initiatives."
     />
-    <section className="research-map-header-image section" aria-label="Research Across Communities header image">
-      <div className="container-wide">
-        <div className="research-map-header-placeholder" role="img" aria-label="Placeholder: a Research Across Communities header image has not been supplied.">
-          <span>Research Across Communities header image placeholder</span>
-        </div>
-      </div>
-    </section>
     <section className="section research-map-section" data-reveal="up" aria-labelledby="research-map-locations-title">
       <div className="container-wide">
         <div className="section-head">
           <div><span className="eyebrow">Research locations</span><h2 id="research-map-locations-title">Connected settings, clearly placed.</h2></div>
-          <p>The map and student-origin graphic are supplied client materials. Existing project records remain listed below.</p>
+          <p>Explore research locations and student origins, alongside current verified project records.</p>
         </div>
         <figure className="research-map-image-figure">
           <img src="/images/map-research-locations.png" alt="World map showing research locations across Canada, England, Japan, Senegal, French Guiana, Ghana, the Democratic Republic of the Congo, Uganda, Rwanda, Burundi, Tanzania and New Zealand." width="1672" height="941" loading="lazy" decoding="async" />
           <figcaption>Global research locations</figcaption>
         </figure>
         <figure className="research-map-image-figure research-student-origins-figure">
-          <img src="/images/map-student-origins.png" alt="Map illustrating student origins, with geographic labels shown in the supplied graphic." width="1672" height="941" loading="lazy" decoding="async" />
+          <img src="/images/map-student-origins.png" alt="Map illustrating student origins." width="1672" height="941" loading="lazy" decoding="async" />
           <figcaption>Student origins</figcaption>
         </figure>
         <div className="research-map-verified-list">
           <h3>Current verified project records</h3>
           <ul>
-            {researchMapLocations.map((location) => (
-              <li key={location.id}>
-                <div><strong>{location.name}, {location.country}</strong><p>{location.description}</p></div>
+            {researchMapLocations.map((location) => {
+              const locationLabel = location.name === location.country ? location.name : `${location.name}, ${location.country}`;
+              return <li key={location.id}>
+                <div><strong>{locationLabel}</strong><p>{location.description}</p></div>
                 <Link className="text-link" href={`/projects#${location.projectSlug}`}>View {location.projectTitle} <ArrowUpRight size={14} aria-hidden="true" /></Link>
-              </li>
-            ))}
+              </li>;
+            })}
           </ul>
         </div>
       </div>
@@ -1536,10 +1521,10 @@ function News() {
 function Contact() {
   const { data, isLoading } = useGetPublicProfile();
   const profile = data?.contact;
+  const office = profile?.office?.trim() ?? "";
   const contactRows: Array<{ label: string; value: string }> = [
     { label: "Department", value: profile?.department ?? "" },
     { label: "University", value: profile?.university ?? "" },
-    { label: "Office", value: profile?.office ?? "" },
     { label: "Email", value: profile?.contactEmail ?? "" },
   ].filter(({ value }) => Boolean(value.trim()));
 
@@ -1568,6 +1553,19 @@ function Contact() {
         </div>
       </div>
     </section>
+    {office && <section className="section contact-location-section" aria-labelledby="contact-location-title" data-reveal="up">
+      <div className="container-wide contact-location-grid">
+        <div className="contact-location-copy">
+          <span className="eyebrow">Visit the lab</span>
+          <h2 id="contact-location-title">Office location</h2>
+          <address>{office}</address>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office)}`} target="_blank" rel="noopener noreferrer">Open in Google Maps <ArrowUpRight size={14} aria-hidden="true" /></a>
+        </div>
+        <div className="contact-map-frame">
+          <iframe src={`https://www.google.com/maps?q=${encodeURIComponent(office)}&output=embed`} title={`Map showing ${office}`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+        </div>
+      </div>
+    </section>}
   </>;
 }
 
@@ -1611,26 +1609,25 @@ function Teaching() {
       title="Teaching"
       text="Teaching in global health and One Health connects foundational knowledge with field-based learning, interdisciplinary collaboration, and real-world environmental and population-health challenges."
     />
-    <section className="section teaching-courses" aria-labelledby="teaching-courses-title" data-reveal="up">
+    {(teachingQuery.isLoading || teachingQuery.isError || courses.length > 0) && <section className="section teaching-courses" aria-labelledby="teaching-courses-title" data-reveal="up">
       <div className="container-wide">
-        <div className="teaching-section-heading">
+        {courses.length > 0 && <div className="teaching-section-heading">
           <div><span className="eyebrow">Current Teaching</span><h2 id="teaching-courses-title">Current courses</h2></div>
           <p>Course codes and titles are listed by academic year.</p>
-        </div>
+        </div>}
         {teachingQuery.isLoading && <p className="contact-loading" role="status">Loading course information…</p>}
         {teachingQuery.isError && <p className="contact-loading" role="alert">Course information is temporarily unavailable.</p>}
-        {!teachingQuery.isLoading && !teachingQuery.isError && courses.length === 0 && <p className="contact-loading" role="status">No courses are currently published.</p>}
         {currentAcademicYear && <div className="teaching-course-block teaching-current">{renderYear(currentAcademicYear)}</div>}
-        <div className="teaching-course-block">
+        {previousAcademicYears.length > 0 && <div className="teaching-course-block">
           <div className="teaching-section-heading">
             <div><span className="eyebrow">Previous Teaching</span><h2>Previous courses</h2></div>
           </div>
           <div className="teaching-year-grid">
             {previousAcademicYears.map(renderYear)}
           </div>
-        </div>
+        </div>}
       </div>
-    </section>
+    </section>}
     <section className="section section-tinted teaching-details-section" aria-label="Teaching approach" data-reveal="up">
       <div className="container-wide teaching-detail-grid">
         <article className="teaching-detail">
@@ -1728,10 +1725,6 @@ function Humekaneza() {
             <img src="/images/research-citizen-science.jpg" alt="Participants explore air-quality monitoring equipment during a citizen-science activity." loading="lazy" decoding="async" data-testid="img-humekaneza-field-monitor" />
             <figcaption><strong>Learning through citizen science</strong><span>People working with air-quality monitoring tools</span></figcaption>
           </figure>
-          <figure className="humeka-community-photo">
-            <img src="/images/research-healthy-mobility.jpg" alt="A field researcher wearing an air-quality monitoring pack walks along a roadside in Rwanda as traffic passes." loading="lazy" decoding="async" data-testid="img-humekaneza-community-route" />
-            <figcaption><strong>Learning from daily routes</strong><span>People, movement and the air around us</span></figcaption>
-          </figure>
         </div>
       </div>
     </section>
@@ -1776,10 +1769,6 @@ function Humekaneza() {
           <p>Projects bring together school learning, youth knowledge, community participation and environmental-health research.</p>
         </div>
         <div className="humeka-initiative-featured">
-          <figure className="humeka-initiative-photo">
-            <img src="/images/research-children-exposure.jpg" alt="A researcher demonstrates air-quality monitoring equipment to children gathered around a table." loading="lazy" decoding="async" data-testid="img-humekaneza-initiative-learning" />
-            <figcaption><strong>Hands-on environmental-health learning</strong><span>A P3 Health Lab school activity</span></figcaption>
-          </figure>
           <ul className="humeka-feature-grid">
             {initiatives.map((item, index) => <li key={item.slug} className={`humeka-feature-card humeka-feature-card-${index + 1}`}>
               <span className="humeka-feature-label">{item.label}</span>
@@ -1809,6 +1798,18 @@ function Humekaneza() {
         </div>
       </div>
     </section>
+
+    {humekaYouTubeVideoId && <section className="humeka-video section" aria-labelledby="humeka-video-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="humeka-section-heading">
+          <span className="eyebrow">Watch</span>
+          <h2 id="humeka-video-title">HumekaNeza in action.</h2>
+        </div>
+        <div className="humeka-video-frame">
+          <iframe src={`https://www.youtube-nocookie.com/embed/${humekaYouTubeVideoId}`} title="HumekaNeza video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+        </div>
+      </div>
+    </section>}
 
     <section className="humeka-partners" aria-label="P3 Health Lab and Western University affiliation">
       <div className="container-wide humeka-partners-inner">
