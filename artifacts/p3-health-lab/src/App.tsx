@@ -22,6 +22,11 @@ import zohaIrfanPhoto from '@assets/Zoha_Irfan-9_1790358118502.webp';
 
 const queryClient = new QueryClient();
 const googleScholarUrl = 'https://scholar.google.co.nz/citations?user=yAPiYq8AAAAJ&hl=en';
+const publicationCovers = [
+  { src: '/images/p3/publications-covers/acs-est-air-cover-a.jpg', alt: 'Cover of ACS ES&T Air.', width: 1860, height: 2474 },
+  { src: '/images/p3/publications-covers/acs-est-air-cover-b.jpg', alt: 'Cover of another ACS ES&T Air issue.', width: 1860, height: 2474 },
+  { src: '/images/p3/publications-covers/environmental-science-advances-cover.jpg', alt: 'Cover of Environmental Science: Advances.', width: 800, height: 1047 },
+];
 const humekaYouTubeVideoId = getYouTubeVideoId(import.meta.env.VITE_HUMEKA_YOUTUBE_URL);
 
 function getYouTubeVideoId(value: string | undefined) {
@@ -679,7 +684,7 @@ function Shell({ children }: { children: ReactNode }) {
       <header className="site-header" ref={navRef}>
         <div className="container-wide header-inner">
           <Link href="/" className="brand" aria-label="P3 Health Lab home" data-testid="link-brand">
-            <img src={logo} alt="" />
+            <img src="/images/p3-mark.png" alt="" />
             <span className="brand-copy" aria-hidden="true"><span className="brand-p3">P3</span> <span className="brand-health">Health Lab</span></span>
           </Link>
           <nav className="nav" aria-label="Primary navigation">
@@ -1545,6 +1550,11 @@ function Publications() {
             <h2>Google Scholar</h2>
             <p>For the most up-to-date list of publications, citations, and scholarly impact:</p>
             <a href={googleScholar.url} target="_blank" rel="noopener noreferrer" data-testid="link-publications-google-scholar">View Dr. Egide Kalisa’s Publications on Google Scholar <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <div className="publication-covers">
+              {publicationCovers.map((cover) => <a key={cover.src} href={googleScholar.url} target="_blank" rel="noopener noreferrer">
+                <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} loading="lazy" decoding="async" />
+              </a>)}
+            </div>
           </article>
           <article className="publication-profile-record">
             <span className="eyebrow">ORCID</span>
