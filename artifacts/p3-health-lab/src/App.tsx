@@ -1213,6 +1213,124 @@ function PersonName({ person }: { person: (typeof people.sections)[number]['memb
 }
 
 function People() {
+  const [livePeople, setLivePeople] = useState<Array<{
+    id: number;
+    name: string;
+    role: string;
+    institution: string;
+    researchFocus: string;
+    status: string;
+    category: string;
+    photo: string | null;
+    linkedinUrl: string | null;
+  }>>([]);
+  const [isLivePeopleLoading, setIsLivePeopleLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    fetch('/api/public/people', { headers: { Accept: 'application/json' } })
+      .then((response) => response.ok ? response.json() as Promise<{ people?: Array<Record<string, unknown>> }> : Promise.reject(new Error('People unavailable')))
+      .then((result) => {
+        if (!active) return;
+        const nextPeople = Array.isArray(result.people)
+          ? result.people.map((person) => ({
+              id: Number(person.id ?? 0),
+              name: String(person.name ?? 'Unnamed person'),
+              role: String(person.role ?? ''),
+              institution: String(person.institution ?? ''),
+              researchFocus: String(person.researchFocus ?? ''),
+              status: String(person.status ?? 'current'),
+              category: String(person.category ?? 'PI'),
+              photo: typeof person.photo === 'string' ? person.photo : null,
+              linkedinUrl: typeof person.linkedinUrl === 'string' ? person.linkedinUrl : null,
+            })).filter((person) => person.id > 0)
+          : [];
+        setLivePeople(nextPeople);
+      })
+      .catch(() => {
+        if (active) setLivePeople([]);
+      })
+      .finally(() => {
+        if (active) setIsLivePeopleLoading(false);
+      });
+    return () => { active = false; };
+  }, []);
+
+  if (!isLivePeopleLoading && livePeople.length > 0) {
+    const principalInvestigator = livePeople.find((person) => person.category === 'PI') ?? livePeople[0];
+    const currentMembers = livePeople.filter((person) => person.status === 'current' && person.id !== principalInvestigator?.id);
+    const formerMembers = livePeople.filter((person) => person.status === 'alumni');
+
+    return (
+      <div className="people-page">
+        <div className="pp">
+          <h1>People</h1>
+
+          {principalInvestigator && (
+            <section>
+              <h2>Principal Investigator</h2>
+              <ul className="pp-grid">
+                <li className="pp-member">
+                  {principalInvestigator.photo
+                    ? <img className="pp-photo" src={principalInvestigator.photo} alt={principalInvestigator.name} loading="lazy" width="144" height="144" decoding="async" />
+                    : <span className="pp-photo pp-initials" role="img" aria-label={principalInvestigator.name}>{personInitials(principalInvestigator.name)}</span>}
+                  {principalInvestigator.linkedinUrl
+                    ? <a className="pp-name" href={principalInvestigator.linkedinUrl} target="_blank" rel="noreferrer">{principalInvestigator.name}</a>
+                    : <span className="pp-name">{principalInvestigator.name}</span>}
+                  {principalInvestigator.role && <span className="pp-role">{principalInvestigator.role}</span>}
+                  {principalInvestigator.institution && <span className="pp-aff">{principalInvestigator.institution}</span>}
+                  {principalInvestigator.researchFocus && <p className="pp-focus">{principalInvestigator.researchFocus}</p>}
+                </li>
+              </ul>
+            </section>
+          )}
+
+          {currentMembers.length > 0 && (
+            <section>
+              <h2>Current team</h2>
+              <ul className="pp-grid">
+                {currentMembers.map((person) => (
+                  <li className="pp-member" key={person.id}>
+                    {person.photo
+                      ? <img className="pp-photo" src={person.photo} alt={person.name} loading="lazy" width="144" height="144" decoding="async" />
+                      : <span className="pp-photo pp-initials" role="img" aria-label={person.name}>{personInitials(person.name)}</span>}
+                    {person.linkedinUrl
+                      ? <a className="pp-name" href={person.linkedinUrl} target="_blank" rel="noreferrer">{person.name}</a>
+                      : <span className="pp-name">{person.name}</span>}
+                    {person.role && <span className="pp-role">{person.role}</span>}
+                    {person.institution && <span className="pp-aff">{person.institution}</span>}
+                    {person.researchFocus && <p className="pp-focus">{person.researchFocus}</p>}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {formerMembers.length > 0 && (
+            <section>
+              <h2>Former students and alumni</h2>
+              <ul className="pp-former">
+                {formerMembers.map((person) => (
+                  <li key={person.id}>
+                    <strong>{person.name}{person.role ? `, ${person.role}` : ''}</strong>
+                    {person.institution && <span className="now">{person.institution}</span>}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+
+        <section className="contact-band" id="join" data-reveal="up">
+          <div className="container-wide contact-grid">
+            <div><span className="eyebrow">Join the lab</span><h2>Bring a question, not a template.</h2></div>
+            <Link href="/get-involved" className="button-primary" data-testid="link-people-join">Find your pathway <ArrowUpRight size={15} aria-hidden="true" /></Link>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   const { director, sections, former, collaborators } = people;
   return (
     <div className="people-page">

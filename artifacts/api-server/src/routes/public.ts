@@ -2,7 +2,7 @@ import { and, asc, desc, eq, ne } from "drizzle-orm";
 import { Router, type IRouter } from "express";
 import { z } from "zod";
 import { GetPublicNewsResponse, GetPublicOpportunitiesResponse, GetPublicProfileResponse, GetPublicTeachingResponse } from "@workspace/api-zod";
-import { db, newsTable, opportunitiesTable, profileInfoTable, teachingRecordsTable } from "@workspace/db";
+import { db, mediaTable, newsTable, opportunitiesTable, peopleTable, profileInfoTable, teachingRecordsTable } from "@workspace/db";
 
 const router: IRouter = Router();
 const publicationLinkLabels = new Set(["Google Scholar", "ORCID", "CV", "Publication Profile", "CV / Publication Profile"]);
@@ -75,6 +75,53 @@ router.get("/public/news", async (req, res): Promise<void> => {
   } catch (error) {
     req.log.error({ err: error }, "Public news failed");
     res.status(500).json({ error: "Unable to load news" });
+  }
+});
+
+router.get("/public/people", async (req, res): Promise<void> => {
+  try {
+    const people = await db
+      .select({
+        id: peopleTable.id,
+        category: peopleTable.category,
+        name: peopleTable.name,
+        role: peopleTable.role,
+        institution: peopleTable.institution,
+        researchFocus: peopleTable.researchFocus,
+        linkedinUrl: peopleTable.linkedinUrl,
+        status: peopleTable.status,
+        photoMediaId: peopleTable.photoMediaId,
+        displayOrder: peopleTable.displayOrder,
+      })
+      .from(peopleTable)
+      .where(and(
+        eq(peopleTable.published, true),
+        eq(peopleTable.archived, false),
+      ))
+      .orderBy(asc(peopleTable.displayOrder), asc(peopleTable.id));
+
+    const peopleWithPhoto = await Promise.all(people.map(async (person) => {
+      if (!person.photoMediaId) return { ...person, photo: null };
+      const [photo] = await db
+        .select({ objectPath: mediaTable.objectPath, contentType: mediaTable.contentType, altText: mediaTable.altText })
+        .from(mediaTable)
+        .where(and(
+          eq(mediaTable.id, person.photoMediaId),
+          eq(mediaTable.published, true),
+          eq(mediaTable.archived, false),
+        ))
+        .limit(1);
+      return {
+        ...person,
+        photo: photo?.objectPath ? `/api/storage${photo.objectPath}` : null,
+        altText: photo?.altText ?? "",
+      };
+    }));
+
+    res.json({ people: peopleWithPhoto });
+  } catch (error) {
+    req.log.error({ err: error }, "Public people failed");
+    res.status(500).json({ error: "Unable to load people" });
   }
 });
 
