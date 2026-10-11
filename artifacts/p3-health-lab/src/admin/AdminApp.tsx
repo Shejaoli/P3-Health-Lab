@@ -403,6 +403,7 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
   const [, setLocation] = useLocation();
   const [resource, setResource] = useState("people");
   const [items, setItems] = useState<RecordValue[]>([]);
+  const [mediaLibrary, setMediaLibrary] = useState<RecordValue[]>([]);
   const [draft, setDraft] = useState<RecordValue | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -424,7 +425,15 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
       setBusy(false);
     }
   };
-  useEffect(() => { setDraft(null); void load(); }, [resource]);
+  const loadMediaLibrary = async () => {
+    try {
+      const result = await api<{ items: RecordValue[] }>("/admin/content/media");
+      setMediaLibrary(result.items);
+    } catch {
+      setMediaLibrary([]);
+    }
+  };
+  useEffect(() => { setDraft(null); void load(); void loadMediaLibrary(); }, [resource]);
 
   const updateDraft = (key: string, value: unknown) => setDraft((current) => ({ ...(current ?? blankRecord(resource)), [key]: value }));
   const edit = (item: RecordValue) => setDraft({ ...item });
@@ -494,6 +503,46 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
       setBusy(false);
     }
   };
+  const uploadMediaForField = async (fieldKey: string, file: File) => {
+    setBusy(true);
+    setMessage("");
+    try {
+      const upload = await api<{ uploadURL: string; objectPath: string }>("/admin/media/upload-url", {
+        method: "POST",
+        body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type }),
+      });
+      const response = await fetch(upload.uploadURL, { method: "PUT", headers: { "Content-Type": file.type }, body: file });
+      if (!response.ok) throw new Error("Image upload failed");
+      await api("/admin/media/verify-upload", {
+        method: "POST",
+        body: JSON.stringify({ objectPath: upload.objectPath, size: file.size, contentType: file.type }),
+      });
+      const record = await api<RecordValue>("/admin/content/media", {
+        method: "POST",
+        body: JSON.stringify({
+          fileName: file.name,
+          objectPath: upload.objectPath,
+          contentType: file.type,
+          size: file.size,
+          altText: file.name,
+          associatedType: resource,
+          associatedId: draft?.id ?? null,
+          published: true,
+          archived: false,
+          displayOrder: 0,
+        }),
+      });
+      if (typeof record.id === "number") {
+        updateDraft(fieldKey, record.id);
+        setMessage("Image uploaded and linked to this record.");
+        await loadMediaLibrary();
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Unable to upload image");
+    } finally {
+      setBusy(false);
+    }
+  };
   const logout = async () => {
     await api("/admin/auth/logout", { method: "POST" }).catch(() => undefined);
     onLogout();
@@ -532,16 +581,20 @@ function AdminDashboard({ user, onLogout }: { user: { email: string; role: strin
         {busy && !draft && <p className="admin-muted">Loading…</p>}
          <div className="admin-record-list">{items.map((item) => <article className={`admin-record ${item.archived ? "is-archived" : ""}`} key={String(item.id)}><div><span className="admin-record-meta">{item.published ? "Published" : "Draft"}{item.archived ? " · Archived" : ""}{item.status ? ` · ${String(item.status)}` : ""}</span><h3>{String(item[config.labelField] ?? "Untitled record")}</h3><p>{resource === "media" ? `${String(item.contentType ?? "")} · ${String(item.size ?? "")} bytes` : String(item.summary ?? item.role ?? item.description ?? item.shortDescription ?? "")}</p></div><div className="admin-record-actions"><button className="admin-quiet-button" onClick={() => edit(item)}><Pencil size={14} /> Edit</button><button className={`admin-quiet-button ${item.archived ? "" : "danger"}`} onClick={() => void archive(item)}>{item.archived ? "Unarchive" : "Archive"}</button></div></article>)}</div>
         {!items.length && !busy && <div className="admin-empty"><Check size={18} /><p>No records yet. Add only verified information.</p></div>}
-        {draft && <form className="admin-editor" onSubmit={save}><div className="admin-editor-heading"><h3>{draft.id ? "Edit record" : "New record"}</h3><button type="button" className="admin-icon-button" onClick={() => setDraft(null)} aria-label="Close editor"><X size={18} /></button></div><div className="admin-form-grid">{fields.map((field) => <AdminField key={field.key} field={field} value={draft[field.key]} onChange={(value) => updateDraft(field.key, value)} />)}</div><div className="admin-editor-actions"><button type="button" className="button-secondary" onClick={() => setDraft(null)}>Cancel</button><button type="submit" className="button-primary" disabled={busy}>{busy ? "Saving…" : "Save record"}</button></div></form>}
+        {draft && <form className="admin-editor" onSubmit={save}><div className="admin-editor-heading"><h3>{draft.id ? "Edit record" : "New record"}</h3><button type="button" className="admin-icon-button" onClick={() => setDraft(null)} aria-label="Close editor"><X size={18} /></button></div><div className="admin-form-grid">{fields.map((field) => <AdminField key={field.key} field={field} value={draft[field.key]} mediaOptions={mediaLibrary} onChange={(value) => updateDraft(field.key, value)} onUploadMedia={(file) => void uploadMediaForField(field.key, file)} />)}</div><div className="admin-editor-actions"><button type="button" className="button-secondary" onClick={() => setDraft(null)}>Cancel</button><button type="submit" className="button-primary" disabled={busy}>{busy ? "Saving…" : "Save record"}</button></div></form>}
       </main>
     </div>
   </div>;
 }
 
-function AdminField({ field, value, onChange }: { field: Field; value: unknown; onChange: (value: unknown) => void }) {
+function AdminField({ field, value, mediaOptions, onChange, onUploadMedia }: { field: Field; value: unknown; mediaOptions?: RecordValue[]; onChange: (value: unknown) => void; onUploadMedia?: (file: File) => Promise<void> | void; }) {
   const displayValue = field.type === "json" && Array.isArray(value) ? JSON.stringify(value, null, 2) : String(value ?? "");
   if (field.type === "checkbox") return <label className="admin-field admin-checkbox"><input type="checkbox" checked={Boolean(value)} onChange={(event) => onChange(event.target.checked)} /><span>{field.label}</span></label>;
   if (field.type === "select") return <label className="admin-field"><span>{field.label}</span><select value={String(value ?? "")} onChange={(event) => onChange(event.target.value)}>{field.options?.map((option) => <option key={option} value={option}>{option}</option>)}</select>{field.help && <small>{field.help}</small>}</label>;
+  if ((field.key === "photoMediaId" || field.key === "imageMediaId") && Array.isArray(mediaOptions)) {
+    const options = mediaOptions.filter((item) => typeof item.id === "number" && typeof item.objectPath === "string" && String(item.contentType ?? "").startsWith("image/") && item.archived !== true);
+    return <div className="admin-field"><span>{field.label}</span><select value={value === null || value === undefined || value === "" ? "" : String(value)} onChange={(event) => onChange(event.target.value === "" ? null : Number(event.target.value))}>{options.length ? <option value="">None selected</option> : <option value="">No images uploaded yet</option>}{options.map((item) => <option key={String(item.id)} value={String(item.id)}>{String(item.fileName ?? `Image ${item.id}`)}</option>)}</select>{onUploadMedia && <label className="admin-upload-button"><Upload size={15} /> Upload new image<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(event) => { const file = event.target.files?.[0]; if (file) { void onUploadMedia(file); event.currentTarget.value = ""; } }} /></label>}{field.help && <small>{field.help}</small>}</div>;
+  }
   if (field.type === "textarea" || field.type === "json") return <label className="admin-field"><span>{field.label}</span><textarea value={displayValue} onChange={(event) => onChange(event.target.value)} rows={field.type === "json" ? 5 : 4} />{field.help && <small>{field.help}</small>}</label>;
   return <label className="admin-field"><span>{field.label}</span><input type={field.type} value={String(value ?? "")} onChange={(event) => onChange(field.type === "number" ? (event.target.value === "" ? "" : Number(event.target.value)) : event.target.value)} />{field.help && <small>{field.help}</small>}</label>;
 }
