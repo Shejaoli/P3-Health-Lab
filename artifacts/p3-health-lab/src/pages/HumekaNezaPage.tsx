@@ -3,27 +3,35 @@ import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { Link } from 'wouter';
 import './humeka-neza-page.css';
 
-const programs = [
+const programs: {
+  title: string;
+  label: string;
+  text: string;
+  image: string;
+  alt: string;
+  imageFit?: 'contain';
+}[] = [
   {
     title: 'Hands-on air science',
     label: 'Learn · Measure',
     text: 'Students use monitors and experiments to ask questions about the air around their school.',
-    image: '/images/p3/projects/02-i-am-an-air-quality-scientist/students-measuring-experiment.jpg',
-    alt: 'Students take part in an air-quality science experiment.',
+    image: '/images/humekaneza/program-air-science-illustration.jpg',
+    alt: 'Illustration of students learning to use air-quality science equipment.',
+    imageFit: 'contain',
   },
   {
     title: 'Air Quality Flag Program',
     label: 'Learn · Protect',
     text: 'The green and red flag activity helps schools connect air-quality information with outdoor play decisions.',
-    image: '/images/design-reference/hn-hero.jpg',
-    alt: 'A school air-quality workshop with an Air Quality Flag poster visible.',
+    image: '/images/humekaneza/school-outdoor-air-quality-awareness.jpg',
+    alt: 'Students hold a message about healthy outdoor activity at a school event.',
   },
   {
     title: 'Anti-idling at the gate',
     label: 'Act',
     text: 'School communities discuss how idling vehicles contribute to pollution around drop-off and pick-up.',
-    image: '/images/design-reference/dropoff.jpg',
-    alt: 'Illustration of traffic and school buses around a school drop-off area.',
+    image: '/images/humekaneza/school-gate-activity.jpg',
+    alt: 'Students and an adult gather beside a car during a school-gate activity.',
   },
   {
     title: 'One tree per student',
@@ -43,8 +51,9 @@ const programs = [
     title: 'Cleaner routes to school',
     label: 'Move · Act',
     text: 'Children explore how everyday routes and travel choices shape the air they breathe.',
-    image: '/images/p3/projects/05-clean-air-school-zones/children-walking-to-school-guide.jpg',
-    alt: 'Illustration of children walking to school along a route away from traffic.',
+    image: '/images/humekaneza/school-route-illustration.jpg',
+    alt: 'Illustration of a school zone with lower-emission routes and cleaner transport.',
+    imageFit: 'contain',
   },
 ];
 
@@ -69,40 +78,30 @@ const videos = [
 const schoolPhotos = [
   {
     title: 'Outdoor learning',
-    image: null,
-    requiredAsset: 'hn-outdoor2.jpg',
+    image: '/images/humekaneza/school-community-learning.jpg',
+    alt: 'Schoolchildren and educators gather outdoors for a community learning activity.',
   },
   {
     title: 'Sensor demonstration',
-    image: '/images/research-citizen-science.jpg',
-    alt: 'A researcher demonstrates air-quality monitoring equipment during a learning activity.',
+    image: '/images/humekaneza/school-sensor-demonstration.jpg',
+    alt: 'Two students examine air-quality monitoring equipment during a classroom activity.',
   },
   {
     title: 'Anti-idling day',
-    image: null,
-    requiredAsset: 'hn-idling1.jpg',
+    image: '/images/humekaneza/school-anti-idling-activity.jpg',
+    alt: 'HumekaNeza school outreach includes a student wearing a no-idling message and an awareness conversation beside a car.',
   },
   {
     title: 'School workshop',
-    image: '/images/design-reference/workshop.jpg',
-    alt: 'Students take part in a HumekaNeza workshop in a Kigali classroom.',
+    image: '/images/humekaneza/school-workshop.jpg',
+    alt: 'An educator leads an air-quality workshop with students in a classroom.',
   },
   {
-    title: 'Checking air-quality readings',
-    image: '/images/design-reference/field-calibrate.jpg',
-    alt: 'A researcher checks readings on air-quality monitoring instruments.',
+    title: 'Recording observations',
+    image: '/images/humekaneza/student-recording-observations.jpg',
+    alt: 'A student writes observations in a notebook during a school activity.',
   },
 ];
-
-function MissingPhoto({ asset, title }: { asset: string; title: string }) {
-  return (
-    <div className="hn-photo-missing" role="img" aria-label={`${title} photograph not supplied`}>
-      <span className="hn-missing-mark" aria-hidden="true">+</span>
-      <strong>{title}</strong>
-      <code>Photo needed: {asset}</code>
-    </div>
-  );
-}
 
 export function HumekaNezaPage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -143,7 +142,7 @@ export function HumekaNezaPage() {
           <img
             className="hn-hero-image"
             src="/images/design-reference/hn-hero.jpg"
-            alt="Dr. Egide Kalisa leads an air-quality learning activity with students in a Kigali classroom."
+            alt="An educator leads an air-quality learning activity with students in a classroom."
             fetchPriority="high"
           />
           <div className="hn-hero-shade" aria-hidden="true" />
@@ -161,6 +160,11 @@ export function HumekaNezaPage() {
               <span className="hn-eyebrow">A simple signal for school communities</span>
               <h2 id="hn-flag-title">The Air Quality Flag</h2>
               <p>Green means it is appropriate to play outside. Red means stay indoors.</p>
+              <div className="hn-flag-visual" role="img" aria-label="Air Quality Flag: green means play outside; red means stay indoors.">
+                <span className="hn-flag-pole" aria-hidden="true" />
+                <span className="hn-flag-cloth hn-flag-cloth-green" aria-hidden="true">GREEN</span>
+                <span className="hn-flag-cloth hn-flag-cloth-red" aria-hidden="true">RED</span>
+              </div>
               <div className="hn-flag-key">
                 <span><i className="hn-flag-green" aria-hidden="true" />Green <small>Play outside</small></span>
                 <span><i className="hn-flag-red" aria-hidden="true" />Red <small>Stay indoors</small></span>
@@ -199,10 +203,10 @@ export function HumekaNezaPage() {
               <blockquote>“Just publishing a paper, that is not enough…”</blockquote>
               <p className="hn-quote-note">A guiding thought from the supplied HumekaNeza design reference.</p>
             </div>
-            <div className="hn-about-collage" aria-label="HumekaNeza school learning photographs">
-              <img className="hn-collage-large" src="/images/design-reference/hn-hero.jpg" alt="Students participate in an air-quality lesson in a Kigali classroom." loading="lazy" decoding="async" />
-              <img src="/images/design-reference/workshop.jpg" alt="Students and educators gather for a school air-quality workshop." loading="lazy" decoding="async" />
-              <img src="/images/research-citizen-science.jpg" alt="A researcher demonstrates air-quality monitoring equipment to a group." loading="lazy" decoding="async" />
+            <div className="hn-about-collage" aria-label="HumekaNeza school learning photographs and illustrations">
+              <img className="hn-collage-large" src="/images/humekaneza/about-classroom-activity.jpg" alt="An educator presents an air-quality lesson to students in a classroom." loading="lazy" decoding="async" />
+              <img className="hn-collage-illustration" src="/images/humekaneza/about-school-traffic.jpg" alt="Illustration of traffic and a school building in an urban neighborhood." loading="lazy" decoding="async" />
+              <img className="hn-collage-illustration" src="/images/humekaneza/program-cleaner-classrooms-illustration.jpg" alt="Illustration of children taking part in a classroom air-quality activity." loading="lazy" decoding="async" />
               <span className="hn-collage-caption">Learning · measuring · sharing</span>
             </div>
           </div>
@@ -218,7 +222,7 @@ export function HumekaNezaPage() {
             <div className="hn-program-grid">
               {programs.map((program) => (
                 <article className="hn-program-card" key={program.title}>
-                  <img src={program.image} alt={program.alt} loading="lazy" decoding="async" />
+                  <img className={program.imageFit === 'contain' ? 'hn-image-contain' : undefined} src={program.image} alt={program.alt} loading="lazy" decoding="async" />
                   <div className="hn-program-copy">
                     <span className="hn-card-label">{program.label}</span>
                     <h3>{program.title}</h3>
@@ -239,9 +243,7 @@ export function HumekaNezaPage() {
             <div className="hn-school-mosaic">
               {schoolPhotos.map((photo, index) => (
                 <figure className={`hn-school-tile hn-school-tile-${index + 1}`} key={photo.title}>
-                  {photo.image
-                    ? <img src={photo.image} alt={photo.alt} loading="lazy" decoding="async" />
-                    : <MissingPhoto asset={photo.requiredAsset!} title={photo.title} />}
+                  <img src={photo.image} alt={photo.alt} loading="lazy" decoding="async" />
                   <figcaption>{photo.title}</figcaption>
                 </figure>
               ))}
@@ -267,8 +269,12 @@ export function HumekaNezaPage() {
                 <figcaption>Enough is enough</figcaption>
               </figure>
               <figure className="hn-poster hn-poster-two">
-                <img src="/images/p3/projects/01-humekaneza-school-campaign/child-poster-stop-cutting-trees.jpg" alt="A student-created poster encourages people to stop cutting trees." loading="lazy" decoding="async" />
+                <img src="/images/humekaneza/students-environment-poster.jpg" alt="A student-created poster calls for action to protect the environment." loading="lazy" decoding="async" />
                 <figcaption>Care for the places we share</figcaption>
+              </figure>
+              <figure className="hn-poster hn-poster-three">
+                <img src="/images/humekaneza/student-pencil-portrait.jpg" alt="A student's pencil portrait drawing on a sheet of paper." loading="lazy" decoding="async" />
+                <figcaption>A student’s drawing</figcaption>
               </figure>
             </div>
           </div>
@@ -317,9 +323,18 @@ export function HumekaNezaPage() {
               <li className="hn-timeline-next"><span className="hn-timeline-year">Next</span><strong>Electric school buses</strong><p>A future goal in the supplied design brief.</p></li>
             </ol>
             <div className="hn-initiatives" aria-label="Related initiatives">
-              <article><span>01</span><strong>One Sensor per School</strong></article>
-              <article><span>02</span><strong>One Tree per Child</strong></article>
-              <article><span>03</span><strong>HUMEKA app</strong><small>In development</small></article>
+              <article>
+                <img src="/images/design-reference/sensors-kids.jpg" alt="Students learn with air-quality monitoring equipment." loading="lazy" decoding="async" />
+                <span>01</span><strong>One Sensor per School</strong>
+              </article>
+              <article>
+                <img src="/images/design-reference/green-street.jpg" alt="Illustration of a greener school street." loading="lazy" decoding="async" />
+                <span>02</span><strong>One Tree per Child</strong>
+              </article>
+              <article>
+                <img src="/images/humeka-app-phone-illustration.webp" alt="Illustration of the Humeka air-quality app on a phone." loading="lazy" decoding="async" />
+                <span>03</span><strong>HUMEKA app</strong><small>In development</small>
+              </article>
             </div>
           </div>
         </section>
