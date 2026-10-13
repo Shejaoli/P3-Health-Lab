@@ -6,7 +6,7 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
-import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile } from '@workspace/api-client-react';
+import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
 import { people } from '@/data/people';
 import { HumekaNezaPage } from '@/pages/HumekaNezaPage';
 import '@/pages/p3-home-projects.css';
@@ -1378,47 +1378,38 @@ function Projects() {
 }
 
 function ResearchMap() {
-  return <>
+  return <div className="research-map-page">
     <section className="page-hero research-map-page-hero">
-      <div className="container-wide">
-        <div className="research-map-page-hero-grid">
-          <div>
-            <span className="eyebrow">Global Research Map</span>
-            <h1 className="display">Research Across <em>Communities</em></h1>
-            <p>A geographic view of communities and settings connected to P3 Health Lab research and initiatives.</p>
-          </div>
-          <img
-            src="/images/p3/global-map-banner-candidates/teacher-with-posters-classroom.jpg"
-            alt="A teacher presents environmental-health posters to students in a classroom."
-            width="1920"
-            height="1280"
-            fetchPriority="high"
-            decoding="async"
-          />
-        </div>
+      <div className="container-wide research-map-page-hero-grid">
+        <span className="eyebrow">Global Research Map</span>
+        <h1 className="display">From London, Ontario to Kigali, <em>and beyond.</em></h1>
+        <p>Research and student communities connect across four continents. Explore the locations shown in our research and student-origin maps, then see the verified project records below.</p>
+        <a className="research-map-explore-link" href="#research-map-locations-title">Explore the maps <ArrowUpRight size={15} aria-hidden="true" /></a>
       </div>
     </section>
     <section className="section research-map-section" data-reveal="up" aria-labelledby="research-map-locations-title">
       <div className="container-wide">
         <div className="section-head">
-          <div><span className="eyebrow">Research locations</span><h2 id="research-map-locations-title">Connected settings, clearly placed.</h2></div>
-          <p>Explore research locations and student origins, alongside current verified project records.</p>
+          <div><span className="eyebrow">Places &amp; people</span><h2 id="research-map-locations-title">Two views of a connected lab.</h2></div>
+          <p>Research sites and student origins, presented side by side using the existing lab maps.</p>
         </div>
-        <figure className="research-map-image-figure">
-          <img src="/images/map-research-locations.png" alt="World map showing research locations across Canada, England, Japan, Senegal, French Guiana, Ghana, the Democratic Republic of the Congo, Uganda, Rwanda, Burundi, Tanzania and New Zealand." width="1672" height="941" loading="lazy" decoding="async" />
-          <figcaption>Global research locations</figcaption>
-        </figure>
-        <figure className="research-map-image-figure research-student-origins-figure">
-          <img src="/images/map-student-origins.png" alt="Map illustrating student origins." width="1672" height="941" loading="lazy" decoding="async" />
-          <figcaption>Student origins</figcaption>
-        </figure>
+        <div className="research-map-gallery">
+          <figure className="research-map-image-figure">
+            <img src="/images/map-research-locations.png" alt="World map showing research locations across Canada, England, Japan, Senegal, French Guiana, Ghana, the Democratic Republic of the Congo, Uganda, Rwanda, Burundi, Tanzania and New Zealand." width="1672" height="941" loading="lazy" decoding="async" />
+            <figcaption><span>01</span><strong>Research locations</strong><small>Selected countries and regions of research activity</small></figcaption>
+          </figure>
+          <figure className="research-map-image-figure">
+            <img src="/images/map-student-origins.png" alt="World map showing selected countries of student origin, including Canada, Senegal, Ghana, Nigeria, Iraq, Afghanistan, Uganda, Rwanda, Bangladesh and China." width="1672" height="941" loading="lazy" decoding="async" />
+            <figcaption><span>02</span><strong>Student origins</strong><small>Students and collaborators across communities</small></figcaption>
+          </figure>
+        </div>
         <div className="research-map-verified-list">
-          <h3>Current verified project records</h3>
+          <div className="research-map-list-heading"><span className="eyebrow">Project directory</span><h3>Current verified project locations</h3></div>
           <ul>
             {researchMapLocations.map((location) => {
               const locationLabel = location.name === location.country ? location.name : `${location.name}, ${location.country}`;
               return <li key={location.id}>
-                <div><strong>{locationLabel}</strong><p>{location.description}</p></div>
+                <div className="research-map-location-copy"><span className="research-map-location-dot" aria-hidden="true" /><div><strong>{locationLabel}</strong><p>{location.description}</p></div></div>
                 <Link className="text-link" href={`/projects#${location.projectSlug}`}>View {location.projectTitle} <ArrowUpRight size={14} aria-hidden="true" /></Link>
               </li>;
             })}
@@ -1426,7 +1417,52 @@ function ResearchMap() {
         </div>
       </div>
     </section>
-  </>;
+  </div>;
+}
+
+const linkedInProfiles: Record<string, string> = {
+  'md pervez kabir': 'https://www.linkedin.com/in/md-pervez-kabir-781837168/',
+  'allison pert': 'https://www.linkedin.com/in/allisonpert/',
+  'augustine omodieke': 'https://www.linkedin.com/in/augustine-omodieke/',
+  'francis acquah': 'https://www.linkedin.com/in/francis-n-acquah-a39aa1219/',
+  'daniel twum': 'https://www.linkedin.com/in/dr-daniel-twum-mbbs-pt-msc-cic-17025b189/',
+  'abdoul rasheed': 'https://www.linkedin.com/in/abdulrasheed-rasheed/',
+  'abdul rasheed rasheed': 'https://www.linkedin.com/in/abdulrasheed-rasheed/',
+  'zoha irfan': 'https://www.linkedin.com/in/zoha-irfan-296062308/',
+  'oluwaseun bajulaye': 'https://www.linkedin.com/in/oyinbajulaye/?isSelfProfile=false',
+  'farhana ramiza': 'https://www.linkedin.com/in/farhana-rokaiya-ramiza-56b558238/',
+  'ignatius atuguba': 'https://www.linkedin.com/in/ignatiusatuguba/',
+  'jiaxuan zhang': 'https://www.linkedin.com/in/jxbravo/',
+  'arshia mohammadi sanjani': 'https://www.linkedin.com/in/arshiasanjani/',
+  'ihsan khalifa': 'https://www.linkedin.com/in/ihsankhalifa/',
+  'harini kumaraverl': 'https://www.linkedin.com/in/harini-kumaraverl-33b4a9372/',
+  'haiyan li': 'https://www.linkedin.com/in/haiyan2657/',
+  'ruiming han': 'https://www.linkedin.com/in/ruiming-han-858b7823b/',
+  'natasha fortin': 'https://www.linkedin.com/in/natasha-fortin-59751a26b/',
+  'sydney lessard': 'https://www.linkedin.com/in/sydneylessard/?isSelfProfile=false',
+  'jiaqi bi': 'https://www.linkedin.com/in/jiaqi-bi-10189a126/',
+  'sumeet jamil': 'https://www.linkedin.com/in/sumeet-jamil-1a28ba233/',
+  'shaikh sumeet jamil': 'https://www.linkedin.com/in/sumeet-jamil-1a28ba233/',
+  'sharika jalali': 'https://www.linkedin.com/in/sharikajalali/?isSelfProfile=false',
+  'innocent twagirayezu': 'https://www.linkedin.com/in/innocent-twagirayezu-6277141b7/',
+  'patrick karakwende': 'https://www.linkedin.com/in/patrick-karakwende-984440144/',
+  'adolphe ndikubwimana': 'https://www.linkedin.com/in/adolphe-atuhire-140847116/',
+  'isabel ajagu': 'https://www.linkedin.com/in/isabelajagu/',
+};
+
+function normalizePersonName(name: string) {
+  return name
+    .replace(/^(?:dr|prof)\.?\s+/i, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+function PersonLinkedInName({ name, href }: { name: string; href?: string | null }) {
+  const profileUrl = href || linkedInProfiles[normalizePersonName(name)];
+  return profileUrl
+    ? <a className="pp-name" href={profileUrl} target="_blank" rel="noopener noreferrer">{name}</a>
+    : <span className="pp-name">{name}</span>;
 }
 
 function personInitials(name: string) {
@@ -1452,8 +1488,8 @@ function PersonAvatar({ person }: { person: (typeof people.sections)[number]['me
 
 function PersonName({ person }: { person: (typeof people.sections)[number]['members'][number] | typeof people.director | (typeof people.former)[number] }) {
   return person.href
-    ? <a className="pp-name" href={person.href}>{person.name}</a>
-    : <span className="pp-name">{person.name}</span>;
+    ? <PersonLinkedInName name={person.name} href={person.href} />
+    : <PersonLinkedInName name={person.name} />;
 }
 
 function People() {
@@ -1518,9 +1554,7 @@ function People() {
                   {principalInvestigator.photo
                     ? <img className="pp-photo" src={principalInvestigator.photo} alt={principalInvestigator.name} loading="lazy" width="144" height="144" decoding="async" />
                     : <span className="pp-photo pp-initials" role="img" aria-label={principalInvestigator.name}>{personInitials(principalInvestigator.name)}</span>}
-                  {principalInvestigator.linkedinUrl
-                    ? <a className="pp-name" href={principalInvestigator.linkedinUrl} target="_blank" rel="noreferrer">{principalInvestigator.name}</a>
-                    : <span className="pp-name">{principalInvestigator.name}</span>}
+                  <PersonLinkedInName name={principalInvestigator.name} href={principalInvestigator.linkedinUrl} />
                   {principalInvestigator.role && <span className="pp-role">{principalInvestigator.role}</span>}
                   {principalInvestigator.institution && <span className="pp-aff">{principalInvestigator.institution}</span>}
                   {principalInvestigator.researchFocus && <p className="pp-focus">{principalInvestigator.researchFocus}</p>}
@@ -1538,9 +1572,7 @@ function People() {
                     {person.photo
                       ? <img className="pp-photo" src={person.photo} alt={person.name} loading="lazy" width="144" height="144" decoding="async" />
                       : <span className="pp-photo pp-initials" role="img" aria-label={person.name}>{personInitials(person.name)}</span>}
-                    {person.linkedinUrl
-                      ? <a className="pp-name" href={person.linkedinUrl} target="_blank" rel="noreferrer">{person.name}</a>
-                      : <span className="pp-name">{person.name}</span>}
+                    <PersonLinkedInName name={person.name} href={person.linkedinUrl} />
                     {person.role && <span className="pp-role">{person.role}</span>}
                     {person.institution && <span className="pp-aff">{person.institution}</span>}
                     {person.researchFocus && <p className="pp-focus">{person.researchFocus}</p>}
@@ -1556,7 +1588,7 @@ function People() {
               <ul className="pp-former">
                 {formerMembers.map((person) => (
                   <li key={person.id}>
-                    <strong>{person.name}{person.role ? `, ${person.role}` : ''}</strong>
+                    <strong><PersonLinkedInName name={person.name} href={person.linkedinUrl} />{person.role ? `, ${person.role}` : ''}</strong>
                     {person.institution && <span className="now">{person.institution}</span>}
                   </li>
                 ))}
@@ -1915,9 +1947,78 @@ function Contact() {
 }
 
 function Teaching() {
-  const [, setLocation] = useLocation();
-  useEffect(() => setLocation('/humekaneza'), [setLocation]);
-  return <p className="contact-loading" role="status">Opening HumekaNeza…</p>;
+  const teachingQuery = useGetPublicTeaching();
+  const courses = teachingQuery.data?.courses ?? [];
+  const academicYears = Array.from(new Set(courses.map(({ academicYear }) => academicYear)));
+  const [currentAcademicYear, ...previousAcademicYears] = academicYears;
+
+  const renderYear = (year: string) => (
+    <div className="teaching-year" key={year} data-reveal="up">
+      <div className="teaching-year-heading"><span className="eyebrow">Academic year</span><h3>{year}</h3></div>
+      <div className="teaching-course-list">
+        {courses.filter((course) => course.academicYear === year).map((course, index) => (
+          <article className="teaching-course-row" key={`${year}-${course.courseCode}`} data-testid={`course-${year}-${index}`}>
+            <span className="course-code">{course.courseCode}</span><h4>{course.title}</h4>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+
+  const teachingRoutes = [
+    ['Research', '/research'],
+    ['People', '/people'],
+    ['Publications', '/publications'],
+    ['Projects', '/projects'],
+    ['Contact', '/contact'],
+  ] as const;
+
+  return <div className="teaching-page">
+    <section className="page-hero teaching-page-hero" aria-labelledby="teaching-page-title">
+      <div className="container-wide teaching-hero-grid">
+        <div>
+          <span className="eyebrow">Teaching / P3 Health Lab</span>
+          <h1 id="teaching-page-title">Learning across disciplines and communities.</h1>
+          <p>Teaching in global health and One Health connects foundational knowledge with field-based learning, interdisciplinary collaboration, and real-world environmental and population-health challenges.</p>
+        </div>
+        <figure className="teaching-hero-image">
+          <img src="/images/p3/global-map-banner-candidates/teacher-with-posters-classroom.jpg" alt="A teacher presents environmental-health posters to students in a classroom." width="1920" height="1280" fetchPriority="high" decoding="async" />
+          <figcaption>Knowledge grows through shared learning.</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section className="section teaching-courses" aria-labelledby="teaching-courses-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="teaching-section-heading">
+          <div><span className="eyebrow">Courses</span><h2 id="teaching-courses-title">Teaching in practice.</h2></div>
+          <p>Published course titles and codes, organized by academic year.</p>
+        </div>
+        {teachingQuery.isLoading && <p className="teaching-query-message" role="status">Loading course information…</p>}
+        {teachingQuery.isError && <p className="teaching-query-message" role="alert">Course information is temporarily unavailable.</p>}
+        {!teachingQuery.isLoading && !teachingQuery.isError && courses.length === 0 && <p className="teaching-query-message">There are no published courses to display right now.</p>}
+        {currentAcademicYear && <div className="teaching-course-block teaching-current">{renderYear(currentAcademicYear)}</div>}
+        {previousAcademicYears.length > 0 && <div className="teaching-course-block">
+          <div className="teaching-section-heading"><div><span className="eyebrow">Course archive</span><h2>Previous courses.</h2></div></div>
+          <div className="teaching-year-grid">{previousAcademicYears.map(renderYear)}</div>
+        </div>}
+      </div>
+    </section>
+    <section className="section section-tinted teaching-details-section" aria-label="Teaching approach" data-reveal="up">
+      <div className="container-wide teaching-detail-grid">
+        <article className="teaching-detail"><span className="eyebrow">Teaching Philosophy</span><h2>Learning across disciplines.</h2><p>Teaching connects global health, One Health, environmental health, and field-based learning. It emphasizes practical experience, critical thinking, and connecting evidence to real-world health challenges.</p></article>
+        <article className="teaching-detail"><span className="eyebrow">Graduate Supervision</span><h2>Research-led supervision.</h2><p>Graduate supervision is connected to the lab’s research areas, including environmental health, exposure science, air pollution, climate-health, One Health, global health, epidemiology, and intervention research.</p></article>
+        <article className="teaching-detail"><span className="eyebrow">Experiential Learning</span><h2>Evidence in the field.</h2><p>The International Field School supports field-based and interdisciplinary learning, connecting evidence with real-world health challenges.</p></article>
+      </div>
+    </section>
+    <section className="section teaching-links-section" aria-labelledby="teaching-links-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="teaching-section-heading"><div><span className="eyebrow">Explore the lab</span><h2 id="teaching-links-title">Related pages.</h2></div></div>
+        <nav className="teaching-links" aria-label="Related P3 Health Lab pages">
+          {teachingRoutes.map(([label, href]) => <Link className="teaching-route-link" href={href} key={href}>{label}</Link>)}
+        </nav>
+      </div>
+    </section>
+  </div>;
 }
 
 function Humekaneza() {
