@@ -7,8 +7,10 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
 import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
+import { HomeResearchMap } from '@/components/home-research-map';
 import { people } from '@/data/people';
 import { HumekaNezaPage } from '@/pages/HumekaNezaPage';
+import { GlobalResearchMapPage } from '@/pages/GlobalResearchMapPage';
 import '@/pages/p3-home-projects.css';
 import logo from '@assets/p3_logo_1789065448410.png';
 import labFilm from '@assets/VID-20260925-WA0008_1790438330372.mp4';
@@ -362,62 +364,6 @@ const projects: Project[] = [
   },
 ];
 
-type ResearchMapLocation = {
-  id: string;
-  name: string;
-  country: string;
-  latitude: number;
-  longitude: number;
-  mapX: number;
-  mapY: number;
-  projectSlug: string;
-  projectTitle: string;
-  description: string;
-  displayOrder: number;
-};
-
-const researchMapLocations: ResearchMapLocation[] = [
-  {
-    id: 'rwanda',
-    name: 'Rwanda',
-    country: 'Rwanda',
-    latitude: -1.94,
-    longitude: 29.87,
-    mapX: 58.3,
-    mapY: 51.1,
-    projectSlug: projects[0].slug,
-    projectTitle: projects[0].title,
-    description: projects[0].description[0],
-    displayOrder: 1,
-  },
-  {
-    id: 'hamilton',
-    name: 'Hamilton',
-    country: 'Canada',
-    latitude: 43.26,
-    longitude: -79.87,
-    mapX: 23.8,
-    mapY: 23.5,
-    projectSlug: projects[7].slug,
-    projectTitle: projects[7].title,
-    description: projects[7].description[0],
-    displayOrder: 2,
-  },
-  {
-    id: 'london',
-    name: 'London',
-    country: 'Canada',
-    latitude: 42.98,
-    longitude: -81.25,
-    mapX: 30.8,
-    mapY: 34.5,
-    projectSlug: projects[7].slug,
-    projectTitle: projects[7].title,
-    description: projects[7].description[0],
-    displayOrder: 3,
-  },
-];
-
 const profileResearchInterests = [
   'Air Pollution',
   'Climate Change',
@@ -752,10 +698,7 @@ function Home() {
     <section className="p3-home-section p3-map-section" aria-labelledby="p3-map-title">
       <div className="container-wide p3-map-grid">
         <div className="p3-map-copy"><span className="eyebrow">Where we work</span><h2 id="p3-map-title">From London, Ontario to Kigali, and beyond.</h2><p>Field sites and collaborations span four continents. Our research and students bring perspectives from communities around the world.</p><Link href="/research-map" className="p3-text-link">Explore the global research map <ArrowUpRight size={14} aria-hidden="true" /></Link><ul className="p3-chip-list"><li>Canada</li><li>Rwanda</li><li>Uganda</li><li>Tanzania</li><li>Burundi</li><li>DR Congo</li><li>Ghana</li><li>Senegal</li><li>French Guiana</li><li>England</li><li>Japan</li><li>New Zealand</li></ul></div>
-        <div className="p3-map-pair">
-          <figure><img src="/images/map-research-locations.png" alt="World map showing P3 Health Lab research locations." width="1672" height="941" loading="lazy" decoding="async" /><figcaption>Research locations</figcaption></figure>
-          <figure><img src="/images/map-student-origins.png" alt="Map illustrating P3 Health Lab student origins." width="1672" height="941" loading="lazy" decoding="async" /><figcaption>Where our students come from</figcaption></figure>
-        </div>
+        <HomeResearchMap />
       </div>
     </section>
 
@@ -1378,46 +1321,7 @@ function Projects() {
 }
 
 function ResearchMap() {
-  return <div className="research-map-page">
-    <section className="page-hero research-map-page-hero">
-      <div className="container-wide research-map-page-hero-grid">
-        <span className="eyebrow">Global Research Map</span>
-        <h1 className="display">From London, Ontario to Kigali, <em>and beyond.</em></h1>
-        <p>Research and student communities connect across four continents. Explore the locations shown in our research and student-origin maps, then see the verified project records below.</p>
-        <a className="research-map-explore-link" href="#research-map-locations-title">Explore the maps <ArrowUpRight size={15} aria-hidden="true" /></a>
-      </div>
-    </section>
-    <section className="section research-map-section" data-reveal="up" aria-labelledby="research-map-locations-title">
-      <div className="container-wide">
-        <div className="section-head">
-          <div><span className="eyebrow">Places &amp; people</span><h2 id="research-map-locations-title">Two views of a connected lab.</h2></div>
-          <p>Research sites and student origins, presented side by side using the existing lab maps.</p>
-        </div>
-        <div className="research-map-gallery">
-          <figure className="research-map-image-figure">
-            <img src="/images/map-research-locations.png" alt="World map showing research locations across Canada, England, Japan, Senegal, French Guiana, Ghana, the Democratic Republic of the Congo, Uganda, Rwanda, Burundi, Tanzania and New Zealand." width="1672" height="941" loading="lazy" decoding="async" />
-            <figcaption><span>01</span><strong>Research locations</strong><small>Selected countries and regions of research activity</small></figcaption>
-          </figure>
-          <figure className="research-map-image-figure">
-            <img src="/images/map-student-origins.png" alt="World map showing selected countries of student origin, including Canada, Senegal, Ghana, Nigeria, Iraq, Afghanistan, Uganda, Rwanda, Bangladesh and China." width="1672" height="941" loading="lazy" decoding="async" />
-            <figcaption><span>02</span><strong>Student origins</strong><small>Students and collaborators across communities</small></figcaption>
-          </figure>
-        </div>
-        <div className="research-map-verified-list">
-          <div className="research-map-list-heading"><span className="eyebrow">Project directory</span><h3>Current verified project locations</h3></div>
-          <ul>
-            {researchMapLocations.map((location) => {
-              const locationLabel = location.name === location.country ? location.name : `${location.name}, ${location.country}`;
-              return <li key={location.id}>
-                <div className="research-map-location-copy"><span className="research-map-location-dot" aria-hidden="true" /><div><strong>{locationLabel}</strong><p>{location.description}</p></div></div>
-                <Link className="text-link" href={`/projects#${location.projectSlug}`}>View {location.projectTitle} <ArrowUpRight size={14} aria-hidden="true" /></Link>
-              </li>;
-            })}
-          </ul>
-        </div>
-      </div>
-    </section>
-  </div>;
+  return <GlobalResearchMapPage />;
 }
 
 const linkedInProfiles: Record<string, string> = {
