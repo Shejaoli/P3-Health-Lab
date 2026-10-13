@@ -11,6 +11,12 @@
   font-family: 'Public Sans', var(--app-font-sans), sans-serif;
 }
 
+.p3-home {
+  --p3-ink: #141a22;
+  --p3-pine: #0d3d3a;
+  --p3-purple: #4f2683;
+}
+
 .p3-home *,
 .p3-projects-page *,
 .p3-home *::before,
@@ -339,22 +345,25 @@
 .p3-triad article:last-child { border-right: 0; }
 
 .p3-triad-mark {
-  color: #9aaa9e;
+  color: var(--p3-purple);
   font-family: var(--app-font-serif);
-  font-size: 2.5rem;
+  font-size: clamp(3.5rem, 5.2vw, 4.8rem);
+  font-weight: 600;
   line-height: 1;
 }
 
 .p3-triad h3 {
+  color: var(--p3-ink);
   font-family: var(--app-font-serif);
-  font-size: 1.6rem;
-  font-weight: 500;
+  font-size: clamp(1.7rem, 2.1vw, 2rem);
+  font-weight: 600;
+  line-height: 1.1;
 }
 
 .p3-triad p {
   color: var(--p3-muted);
-  font-size: .84rem;
-  line-height: 1.65;
+  font-size: .96rem;
+  line-height: 1.7;
 }
 
 .p3-chip-list {
@@ -372,7 +381,7 @@
   border-radius: 999px;
   color: #3d5649;
   font-family: var(--app-font-mono);
-  font-size: .57rem;
+  font-size: .63rem;
 }
 
 .p3-program-rows {
@@ -394,23 +403,26 @@
 }
 
 .p3-program-number {
-  color: #6a8474;
+  color: var(--p3-purple);
   font-family: var(--app-font-mono);
-  font-size: .72rem;
+  font-size: .86rem;
+  font-weight: 500;
 }
 
 .p3-program-row h3 {
+  color: var(--p3-ink);
   font-family: var(--app-font-serif);
-  font-size: 1.14rem;
-  font-weight: 500;
-  line-height: 1.25;
+  font-size: clamp(1.18rem, 1.5vw, 1.38rem);
+  font-weight: 600;
+  line-height: 1.2;
+  text-wrap: balance;
 }
 
 .p3-program-row p {
   max-width: 54ch;
   color: var(--p3-muted);
-  font-size: .8rem;
-  line-height: 1.55;
+  font-size: .9rem;
+  line-height: 1.6;
 }
 
 .p3-program-row img {
@@ -453,6 +465,10 @@
   color: var(--p3-muted);
   font-size: .88rem;
   line-height: 1.7;
+}
+
+.p3-map-copy p {
+  font-size: .96rem;
 }
 
 .p3-map-pair {
@@ -1312,8 +1328,8 @@
 
   .p3-triad article:last-child { border-bottom: 0; }
 
-  .p3-triad-mark { font-size: 2rem; }
-  .p3-triad h3 { font-size: 1.38rem; }
+  .p3-triad-mark { font-size: 3.25rem; }
+  .p3-triad h3 { font-size: 1.55rem; }
 
   .p3-program-row {
     grid-template-columns: 30px 1fr 72px;
@@ -1321,8 +1337,8 @@
     padding-block: 14px;
   }
 
-  .p3-program-row h3 { font-size: .98rem; }
-  .p3-program-row p { grid-column: 2 / -1; font-size: .72rem; }
+  .p3-program-row h3 { font-size: 1.08rem; }
+  .p3-program-row p { grid-column: 2 / -1; font-size: .82rem; }
   .p3-program-row img { grid-column: 3; grid-row: 1; width: 72px; height: 58px; }
 
   .p3-map-grid,
