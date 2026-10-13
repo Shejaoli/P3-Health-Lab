@@ -540,27 +540,45 @@ function Shell({ children }: { children: ReactNode }) {
 }
 
 function Footer({ onLogoClick }: { onLogoClick: (event: ReactMouseEvent<HTMLAnchorElement>) => void }) {
-  const { data } = useGetPublicProfile();
-  const profile = data?.contact;
-  const footerEmail = profile?.labEmail ?? profile?.contactEmail;
   return <footer className="footer">
-    <div className="container-wide footer-compact">
-      <div className="footer-id">
-        <Link href="/" className="footer-logo-button" onClick={onLogoClick} aria-label="P3 Health Lab home">
-          <img src="/images/p3-logo-footer-light.png" alt="P3 Health Lab — People, Place, Planet" />
+    <div className="container-wide footer-grid">
+      <section className="footer-contact" aria-label="P3 Health Lab contact">
+        <Link href="/" className="footer-brandline" onClick={onLogoClick} aria-label="P3 Health Lab home">
+          <img src="/images/p3-mark.png" alt="" width="40" height="40" />
+          <span><strong>P3 Health Lab</strong><small>People · Place · Planet</small></span>
         </Link>
-      </div>
-      <div className="footer-links">
-        {footerEmail
-          ? <a href={`mailto:${footerEmail}`} data-testid="link-footer-email">{footerEmail}</a>
-          : <Link href="/contact" data-testid="link-footer-email">Contact</Link>}
-        <Link href="/about" data-testid="link-footer-about">About</Link>
-        <Link href="/humekaneza" data-testid="link-footer-humekaneza">HumekaNeza</Link>
-        <a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" data-testid="link-footer-google-scholar">Google Scholar <ExternalLink size={12} aria-hidden="true" /></a>
-        <a href="https://www.uwo.ca" target="_blank" rel="noreferrer" data-testid="link-western">Western University <ExternalLink size={12} aria-hidden="true" /></a>
-      </div>
+        <div className="footer-contact-copy">
+          <strong>Dr. Egide Kalisa</strong>
+          <span>Epidemiology &amp; Biostatistics, Schulich School of Medicine &amp; Dentistry</span>
+          <span>Western University, London, Ontario, Canada</span>
+        </div>
+        <a className="footer-contact-button" href="https://www.schulich.uwo.ca/epibio/people/faculty/core_faculty/dr_egide_kalisa.html" target="_blank" rel="noopener noreferrer">
+          Contact via Western profile <ExternalLink size={13} aria-hidden="true" />
+        </a>
+      </section>
+      <nav className="footer-column" aria-label="Explore">
+        <h2>Explore</h2>
+        <Link href="/research">Research</Link>
+        <Link href="/projects">Projects</Link>
+        <Link href="/people">People</Link>
+        <Link href="/humekaneza">HumekaNeza</Link>
+        <Link href="/publications">Publications</Link>
+        <Link href="/teaching">Teaching</Link>
+        <Link href="/get-involved">Join the lab</Link>
+      </nav>
+      <nav className="footer-column" aria-label="Elsewhere">
+        <h2>Elsewhere</h2>
+        <a href="https://www.schulich.uwo.ca/epibio/people/faculty/core_faculty/dr_egide_kalisa.html" target="_blank" rel="noopener noreferrer">Western faculty profile</a>
+        <a href="https://www.linkedin.com/in/egide-kalisa-1b8b40321/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://magazine.westernu.ca/healing-rwanda/" target="_blank" rel="noopener noreferrer">Western Alumni Magazine: Healing Rwanda</a>
+        <a href="https://www.youtube.com/watch?v=J6brEhfvNbY" target="_blank" rel="noopener noreferrer">The Impact Project video</a>
+        <a href="https://egidekalisa.com" target="_blank" rel="noopener noreferrer">egidekalisa.com</a>
+      </nav>
     </div>
-    <div className="container-wide footer-bottom"><span>© {new Date().getFullYear()} P3 Health Lab</span></div>
+    <div className="container-wide footer-bottom">
+      <span>© {new Date().getFullYear()} P3 Health Lab, Western University</span>
+      <span>Research for cleaner air, healthier lives, brighter tomorrows.</span>
+    </div>
   </footer>;
 }
 
@@ -708,9 +726,11 @@ function Home() {
         <div className="p3-field-grid">
           <figure><img src="/images/design-reference/field-sampler-city.jpg" alt="A passive air sampler mounted above a dense hillside city in East Africa." loading="lazy" decoding="async" /><figcaption>Passive air sampler above an East African city</figcaption></figure>
           <figure><img src="/images/design-reference/field-calibrate.jpg" alt="Researcher calibrating reference air-monitoring instruments." loading="lazy" decoding="async" /><figcaption>Calibrating reference instruments</figcaption></figure>
-          <figure><img src="/images/design-reference/field-cruiser.jpg" alt="Environment and Climate Change Canada mobile air-quality laboratory." loading="lazy" decoding="async" /><figcaption>Mobile air-quality laboratory</figcaption></figure>
-          <figure><img src="/images/design-reference/field-samplers-garden.jpg" alt="Passive air samplers at an outdoor research site." loading="lazy" decoding="async" /><figcaption>Passive sampling in the field</figcaption></figure>
-          <figure><img src="/images/design-reference/snow-site.jpg" alt="Air-sampling station at a snowy field site." loading="lazy" decoding="async" /><figcaption>Monitoring across seasons</figcaption></figure>
+          <figure><img src="/images/design-reference/field-livestock-farm.png" alt="A researcher in protective equipment collecting bioaerosol samples at a livestock farm in Rwanda." loading="lazy" decoding="async" /><figcaption>Bioaerosol sampling at a livestock farm</figcaption></figure>
+          <figure><img src="/images/design-reference/field-lakeside-sampler.png" alt="A passive air sampler deployed beside a lake." loading="lazy" decoding="async" /><figcaption>Lakeside sampling site</figcaption></figure>
+          <figure><img src="/images/design-reference/field-cruiser.jpg" alt="Environment and Climate Change Canada mobile air-quality laboratory." loading="lazy" decoding="async" /><figcaption>ECCC's CRUISER mobile laboratory</figcaption></figure>
+          <figure><img src="/images/design-reference/field-rainy-season-road.png" alt="Research vehicles crossing a muddy road to reach a remote field site during the rainy season." loading="lazy" decoding="async" /><figcaption>Reaching remote sites in the rainy season</figcaption></figure>
+          <figure><img src="/images/design-reference/field-conference-presentation.png" alt="Dr. Egide Kalisa presenting research on passive samplers at an environmental health conference." loading="lazy" decoding="async" /><figcaption>Presenting results from five African cities</figcaption></figure>
         </div>
       </div>
     </section>
@@ -722,14 +742,38 @@ function Home() {
       </div>
     </section>
 
+    <section className="p3-home-section p3-awards-section" aria-labelledby="p3-awards-title">
+      <div className="container-wide">
+        <div className="p3-awards-heading"><span className="eyebrow">Recognition</span><h2 id="p3-awards-title">Awards and honours</h2></div>
+        <div className="p3-awards-grid">
+          <article className="p3-award-card">
+            <div className="p3-award-media p3-award-photo"><img src="/images/design-reference/award-schulich-innovation.png" alt="Schulich Research Innovation Early Career award presented to Egide Kalisa in 2026." loading="lazy" decoding="async" /></div>
+            <div className="p3-award-copy"><span className="p3-award-year">2026</span><h3>Schulich Research Innovation Award, Early Career</h3><p>Schulich Awards of Excellence, Schulich School of Medicine &amp; Dentistry, Western University.</p></div>
+          </article>
+          <article className="p3-award-card">
+            <div className="p3-award-media p3-award-photo"><img src="/images/design-reference/award-agu-voices-for-science.png" alt="Egide Kalisa featured in the 2024 AGU Voices for Science cohort." loading="lazy" decoding="async" /></div>
+            <div className="p3-award-copy"><span className="p3-award-year">2024</span><h3>AGU Voices for Science Cohort</h3><p>Selected for the American Geophysical Union's science communication cohort, Washington, DC.</p></div>
+          </article>
+          <article className="p3-award-card">
+            <div className="p3-award-media"><img src="/images/funder-logo-06.png" alt="National Institutes of Health logo." loading="lazy" decoding="async" /></div>
+            <div className="p3-award-copy"><span className="p3-award-year">2021–2023</span><h3>Global Emerging Leader Award</h3><p>U.S. National Institutes of Health (NIH).</p></div>
+          </article>
+          <article className="p3-award-card">
+            <div className="p3-award-media"><img src="/images/funder-logo-09.png" alt="National Council for Science and Technology logo." loading="lazy" decoding="async" /></div>
+            <div className="p3-award-copy"><span className="p3-award-year">2023–2024</span><h3>Most Outstanding Research Contribution Award</h3><p>National Council for Science and Technology (NCST), Rwanda.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section className="p3-home-section p3-home-humeka-section" aria-labelledby="p3-humeka-feature-title">
       <div className="container-wide p3-home-humeka-grid">
         <img className="p3-home-humeka-image" src="/images/design-reference/hn-hero.jpg" alt="Students in a Kigali classroom take part in a HumekaNeza air-quality lesson." loading="lazy" decoding="async" />
         <div className="p3-home-humeka-copy">
           <div className="p3-humeka-brand"><img src="/images/design-reference/logo-humekaneza.png" alt="" width="60" height="60" /><span className="eyebrow">Community program · Rwanda</span></div>
-          <h2 id="p3-humeka-feature-title">HumekaNeza: Breathe Easy.</h2>
-          <p>Founded in 2024, HumekaNeza brings air-quality science into Kigali schools. Students learn with sensors, the green and red Air Quality Flag, tree planting and school-gate anti-idling activities.</p>
-          <div className="p3-home-actions"><Link href="/humekaneza" className="p3-home-primary">Explore HumekaNeza <ArrowUpRight size={15} aria-hidden="true" /></Link><a className="p3-home-secondary" href="https://www.youtube.com/watch?v=J6brEhfvNbY" target="_blank" rel="noopener noreferrer">Watch the story <ExternalLink size={13} aria-hidden="true" /></a></div>
+          <h2 id="p3-humeka-feature-title">HumekaNeza:<br />Breathe Easy</h2>
+          <p>Founded in 2024, HumekaNeza brings air-quality science into Kigali schools. Students run sensors, raise green and red play flags, plant one tree each and ask parents to stop idling at the school gate.</p>
+          <div className="p3-home-actions"><Link href="/humekaneza" className="p3-home-primary">Visit HumekaNeza</Link><a className="p3-home-secondary" href="https://www.youtube.com/watch?v=J6brEhfvNbY" target="_blank" rel="noopener noreferrer">Watch the video</a></div>
         </div>
       </div>
     </section>
@@ -752,6 +796,30 @@ function Home() {
           </ol>
         </div>
         <figure className="p3-home-team-photo"><img src="/images/design-reference/portrait.jpg" alt={`Portrait of ${director.name}.`} loading="lazy" decoding="async" /><figcaption><strong>{director.name}</strong><span>{director.role} · {director.institution}</span></figcaption></figure>
+      </div>
+    </section>
+
+    <section className="p3-home-section p3-home-teaching" aria-labelledby="p3-home-teaching-title">
+      <div className="container-wide p3-home-teaching-grid">
+        <div className="p3-home-teaching-copy">
+          <span className="eyebrow">Teaching</span>
+          <h2 id="p3-home-teaching-title">Global health and One Health, made practical</h2>
+          <p className="p3-home-teaching-quote">“Let's make global health practical, human, and a little bit fun.”</p>
+          <p>Dr. Kalisa teaches graduate and undergraduate courses at Western. His classes use learning teams, case studies, simulations, debates and science-communication training.</p>
+          <figure className="p3-home-teaching-photo">
+            <img src="/images/design-reference/teaching-global-health-classroom.png" alt="Students take part in a graduate global health class at Western University." loading="lazy" decoding="async" />
+          </figure>
+        </div>
+        <div className="p3-home-course-card">
+          <span className="p3-home-course-heading">Courses · Western University</span>
+          <ol className="p3-home-course-list">
+            <li><span className="p3-home-course-code">GHS 9100</span><div><h3>Foundations of Global Health</h3><p>MSc Global Health Systems · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+            <li><span className="p3-home-course-code">GHS 9112</span><div><h3>International Field School</h3><p>Global health practicum, including fieldwork in Rwanda · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+            <li><span className="p3-home-course-code">MPH 9015</span><div><h3>Issues in Global Health</h3><p>Master of Public Health · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+            <li><span className="p3-home-course-code">OH 3300A</span><div><h3>Foundations in One Health</h3><p>Undergraduate One Health program · <Link href="/teaching">Program page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+            <li><span className="p3-home-course-code">OH 3600</span><div><h3>One Health in Action</h3><p>Undergraduate One Health program · <Link href="/teaching">Program page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+          </ol>
+        </div>
       </div>
     </section>
 
