@@ -41,7 +41,9 @@ function buildFills() {
   };
   (Object.keys(researchMapThemes) as ResearchMapTheme[]).forEach((theme) => {
     fills[theme] = themeColor(theme);
+    fills[`${theme}Country`] = cssValue(`--grm-${theme}-fill`);
   });
+  fills.activeCountry = cssValue('--grm-active-fill');
   return fills;
 }
 
@@ -72,12 +74,19 @@ function drawWorldMap(element: HTMLElement, view: MapView, selectedId: string | 
 
   const teamData: Record<string, { fillKey: string }> = {};
   researchMapTeamCountries.forEach(({ iso }) => { teamData[iso] = { fillKey: 'team' }; });
+  const countryThemes = new Map<string, ResearchMapTheme>();
+  researchMapSites.filter((site) => site.status !== 'Planned' && site.iso !== 'GUF').forEach((site) => {
+    const current = countryThemes.get(site.iso);
+    if (!current || site.theme === 'home') countryThemes.set(site.iso, site.theme);
+  });
+  const siteData: Record<string, { fillKey: string }> = {};
+  countryThemes.forEach((theme, iso) => { siteData[iso] = { fillKey: `${theme}Country` }; });
 
   const options: DatamapOptions = {
     element,
     scope: 'world',
     fills: buildFills(),
-    data: view === 'team' ? teamData : {},
+    data: view === 'team' ? teamData : siteData,
     setProjection: () => {
       const projection = d3.geo.equirectangular()
         .scale(width / (2 * Math.PI))
@@ -120,11 +129,13 @@ function drawEastAfricaMap(element: HTMLElement, selectedId: string | null, onSe
   element.style.height = `${height}px`;
   element.replaceChildren();
 
+  const eastAfricaData: Record<string, { fillKey: string }> = {};
+  EAST_AFRICA.forEach((site) => { eastAfricaData[site.iso] = { fillKey: 'activeCountry' }; });
   const map = new Datamap({
     element,
     scope: 'world',
     fills: buildFills(),
-    data: {},
+    data: eastAfricaData,
     setProjection: () => {
       const projection = d3.geo.mercator()
         .center([33.6, -2.9])

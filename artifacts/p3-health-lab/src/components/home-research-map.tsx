@@ -21,19 +21,22 @@ function drawMap(element: HTMLElement, fallback: HTMLImageElement) {
 
   const fills: Record<string, string> = {
     defaultFill: cssValue('--mm-land'),
-    on: cssValue('--mm-on'),
     planned: cssValue('--muted'),
   };
   (Object.keys(researchMapThemes) as ResearchMapTheme[]).forEach((theme) => {
     fills[theme] = cssValue(`--mm-${theme}`);
+    fills[`${theme}Country`] = cssValue(`--mm-${theme}-fill`);
   });
 
   const data: Record<string, { fillKey: string }> = {};
-  researchMapSites
-    .filter((site) => site.status !== 'Planned' && site.iso !== 'GUF')
-    .forEach((site) => {
-      data[site.iso] = { fillKey: 'on' };
-    });
+  const countryThemes = new Map<string, ResearchMapTheme>();
+  researchMapSites.filter((site) => site.status !== 'Planned' && site.iso !== 'GUF').forEach((site) => {
+    const current = countryThemes.get(site.iso);
+    if (!current || site.theme === 'home') countryThemes.set(site.iso, site.theme);
+  });
+  countryThemes.forEach((theme, iso) => {
+    data[iso] = { fillKey: `${theme}Country` };
+  });
 
   const map = new Datamap({
     element,
