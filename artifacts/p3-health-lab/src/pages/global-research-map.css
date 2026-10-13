@@ -5,7 +5,7 @@
   --grm-muted: hsl(var(--muted-foreground));
   --grm-line: hsl(var(--border));
   --grm-accent: #4f2683;
-  --grm-land: #f1f5f3;
+  --grm-land: #e2e8e5;
   --grm-team: #bda9d8;
   --grm-border: #fff;
   --grm-selected: #101a16;
@@ -28,7 +28,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .global-research-map {
-    --grm-land: #f1f5f3;
+    --grm-land: #e2e8e5;
     --grm-team: #bda9d8;
     --grm-border: #fff;
     --grm-selected: #101a16;
@@ -36,7 +36,7 @@
 }
 
 :root[data-theme="dark"] .global-research-map {
-  --grm-land: #f1f5f3;
+  --grm-land: #e2e8e5;
   --grm-team: #bda9d8;
   --grm-border: #fff;
   --grm-selected: #101a16;
