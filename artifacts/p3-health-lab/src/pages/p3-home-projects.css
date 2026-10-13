@@ -15,9 +15,15 @@
   --p3-ink: #141a22;
   --p3-pine: #0d3d3a;
   --p3-purple: #4f2683;
-  --mm-land: #dfe6e2;
-  --mm-on: #9fbfb2;
+  --mm-land: #f1f5f3;
+  --mm-on: #b8d0c6;
   --mm-border: #fff;
+  --mm-home-fill: #c5d9d0;
+  --mm-aero-fill: #c7ddd5;
+  --mm-child-fill: #ead7b8;
+  --mm-mob-fill: #cbd8e6;
+  --mm-clim-fill: #e8c9c3;
+  --mm-train-fill: #d9cfe8;
   --mm-home: #0d3d3a;
   --mm-aero: #1f6f63;
   --mm-child: #b7791f;
@@ -28,9 +34,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .p3-home {
-    --mm-land: #24322d;
-    --mm-on: #3f6a5c;
-    --mm-border: #0e1513;
+    --mm-land: #f1f5f3;
+    --mm-on: #b8d0c6;
+    --mm-border: #fff;
+    --mm-home-fill: #c5d9d0;
+    --mm-aero-fill: #c7ddd5;
+    --mm-child-fill: #ead7b8;
+    --mm-mob-fill: #cbd8e6;
+    --mm-clim-fill: #e8c9c3;
+    --mm-train-fill: #d9cfe8;
     --mm-home: #a9d8ca;
     --mm-aero: #5fc2a9;
     --mm-child: #e2a94e;
@@ -41,9 +53,15 @@
 }
 
 :root[data-theme="dark"] .p3-home {
-  --mm-land: #24322d;
-  --mm-on: #3f6a5c;
-  --mm-border: #0e1513;
+  --mm-land: #f1f5f3;
+  --mm-on: #b8d0c6;
+  --mm-border: #fff;
+  --mm-home-fill: #c5d9d0;
+  --mm-aero-fill: #c7ddd5;
+  --mm-child-fill: #ead7b8;
+  --mm-mob-fill: #cbd8e6;
+  --mm-clim-fill: #e8c9c3;
+  --mm-train-fill: #d9cfe8;
   --mm-home: #a9d8ca;
   --mm-aero: #5fc2a9;
   --mm-child: #e2a94e;
