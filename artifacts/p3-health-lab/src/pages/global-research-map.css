@@ -9,7 +9,6 @@
   --grm-team: #bda9d8;
   --grm-border: #fff;
   --grm-selected: #101a16;
-  --grm-active-fill: #b8d0c6;
   --grm-home-fill: #c5d9d0;
   --grm-aero-fill: #c7ddd5;
   --grm-child-fill: #ead7b8;
@@ -24,6 +23,10 @@
   --mm-train: #6b4fa0;
   color: var(--grm-ink);
   background: var(--grm-paper);
+}
+
+.global-research-map .container-wide {
+  width: min(1440px, calc(100% - 64px));
 }
 
 @media (prefers-color-scheme: dark) {
@@ -55,8 +58,7 @@
   gap: clamp(28px, 7vw, 92px);
 }
 
-.grm-eyebrow,
-.grm-kicker {
+.grm-eyebrow {
   color: var(--grm-accent);
   font-family: var(--app-font-mono);
   font-size: .68rem;
@@ -191,15 +193,7 @@
   border-radius: 50%;
 }
 
-.grm-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  align-items: start;
-  gap: 20px;
-}
-
-.grm-map-card,
-.grm-detail {
+.grm-map-card {
   min-width: 0;
   border: 1px solid var(--grm-line);
   border-radius: 12px;
@@ -223,8 +217,7 @@
   text-transform: uppercase;
 }
 
-.grm-world-map,
-.grm-east-map {
+.grm-world-map {
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -235,8 +228,7 @@
   aspect-ratio: 100 / 44;
 }
 
-.grm-world-map svg,
-.grm-east-map svg {
+.grm-world-map svg {
   display: block;
   width: 100%;
   height: 100%;
@@ -249,100 +241,6 @@
   aspect-ratio: 100 / 44;
   object-fit: contain;
   background: var(--grm-land);
-}
-
-.grm-detail {
-  position: sticky;
-  top: 24px;
-  padding: 22px;
-}
-
-.grm-detail h2 {
-  margin: 8px 0 7px;
-  font-family: var(--app-font-serif);
-  font-size: 1.85rem;
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -.035em;
-}
-
-.grm-detail p {
-  color: var(--grm-muted);
-  font-size: .83rem;
-  line-height: 1.65;
-}
-
-.grm-detail .grm-country {
-  margin: 0;
-  font-size: .76rem;
-}
-
-.grm-country span {
-  padding-inline: 3px;
-}
-
-.grm-status {
-  display: inline-flex;
-  margin-top: 13px;
-  padding: 5px 9px;
-  border: 1px solid var(--grm-line);
-  border-radius: 999px;
-  color: var(--grm-ink);
-  font-size: .65rem;
-  font-weight: 600;
-}
-
-.grm-summary {
-  margin: 18px 0 12px;
-}
-
-.grm-detail-list {
-  display: grid;
-  gap: 7px;
-  margin: 0 0 16px;
-  padding-left: 18px;
-  color: var(--grm-muted);
-  font-size: .76rem;
-  line-height: 1.5;
-}
-
-.grm-network-link,
-.grm-action {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--grm-accent);
-  font-size: .76rem;
-  font-weight: 700;
-  line-height: 1.5;
-}
-
-.grm-network-link {
-  margin: 0 0 15px;
-}
-
-.grm-action {
-  margin-top: 20px;
-  padding: 10px 13px;
-  border-radius: 7px;
-  color: #fff;
-  background: var(--grm-accent);
-}
-
-.grm-chip-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 15px;
-}
-
-.grm-chip-list span {
-  padding: 5px 8px;
-  border: 1px solid var(--grm-line);
-  border-radius: 999px;
-  color: var(--grm-muted);
-  font-size: .62rem;
-  line-height: 1.25;
 }
 
 .grm-map-warning {
@@ -364,29 +262,6 @@
   letter-spacing: -.045em;
 }
 
-.grm-east-africa {
-  padding-top: 42px;
-  background: hsl(var(--muted) / .36);
-}
-
-.grm-east-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(340px, .9fr);
-  align-items: start;
-  gap: 20px;
-}
-
-.grm-east-map {
-  aspect-ratio: 100 / 72;
-}
-
-.grm-east-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 10px;
-}
-
-.grm-east-list button,
 .grm-region-grid button {
   display: flex;
   width: 100%;
@@ -401,31 +276,9 @@
   text-align: left;
 }
 
-.grm-east-list button {
-  min-height: 65px;
-  padding: 10px 4px;
-}
-
-.grm-east-list button:hover,
-.grm-east-list button.is-selected,
 .grm-region-grid button:hover,
 .grm-region-grid button.is-selected {
   color: var(--grm-accent);
-}
-
-.grm-east-list button > span {
-  display: grid;
-  gap: 4px;
-}
-
-.grm-east-list strong {
-  font-size: .82rem;
-}
-
-.grm-east-list small {
-  color: var(--grm-muted);
-  font-size: .65rem;
-  line-height: 1.35;
 }
 
 .grm-regions {
@@ -462,8 +315,7 @@
   text-align: right;
 }
 
-.grm-world-map[hidden],
-.grm-east-map[hidden] {
+.grm-world-map[hidden] {
   display: none;
 }
 
@@ -487,26 +339,11 @@
   font-weight: 400;
 }
 
-@media (max-width: 999px) {
-  .grm-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .grm-detail {
-    position: static;
-    scroll-margin-top: 18px;
-  }
-
-  .grm-east-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .grm-east-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 700px) {
+  .global-research-map .container-wide {
+    width: calc(100% - 36px);
+  }
+
   .grm-hero-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 28px;
@@ -527,9 +364,6 @@
     gap: 22px 14px;
   }
 
-  .grm-east-list {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 @media (max-width: 430px) {
@@ -546,6 +380,83 @@
     font-size: .61rem;
   }
 
+  .grm-region-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.global-research-map {
+  --grm-accent: var(--purple);
+  --grm-ink: var(--slate);
+  --grm-paper: var(--ivory);
+  --grm-card: var(--white);
+  --grm-muted: #4F5A62;
+}
+
+.grm-hero h1 {
+  font-size: clamp(3rem, 6.5vw, 5.5rem);
+}
+
+.grm-hero p {
+  font-size: 1.25rem;
+  line-height: 1.7;
+}
+
+.grm-stats strong {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.grm-stats span,
+.grm-segment button,
+.grm-legend button {
+  font-size: 1rem;
+}
+
+.grm-legend button {
+  padding: 8px 11px;
+}
+
+.grm-map-card {
+  padding: 18px;
+}
+
+.grm-map-topline {
+  font-size: .78rem;
+}
+
+.grm-region-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 34px 28px;
+}
+
+.grm-region-grid h3 {
+  font-size: clamp(1.6rem, 2.5vw, 1.9rem);
+}
+
+.grm-region-grid button {
+  min-height: 62px;
+}
+
+.grm-region-grid button span,
+.grm-region-grid button small {
+  font-size: 1rem;
+}
+
+.grm-map-warning {
+  font-size: 1rem;
+}
+
+.datamaps-hoverover .grm-tooltip {
+  font-size: 15px !important;
+}
+
+@media (max-width: 700px) {
+  .grm-region-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 430px) {
   .grm-region-grid {
     grid-template-columns: minmax(0, 1fr);
   }

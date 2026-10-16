@@ -59,8 +59,8 @@ export const people: {
       id: 'phd',
       title: 'PhD Students — Western University',
       members: [
-        { name: 'Allison Pert', role: 'PhD Student', photo: allisonPertPhoto, institution: 'Western University', formerRole: 'MSc Student', status: 'Alumni / Current PhD' },
-        { name: 'Augustine Omodieke', role: 'PhD Student', photo: augustineOmodiekePhoto, institution: 'Western University', researchFocus: 'Environmental epidemiology; air pollution; health economics', formerRole: 'MSc Student', status: 'Alumni / Current PhD' },
+        { name: 'Allison Pert', role: 'PhD Student', photo: allisonPertPhoto, institution: 'Western University' },
+        { name: 'Augustine Omodieke', role: 'PhD Student', photo: augustineOmodiekePhoto, institution: 'Western University', researchFocus: 'Environmental epidemiology; air pollution; health economics' },
         { name: 'Francis Acquah', role: 'PhD Student', photo: francisAcquahPhoto, institution: 'Western University' },
         { name: 'Daniel Twum', role: 'PhD Student', institution: 'Western University' },
         { name: 'Abdul Rasheed Rasheed', role: 'PhD Student', institution: 'Western University' },
@@ -125,9 +125,11 @@ export const people: {
     },
   ],
   former: [
-    { name: 'Victoria Bursey', role: 'Undergraduate Researcher', photo: '/images/victoria-bursey.webp', currentPosition: 'MSc Public Health, University of Toronto', now: 'MSc Public Health, University of Toronto', status: 'Alumni' },
-    { name: 'Emily Airhart', role: 'Undergraduate Researcher', photo: '/images/emily-airhart.webp', currentPosition: 'MSc Student, University of Toronto', now: 'MSc Student, University of Toronto', status: 'Alumni' },
-    { name: 'Shagun Chander', role: 'Undergraduate Researcher', institution: 'Western University', status: 'Current' },
+    { name: 'Victoria Bursey', role: 'Undergraduate Researcher', photo: '/images/alumni/victoria-bursey.jpg', currentPosition: 'MSc Public Health, University of Toronto', now: 'MSc Public Health, University of Toronto', status: 'Alumni', href: 'https://www.linkedin.com/in/victoria-bursey-1b4871237' },
+    { name: 'Emily Airhart', role: 'Undergraduate Researcher', photo: '/images/alumni/emily-airhart.jpg', currentPosition: 'MSc Student, University of Toronto', now: 'MSc Student, University of Toronto', status: 'Alumni', href: 'https://www.linkedin.com/in/emily-airhart-443799a5' },
+    { name: 'Shagun Chander', role: 'Undergraduate Researcher', photo: '/images/alumni/shagun-chander.jpg', status: 'Alumni', href: 'https://www.linkedin.com/in/shagunchander/' },
+    { name: 'Allison Pert', role: 'MSc Student', photo: allisonPertPhoto, now: 'PhD Student at Western University, P3 Health Lab', status: 'Alumni' },
+    { name: 'Augustine Omodieke', role: 'MSc Student', photo: augustineOmodiekePhoto, now: 'PhD Student at Western University, P3 Health Lab', status: 'Alumni' },
   ],
   collaborators: [],
 };

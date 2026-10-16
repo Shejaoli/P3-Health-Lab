@@ -1,20 +1,18 @@
 import { Fragment, type MouseEvent as ReactMouseEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ArrowUpRight, ChevronRight, Check, CircleArrowUp, ExternalLink, X } from 'lucide-react';
-import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
+import { Link, Redirect, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
-import { useGetPublicNews, useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
+import { useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
 import { HomeResearchMap } from '@/components/home-research-map';
 import { people } from '@/data/people';
 import { HumekaNezaPage } from '@/pages/HumekaNezaPage';
 import { GlobalResearchMapPage } from '@/pages/GlobalResearchMapPage';
 import '@/pages/p3-home-projects.css';
-import logo from '@assets/p3_logo_1789065448410.png';
 import labFilm from '@assets/VID-20260925-WA0008_1790438330372.mp4';
-import humekanezaLogo from '@assets/IMG-20260910-WA0000_1790353414570.jpg';
 
 const queryClient = new QueryClient();
 const googleScholarUrl = 'https://scholar.google.co.nz/citations?user=yAPiYq8AAAAJ&hl=en';
@@ -23,13 +21,6 @@ const publicationCovers = [
   { src: '/images/p3/publications-covers/acs-est-air-cover-b.jpg', alt: 'Cover of another ACS ES&T Air issue.', width: 1860, height: 2474 },
   { src: '/images/p3/publications-covers/environmental-science-advances-cover.jpg', alt: 'Cover of Environmental Science: Advances.', width: 800, height: 1047 },
 ];
-const humekaYouTubeVideoId = getYouTubeVideoId(import.meta.env.VITE_HUMEKA_YOUTUBE_URL);
-
-function getYouTubeVideoId(value: string | undefined) {
-  const match = value?.trim().match(/^(?:https?:\/\/)?(?:www\.)?(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})(?:[?&#].*)?$/i);
-  return match?.[1] ?? null;
-}
-
 function useScrollReveal(routeKey: string) {
   useEffect(() => {
     document.documentElement.classList.add('motion-ready');
@@ -124,8 +115,7 @@ const researchPrograms: {
     ],
     projects: [
       { label: '24-Hour Schoolchild' },
-      { label: 'Cleaner classrooms', href: '/projects#classroom-clean-air-interventions' },
-      { label: 'Routes to school', href: '/projects#clean-air-school-zones' },
+      { label: 'Routes to school', href: '/research-project#clean-air-school-zones' },
       { label: 'CLEAN RIDE' },
     ],
   },
@@ -147,7 +137,7 @@ const researchPrograms: {
     projects: [
       { label: 'BREATHE-East Africa' },
       { label: 'Heat x air pollution' },
-      { label: 'Wildfire protection', href: '/projects#equitable-air-quality-communication' },
+      { label: 'Wildfire protection', href: '/research-project#equitable-air-quality-communication' },
     ],
   },
   {
@@ -186,10 +176,9 @@ const researchPrograms: {
       'How can research support more equitable access to information and action?',
     ],
     projects: [
-      { label: 'Making the Invisible Visible', href: '/projects#making-the-invisible-visible' },
+      { label: 'Making the Invisible Visible', href: '/research-project#making-the-invisible-visible' },
       { label: 'ACB youth' },
-      { label: 'SHARED SKIES', href: '/projects#shared-skies' },
-      { label: 'I Am an Air Quality Scientist', href: '/projects#i-am-an-air-quality-scientist' },
+      { label: 'SHARED SKIES', href: '/research-project#shared-skies' },
     ],
   },
 ];
@@ -373,12 +362,6 @@ const profileResearchInterests = [
   'Exposure Science',
 ] as const;
 
-const featuredProjects = [
-  { title: 'HumekaNeza School Air-Quality Campaign', slug: 'school-air-quality-campaign', text: 'The original HumekaNeza campaign was launched in schools in Rwanda to improve children’s understanding of air pollution and empower them to participate in solutions.' },
-  { title: 'I Am an Air Quality Scientist', slug: 'i-am-an-air-quality-scientist', text: 'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities.' },
-  { title: 'One Sensor Per School', slug: 'one-sensor-per-school', text: 'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools.' },
-];
-
 const funderLogos = [
   { src: '/images/funder-logo-01.png', alt: 'Environment and Climate Change Canada and Canada wordmark' },
   { src: '/images/funder-logo-02.png', alt: 'Natural Sciences and Engineering Research Council of Canada, NSERC and CRSNG' },
@@ -401,14 +384,13 @@ function Shell({ children }: { children: ReactNode }) {
   const navRef = useRef<HTMLElement>(null);
   const adminClickRef = useRef({ count: 0, lastClick: 0 });
   const nav: { label: string; href: string; external?: boolean; children?: [string, string][] }[] = [
-    { label: 'Research', href: '/research' },
-    { label: 'Global Research Map', href: '/research-map' },
+    { label: 'Research Project', href: '/research-project' },
+    { label: 'Global Map', href: '/research-map' },
     { label: 'People', href: '/people' },
-    { label: 'Publications', href: googleScholarUrl, external: true },
+    { label: 'Publications', href: '/publications' },
     { label: 'HumekaNeza', href: '/humekaneza' },
-    { label: 'Projects', href: '/projects' },
-    { label: 'News', href: '/news' },
-    { label: 'Join the Lab', href: '/get-involved' },
+    { label: 'Teaching', href: '/teaching' },
+    { label: 'Opportunity', href: '/opportunity' },
     { label: 'Contact', href: '/contact' },
   ];
   const isActive = (href: string) => href === '/' ? location === '/' : location === href || location.startsWith(`${href}/`);
@@ -558,13 +540,14 @@ function Footer({ onLogoClick }: { onLogoClick: (event: ReactMouseEvent<HTMLAnch
       </section>
       <nav className="footer-column" aria-label="Explore">
         <h2>Explore</h2>
-        <Link href="/research">Research</Link>
-        <Link href="/projects">Projects</Link>
+        <Link href="/research-project">Research Project</Link>
+        <Link href="/research-map">Global Map</Link>
         <Link href="/people">People</Link>
-        <Link href="/humekaneza">HumekaNeza</Link>
         <Link href="/publications">Publications</Link>
+        <Link href="/humekaneza">HumekaNeza</Link>
         <Link href="/teaching">Teaching</Link>
-        <Link href="/get-involved">Join the lab</Link>
+        <Link href="/opportunity">Opportunity</Link>
+        <Link href="/contact">Contact</Link>
       </nav>
       <nav className="footer-column" aria-label="Elsewhere">
         <h2>Elsewhere</h2>
@@ -638,8 +621,6 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 }
 
 function Home() {
-  const { data: newsData, isLoading: isNewsLoading, isError: isNewsError } = useGetPublicNews();
-  const latestNews = (newsData?.news ?? []).slice(0, 2);
   const director = people.director;
 
   const programDescriptions = [
@@ -666,7 +647,7 @@ function Home() {
           <p className="p3-home-tagline">Research for cleaner air, healthier lives, brighter tomorrows.</p>
           <p className="p3-home-intro">I lead the P3 Health Lab, where we study what people breathe: the chemical and biological mixtures in air, from fine particles and polycyclic aromatic hydrocarbons to airborne microbes and environmental DNA. We work with communities, schools and governments across Canada and Africa to turn evidence into cleaner air and fairer health.</p>
           <div className="p3-home-actions">
-            <Link href="/projects" className="p3-home-primary" data-testid="link-home-hero-research">Explore our projects <ArrowUpRight size={15} aria-hidden="true" /></Link>
+            <Link href="/research-project" className="p3-home-primary" data-testid="link-home-hero-research">Explore our research <ArrowUpRight size={15} aria-hidden="true" /></Link>
             <a href="#research-framework" className="p3-home-secondary">Research framework</a>
           </div>
           <div className="p3-home-profile-links" aria-label="Dr. Egide Kalisa profiles">
@@ -704,9 +685,9 @@ function Home() {
 
     <section className="p3-home-section" aria-labelledby="p3-programs-title">
       <div className="container-wide">
-        <div className="p3-section-heading"><div><span className="eyebrow">Research programs</span><h2 id="p3-programs-title">Five connected programs.</h2></div><Link href="/projects" className="p3-text-link">All projects <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
+        <div className="p3-section-heading"><div><span className="eyebrow">Research programs</span><h2 id="p3-programs-title">Five connected programs.</h2></div><Link href="/research-project" className="p3-text-link">All projects <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
         <div className="p3-program-rows">
-          {researchPrograms.map((program, index) => <Link className="p3-program-row" href={`/research#${program.id}`} key={program.id}>
+          {researchPrograms.map((program, index) => <Link className="p3-program-row" href={`/research-project#${program.id}`} key={program.id}>
             <span className="p3-program-number">{['I', 'II', 'III', 'IV', 'V'][index]}</span><h3>{program.title}</h3><p>{programDescriptions[index]}</p><img src={programImages[index][0]} alt={programImages[index][1]} loading="lazy" decoding="async" />
           </Link>)}
         </div>
@@ -720,109 +701,6 @@ function Home() {
       </div>
     </section>
 
-    <section className="p3-home-section" aria-labelledby="p3-field-title">
-      <div className="container-wide">
-        <div className="p3-section-heading"><div><span className="eyebrow">In the field</span><h2 id="p3-field-title">Where the data come from.</h2></div><Link href="/projects" className="p3-text-link">See the projects <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
-        <div className="p3-field-grid">
-          <figure><img src="/images/design-reference/field-sampler-city.jpg" alt="A passive air sampler mounted above a dense hillside city in East Africa." loading="lazy" decoding="async" /><figcaption>Passive air sampler above an East African city</figcaption></figure>
-          <figure><img src="/images/design-reference/field-calibrate.jpg" alt="Researcher calibrating reference air-monitoring instruments." loading="lazy" decoding="async" /><figcaption>Calibrating reference instruments</figcaption></figure>
-          <figure><img src="/images/design-reference/field-livestock-farm.png" alt="A researcher in protective equipment collecting bioaerosol samples at a livestock farm in Rwanda." loading="lazy" decoding="async" /><figcaption>Bioaerosol sampling at a livestock farm</figcaption></figure>
-          <figure><img src="/images/design-reference/field-lakeside-sampler.png" alt="A passive air sampler deployed beside a lake." loading="lazy" decoding="async" /><figcaption>Lakeside sampling site</figcaption></figure>
-          <figure><img src="/images/design-reference/field-cruiser.jpg" alt="Environment and Climate Change Canada mobile air-quality laboratory." loading="lazy" decoding="async" /><figcaption>ECCC's CRUISER mobile laboratory</figcaption></figure>
-          <figure><img src="/images/design-reference/field-rainy-season-road.png" alt="Research vehicles crossing a muddy road to reach a remote field site during the rainy season." loading="lazy" decoding="async" /><figcaption>Reaching remote sites in the rainy season</figcaption></figure>
-          <figure><img src="/images/design-reference/field-conference-presentation.png" alt="Dr. Egide Kalisa presenting research on passive samplers at an environmental health conference." loading="lazy" decoding="async" /><figcaption>Presenting results from five African cities</figcaption></figure>
-        </div>
-      </div>
-    </section>
-
-    <section className="p3-home-section p3-covers-section" aria-labelledby="p3-covers-title">
-      <div className="container-wide p3-covers-layout">
-        <div className="p3-scholar-copy"><span className="eyebrow">Featured research</span><h2 id="p3-covers-title">On the cover.</h2><p>Research on passive air samplers and airborne microbiomes has been featured on journal covers.</p><Link href="/publications" className="p3-text-link">Explore publications <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
-        <div className="p3-covers-grid">{publicationCovers.map((cover) => <figure key={cover.src}><img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} loading="lazy" decoding="async" /><figcaption>{cover.alt}</figcaption></figure>)}</div>
-      </div>
-    </section>
-
-    <section className="p3-home-section p3-awards-section" aria-labelledby="p3-awards-title">
-      <div className="container-wide">
-        <div className="p3-awards-heading"><span className="eyebrow">Recognition</span><h2 id="p3-awards-title">Awards and honours</h2></div>
-        <div className="p3-awards-grid">
-          <article className="p3-award-card">
-            <div className="p3-award-media p3-award-photo"><img src="/images/design-reference/award-schulich-innovation.png" alt="Schulich Research Innovation Early Career award presented to Egide Kalisa in 2026." loading="lazy" decoding="async" /></div>
-            <div className="p3-award-copy"><span className="p3-award-year">2026</span><h3>Schulich Research Innovation Award, Early Career</h3><p>Schulich Awards of Excellence, Schulich School of Medicine &amp; Dentistry, Western University.</p></div>
-          </article>
-          <article className="p3-award-card">
-            <div className="p3-award-media p3-award-photo"><img src="/images/design-reference/award-agu-voices-for-science.png" alt="Egide Kalisa featured in the 2024 AGU Voices for Science cohort." loading="lazy" decoding="async" /></div>
-            <div className="p3-award-copy"><span className="p3-award-year">2024</span><h3>AGU Voices for Science Cohort</h3><p>Selected for the American Geophysical Union's science communication cohort, Washington, DC.</p></div>
-          </article>
-          <article className="p3-award-card">
-            <div className="p3-award-media"><img src="/images/funder-logo-06.png" alt="National Institutes of Health logo." loading="lazy" decoding="async" /></div>
-            <div className="p3-award-copy"><span className="p3-award-year">2021–2023</span><h3>Global Emerging Leader Award</h3><p>U.S. National Institutes of Health (NIH).</p></div>
-          </article>
-          <article className="p3-award-card">
-            <div className="p3-award-media"><img src="/images/funder-logo-09.png" alt="National Council for Science and Technology logo." loading="lazy" decoding="async" /></div>
-            <div className="p3-award-copy"><span className="p3-award-year">2023–2024</span><h3>Most Outstanding Research Contribution Award</h3><p>National Council for Science and Technology (NCST), Rwanda.</p></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section className="p3-home-section p3-home-humeka-section" aria-labelledby="p3-humeka-feature-title">
-      <div className="container-wide p3-home-humeka-grid">
-        <img className="p3-home-humeka-image" src="/images/design-reference/hn-hero.jpg" alt="Students in a Kigali classroom take part in a HumekaNeza air-quality lesson." loading="lazy" decoding="async" />
-        <div className="p3-home-humeka-copy">
-          <div className="p3-humeka-brand"><img src="/images/design-reference/logo-humekaneza.png" alt="" width="60" height="60" /><span className="eyebrow">Community program · Rwanda</span></div>
-          <h2 id="p3-humeka-feature-title">HumekaNeza:<br />Breathe Easy</h2>
-          <p>Founded in 2024, HumekaNeza brings air-quality science into Kigali schools. Students run sensors, raise green and red play flags, plant one tree each and ask parents to stop idling at the school gate.</p>
-          <div className="p3-home-actions"><Link href="/humekaneza" className="p3-home-primary">Visit HumekaNeza</Link><a className="p3-home-secondary" href="https://www.youtube.com/watch?v=J6brEhfvNbY" target="_blank" rel="noopener noreferrer">Watch the video</a></div>
-        </div>
-      </div>
-    </section>
-
-    <section className="p3-home-section p3-home-team-section" aria-labelledby="p3-about-title">
-      <div className="container-wide p3-about-grid">
-        <div className="p3-about-copy">
-          <span className="eyebrow">About</span><h2 id="p3-about-title">From Kigali to London, Ontario.</h2>
-          <p>Egide Kalisa is an environmental-health scientist and Assistant Professor at Western University. His work on chemical air pollutants has grown into an international program studying the aerobiome and airborne environmental DNA using low-cost passive samplers.</p>
-          <p>He trains students alongside federal scientists and international collaborators, teaches global health and One Health, and works with communities to turn evidence into action.</p>
-          <p className="p3-home-tagline">“Pollution doesn’t require a visa.”</p>
-          <Link href="/about" className="p3-text-link">More about the lab <ArrowUpRight size={14} aria-hidden="true" /></Link>
-          <ol className="p3-path" aria-label="Dr. Egide Kalisa career path">
-            <li><strong>BSc · University of Rwanda</strong><span>Foundations in environmental science</span></li>
-            <li><strong>MSc · University of Birmingham</strong><span>United Kingdom</span></li>
-            <li><strong>PhD · Auckland University of Technology</strong><span>New Zealand · air pollution across Africa and Asia-Pacific</span></li>
-            <li><strong>Postdoctoral fellow · University of Toronto</strong><span>Canada</span></li>
-            <li><strong>Research scientist · Environment and Climate Change Canada</strong><span>Federal air-quality science</span></li>
-            <li><strong>Assistant Professor · Western University</strong><span>Schulich School of Medicine &amp; Dentistry, since 2023</span></li>
-          </ol>
-        </div>
-        <figure className="p3-home-team-photo"><img src="/images/design-reference/portrait.jpg" alt={`Portrait of ${director.name}.`} loading="lazy" decoding="async" /><figcaption><strong>{director.name}</strong><span>{director.role} · {director.institution}</span></figcaption></figure>
-      </div>
-    </section>
-
-    <section className="p3-home-section p3-home-teaching" aria-labelledby="p3-home-teaching-title">
-      <div className="container-wide p3-home-teaching-grid">
-        <div className="p3-home-teaching-copy">
-          <span className="eyebrow">Teaching</span>
-          <h2 id="p3-home-teaching-title">Global health and One Health, made practical</h2>
-          <p className="p3-home-teaching-quote">“Let's make global health practical, human, and a little bit fun.”</p>
-          <p>Dr. Kalisa teaches graduate and undergraduate courses at Western. His classes use learning teams, case studies, simulations, debates and science-communication training.</p>
-          <figure className="p3-home-teaching-photo">
-            <img src="/images/design-reference/teaching-global-health-classroom.png" alt="Students take part in a graduate global health class at Western University." loading="lazy" decoding="async" />
-          </figure>
-        </div>
-        <div className="p3-home-course-card">
-          <span className="p3-home-course-heading">Courses · Western University</span>
-          <ol className="p3-home-course-list">
-            <li><span className="p3-home-course-code">GHS 9100</span><div><h3>Foundations of Global Health</h3><p>MSc Global Health Systems · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
-            <li><span className="p3-home-course-code">GHS 9112</span><div><h3>International Field School</h3><p>Global health practicum, including fieldwork in Rwanda · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
-            <li><span className="p3-home-course-code">MPH 9015</span><div><h3>Issues in Global Health</h3><p>Master of Public Health · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
-            <li><span className="p3-home-course-code">OH 3300A</span><div><h3>Foundations in One Health</h3><p>Undergraduate One Health program · <Link href="/teaching">Program page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
-            <li><span className="p3-home-course-code">OH 3600</span><div><h3>One Health in Action</h3><p>Undergraduate One Health program · <Link href="/teaching">Program page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
     <section className="p3-home-section" aria-labelledby="p3-updates-title">
       <div className="container-wide p3-home-scholar-grid">
         <div className="p3-scholar-copy"><span className="eyebrow">Publications</span><h2 id="p3-updates-title">Research and updates.</h2><p>Find the current list of publications, citations, and scholarly activity through Google Scholar.</p><a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" className="p3-text-link" data-testid="link-home-publications">View Google Scholar <ExternalLink size={14} aria-hidden="true" /></a>
@@ -832,19 +710,6 @@ function Home() {
             <li><span>2025</span><div><h3>Heatwaves amplify air pollution risks in Sub-Saharan Africa</h3><p>Kalisa E, Sudmant A. · <em>Scientific Reports</em></p></div></li>
           </ol>
           <Link href="/publications" className="p3-text-link">All publications <ArrowUpRight size={14} aria-hidden="true" /></Link>
-        </div>
-        <div className="p3-news-panel">
-          <div className="p3-news-panel-head"><h3>Latest news</h3><Link href="/news" className="p3-text-link" data-testid="link-home-news">All news <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
-          {isNewsLoading && <p className="p3-news-state" role="status">Loading news and updates…</p>}
-          {isNewsError && <p className="p3-news-state" role="alert">News and updates could not be loaded. Please try again later.</p>}
-          {!isNewsLoading && !isNewsError && latestNews.length === 0 && <p className="p3-news-state" role="status">News and updates will be posted here when available.</p>}
-          {!isNewsLoading && !isNewsError && latestNews.map((item, index) => {
-            const displayDate = formatNewsDate(item.date);
-            return <article className="p3-news-item" key={`${item.headline}-${item.date ?? 'undated'}-${index}`}>
-              {displayDate ? <time dateTime={displayDate.dateTime}>{displayDate.label}</time> : <span />}
-              <div><h4>{item.headline}</h4>{item.summary.trim() && <p>{item.summary}</p>}</div>
-            </article>;
-          })}
         </div>
       </div>
     </section>
@@ -970,20 +835,81 @@ function PageHero({ eyebrow, title, text, action }: { eyebrow: string; title: Re
   return <section className="page-hero" data-reveal="up"><div className="container-wide"><span className="eyebrow">{eyebrow}</span><h1 className="display">{title}</h1><p>{text}</p>{action && <div className="hero-actions">{action}</div>}</div></section>;
 }
 
-function Research() {
+function ResearchProject() {
+  const frameworkCards = [
+    {
+      number: '01',
+      title: 'Environmental exposures',
+      subtitle: 'What we study',
+      accent: 'navy',
+      rows: [
+        ['Air pollution', 'Particles, gases and source mixtures'],
+        ['Built environment', 'Green space, noise, light and mobility'],
+        ['Chemical exposures', 'PAHs, nitro-PAHs and trace metals'],
+        ['Biological exposures', 'Airborne bacteria, fungi and eDNA'],
+        ['Climate & environmental change', 'Heat, wildfire smoke and co-exposures'],
+      ],
+    },
+    {
+      number: '02',
+      title: 'Cross-cutting approaches',
+      subtitle: 'How we investigate and act',
+      accent: 'purple',
+      rows: [
+        ['Exposure science', 'Monitoring, mixture and risk analysis; spatial statistics and epidemiology'],
+        ['Environmental justice', 'Exposure disparities, citizen science and meaningful community participation'],
+        ['One Health & planetary health', 'Connections among people, ecosystems and environmental change'],
+        ['Global health', 'Partnerships, implementation science and evidence for policy and practice'],
+      ],
+    },
+    {
+      number: '03',
+      title: 'Health & biological responses',
+      subtitle: 'What we seek to understand',
+      accent: 'teal',
+      rows: [
+        ['Respiratory health', 'Asthma, lung function and lung cancer'],
+        ['Cardiovascular health', ''],
+        ["Children's environmental health", ''],
+        ['Infectious disease', ''],
+        ['Microbiome', ''],
+        ['Population health & equity', 'Health inequalities and protection'],
+      ],
+    },
+  ];
   return <div className="research-page">
-    <PageHero eyebrow="Research" title="From Exposure Science to Intervention" text="We study what people breathe and experience across homes, schools, streets, and changing climates. Our five research programs connect exposure science with community-engaged research and practical, evidence-led solutions." />
+    <section className="research-project-hero" aria-labelledby="research-project-title">
+      <div className="container-wide">
+        <span className="eyebrow">Research</span>
+        <h1 id="research-project-title">From Exposure Science to Intervention</h1>
+        <p>We study what people breathe and experience across homes, schools, streets, and changing climates. Our five research programs connect exposure science with community-engaged research and practical, evidence-led solutions.</p>
+      </div>
+    </section>
 
     <section className="research-framework-section" aria-labelledby="research-framework-title">
       <div className="container-wide">
         <div className="section-head">
-          <div><span className="eyebrow">Our approach</span><h2 id="research-framework-title">Research framework</h2></div>
+          <div><span className="eyebrow">P3 Health Lab / People · Place · Planet</span><h2 id="research-framework-title">Research framework</h2></div>
+          <p>Understanding environmental exposures to inform healthier, more equitable communities.</p>
         </div>
-        <figure className="research-framework-figure">
-          <div className="research-framework-image-scroll">
-            <img src="/images/research-framework.png" alt="P3 Health Lab research framework diagram." width="1672" height="941" loading="lazy" decoding="async" />
+        <div className="research-framework-cards">
+          {frameworkCards.map((card, index) => <article className={`research-framework-card is-${card.accent}`} key={card.number}>
+            <span className="framework-card-number">{card.number}</span>
+            <h3>{card.title}</h3>
+            <p className="framework-card-subtitle">{card.subtitle}</p>
+            <dl>{card.rows.map(([term, description]) => <div key={term}><dt>{term}</dt>{description && <dd>{description}</dd>}</div>)}</dl>
+            {index < frameworkCards.length - 1 && <span className="framework-card-arrow" aria-hidden="true">→</span>}
+          </article>)}
+        </div>
+        <div className="research-to-action">
+          <span className="eyebrow">Research to action</span>
+          <p>Evidence for cleaner air, practical interventions and equitable policy.</p>
+          <div className="research-to-action-pillars">
+            <div><strong>People</strong><span>Healthy individuals and communities</span></div>
+            <div><strong>Place</strong><span>Healthy built and natural environments</span></div>
+            <div><strong>Planet</strong><span>A sustainable and resilient future</span></div>
           </div>
-        </figure>
+        </div>
       </div>
     </section>
 
@@ -1117,13 +1043,36 @@ function Research() {
     <section className="home-block research-more" aria-label="Related pages">
       <div className="container-wide">
         <ul className="research-links">
-          <li><Link href="/projects" className="text-link" data-testid="link-research-projects">Projects</Link></li>
+          <li><Link href="/research-project" className="text-link" data-testid="link-research-projects">Research Project</Link></li>
           <li><Link href="/research-map" className="text-link" data-testid="link-research-map">Global Research Map</Link></li>
           <li><a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" className="text-link" data-testid="link-research-publications">Google Scholar <ExternalLink size={14} aria-hidden="true" /></a></li>
           <li><Link href="/people" className="text-link" data-testid="link-research-people">People</Link></li>
         </ul>
       </div>
     </section>
+    <Projects integrated />
+    <div className="p3-home research-project-support">
+      <section className="p3-home-section" aria-labelledby="research-field-title">
+        <div className="container-wide">
+          <div className="p3-section-heading"><div><span className="eyebrow">In the field</span><h2 id="research-field-title">Where the data come from.</h2></div></div>
+          <div className="p3-field-grid">
+            <figure><img src="/images/design-reference/field-sampler-city.jpg" alt="A passive air sampler mounted above a dense hillside city in East Africa." loading="lazy" decoding="async" /><figcaption>Passive air sampler above an East African city</figcaption></figure>
+            <figure><img src="/images/design-reference/field-calibrate.jpg" alt="Researcher calibrating reference air-monitoring instruments." loading="lazy" decoding="async" /><figcaption>Calibrating reference instruments</figcaption></figure>
+            <figure><img src="/images/design-reference/field-livestock-farm.png" alt="A researcher in protective equipment collecting bioaerosol samples at a livestock farm in Rwanda." loading="lazy" decoding="async" /><figcaption>Bioaerosol sampling at a livestock farm</figcaption></figure>
+            <figure><img src="/images/design-reference/field-lakeside-sampler.png" alt="A passive air sampler deployed beside a lake." loading="lazy" decoding="async" /><figcaption>Lakeside sampling site</figcaption></figure>
+            <figure><img src="/images/design-reference/field-cruiser.jpg" alt="Environment and Climate Change Canada mobile air-quality laboratory." loading="lazy" decoding="async" /><figcaption>ECCC's CRUISER mobile laboratory</figcaption></figure>
+            <figure><img src="/images/design-reference/field-rainy-season-road.png" alt="Research vehicles crossing a muddy road to reach a remote field site during the rainy season." loading="lazy" decoding="async" /><figcaption>Reaching remote sites in the rainy season</figcaption></figure>
+            <figure><img src="/images/design-reference/field-conference-presentation.png" alt="Dr. Egide Kalisa presenting research on passive samplers at an environmental health conference." loading="lazy" decoding="async" /><figcaption>Presenting results from five African cities</figcaption></figure>
+          </div>
+        </div>
+      </section>
+      <section className="p3-home-section p3-covers-section" aria-labelledby="research-covers-title">
+        <div className="container-wide p3-covers-layout">
+          <div className="p3-scholar-copy"><span className="eyebrow">Featured research</span><h2 id="research-covers-title">On the cover.</h2><p>Research on passive air samplers and airborne microbiomes has been featured on journal covers.</p><Link href="/publications" className="p3-text-link">Explore publications <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
+          <div className="p3-covers-grid">{publicationCovers.map((cover) => <figure key={cover.src}><img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} loading="lazy" decoding="async" /><figcaption>{cover.alt}</figcaption></figure>)}</div>
+        </div>
+      </section>
+    </div>
   </div>;
 }
 
@@ -1281,7 +1230,7 @@ const programCatalog = [
   },
 ];
 
-function Projects() {
+function Projects({ integrated = false }: { integrated?: boolean } = {}) {
   const [activeFilter, setActiveFilter] = useState('all');
   const filters = [
     ['all', 'All programs', ''],
@@ -1291,7 +1240,10 @@ function Projects() {
     ['4', 'Mobility', 'IV'],
     ['5', 'Citizen science', 'V'],
   ];
-  const visibleFlagships = flagshipProjects.filter((project) => activeFilter === 'all' || project.programs.includes(activeFilter));
+  const visibleFlagships = flagshipProjects.filter((project) =>
+    (!integrated || project.href !== '/humekaneza')
+      && (activeFilter === 'all' || project.programs.includes(activeFilter)),
+  );
   const detailedProjectPrograms: Record<string, string[]> = {
     'school-air-quality-campaign': ['2', '5'],
     'i-am-an-air-quality-scientist': ['2', '5'],
@@ -1302,17 +1254,26 @@ function Projects() {
     'making-the-invisible-visible': ['5'],
     'equitable-air-quality-communication': ['3', '5'],
   };
-  const visibleDetailedProjects = projects.filter((project) => activeFilter === 'all' || detailedProjectPrograms[project.id]?.includes(activeFilter));
+  const humekaNezaProjectIds = new Set([
+    'school-air-quality-campaign',
+    'i-am-an-air-quality-scientist',
+    'one-sensor-per-school',
+    'classroom-clean-air-interventions',
+  ]);
+  const visibleDetailedProjects = projects.filter((project) =>
+    (!integrated || !humekaNezaProjectIds.has(project.id))
+      && (activeFilter === 'all' || detailedProjectPrograms[project.id]?.includes(activeFilter)),
+  );
 
-  return <div className="p3-projects-page">
-    <section className="p3-project-hero">
+  return <div className={`p3-projects-page${integrated ? ' is-integrated' : ''}`}>
+    {!integrated && <section className="p3-project-hero">
       <div className="container-wide p3-project-hero-grid">
         <div><span className="eyebrow">Projects · P3 Health Lab</span><h1>Research that follows the air.</h1><p>Five connected programs move from measuring exposure to testing interventions, closing equity gaps and creating real-world impact in Canada and Africa.</p></div>
         <div className="p3-project-lenses" aria-label="Four lenses across all projects">
           <article><strong>EXPOSURE</strong><span>What people breathe, where and when</span></article><article><strong>INTERVENTION</strong><span>What reduces it</span></article><article><strong>EQUITY</strong><span>Who carries the burden</span></article><article><strong>IMPACT</strong><span>Policy, practice and communities</span></article>
         </div>
       </div>
-    </section>
+    </section>}
     <nav className="p3-project-filters" aria-label="Filter projects by program">
       <div className="container-wide p3-project-filters-inner">{filters.map(([id, label, number]) => <button type="button" key={id} aria-pressed={activeFilter === id} onClick={() => setActiveFilter(id)}>{number && <span>{number}</span>}{label}</button>)}</div>
     </nav>
@@ -1334,10 +1295,10 @@ function Projects() {
 
     <section className="p3-projects-section p3-program-catalog" aria-labelledby="p3-catalog-title">
       <div className="container-wide">
-        <div className="p3-section-heading"><div><span className="eyebrow">All projects by program</span><h2 id="p3-catalog-title">Five programs, one framework.</h2></div><p>The full program portfolio, organized across connected research areas.</p></div>
+        <div className="p3-section-heading"><div><span className="eyebrow">{integrated ? 'Distinct projects' : 'All projects by program'}</span><h2 id="p3-catalog-title">{integrated ? 'Additional projects across the five programs.' : 'Five programs, one framework.'}</h2></div><p>The full program portfolio, organized across connected research areas.</p></div>
         {programCatalog.map((program) => <section className="p3-catalog-program" id={program.id} key={program.id} hidden={activeFilter !== 'all' && activeFilter !== program.id.slice(1)}>
-          <div className="p3-catalog-heading"><span className="p3-catalog-number">{program.number}</span><h3>{program.title}</h3><p>{program.intro}</p><img src={`/images/design-reference/${program.image}`} alt={program.alt} loading="lazy" decoding="async" /></div>
-          <div className="p3-catalog-items">{program.items.map(([title, text]) => <article className="p3-catalog-item" key={title}><h4>{title}</h4><p>{text}</p></article>)}</div>
+          <div className="p3-catalog-heading"><span className="p3-catalog-number">{program.number}</span><h3>{program.title}</h3>{!integrated && <><p>{program.intro}</p><img src={`/images/design-reference/${program.image}`} alt={program.alt} loading="lazy" decoding="async" /></>}</div>
+          <div className="p3-catalog-items">{program.items.filter(([title]) => !integrated || !researchPrograms.some((researchProgram) => researchProgram.projects.some((project) => project.label.toLowerCase() === title.toLowerCase()))).map(([title, text]) => <article className="p3-catalog-item" key={title}><h4>{title}</h4><p>{text}</p></article>)}</div>
         </section>)}
       </div>
     </section>
@@ -1448,10 +1409,6 @@ function personInitials(name: string) {
     .toUpperCase();
 }
 
-function formatPersonTag(tag: string) {
-  return tag.replace(' / ', ' · ');
-}
-
 function PersonAvatar({ person }: { person: (typeof people.sections)[number]['members'][number] | typeof people.director | (typeof people.former)[number] }) {
   return person.photo
     ? <img className="pp-photo" src={person.photo} alt={person.name} loading="lazy" width="144" height="144" decoding="async" />
@@ -1512,6 +1469,32 @@ function People() {
     const principalInvestigator = livePeople.find((person) => person.category === 'PI') ?? livePeople[0];
     const currentMembers = livePeople.filter((person) => person.status === 'current' && person.id !== principalInvestigator?.id);
     const formerMembers = livePeople.filter((person) => person.status === 'alumni');
+    const staticAlumni = people.former;
+    const alumniByName = new Map(formerMembers.map((person) => {
+      const fallback = staticAlumni.find((alumni) => normalizePersonName(alumni.name) === normalizePersonName(person.name));
+      return [normalizePersonName(person.name), {
+        ...person,
+        photo: person.photo ?? fallback?.photo ?? null,
+        linkedinUrl: person.linkedinUrl ?? fallback?.href ?? null,
+        institution: person.institution || fallback?.now || '',
+      }];
+    }));
+    staticAlumni.forEach((person) => {
+      if (!alumniByName.has(normalizePersonName(person.name))) {
+        alumniByName.set(normalizePersonName(person.name), {
+          id: 0,
+          name: person.name,
+          role: person.role,
+          institution: person.now ?? person.institution ?? '',
+          researchFocus: person.researchFocus ?? '',
+          status: 'alumni',
+          category: 'Alumni',
+          photo: person.photo ?? null,
+          linkedinUrl: person.href ?? null,
+        });
+      }
+    });
+    const alumniMembers = [...alumniByName.values()];
 
     return (
       <div className="people-page">
@@ -1554,27 +1537,24 @@ function People() {
             </section>
           )}
 
-          {formerMembers.length > 0 && (
+          {alumniMembers.length > 0 && (
             <section>
               <h2>Former students and alumni</h2>
-              <ul className="pp-former">
-                {formerMembers.map((person) => (
-                  <li key={person.id}>
-                    <strong><PersonLinkedInName name={person.name} href={person.linkedinUrl} />{person.role ? `, ${person.role}` : ''}</strong>
-                    {person.institution && <span className="now">{person.institution}</span>}
+              <ul className="pp-grid">
+                {alumniMembers.map((person) => (
+                  <li className="pp-member" key={person.id || person.name}>
+                    {person.photo
+                      ? <img className="pp-photo" src={person.photo} alt={person.name} loading="lazy" width="144" height="144" decoding="async" />
+                      : <span className="pp-photo pp-initials" role="img" aria-label={person.name}>{personInitials(person.name)}</span>}
+                    <PersonLinkedInName name={person.name} href={person.linkedinUrl} />
+                    {person.role && <span className="pp-role">{person.role}</span>}
+                    {person.institution && <span className="pp-aff">{person.institution}</span>}
                   </li>
                 ))}
               </ul>
             </section>
           )}
         </div>
-
-        <section className="contact-band" id="join" data-reveal="up">
-          <div className="container-wide contact-grid">
-            <div><span className="eyebrow">Join the lab</span><h2>Bring a question, not a template.</h2></div>
-            <Link href="/get-involved" className="button-primary" data-testid="link-people-join">Find your pathway <ArrowUpRight size={15} aria-hidden="true" /></Link>
-          </div>
-        </section>
       </div>
     );
   }
@@ -1610,8 +1590,6 @@ function People() {
                   {(person.institution || person.country) && (
                     <span className="pp-aff">{[person.institution, person.country].filter(Boolean).join(', ')}</span>
                   )}
-                  {person.formerRole && <span className="pp-aff">Formerly: {person.formerRole}</span>}
-                  {person.status && <span className="pp-tag">{formatPersonTag(person.status)}</span>}
                   {person.researchFocus && <p className="pp-focus">{person.researchFocus}</p>}
                 </li>
               ))}
@@ -1629,27 +1607,19 @@ function People() {
         {former.length > 0 && (
           <section>
             <h2>Former students and alumni</h2>
-            <ul className="pp-former">
+            <ul className="pp-grid">
               {former.map((person) => (
-                <li key={person.name}>
-                  <strong><PersonName person={person} />{person.role ? `, ${person.role}` : ''}</strong>
-                  {person.status && <span className="pp-tag">{formatPersonTag(person.status)}</span>}
-                  {(person.now || person.institution || person.country) && (
-                    <span className="now">{person.now ?? [person.institution, person.country].filter(Boolean).join(', ')}</span>
-                  )}
+                <li className="pp-member" key={person.name}>
+                  <PersonAvatar person={person} />
+                  <PersonName person={person} />
+                  {person.role && <span className="pp-role">{person.role}</span>}
+                  {(person.now || person.institution || person.country) && <span className="pp-aff">{person.now ?? [person.institution, person.country].filter(Boolean).join(', ')}</span>}
                 </li>
               ))}
             </ul>
           </section>
         )}
       </div>
-
-      <section className="contact-band" id="join" data-reveal="up">
-        <div className="container-wide contact-grid">
-          <div><span className="eyebrow">Join the lab</span><h2>Bring a question, not a template.</h2></div>
-          <Link href="/get-involved" className="button-primary" data-testid="link-people-join">Find your pathway <ArrowUpRight size={15} aria-hidden="true" /></Link>
-        </div>
-      </section>
     </div>
   );
 }
@@ -1811,70 +1781,24 @@ function Publications() {
   </div>;
 }
 
-function formatNewsDate(value: Date | string | null) {
-  if (!value) return null;
-  const date = value instanceof Date
-    ? value
-    : new Date(value.length === 10 ? `${value}T00:00:00Z` : value);
-  if (Number.isNaN(date.getTime())) return null;
-  return {
-    dateTime: date.toISOString().slice(0, 10),
-    label: new Intl.DateTimeFormat('en', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      timeZone: 'UTC',
-    }).format(date),
-  };
-}
-
-function News() {
-  const { data, isLoading, isError } = useGetPublicNews();
-  const newsItems = data?.news ?? [];
-
-  return <div className="news-page">
-    <PageHero eyebrow="News" title="News" text="Updates from P3 Health Lab." />
-    <section className="section" aria-labelledby="news-section-title" data-reveal="up">
-      <div className="container-wide">
-        <div className="section-head">
-          <div><span className="eyebrow">News</span><h2 id="news-section-title">News and updates</h2></div>
-        </div>
-        {isLoading && <p className="news-state" role="status">Loading news and updates…</p>}
-        {isError && <p className="news-state" role="alert">News and updates could not be loaded. Please try again later.</p>}
-        {!isLoading && !isError && newsItems.length === 0 && (
-          <p className="news-empty-state" role="status" data-testid="empty-news">News and updates will be posted here when available.</p>
-        )}
-        {!isLoading && !isError && newsItems.length > 0 && (
-          <div className="news-list">
-            {newsItems.map((item, index) => {
-              const displayDate = formatNewsDate(item.date);
-              return <article
-                className={`news-item${displayDate ? '' : ' news-item-no-date'}`}
-                key={`${item.headline}-${item.date ?? 'undated'}-${index}`}
-              >
-                {displayDate && <time className="news-item-date" dateTime={displayDate.dateTime}>{displayDate.label}</time>}
-                <div className="news-item-copy">
-                  <h3>{item.headline}</h3>
-                  {item.summary.trim() && <p className="news-item-summary">{item.summary}</p>}
-                  {item.body.trim() && <p className="news-item-body">{item.body}</p>}
-                </div>
-              </article>;
-            })}
-          </div>
-        )}
-      </div>
-    </section>
-  </div>;
-}
-
 function Contact() {
   const { data, isLoading } = useGetPublicProfile();
   const profile = data?.contact;
   const office = profile?.office?.trim() ?? "";
-  const contactRows: Array<{ label: string; value: string }> = [
+  const contactDetailsToComplete = {
+    name: "Dr. Egide Kalisa",
+    email: "",
+    address: "",
+    linkedIn: "https://www.linkedin.com/in/egide-kalisa-1b8b40321/",
+  };
+  const contactEmail = profile?.contactEmail?.trim() || profile?.labEmail?.trim() || contactDetailsToComplete.email;
+  const contactAddress = office || contactDetailsToComplete.address;
+  const contactName = profile?.name?.trim() || contactDetailsToComplete.name;
+  const contactRows: Array<{ label: string; value: string; href?: string }> = [
     { label: "Department", value: profile?.department ?? "" },
     { label: "University", value: profile?.university ?? "" },
-    { label: "Email", value: profile?.contactEmail ?? "" },
+    { label: "Email", value: contactEmail },
+    { label: "LinkedIn", value: "Dr. Egide Kalisa's profile", href: contactDetailsToComplete.linkedIn },
   ].filter(({ value }) => Boolean(value.trim()));
 
   return <>
@@ -1883,7 +1807,7 @@ function Contact() {
       <div className="container-wide contact-profile-grid">
         <div>
           <span className="eyebrow">Faculty contact</span>
-          <h2>{profile?.name || "P3 Health Lab"}</h2>
+          <h2>{contactName || "P3 Health Lab"}</h2>
           {profile?.appointment && <div className="intro-stat"><b>01</b><span>{profile.appointment}</span></div>}
           {profile?.directorRole && <div className="intro-stat" style={{ marginTop: 24 }}><b>02</b><span>{profile.directorRole}</span></div>}
         </div>
@@ -1892,9 +1816,11 @@ function Contact() {
           <p className="tiny-copy">Use the verified contact information below.</p>
           {isLoading && !contactRows.length && <p className="contact-loading" role="status">Loading contact information…</p>}
           {contactRows.length > 0 && <dl className="contact-detail-list">
-            {contactRows.map(({ label, value }) => <div key={label}>
+            {contactRows.map(({ label, value, href }) => <div key={label}>
               <dt>{label}</dt>
-              <dd>{label === "Email" ? <a href={`mailto:${value}`} data-testid="link-contact-email">{value}</a> : value}</dd>
+              <dd>{href
+                ? <a href={href} target="_blank" rel="noopener noreferrer">{value} <ExternalLink size={13} aria-hidden="true" /></a>
+                : label === "Email" ? <a href={`mailto:${value}`} data-testid="link-contact-email">{value}</a> : value}</dd>
             </div>)}
           </dl>}
           {!isLoading && !contactRows.length && <p className="contact-loading" role="status">Contact information is not currently available.</p>}
@@ -1902,16 +1828,16 @@ function Contact() {
         </div>
       </div>
     </section>
-    {office && <section className="section contact-location-section" aria-labelledby="contact-location-title" data-reveal="up">
+    {contactAddress && <section className="section contact-location-section" aria-labelledby="contact-location-title" data-reveal="up">
       <div className="container-wide contact-location-grid">
         <div className="contact-location-copy">
           <span className="eyebrow">Visit the lab</span>
           <h2 id="contact-location-title">Office location</h2>
-          <address>{office}</address>
-          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office)}`} target="_blank" rel="noopener noreferrer">Open in Google Maps <ArrowUpRight size={14} aria-hidden="true" /></a>
+          <address>{contactAddress}</address>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contactAddress)}`} target="_blank" rel="noopener noreferrer">Open in Google Maps <ArrowUpRight size={14} aria-hidden="true" /></a>
         </div>
         <div className="contact-map-frame">
-          <iframe src={`https://www.google.com/maps?q=${encodeURIComponent(office)}&output=embed`} title={`Map showing ${office}`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+          <iframe src={`https://www.google.com/maps?q=${encodeURIComponent(contactAddress)}&output=embed`} title={`Map showing ${contactAddress}`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
         </div>
       </div>
     </section>}
@@ -1938,10 +1864,11 @@ function Teaching() {
   );
 
   const teachingRoutes = [
-    ['Research', '/research'],
+    ['Research Project', '/research-project'],
+    ['Global Map', '/research-map'],
     ['People', '/people'],
     ['Publications', '/publications'],
-    ['Projects', '/projects'],
+    ['Opportunity', '/opportunity'],
     ['Contact', '/contact'],
   ] as const;
 
@@ -1957,6 +1884,27 @@ function Teaching() {
           <img src="/images/p3/global-map-banner-candidates/teacher-with-posters-classroom.jpg" alt="A teacher presents environmental-health posters to students in a classroom." width="1920" height="1280" fetchPriority="high" decoding="async" />
           <figcaption>Knowledge grows through shared learning.</figcaption>
         </figure>
+      </div>
+    </section>
+    <section className="section teaching-feature" aria-labelledby="teaching-feature-title">
+      <div className="container-wide teaching-feature-grid">
+        <div className="teaching-feature-copy">
+          <span className="eyebrow">Teaching</span>
+          <h2 id="teaching-feature-title">Global health and One Health, made practical</h2>
+          <blockquote>“Let's make global health practical, human, and a little bit fun.”</blockquote>
+          <p>Dr. Kalisa teaches graduate and undergraduate courses at Western. His classes use learning teams, case studies, simulations, debates and science-communication training.</p>
+          <figure><img src="/images/design-reference/teaching-global-health-classroom.png" alt="Students take part in a graduate global health class at Western University." loading="lazy" decoding="async" /></figure>
+        </div>
+        <div className="teaching-feature-courses">
+          <span className="eyebrow">Courses · Western University</span>
+          <ol>
+            <li><span>GHS 9100</span><div><h3>Foundations of Global Health</h3><p>MSc Global Health Systems · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+            <li><span>GHS 9112</span><div><h3>International Field School</h3><p>Global health practicum, including fieldwork in Rwanda · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+            <li><span>MPH 9015</span><div><h3>Issues in Global Health</h3><p>Master of Public Health · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+            <li><span>OH 3300A</span><div><h3>Foundations in One Health</h3><p>Undergraduate One Health program · <Link href="/teaching">Program page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+            <li><span>OH 3600</span><div><h3>One Health in Action</h3><p>Undergraduate One Health program · <Link href="/teaching">Program page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+          </ol>
+        </div>
       </div>
     </section>
     <section className="section teaching-courses" aria-labelledby="teaching-courses-title" data-reveal="up">
@@ -1993,180 +1941,6 @@ function Teaching() {
   </div>;
 }
 
-function Humekaneza() {
-  const approach = [
-    { number: '01', title: 'Learn', text: 'Explore air pollution, environmental exposures and health through workshops, demonstrations and school-based learning.' },
-    { number: '02', title: 'Measure', text: 'Use low-cost sensors and other monitoring tools to notice how air quality changes around school and community.' },
-    { number: '03', title: 'Understand', text: 'Make sense of observations together: what might shape the air, what the information can tell us, and what it cannot.' },
-    { number: '04', title: 'Act', text: 'Turn learning into practical steps—from reducing idling to sharing clear messages with families and school communities.' },
-  ];
-  const activities = [
-    ['Try the air-quality flag', 'Connect air-quality information with classroom conversations and daily decisions.'],
-    ['Become a young air scientist', 'Ask questions, use monitors and explore what measurements reveal about the places we learn.'],
-    ['Make the invisible visible', 'Create posters, presentations and other ways to share environmental-health knowledge.'],
-    ['Talk with family and community', 'Bring learning beyond the classroom through discussion, communication and shared ideas.'],
-    ['Explore a cleaner school day', 'Consider idling, school routes, classroom air and outdoor activities as part of healthier environments.'],
-  ];
-  const initiatives = [
-    { slug: 'making-the-invisible-visible', title: 'Making the Invisible Visible', label: 'Youth knowledge & participation', text: 'Youth ambassador learning, behaviour-change workshops, family dialogue and youth-created knowledge-translation products.' },
-    { slug: 'shared-skies', title: 'SHARED SKIES / Global Classroom', label: 'Learning across communities', text: projects[5].description[1] },
-    { slug: 'one-sensor-per-school', title: 'One Sensor Per School', label: 'School monitoring', text: projects[2].description[1] },
-    { slug: 'clean-air-school-zones', title: 'Clean Air School Zones', label: 'Behaviour-change work', text: 'Anti-idling campaigns, safer school travel and community engagement around cleaner school environments.' },
-  ];
-  return <div className="humeka-page">
-    <section className="humeka-masthead" aria-labelledby="humeka-title">
-      <div className="container-wide humeka-masthead-inner">
-        <div className="humeka-masthead-copy">
-          <div className="humeka-brandline">
-            <img src={humekanezaLogo} alt="HumekaNeza Breathe Easy emblem" width="1600" height="1600" data-testid="img-humekaneza-logo" />
-            <span className="eyebrow">P3 Health Lab · Western University</span>
-          </div>
-          <h1 id="humeka-title">HumekaNeza<small>Breathe Easy</small></h1>
-          <p className="humeka-tagline">Empowering schools and communities through air-quality citizen science.</p>
-          <div className="humeka-hero-credits">
-            <span>Child- and youth-centred environmental health</span>
-            <span>Led by Dr. Egide Kalisa</span>
-          </div>
-          <a className="humeka-hero-link" href="#humeka-approach" data-testid="link-humekaneza-explore">Explore the approach <ArrowUpRight size={16} aria-hidden="true" /></a>
-        </div>
-        <figure className="humeka-hero-photo">
-          <img src="/images/home-classroom-fieldwork.jpg" alt="A school workshop in a bright brick classroom, with a facilitator speaking to students gathered around desks." fetchPriority="high" data-testid="img-humekaneza-classroom" />
-          <figcaption><span>Learning together, in a real school setting</span><span>HumekaNeza · Rwanda</span></figcaption>
-        </figure>
-        <div className="humeka-orbit-label" aria-hidden="true">People <i /> Planet <i /> Place</div>
-      </div>
-    </section>
-
-    <section className="humeka-intro section" aria-labelledby="humeka-intro-title" data-reveal="up">
-      <div className="container-wide humeka-intro-grid">
-        <div><span className="eyebrow">A little about us</span><h2 id="humeka-intro-title">Start with a question.<br /><em>Find a way forward.</em></h2></div>
-        <div className="humeka-prose">
-          <p>HumekaNeza is a child- and youth-centred environmental-health initiative founded by Dr. Egide Kalisa and led through P3 Health Lab at Western University. It began with school-based air-quality education in Rwanda, empowering children to understand air pollution and take part in solutions.</p>
-          <p>Today, the work connects schools and communities to environmental-health learning, citizen science, research and practical action. Young people investigate their surroundings, make sense of what they learn, and share ideas that can support healthier schools, homes and communities.</p>
-        </div>
-      </div>
-    </section>
-
-    <section className="humeka-community section" aria-labelledby="humeka-community-title" data-reveal="up">
-      <div className="container-wide">
-        <div className="humeka-community-heading">
-          <div><span className="eyebrow">Schools &amp; communities</span><h2 id="humeka-community-title">Air-quality questions live in everyday places.</h2></div>
-          <p>Classrooms, streets and shared spaces are where people learn about the air around them—and where practical questions begin.</p>
-        </div>
-        <div className="humeka-community-gallery">
-          <figure className="humeka-community-photo">
-            <img src="/images/research-citizen-science.jpg" alt="Participants explore air-quality monitoring equipment during a citizen-science activity." loading="lazy" decoding="async" data-testid="img-humekaneza-field-monitor" />
-            <figcaption><strong>Learning through citizen science</strong><span>People working with air-quality monitoring tools</span></figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <section className="humeka-process section" id="humeka-approach" aria-labelledby="humeka-process-title" data-reveal="up">
-      <div className="container-wide">
-        <div className="humeka-section-heading">
-          <span className="eyebrow">The HumekaNeza learning loop</span>
-          <h2 id="humeka-process-title">From curiosity<br />to community action.</h2>
-          <p>Four connected steps make environmental-health science tangible—and put young people’s questions at the centre.</p>
-        </div>
-        <ol className="humeka-process-list">
-          {approach.map((step) => <li className="humeka-process-step" key={step.number} data-testid={`step-humekaneza-${step.title.toLowerCase()}`}>
-            <span className="humeka-step-number">{step.number}</span><div><h3>{step.title}</h3><p>{step.text}</p></div>
-          </li>)}
-        </ol>
-      </div>
-    </section>
-
-    <section className="humeka-activities section" aria-labelledby="humeka-activities-title" data-reveal="up">
-      <div className="container-wide">
-        <div className="humeka-section-heading humeka-activity-heading">
-          <span className="eyebrow">A school day, with fresh eyes</span><h2 id="humeka-activities-title">Learning you can take<br />back to the classroom.</h2>
-          <p>Possible ways to take part across HumekaNeza’s connected work.</p>
-        </div>
-        <div className="humeka-activity-layout">
-          <ul className="humeka-activity-list">
-            {activities.map(([title, text], index) => <li key={title} data-testid={`activity-humekaneza-${index + 1}`}><span className="humeka-activity-index">0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
-          </ul>
-          <figure className="humeka-app-figure">
-            <img src="/images/humeka-app-phone-illustration.webp" alt="Illustration of a phone displaying the HumekaNeza app." width="1200" height="1600" loading="lazy" decoding="async" />
-            <figcaption>HumekaNeza app illustration</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <section className="humeka-initiatives-section section" aria-labelledby="humeka-initiatives-title" data-reveal="up">
-      <div className="container-wide">
-        <div className="humeka-section-heading humeka-feature-head">
-          <div><span className="eyebrow">Connected initiatives</span><h2 id="humeka-initiatives-title">Different places.<br /><em>Shared questions.</em></h2></div>
-          <p>Projects bring together school learning, youth knowledge, community participation and environmental-health research.</p>
-        </div>
-        <div className="humeka-initiative-featured">
-          <ul className="humeka-feature-grid">
-            {initiatives.map((item, index) => <li key={item.slug} className={`humeka-feature-card humeka-feature-card-${index + 1}`}>
-              <span className="humeka-feature-label">{item.label}</span>
-              <h3>{item.title}</h3><p>{item.text}</p>
-              <Link href={`/projects#${item.slug}`} data-testid={`link-humekaneza-project-${item.slug}`}>Explore initiative <ArrowUpRight size={15} aria-hidden="true" /></Link>
-            </li>)}
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section className="humeka-evidence section" aria-labelledby="humeka-evidence-title" data-reveal="up">
-      <div className="container-wide humeka-evidence-grid">
-        <div className="humeka-section-heading">
-          <span className="eyebrow">Learning in practice</span><h2 id="humeka-evidence-title">Research that stays close to real life.</h2>
-          <p>HumekaNeza connects questions from schools and communities with P3 Health Lab’s broader work in exposure science, children’s environmental health and citizen science.</p>
-          <Link className="humeka-evidence-link" href="/research" data-testid="link-humekaneza-research">Explore P3 research <ArrowUpRight size={15} aria-hidden="true" /></Link>
-        </div>
-        <div className="humeka-evidence-notes">
-          <article><span className="eyebrow">In schools</span><h3>Learning by observing and measuring</h3><p>The Rwanda campaign includes school-based education, low-cost monitoring, air-quality flag activities and student-led environmental monitoring.</p></article>
-          <article><span className="eyebrow">With young people</span><h3>Making knowledge shareable</h3><p>Making the Invisible Visible includes youth ambassador learning, behaviour-change workshops, family dialogue and youth-created knowledge-translation products.</p></article>
-          <nav className="humeka-proof-links" aria-label="Explore lab evidence and updates">
-            <a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" data-testid="link-humekaneza-publications">Google Scholar <ExternalLink size={14} aria-hidden="true" /></a>
-            <Link href="/news" data-testid="link-humekaneza-news">Lab news <ArrowUpRight size={14} aria-hidden="true" /></Link>
-            <Link href="/projects#classroom-clean-air-interventions" data-testid="link-humekaneza-classroom-research">Classroom research <ArrowUpRight size={14} aria-hidden="true" /></Link>
-          </nav>
-        </div>
-      </div>
-    </section>
-
-    {humekaYouTubeVideoId && <section className="humeka-video section" aria-labelledby="humeka-video-title" data-reveal="up">
-      <div className="container-wide">
-        <div className="humeka-section-heading">
-          <span className="eyebrow">Watch</span>
-          <h2 id="humeka-video-title">HumekaNeza in action.</h2>
-        </div>
-        <div className="humeka-video-frame">
-          <iframe src={`https://www.youtube-nocookie.com/embed/${humekaYouTubeVideoId}`} title="HumekaNeza video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
-        </div>
-      </div>
-    </section>}
-
-    <section className="humeka-partners" aria-label="P3 Health Lab and Western University affiliation">
-      <div className="container-wide humeka-partners-inner">
-        <span className="eyebrow">Institutional affiliation</span>
-        <div className="humeka-affiliation-mark"><img src={logo} alt="P3 Health Lab emblem" width="1600" height="1600" loading="lazy" decoding="async" data-testid="img-humekaneza-p3-logo" /><strong>P3 Health Lab</strong></div>
-        <a className="humeka-western-mark" href="https://www.uwo.ca" target="_blank" rel="noopener noreferrer" data-testid="link-humekaneza-western">Western University <ExternalLink size={13} aria-hidden="true" /></a>
-        <p>HumekaNeza is part of P3 Health Lab’s research, collaboration and community-engaged work.</p>
-      </div>
-    </section>
-
-    <section className="humeka-contact section" id="get-involved" aria-labelledby="humeka-contact-title" data-reveal="up">
-      <div className="container-wide humeka-contact-inner">
-        <div><span className="eyebrow">Schools · families · collaborators</span><h2 id="humeka-contact-title">Have a question<br />for HumekaNeza?</h2></div>
-        <div><p>We welcome conversations with teachers, students, families, community organizations, researchers and environmental-health partners.</p>
-          <div className="humeka-contact-actions">
-            <a className="button-primary" href="mailto:p3healthlab@uwo.ca" data-testid="link-humekaneza-partner">Email P3 Health Lab <ArrowUpRight size={15} aria-hidden="true" /></a>
-            <Link className="button-secondary" href="/contact" data-testid="link-humekaneza-contact">Contact page <ArrowUpRight size={15} aria-hidden="true" /></Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>;
-}
-
 const opportunityCategories = [
   "Graduate Students",
   "Postdoctoral Researchers",
@@ -2175,14 +1949,14 @@ const opportunityCategories = [
   "Visiting Students & Scholars",
 ];
 
-function GetInvolved() {
+function Opportunity() {
   const { data, isLoading, isError } = useGetPublicOpportunities();
   const { data: profileData } = useGetPublicProfile();
   const opportunities = data?.opportunities ?? [];
   const generalEmail = profileData?.contact.labEmail ?? profileData?.contact.contactEmail;
 
   return <>
-    <PageHero eyebrow="Get involved / 06" title={<>Join the <em>lab.</em></>} text="Browse published opportunities by audience. General questions are welcome through the lab’s verified contact path." />
+    <PageHero eyebrow="Opportunity" title={<>Opportunity at the <em>P3 Health Lab.</em></>} text="Become part of the P3 Health Lab. We welcome MSc and PhD students, postdoctoral fellows, global health interns, undergraduate researchers and visiting scholars." />
     <section className="section" id="opportunities" data-reveal="up">
       <div className="container-wide">
         <div className="section-head">
@@ -2237,17 +2011,18 @@ function NotFound() {
 function Router() {
   return <RoutedErrorBoundary><Switch>
     <Route path="/" component={Home} />
-    <Route path="/research" component={Research} />
+    <Route path="/research">{() => <Redirect to={`/research-project${window.location.hash}`} />}</Route>
+    <Route path="/research-project" component={ResearchProject} />
     <Route path="/research-map" component={ResearchMap} />
-    <Route path="/projects" component={Projects} />
+    <Route path="/projects">{() => <Redirect to={`/research-project${window.location.hash}`} />}</Route>
     <Route path="/people" component={People} />
     <Route path="/about" component={About} />
     <Route path="/publications" component={Publications} />
-    <Route path="/news" component={News} />
     <Route path="/contact" component={Contact} />
     <Route path="/teaching" component={Teaching} />
     <Route path="/humekaneza" component={HumekaNezaPage} />
-    <Route path="/get-involved" component={GetInvolved} />
+    <Route path="/get-involved">{() => <Redirect to={`/opportunity${window.location.hash}`} />}</Route>
+    <Route path="/opportunity" component={Opportunity} />
     <Route path="/upload" component={AdminUploadGate} />
     <Route path="/admin" component={AdminGate} />
     <Route path="/admin/login" component={AdminGate} />
