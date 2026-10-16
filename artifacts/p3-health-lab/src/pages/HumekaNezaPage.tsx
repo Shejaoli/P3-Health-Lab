@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { Link } from 'wouter';
 import './humeka-neza-page.css';
@@ -103,9 +103,114 @@ const schoolPhotos = [
   },
 ];
 
+const schoolGatePhotoNumbers = new Set([
+  ...Array.from({ length: 14 }, (_, index) => index + 1),
+  18,
+  32,
+  46,
+  47,
+]);
+
+const numberedSchoolPhotos = Array.from({ length: 53 }, (_, index) => {
+  const number = index + 1;
+  return {
+    number,
+    src: `/images/humekaneza/hn-${String(number).padStart(2, '0')}.jpg`,
+    alt: `HumekaNeza school session in Kigali, photo ${number}`,
+    group: schoolGatePhotoNumbers.has(number)
+      ? 'At the school gate'
+      : 'In the classroom',
+  };
+});
+
+const detailedInitiatives = [
+  {
+    slug: 'school-air-quality-campaign',
+    title: 'HumekaNeza School Air-Quality Campaign',
+    description: 'The original HumekaNeza campaign was launched in schools in Rwanda to improve children’s understanding of air pollution and empower them to participate in solutions.',
+    activities: [
+      'school-based air-quality education',
+      'low-cost monitoring',
+      'Air Quality Flag Programs',
+      'anti-idling campaigns',
+      'student-led environmental monitoring',
+      'classroom air-cleaning activities',
+      'cleaner route and outdoor-activity guidance',
+      'tree planting and greener school environments',
+      'creative communication through posters and letters to families',
+    ],
+    images: [
+      { src: '/images/p3/projects/01-humekaneza-school-campaign/orange-room-workshop.jpg', alt: 'A teacher leads students in an air-quality workshop in a classroom.' },
+      { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-enough-is-enough.jpg', alt: 'A child-created poster calling attention to air pollution.' },
+    ],
+  },
+  {
+    slug: 'i-am-an-air-quality-scientist',
+    title: 'I Am an Air Quality Scientist',
+    description: 'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities. The initiative introduces children to environmental-health science while building scientific literacy, curiosity, confidence, and practical understanding of environmental data.',
+    images: [
+      { src: '/images/p3/projects/02-i-am-an-air-quality-scientist/students-measuring-experiment.jpg', alt: 'Students take part in an air-quality science experiment.' },
+    ],
+  },
+  {
+    slug: 'one-sensor-per-school',
+    title: 'One Sensor Per School',
+    description: 'This initiative aims to make air pollution visible by placing low-cost air-quality sensors in participating schools. Students and teachers can observe how air pollution changes throughout the day and explore how traffic, weather, indoor activities, and other factors affect the air they breathe.',
+    images: [
+      { src: '/images/p3/projects/03-one-sensor-per-school/school-courtyard-sensor-trees.jpg', alt: 'Air-quality monitoring equipment installed in a tree-lined school courtyard.' },
+    ],
+  },
+  {
+    slug: 'classroom-clean-air-interventions',
+    title: 'Classroom Clean-Air Interventions',
+    description: 'HumekaNeza supports research evaluating practical approaches to improve classroom air quality, including the use of portable air purifiers. These interventions examine changes in indoor air pollution and explore potential effects on student health, learning, comfort, attendance, and academic performance.',
+    images: [
+      { src: '/images/p3/projects/04-classroom-clean-air/classroom-air-purifier-diagram.jpg', alt: 'Diagram showing an air purifier cleaning air in a classroom.' },
+      { src: '/images/p3/projects/04-classroom-clean-air/green-classroom-students-sign.jpg', alt: 'Students display a classroom sign about cleaner, greener schools.' },
+    ],
+  },
+];
+
 export function HumekaNezaPage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
+  const lightboxRef = useRef<HTMLDivElement>(null);
+  const closePhotoButtonRef = useRef<HTMLButtonElement>(null);
+  const photoTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
   const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    if (activePhotoIndex === null) {
+      photoTriggerRef.current?.focus();
+      return;
+    }
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closePhotoButtonRef.current?.focus();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setActivePhotoIndex(null);
+      if (event.key === 'ArrowLeft') setActivePhotoIndex((current) => current === null ? null : (current + numberedSchoolPhotos.length - 1) % numberedSchoolPhotos.length);
+      if (event.key === 'ArrowRight') setActivePhotoIndex((current) => current === null ? null : (current + 1) % numberedSchoolPhotos.length);
+      if (event.key === 'Tab' && lightboxRef.current) {
+        const buttons = Array.from(lightboxRef.current.querySelectorAll<HTMLButtonElement>('button:not([disabled])'));
+        const firstButton = buttons[0];
+        const lastButton = buttons[buttons.length - 1];
+        if (event.shiftKey && document.activeElement === firstButton) {
+          event.preventDefault();
+          lastButton?.focus();
+        } else if (!event.shiftKey && document.activeElement === lastButton) {
+          event.preventDefault();
+          firstButton?.focus();
+        }
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [activePhotoIndex]);
 
   return (
     <div className="humeka-site">
@@ -131,7 +236,7 @@ export function HumekaNezaPage() {
             <a href="#in-schools" onClick={closeMenu}>In schools</a>
             <a href="#videos" onClick={closeMenu}>Videos</a>
             <a href="#journey" onClick={closeMenu}>Our journey</a>
-            <a href="#news" onClick={closeMenu}>News</a>
+            <a href="#stories" onClick={closeMenu}>Stories</a>
           </nav>
           <a className="hn-nav-cta" href="#get-involved" onClick={closeMenu}>Get involved <ArrowUpRight size={15} aria-hidden="true" /></a>
         </div>
@@ -177,19 +282,19 @@ export function HumekaNezaPage() {
         <section className="hn-facts" id="facts" aria-label="HumekaNeza research facts">
           <div className="hn-container hn-facts-grid">
             <article className="hn-fact">
-              <strong>2×</strong>
-              <h2>pollution at drop-off</h2>
-              <p>Associated with the 2023 school air-quality study cited in the supplied design brief.</p>
+              <strong>Breathe more</strong>
+              <h2>More air for their body size</h2>
+              <p>Children breathe faster and take in more air per kilogram of body weight than adults.</p>
             </article>
             <article className="hn-fact">
-              <strong>30%</strong>
-              <h2>less on car-free Sundays</h2>
-              <p>Car-free day air-pollution finding; the supplied P3 project material cites <em>Frontiers in Future Transportation</em> (2026).</p>
+              <strong>Still growing</strong>
+              <h2>Developing lungs need protection</h2>
+              <p>Children's lungs and immune systems are still developing, making them more vulnerable to air pollution.</p>
             </article>
             <article className="hn-fact">
-              <strong>401</strong>
-              <h2>Kigali school readings compared with Ontario’s Highway 401</h2>
-              <p>The comparison is named in the supplied design brief; its full study citation was not included.</p>
+              <strong>Health for life</strong>
+              <h2>Cleaner air supports healthy futures</h2>
+              <p>Early exposure to air pollution can affect lung growth and increase health risks later in life.</p>
             </article>
           </div>
         </section>
@@ -201,7 +306,6 @@ export function HumekaNezaPage() {
               <h2 id="hn-about-title">A school-based idea, growing into shared action.</h2>
               <p>Founded in 2024 by Dr. Egide Kalisa, HumekaNeza began with air-quality education at Kigali Parents School and Dove International Montessori School. The work invites students to learn about air pollution, make observations and take part in practical responses.</p>
               <blockquote>“Just publishing a paper, that is not enough…”</blockquote>
-              <p className="hn-quote-note">A guiding thought from the supplied HumekaNeza design reference.</p>
             </div>
             <div className="hn-about-collage" aria-label="HumekaNeza school learning photographs and illustrations">
               <img className="hn-collage-large" src="/images/humekaneza/about-classroom-activity.jpg" alt="An educator presents an air-quality lesson to students in a classroom." loading="lazy" decoding="async" />
@@ -247,6 +351,52 @@ export function HumekaNezaPage() {
                   <figcaption>{photo.title}</figcaption>
                 </figure>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="hn-section hn-photo-gallery" aria-labelledby="hn-photo-gallery-title">
+          <div className="hn-container">
+            <div className="hn-section-heading hn-schools-heading">
+              <div><span className="hn-eyebrow">Our students</span><h2 id="hn-photo-gallery-title">In the schools.</h2></div>
+              <p>Students and educators learn about air quality through school-gate outreach, classroom sessions and hands-on workshops.</p>
+            </div>
+            {['At the school gate', 'In the classroom'].map((group) => (
+              <div className="hn-photo-group" key={group}>
+                <h3>{group}</h3>
+                <div className="hn-photo-grid">
+                  {numberedSchoolPhotos.filter((photo) => photo.group === group).map((photo) => {
+                    const photoIndex = numberedSchoolPhotos.findIndex(({ number }) => number === photo.number);
+                    return <button
+                      className="hn-photo-thumbnail"
+                      key={photo.number}
+                      type="button"
+                      aria-label={`Open ${photo.alt}`}
+                      onClick={(event) => {
+                        photoTriggerRef.current = event.currentTarget;
+                        setActivePhotoIndex(photoIndex);
+                      }}
+                    >
+                      <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+                    </button>;
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="hn-section hn-detailed-initiatives" aria-labelledby="hn-detailed-initiatives-title">
+          <div className="hn-container">
+            <div className="hn-section-heading">
+              <span className="hn-eyebrow">Detailed community and school initiatives</span>
+              <h2 id="hn-detailed-initiatives-title">Learning, monitoring and action in schools.</h2>
+            </div>
+            <div className="hn-detailed-initiative-list">
+              {detailedInitiatives.map((initiative) => <article id={initiative.slug} className="hn-detailed-initiative" key={initiative.slug}>
+                <div><h3>{initiative.title}</h3><p>{initiative.description}</p>{initiative.activities && <ul>{initiative.activities.map((activity) => <li key={activity}>{activity}</li>)}</ul>}</div>
+                <div className="hn-detailed-initiative-images">{initiative.images.map((image) => <img src={image.src} alt={image.alt} loading="lazy" decoding="async" key={image.src} />)}</div>
+              </article>)}
             </div>
           </div>
         </section>
@@ -316,12 +466,6 @@ export function HumekaNezaPage() {
               <h2 id="hn-journey-title">Evidence to a wider vision.</h2>
               <p className="hn-vision">Green, healthy schools across Africa and Canada</p>
             </div>
-            <ol className="hn-timeline">
-              <li><span className="hn-timeline-year">2023</span><strong>Evidence</strong><p>School air-quality research helps frame the need for learning and action.</p></li>
-              <li><span className="hn-timeline-year">2024</span><strong>Launch</strong><p>HumekaNeza begins its school-based work in Kigali.</p></li>
-              <li className="hn-timeline-next"><span className="hn-timeline-year">Next</span><strong>Clean classrooms</strong><p>A future goal in the supplied design brief.</p></li>
-              <li className="hn-timeline-next"><span className="hn-timeline-year">Next</span><strong>Electric school buses</strong><p>A future goal in the supplied design brief.</p></li>
-            </ol>
             <div className="hn-initiatives" aria-label="Related initiatives">
               <article>
                 <img src="/images/design-reference/sensors-kids.jpg" alt="Students learn with air-quality monitoring equipment." loading="lazy" decoding="async" />
@@ -339,10 +483,10 @@ export function HumekaNezaPage() {
           </div>
         </section>
 
-        <section className="hn-section hn-news" id="news" aria-labelledby="hn-news-title">
+        <section className="hn-section hn-news" id="stories" aria-labelledby="hn-news-title">
           <div className="hn-container">
             <div className="hn-section-heading">
-              <span className="hn-eyebrow">In the news</span>
+              <span className="hn-eyebrow">In the press</span>
               <h2 id="hn-news-title">Stories from schools and communities.</h2>
             </div>
             <div className="hn-news-grid">
@@ -379,10 +523,42 @@ export function HumekaNezaPage() {
             </ul>
             <div className="hn-involved-actions">
               <Link className="hn-button hn-button-light" href="/contact">Contact the team <ArrowUpRight size={15} aria-hidden="true" /></Link>
-              <Link className="hn-button hn-button-outline" href="/projects">See related research projects <ArrowUpRight size={15} aria-hidden="true" /></Link>
+              <Link className="hn-button hn-button-outline" href="/research-project">See related research projects <ArrowUpRight size={15} aria-hidden="true" /></Link>
             </div>
           </div>
         </section>
+
+        {activePhotoIndex !== null && <div
+          className="hn-lightbox"
+          ref={lightboxRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Photo ${activePhotoIndex + 1} of ${numberedSchoolPhotos.length}`}
+          onClick={() => setActivePhotoIndex(null)}
+          onTouchStart={(event) => { touchStartXRef.current = event.touches[0]?.clientX ?? null; }}
+          onTouchEnd={(event) => {
+            const startX = touchStartXRef.current;
+            const endX = event.changedTouches[0]?.clientX;
+            if (startX !== null && endX !== undefined && Math.abs(endX - startX) > 50) {
+              setActivePhotoIndex((current) => current === null ? null : (current + (endX < startX ? 1 : numberedSchoolPhotos.length - 1)) % numberedSchoolPhotos.length);
+            }
+            touchStartXRef.current = null;
+          }}
+        >
+          <button className="hn-lightbox-close" ref={closePhotoButtonRef} type="button" aria-label="Close photo" onClick={() => setActivePhotoIndex(null)}>×</button>
+          <button className="hn-lightbox-previous" type="button" aria-label="Previous photo" onClick={(event) => {
+            event.stopPropagation();
+            setActivePhotoIndex((current) => current === null ? null : (current + numberedSchoolPhotos.length - 1) % numberedSchoolPhotos.length);
+          }}>‹</button>
+          <figure className="hn-lightbox-figure" aria-live="polite" onClick={(event) => event.stopPropagation()}>
+            <img src={numberedSchoolPhotos[activePhotoIndex].src} alt={numberedSchoolPhotos[activePhotoIndex].alt} />
+            <figcaption>{numberedSchoolPhotos[activePhotoIndex].alt}</figcaption>
+          </figure>
+          <button className="hn-lightbox-next" type="button" aria-label="Next photo" onClick={(event) => {
+            event.stopPropagation();
+            setActivePhotoIndex((current) => current === null ? null : (current + 1) % numberedSchoolPhotos.length);
+          }}>›</button>
+        </div>}
       </main>
 
       <footer className="hn-footer">
@@ -393,9 +569,10 @@ export function HumekaNezaPage() {
           </div>
           <nav aria-label="P3 Health Lab links">
             <Link href="/">P3 Health Lab</Link>
-            <Link href="/research">Research</Link>
-            <Link href="/projects">Projects</Link>
-            <Link href="/news">News</Link>
+            <Link href="/research-project">Research Project</Link>
+            <Link href="/research-map">Global Map</Link>
+            <Link href="/opportunity">Opportunity</Link>
+            <Link href="/contact">Contact</Link>
           </nav>
           <p>A P3 Health Lab initiative · Western University</p>
         </div>

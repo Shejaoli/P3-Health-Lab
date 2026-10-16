@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'wouter';
 import {
   researchMapSites,
   researchMapTeamCountries,
@@ -43,7 +42,6 @@ function buildFills() {
     fills[theme] = themeColor(theme);
     fills[`${theme}Country`] = cssValue(`--grm-${theme}-fill`);
   });
-  fills.activeCountry = cssValue('--grm-active-fill');
   return fills;
 }
 
@@ -119,51 +117,6 @@ function drawWorldMap(element: HTMLElement, view: MapView, selectedId: string | 
   return true;
 }
 
-function drawEastAfricaMap(element: HTMLElement, selectedId: string | null, onSelect: (siteId: string) => void) {
-  const { Datamap, d3 } = window;
-  if (!Datamap || !d3) return false;
-
-  const width = element.clientWidth;
-  if (width <= 0) return false;
-  const height = Math.round(width * 0.72);
-  element.style.height = `${height}px`;
-  element.replaceChildren();
-
-  const eastAfricaData: Record<string, { fillKey: string }> = {};
-  EAST_AFRICA.forEach((site) => { eastAfricaData[site.iso] = { fillKey: 'activeCountry' }; });
-  const map = new Datamap({
-    element,
-    scope: 'world',
-    fills: buildFills(),
-    data: eastAfricaData,
-    setProjection: () => {
-      const projection = d3.geo.mercator()
-        .center([33.6, -2.9])
-        .scale(width / 0.245)
-        .translate([width / 2, height / 2]);
-      return { path: d3.geo.path().projection(projection), projection };
-    },
-    geographyConfig: {
-      borderColor: cssValue('--grm-border'),
-      borderWidth: 0.6,
-      highlightOnHover: false,
-      popupOnHover: true,
-      popupTemplate: (geography) => `<div class="hoverinfo grm-tooltip">${escapeHtml(geography.properties.name)}</div>`,
-    },
-    bubblesConfig: {
-      popupOnHover: true,
-      highlightOnHover: false,
-      animate: false,
-      popupTemplate: (_geography, bubble) => `<div class="hoverinfo grm-tooltip"><strong>${escapeHtml(bubble.name)}</strong><small>${escapeHtml(bubble.country)}</small></div>`,
-    },
-  });
-  map.bubbles(makeBubbles(EAST_AFRICA, selectedId, width), {});
-  map.svg.selectAll('.datamaps-bubble')
-    .style('cursor', 'pointer')
-    .on('click', (bubble) => onSelect(bubble.id));
-  return true;
-}
-
 export function GlobalResearchMapPage() {
   const [view, setView] = useState<MapView>('sites');
   const [selectedId, setSelectedId] = useState('london');
@@ -174,10 +127,6 @@ export function GlobalResearchMapPage() {
   const [mapsDrawn, setMapsDrawn] = useState(false);
   const [mapFailed, setMapFailed] = useState(false);
   const worldMapRef = useRef<HTMLDivElement>(null);
-  const eastMapRef = useRef<HTMLDivElement>(null);
-  const interactiveRef = useRef<HTMLElement>(null);
-  const detailRef = useRef<HTMLElement>(null);
-  const selectedSite = researchMapSites.find((site) => site.id === selectedId) ?? researchMapSites[0];
 
   const counts = useMemo(() => ({
     sites: researchMapSites.filter((site) => site.status !== 'Planned').length,
@@ -186,14 +135,7 @@ export function GlobalResearchMapPage() {
     continents: new Set(researchMapSites.filter((site) => site.status !== 'Planned').map((site) => site.continent)).size,
   }), []);
 
-  const selectSite = useCallback((siteId: string, returnToMap = false) => {
-    setSelectedId(siteId);
-    if (window.matchMedia('(max-width: 999px)').matches) {
-      window.setTimeout(() => {
-        (returnToMap ? interactiveRef.current : detailRef.current)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-    }
-  }, []);
+  const selectSite = useCallback((siteId: string) => setSelectedId(siteId), []);
 
   useEffect(() => {
     let cancelled = false;
@@ -209,12 +151,11 @@ export function GlobalResearchMapPage() {
     if (!librariesReady) return;
     let resizeTimer: number | undefined;
     const draw = () => {
-      if (!worldMapRef.current || !eastMapRef.current) return;
+      if (!worldMapRef.current) return;
       try {
         const worldReady = drawWorldMap(worldMapRef.current, view, selectedId, enabledThemes, (id) => selectSite(id));
-        const eastReady = drawEastAfricaMap(eastMapRef.current, selectedId, (id) => selectSite(id, true));
-        setMapFailed(!worldReady || !eastReady);
-        setMapsDrawn(worldReady && eastReady);
+        setMapFailed(!worldReady);
+        setMapsDrawn(worldReady);
       } catch {
         setMapFailed(true);
         setMapsDrawn(false);
@@ -263,7 +204,7 @@ export function GlobalResearchMapPage() {
         </div>
       </section>
 
-      <section ref={interactiveRef} className="grm-section grm-interactive" aria-label="Interactive research map">
+      <section className="grm-section grm-interactive" aria-label="Interactive research map">
         <div className="container-wide">
           <div className="grm-toolbar">
             <div className="grm-segment" role="group" aria-label="Map view">
@@ -279,54 +220,12 @@ export function GlobalResearchMapPage() {
             </div>}
           </div>
 
-          <div className="grm-grid">
-            <div className="grm-map-card">
-              <div className="grm-map-topline"><span>{view === 'sites' ? 'Research sites' : 'Team connections'}</span><span>Interactive map</span></div>
-              <div ref={worldMapRef} className="grm-world-map" hidden={mapFailed || !librariesReady} aria-label="Interactive world map" />
-              {(mapFailed || !librariesReady || !mapsDrawn) && <img className="grm-map-fallback" src="/images/map-research-locations.png" alt="Static world map showing P3 Health Lab research locations." />}
-            </div>
-            <aside ref={detailRef} className="grm-detail" aria-live="polite">
-              {view === 'team' ? <>
-                <span className="grm-kicker">Team origins</span>
-                <h2>Where our team comes from</h2>
-                <p>Our team and student community is connected to {researchMapTeamCountries.length} countries.</p>
-                <div className="grm-chip-list">{researchMapTeamCountries.map((item) => <span key={item.iso}>{item.country}</span>)}</div>
-                <Link className="grm-action" href="/people">Meet the team <span aria-hidden="true">→</span></Link>
-              </> : <>
-                <span className="grm-kicker">{researchMapThemes[selectedSite.theme].name}</span>
-                <h2>{selectedSite.name}</h2>
-                <p className="grm-country">{selectedSite.country} <span>·</span> {selectedSite.landUse}</p>
-                <span className={`grm-status grm-status-${selectedSite.status.toLowerCase().replaceAll(' ', '-')}`}>{selectedSite.status}</span>
-                <p className="grm-summary">{selectedSite.name} is a {researchMapThemes[selectedSite.theme].name.toLowerCase()} research location in {selectedSite.country}.</p>
-                <ul className="grm-detail-list">
-                  <li>{selectedSite.landUse}</li>
-                  <li>{selectedSite.continent}</li>
-                  <li>Coordinates: {selectedSite.lat.toFixed(2)}, {selectedSite.lon.toFixed(2)}</li>
-                </ul>
-                {selectedSite.region === 'East African sampling network' && <a className="grm-network-link" href="#east-africa">Part of the East African passive sampling network. See all ten sites <span aria-hidden="true">→</span></a>}
-                <div className="grm-chip-list"><span>{researchMapThemes[selectedSite.theme].name}</span><span>{selectedSite.status}</span><span>{selectedSite.continent}</span></div>
-              </>}
-            </aside>
+          <div className="grm-map-card">
+            <div className="grm-map-topline"><span>{view === 'sites' ? 'Research sites' : 'Team connections'}</span><span>Interactive map</span></div>
+            <div ref={worldMapRef} className="grm-world-map" hidden={mapFailed || !librariesReady} aria-label="Interactive world map" />
+            {(mapFailed || !librariesReady || !mapsDrawn) && <img className="grm-map-fallback" src="/images/map-research-locations.png" alt="Static world map showing P3 Health Lab research locations." />}
           </div>
           {mapFailed && <p className="grm-map-warning" role="status">The interactive map could not load; the site lists below remain available.</p>}
-        </div>
-      </section>
-
-      <section id="east-africa" className="grm-section grm-east-africa">
-        <div className="container-wide">
-          <div className="grm-section-heading"><span className="grm-eyebrow">East African passive sampling network</span><h2>Ten sites, five countries, one air shed</h2></div>
-          <div className="grm-east-grid">
-            <div className="grm-map-card grm-east-map-card">
-              <div className="grm-map-topline"><span>East Africa</span><span>10 sampling sites</span></div>
-              <div ref={eastMapRef} className="grm-east-map" hidden={mapFailed || !librariesReady} aria-label="Map of the ten East African sampling sites" />
-              {(mapFailed || !librariesReady || !mapsDrawn) && <img className="grm-map-fallback" src="/images/map-research-locations.png" alt="Static world map showing the East African research network." />}
-            </div>
-            <div className="grm-east-list">
-              {EAST_AFRICA.map((site) => <button key={site.id} type="button" className={site.id === selectedId ? 'is-selected' : ''} onClick={() => selectSite(site.id, true)}>
-                <span><strong>{site.name}</strong><small>{site.country}</small></span><small>{site.landUse}</small>
-              </button>)}
-            </div>
-          </div>
         </div>
       </section>
 
