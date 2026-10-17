@@ -4,23 +4,23 @@
   --grm-ink: hsl(var(--foreground));
   --grm-muted: hsl(var(--muted-foreground));
   --grm-line: hsl(var(--border));
-  --grm-accent: #4f2683;
-  --grm-land: #e2e8e5;
-  --grm-team: #bda9d8;
-  --grm-border: #fff;
-  --grm-selected: #101a16;
-  --grm-home-fill: #c5d9d0;
-  --grm-aero-fill: #c7ddd5;
-  --grm-child-fill: #ead7b8;
-  --grm-mob-fill: #cbd8e6;
-  --grm-clim-fill: #e8c9c3;
-  --grm-train-fill: #d9cfe8;
-  --mm-home: #0d3d3a;
-  --mm-aero: #1f6f63;
-  --mm-child: #b7791f;
-  --mm-mob: #3a6ea5;
-  --mm-clim: #b4493b;
-  --mm-train: #6b4fa0;
+  --grm-accent: var(--purple);
+  --grm-land: color-mix(in srgb, var(--ivory) 88%, var(--purple));
+  --grm-team: var(--purple);
+  --grm-border: var(--white);
+  --grm-selected: var(--purple);
+  --grm-home-fill: color-mix(in srgb, var(--white) 82%, var(--purple));
+  --grm-aero-fill: color-mix(in srgb, var(--white) 82%, var(--purple));
+  --grm-child-fill: color-mix(in srgb, var(--white) 82%, var(--purple));
+  --grm-mob-fill: color-mix(in srgb, var(--white) 82%, var(--purple));
+  --grm-clim-fill: color-mix(in srgb, var(--white) 82%, var(--purple));
+  --grm-train-fill: color-mix(in srgb, var(--white) 82%, var(--purple));
+  --mm-home: var(--purple);
+  --mm-aero: var(--purple);
+  --mm-child: var(--purple);
+  --mm-mob: var(--purple);
+  --mm-clim: var(--purple);
+  --mm-train: var(--purple);
   color: var(--grm-ink);
   background: var(--grm-paper);
 }
@@ -31,18 +31,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .global-research-map {
-    --grm-land: #e2e8e5;
-    --grm-team: #bda9d8;
-    --grm-border: #fff;
-    --grm-selected: #101a16;
+    --grm-land: color-mix(in srgb, var(--ivory) 88%, var(--purple));
+    --grm-team: var(--purple);
+    --grm-border: var(--white);
+    --grm-selected: var(--purple);
   }
 }
 
 :root[data-theme="dark"] .global-research-map {
-  --grm-land: #e2e8e5;
-  --grm-team: #bda9d8;
-  --grm-border: #fff;
-  --grm-selected: #101a16;
+  --grm-land: color-mix(in srgb, var(--ivory) 88%, var(--purple));
+  --grm-team: var(--purple);
+  --grm-border: var(--white);
+  --grm-selected: var(--purple);
 }
 
 .grm-hero {
@@ -160,7 +160,7 @@
 }
 
 .grm-segment button[aria-pressed="true"] {
-  color: #fff;
+  color: var(--white);
   background: var(--grm-accent);
 }
 
@@ -390,7 +390,7 @@
   --grm-ink: var(--slate);
   --grm-paper: var(--ivory);
   --grm-card: var(--white);
-  --grm-muted: #4F5A62;
+  --grm-muted: var(--slate);
 }
 
 .grm-hero h1 {
