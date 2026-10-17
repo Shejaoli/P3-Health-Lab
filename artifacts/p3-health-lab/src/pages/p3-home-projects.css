@@ -1583,3 +1583,122 @@
   .p3-home-scholar-grid { grid-template-columns: minmax(0, 1fr); }
   .p3-home-scholar-grid .p3-scholar-copy { max-width: none; }
 }
+
+.p3-home-hero {
+  container-type: inline-size;
+  margin-top: -4px;
+  padding: 16px 0 40px;
+}
+
+.p3-home-hero-grid {
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
+  align-items: stretch;
+  column-gap: clamp(36px, 5vw, 72px);
+  row-gap: 12px;
+}
+
+.site-shell .p3-home .p3-home-affiliations {
+  display: block;
+  font-size: clamp(10px, 1.4cqw, 18px) !important;
+  letter-spacing: .04em;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.site-shell .p3-home .p3-home-tagline {
+  font-size: clamp(15px, 3.5cqw, 24px) !important;
+  white-space: nowrap;
+}
+
+.p3-home-hero-copy {
+  min-width: 0;
+  align-content: center;
+  gap: 12px;
+  container-type: inline-size;
+}
+
+.p3-home-portrait {
+  min-height: 0;
+  align-self: stretch;
+  margin: 0;
+}
+
+.p3-home-portrait > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.p3-home-portrait figcaption {
+  right: 14px;
+  bottom: 14px;
+}
+
+.people-page .pp-photo {
+  width: 132px;
+  height: 132px;
+  object-position: center 25%;
+}
+
+.people-page a.pp-name:hover,
+.people-page a.pp-name:focus-visible {
+  color: var(--purple);
+}
+
+.people-page a.pp-name:focus-visible {
+  border-radius: 2px;
+  outline: 3px solid var(--purple);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .p3-home-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .p3-home-portrait {
+    width: min(100%, 560px);
+    aspect-ratio: 1 / 1.04;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 680px) {
+  .p3-home-hero {
+    padding: 16px 0 32px;
+  }
+
+  .p3-home-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .p3-home-hero-copy {
+    gap: 12px;
+  }
+
+  .p3-home-portrait {
+    width: 100%;
+    aspect-ratio: 1 / 1.04;
+  }
+
+  .p3-home-portrait figcaption {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .site-shell .p3-home .p3-home-affiliations {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 479px) {
+  .site-shell .p3-home .p3-home-tagline {
+    white-space: normal;
+  }
+}

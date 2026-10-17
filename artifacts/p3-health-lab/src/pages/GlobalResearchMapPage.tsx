@@ -188,7 +188,7 @@ export function GlobalResearchMapPage() {
 
   return (
     <div className="global-research-map">
-      <section className="grm-hero">
+      <section className="grm-hero p3-purple-hero">
         <div className="container-wide grm-hero-grid">
           <div>
             <span className="grm-eyebrow">Global research map</span>

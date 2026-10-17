@@ -641,7 +641,7 @@ function Home() {
   return <div className="p3-home">
     <section className="p3-home-hero" aria-labelledby="home-title">
       <div className="container-wide p3-home-hero-grid">
-        <div className="p3-home-affiliations"><span>Assistant Professor</span><i aria-hidden="true" /><span>Schulich School of Medicine &amp; Dentistry</span><i aria-hidden="true" /><span>Western University</span></div>
+        <div className="p3-home-affiliations"><span>Assistant Professor • Schulich School of Medicine &amp; Dentistry • Western University</span></div>
         <div className="p3-home-hero-copy">
           <h1 id="home-title">{director.name}</h1>
           <p className="p3-home-tagline">Research for cleaner air, healthier lives, brighter tomorrows.</p>
@@ -831,8 +831,8 @@ function HomeFilmSection() {
   );
 }
 
-function PageHero({ eyebrow, title, text, action }: { eyebrow: string; title: ReactNode; text: string; action?: ReactNode }) {
-  return <section className="page-hero" data-reveal="up"><div className="container-wide"><span className="eyebrow">{eyebrow}</span><h1 className="display">{title}</h1><p>{text}</p>{action && <div className="hero-actions">{action}</div>}</div></section>;
+function PageHero({ eyebrow, title, text, action, className }: { eyebrow: string; title: ReactNode; text: string; action?: ReactNode; className?: string }) {
+  return <section className={`page-hero${className ? ` ${className}` : ''}`} data-reveal="up"><div className="container-wide"><span className="eyebrow">{eyebrow}</span><h1 className="display">{title}</h1><p>{text}</p>{action && <div className="hero-actions">{action}</div>}</div></section>;
 }
 
 function ResearchProject() {
@@ -878,7 +878,7 @@ function ResearchProject() {
     },
   ];
   return <div className="research-page">
-    <section className="research-project-hero" aria-labelledby="research-project-title">
+    <section className="research-project-hero p3-purple-hero" aria-labelledby="research-project-title">
       <div className="container-wide">
         <span className="eyebrow">Research</span>
         <h1 id="research-project-title">From Exposure Science to Intervention</h1>
@@ -1362,7 +1362,7 @@ const linkedInProfiles: Record<string, string> = {
   'abdoul rasheed': 'https://www.linkedin.com/in/abdulrasheed-rasheed/',
   'abdul rasheed rasheed': 'https://www.linkedin.com/in/abdulrasheed-rasheed/',
   'zoha irfan': 'https://www.linkedin.com/in/zoha-irfan-296062308/',
-  'oluwaseun bajulaye': 'https://www.linkedin.com/in/oyinbajulaye/?isSelfProfile=false',
+  'oluwaseun bajulaye': 'https://www.linkedin.com/in/oyinbajulaye/',
   'farhana ramiza': 'https://www.linkedin.com/in/farhana-rokaiya-ramiza-56b558238/',
   'ignatius atuguba': 'https://www.linkedin.com/in/ignatiusatuguba/',
   'jiaxuan zhang': 'https://www.linkedin.com/in/jxbravo/',
@@ -1372,29 +1372,61 @@ const linkedInProfiles: Record<string, string> = {
   'haiyan li': 'https://www.linkedin.com/in/haiyan2657/',
   'ruiming han': 'https://www.linkedin.com/in/ruiming-han-858b7823b/',
   'natasha fortin': 'https://www.linkedin.com/in/natasha-fortin-59751a26b/',
-  'sydney lessard': 'https://www.linkedin.com/in/sydneylessard/?isSelfProfile=false',
+  'sydney lessard': 'https://www.linkedin.com/in/sydneylessard/',
   'jiaqi bi': 'https://www.linkedin.com/in/jiaqi-bi-10189a126/',
   'sumeet jamil': 'https://www.linkedin.com/in/sumeet-jamil-1a28ba233/',
   'shaikh sumeet jamil': 'https://www.linkedin.com/in/sumeet-jamil-1a28ba233/',
-  'sharika jalali': 'https://www.linkedin.com/in/sharikajalali/?isSelfProfile=false',
+  'sharika jalali': 'https://www.linkedin.com/in/sharikajalali/',
   'innocent twagirayezu': 'https://www.linkedin.com/in/innocent-twagirayezu-6277141b7/',
   'patrick karakwende': 'https://www.linkedin.com/in/patrick-karakwende-984440144/',
   'adolphe ndikubwimana': 'https://www.linkedin.com/in/adolphe-atuhire-140847116/',
   'isabel ajagu': 'https://www.linkedin.com/in/isabelajagu/',
 };
 
+const peopleWithoutRequestedPortrait = new Set([
+  'allison pert',
+  'zoha irfan',
+  'oluwaseun bajulaye',
+  'farhana ramiza',
+  'ruiming han',
+  'patrick karakwende',
+  'adolphe ndikubwimana',
+]);
+
 function normalizePersonName(name: string) {
   return name
     .replace(/^(?:dr|prof)\.?\s+/i, '')
     .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 }
 
+function personPhoto(name: string, photo: string | null | undefined, fallback?: { photo?: string }) {
+  return peopleWithoutRequestedPortrait.has(normalizePersonName(name))
+    ? null
+    : photo ?? fallback?.photo ?? null;
+}
+
+function staticPersonForName(name: string) {
+  const nameAliases: Record<string, string> = {
+    'abdoul rasheed': 'abdul rasheed rasheed',
+  };
+  const normalizedName = normalizePersonName(name);
+  const lookupName = nameAliases[normalizedName] ?? normalizedName;
+  return [
+    people.director,
+    ...people.sections.flatMap((section) => section.members),
+    ...people.former,
+  ].find((person) => normalizePersonName(person.name) === lookupName);
+}
+
 function PersonLinkedInName({ name, href }: { name: string; href?: string | null }) {
-  const profileUrl = href || linkedInProfiles[normalizePersonName(name)];
+  const staticPerson = staticPersonForName(name);
+  const profileUrl = staticPerson?.linkedin || staticPerson?.href || href || linkedInProfiles[normalizePersonName(name)];
   return profileUrl
-    ? <a className="pp-name" href={profileUrl} target="_blank" rel="noopener noreferrer">{name}</a>
+    ? <a className="pp-name" href={profileUrl} target="_blank" rel="noopener noreferrer" aria-label={`${name} on LinkedIn`}>{name}</a>
     : <span className="pp-name">{name}</span>;
 }
 
@@ -1409,20 +1441,19 @@ function personInitials(name: string) {
     .toUpperCase();
 }
 
-function PersonAvatar({ person }: { person: (typeof people.sections)[number]['members'][number] | typeof people.director | (typeof people.former)[number] }) {
-  return person.photo
-    ? <img className="pp-photo" src={person.photo} alt={person.name} loading="lazy" width="144" height="144" decoding="async" />
-    : <span className="pp-photo pp-initials" role="img" aria-label={person.name}>{personInitials(person.name)}</span>;
+function PersonAvatar({ name, photo }: { name: string; photo?: string | null }) {
+  const [failedPhoto, setFailedPhoto] = useState<string | null>(null);
+  return photo && failedPhoto !== photo
+    ? <img className="pp-photo" src={photo} alt={`Portrait of ${name}`} width="132" height="132" loading="lazy" decoding="async" onError={() => setFailedPhoto(photo)} />
+    : <span className="pp-photo pp-initials" role="img" aria-label={name}>{personInitials(name)}</span>;
 }
 
 function PersonName({ person }: { person: (typeof people.sections)[number]['members'][number] | typeof people.director | (typeof people.former)[number] }) {
-  return person.href
-    ? <PersonLinkedInName name={person.name} href={person.href} />
-    : <PersonLinkedInName name={person.name} />;
+  return <PersonLinkedInName name={person.name} href={person.linkedin ?? person.href} />;
 }
 
 function PeoplePageHero() {
-  return <section className="page-hero people-page-hero" aria-labelledby="people-page-title">
+  return <section className="page-hero people-page-hero p3-purple-hero" aria-labelledby="people-page-title">
     <div className="container-wide">
       <span className="eyebrow">P3 Health Lab / People</span>
       <h1 className="display" id="people-page-title">People</h1>
@@ -1462,6 +1493,14 @@ function People() {
               photo: typeof person.photo === 'string' ? person.photo : null,
               linkedinUrl: typeof person.linkedinUrl === 'string' ? person.linkedinUrl : null,
             })).filter((person) => person.id > 0)
+            .map((person) => {
+              const staticPerson = staticPersonForName(person.name);
+              return {
+                ...person,
+                photo: personPhoto(person.name, person.photo, staticPerson),
+                linkedinUrl: staticPerson?.linkedin ?? staticPerson?.href ?? person.linkedinUrl,
+              };
+            })
           : [];
         setLivePeople(nextPeople);
       })
@@ -1483,7 +1522,7 @@ function People() {
       const fallback = staticAlumni.find((alumni) => normalizePersonName(alumni.name) === normalizePersonName(person.name));
       return [normalizePersonName(person.name), {
         ...person,
-        photo: person.photo ?? fallback?.photo ?? null,
+        photo: personPhoto(person.name, person.photo, fallback),
         linkedinUrl: person.linkedinUrl ?? fallback?.href ?? null,
         institution: person.institution || fallback?.now || '',
       }];
@@ -1514,9 +1553,7 @@ function People() {
               <h2>Principal Investigator</h2>
               <ul className="pp-grid">
                 <li className="pp-member">
-                  {principalInvestigator.photo
-                    ? <img className="pp-photo" src={principalInvestigator.photo} alt={principalInvestigator.name} loading="lazy" width="144" height="144" decoding="async" />
-                    : <span className="pp-photo pp-initials" role="img" aria-label={principalInvestigator.name}>{personInitials(principalInvestigator.name)}</span>}
+                  <PersonAvatar name={principalInvestigator.name} photo={principalInvestigator.photo} />
                   <PersonLinkedInName name={principalInvestigator.name} href={principalInvestigator.linkedinUrl} />
                   {principalInvestigator.role && <span className="pp-role">{principalInvestigator.role}</span>}
                   {principalInvestigator.institution && <span className="pp-aff">{principalInvestigator.institution}</span>}
@@ -1532,9 +1569,7 @@ function People() {
               <ul className="pp-grid">
                 {currentMembers.map((person) => (
                   <li className="pp-member" key={person.id}>
-                    {person.photo
-                      ? <img className="pp-photo" src={person.photo} alt={person.name} loading="lazy" width="144" height="144" decoding="async" />
-                      : <span className="pp-photo pp-initials" role="img" aria-label={person.name}>{personInitials(person.name)}</span>}
+                    <PersonAvatar name={person.name} photo={person.photo} />
                     <PersonLinkedInName name={person.name} href={person.linkedinUrl} />
                     {person.role && <span className="pp-role">{person.role}</span>}
                     {person.institution && <span className="pp-aff">{person.institution}</span>}
@@ -1551,9 +1586,7 @@ function People() {
               <ul className="pp-grid">
                 {alumniMembers.map((person) => (
                   <li className="pp-member" key={person.id || person.name}>
-                    {person.photo
-                      ? <img className="pp-photo" src={person.photo} alt={person.name} loading="lazy" width="144" height="144" decoding="async" />
-                      : <span className="pp-photo pp-initials" role="img" aria-label={person.name}>{personInitials(person.name)}</span>}
+                    <PersonAvatar name={person.name} photo={person.photo} />
                     <PersonLinkedInName name={person.name} href={person.linkedinUrl} />
                     {person.role && <span className="pp-role">{person.role}</span>}
                     {person.institution && <span className="pp-aff">{person.institution}</span>}
@@ -1576,7 +1609,7 @@ function People() {
           <h2>Principal Investigator</h2>
           <ul className="pp-grid">
             <li className="pp-member">
-              <PersonAvatar person={director} />
+              <PersonAvatar name={director.name} photo={director.photo} />
               <PersonName person={director} />
               {director.role && <span className="pp-role">{director.role}</span>}
               {director.affiliation && <span className="pp-aff">{director.affiliation}</span>}
@@ -1591,7 +1624,7 @@ function People() {
             <ul className="pp-grid">
               {section.members.map((person) => (
                 <li className="pp-member" key={person.name}>
-                  <PersonAvatar person={person} />
+                  <PersonAvatar name={person.name} photo={person.photo} />
                   <PersonName person={person} />
                   {person.role && <span className="pp-role">{person.role}</span>}
                   {(person.institution || person.country) && (
@@ -1617,7 +1650,7 @@ function People() {
             <ul className="pp-grid">
               {former.map((person) => (
                 <li className="pp-member" key={person.name}>
-                  <PersonAvatar person={person} />
+                  <PersonAvatar name={person.name} photo={person.photo} />
                   <PersonName person={person} />
                   {person.role && <span className="pp-role">{person.role}</span>}
                   {(person.now || person.institution || person.country) && <span className="pp-aff">{person.now ?? [person.institution, person.country].filter(Boolean).join(', ')}</span>}
@@ -1744,6 +1777,7 @@ function Publications() {
       eyebrow="Publications"
       title="Research & Scholarship"
       text="P3 Health Lab contributes research across environmental health, air pollution, exposure science, climate change, children’s environmental health, environmental microbiology, antimicrobial resistance, clinical trials, One Health, and global health."
+      className="p3-purple-hero"
     />
     <section className="section publications-content" data-reveal="up">
       <div className="container-wide">
@@ -1809,7 +1843,7 @@ function Contact() {
   ].filter(({ value }) => Boolean(value.trim()));
 
   return <>
-    <PageHero eyebrow="Contact / 09" title={<>A clear way to <em>connect.</em></>} text="Verified contact details for P3 Health Lab / HELTH Lab." />
+    <PageHero eyebrow="Contact / 09" title={<>A clear way to <em>connect.</em></>} text="Verified contact details for P3 Health Lab / HELTH Lab." className="p3-purple-hero" />
     <section className="section" data-reveal="up">
       <div className="container-wide contact-profile-grid">
         <div>
@@ -1880,7 +1914,7 @@ function Teaching() {
   ] as const;
 
   return <div className="teaching-page">
-    <section className="page-hero teaching-page-hero" aria-labelledby="teaching-page-title">
+    <section className="page-hero teaching-page-hero p3-purple-hero" aria-labelledby="teaching-page-title">
       <div className="container-wide teaching-hero-grid">
         <div>
           <span className="eyebrow">Teaching / P3 Health Lab</span>
@@ -1963,7 +1997,7 @@ function Opportunity() {
   const generalEmail = profileData?.contact.labEmail ?? profileData?.contact.contactEmail;
 
   return <>
-    <PageHero eyebrow="Opportunity" title={<>Opportunity at the <em>P3 Health Lab.</em></>} text="Become part of the P3 Health Lab. We welcome MSc and PhD students, postdoctoral fellows, global health interns, undergraduate researchers and visiting scholars." />
+    <PageHero eyebrow="Opportunity" title={<>Opportunity at the <em>P3 Health Lab.</em></>} text="Become part of the P3 Health Lab. We welcome MSc and PhD students, postdoctoral fellows, global health interns, undergraduate researchers and visiting scholars." className="p3-purple-hero" />
     <section className="section" id="opportunities" data-reveal="up">
       <div className="container-wide">
         <div className="section-head">
