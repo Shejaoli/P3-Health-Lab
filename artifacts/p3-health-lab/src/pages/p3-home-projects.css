@@ -1587,38 +1587,49 @@
 .p3-home-hero {
   container-type: inline-size;
   margin-top: -4px;
-  padding: 16px 0 40px;
+  padding: 0;
 }
 
 .p3-home-hero-grid {
-  grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  min-height: clamp(540px, 46vw, 640px);
   align-items: stretch;
-  column-gap: clamp(36px, 5vw, 72px);
-  row-gap: 12px;
+  gap: 0;
 }
 
 .site-shell .p3-home .p3-home-affiliations {
   display: block;
-  font-size: clamp(10px, 1.4cqw, 18px) !important;
+  grid-column: auto;
+  min-width: 0;
+  margin-bottom: 2px;
+  font-size: clamp(10px, 1.8cqw, 17px) !important;
   letter-spacing: .04em;
   line-height: 1.3;
   white-space: nowrap;
 }
 
+.site-shell .p3-home .p3-home-affiliations span {
+  font-size: inherit !important;
+}
+
 .site-shell .p3-home .p3-home-tagline {
-  font-size: clamp(15px, 3.5cqw, 24px) !important;
+  font-size: clamp(16px, 3.1cqw, 24px) !important;
   white-space: nowrap;
 }
 
 .p3-home-hero-copy {
   min-width: 0;
+  align-self: center;
   align-content: center;
+  justify-items: stretch;
+  padding: 32px 40px 32px 0;
   gap: 12px;
   container-type: inline-size;
 }
 
 .p3-home-portrait {
   min-height: 0;
+  height: 100%;
   align-self: stretch;
   margin: 0;
 }
@@ -1631,7 +1642,7 @@
   max-height: none;
   aspect-ratio: auto;
   object-fit: cover;
-  object-position: center top;
+  object-position: 50% 12%;
 }
 
 .p3-home-portrait figcaption {
@@ -1657,20 +1668,31 @@
 }
 
 @media (max-width: 900px) {
+  .p3-home-hero {
+    padding-block: 28px 40px;
+  }
+
   .p3-home-hero-grid {
     grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    gap: 24px;
+  }
+
+  .p3-home-hero-copy {
+    padding: 0;
   }
 
   .p3-home-portrait {
     width: min(100%, 560px);
-    aspect-ratio: 1 / 1.04;
+    height: auto;
+    aspect-ratio: 4 / 5;
     justify-self: center;
   }
 }
 
 @media (max-width: 680px) {
   .p3-home-hero {
-    padding: 16px 0 32px;
+    padding: 24px 0 32px;
   }
 
   .p3-home-hero-grid {
@@ -1684,7 +1706,7 @@
 
   .p3-home-portrait {
     width: 100%;
-    aspect-ratio: 1 / 1.04;
+    aspect-ratio: 4 / 5;
   }
 
   .p3-home-portrait figcaption {
@@ -1694,6 +1716,7 @@
 
   .site-shell .p3-home .p3-home-affiliations {
     white-space: normal;
+    font-size: 12px !important;
   }
 }
 

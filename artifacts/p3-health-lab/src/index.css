@@ -3716,9 +3716,7 @@ span.pp-name { color: inherit; text-decoration: none; }
   margin-top: 16px;
 }
 
-.opportunity-links a,
-.contact-detail-list a,
-.general-lab-contact a {
+.opportunity-links a {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -3726,67 +3724,6 @@ span.pp-name { color: inherit; text-decoration: none; }
   font-size: .8rem;
   overflow-wrap: anywhere;
 }
-
-.contact-profile-grid {
-  display: grid;
-  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-  gap: 70px;
-  align-items: start;
-}
-
-.contact-profile-grid h2 {
-  max-width: 540px;
-  margin: 14px 0 20px;
-  font-family: var(--app-font-serif);
-  font-size: clamp(2rem, 4vw, 3.45rem);
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -.035em;
-}
-
-.contact-detail-list {
-  margin: 24px 0 0;
-  border-top: 1px solid hsl(var(--border));
-}
-
-.contact-detail-list > div {
-  display: grid;
-  grid-template-columns: minmax(85px, .45fr) minmax(0, 1fr);
-  gap: 18px;
-  padding: 13px 0;
-  border-bottom: 1px solid hsl(var(--border));
-}
-
-.contact-detail-list dt {
-  color: hsl(var(--muted-foreground));
-  font-family: var(--app-font-mono);
-  font-size: .65rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
-.contact-detail-list dd {
-  min-width: 0;
-  margin: 0;
-  color: hsl(var(--foreground));
-  font-size: .9rem;
-  overflow-wrap: anywhere;
-}
-
-.general-lab-contact,
-.contact-loading {
-  margin: 18px 0 0;
-  color: hsl(var(--muted-foreground));
-  font-size: .82rem;
-  line-height: 1.6;
-}
-
-.contact-location-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 70px); align-items: center; }
-.contact-location-copy h2 { margin: 12px 0; font-family: var(--app-font-serif); font-size: clamp(1.8rem, 3.4vw, 2.8rem); font-weight: 500; }
-.contact-location-copy address { margin-bottom: 16px; color: hsl(var(--foreground)); font-size: .92rem; font-style: normal; line-height: 1.6; }
-.contact-location-copy a { display: inline-flex; align-items: center; gap: 6px; color: hsl(var(--primary)); font-size: .82rem; }
-.contact-map-frame { overflow: hidden; border: 1px solid hsl(var(--border)); background: hsl(var(--card)); }
-.contact-map-frame iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
 
 @media (max-width: 760px) {
   .research-map-page-hero-grid {
@@ -3797,9 +3734,7 @@ span.pp-name { color: inherit; text-decoration: none; }
 
   .research-map-page-hero { padding-block: 44px 40px; }
 
-  .opportunity-category,
-  .contact-profile-grid,
-  .contact-location-grid {
+  .opportunity-category {
     grid-template-columns: 1fr;
     gap: 20px;
   }
@@ -3814,9 +3749,6 @@ span.pp-name { color: inherit; text-decoration: none; }
     gap: 5px;
   }
 
-  .contact-profile-grid {
-    gap: 42px;
-  }
 }
 
 .research-map-layout {
@@ -4248,8 +4180,7 @@ body {
 .humeka-prose p,
 .about-profile-contact-details,
 .opportunity-short-description,
-.opportunity-prose p,
-.contact-profile-grid p {
+.opportunity-prose p {
   line-height: 1.68;
 }
 
@@ -6097,7 +6028,6 @@ h4 {
 .people-page .eyebrow,
 .teaching-page .eyebrow,
 .opportunity-page .eyebrow,
-.contact-profile-grid .eyebrow,
 .hn-eyebrow,
 .hn-card-label,
 figcaption,
@@ -6111,7 +6041,6 @@ th {
 .teaching-page p,
 .people-page p,
 .publications-page p,
-.contact-profile-grid p,
 .opportunity-page p {
   font-size: var(--fs-body);
 }
