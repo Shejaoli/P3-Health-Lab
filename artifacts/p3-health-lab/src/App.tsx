@@ -11,6 +11,7 @@ import { HomeResearchMap } from '@/components/home-research-map';
 import { people } from '@/data/people';
 import { HumekaNezaPage } from '@/pages/HumekaNezaPage';
 import { GlobalResearchMapPage } from '@/pages/GlobalResearchMapPage';
+import { ContactPageSection } from '@/pages/ContactPageSection';
 import '@/pages/p3-home-projects.css';
 import labFilm from '@assets/VID-20260925-WA0008_1790438330372.mp4';
 
@@ -641,8 +642,8 @@ function Home() {
   return <div className="p3-home">
     <section className="p3-home-hero" aria-labelledby="home-title">
       <div className="container-wide p3-home-hero-grid">
-        <div className="p3-home-affiliations"><span>Assistant Professor • Schulich School of Medicine &amp; Dentistry • Western University</span></div>
         <div className="p3-home-hero-copy">
+          <div className="p3-home-affiliations"><span>Assistant Professor • Schulich School of Medicine &amp; Dentistry • Western University</span></div>
           <h1 id="home-title">{director.name}</h1>
           <p className="p3-home-tagline">Research for cleaner air, healthier lives, brighter tomorrows.</p>
           <p className="p3-home-intro">I lead the P3 Health Lab, where we study what people breathe: the chemical and biological mixtures in air, from fine particles and polycyclic aromatic hydrocarbons to airborne microbes and environmental DNA. We work with communities, schools and governments across Canada and Africa to turn evidence into cleaner air and fairer health.</p>
@@ -1823,66 +1824,7 @@ function Publications() {
 }
 
 function Contact() {
-  const { data, isLoading } = useGetPublicProfile();
-  const profile = data?.contact;
-  const office = profile?.office?.trim() ?? "";
-  const contactDetailsToComplete = {
-    name: "Dr. Egide Kalisa",
-    email: "",
-    address: "",
-    linkedIn: "https://www.linkedin.com/in/egide-kalisa-1b8b40321/",
-  };
-  const contactEmail = profile?.contactEmail?.trim() || profile?.labEmail?.trim() || contactDetailsToComplete.email;
-  const contactAddress = office || contactDetailsToComplete.address;
-  const contactName = profile?.name?.trim() || contactDetailsToComplete.name;
-  const contactRows: Array<{ label: string; value: string; href?: string }> = [
-    { label: "Department", value: profile?.department ?? "" },
-    { label: "University", value: profile?.university ?? "" },
-    { label: "Email", value: contactEmail },
-    { label: "LinkedIn", value: "Dr. Egide Kalisa's profile", href: contactDetailsToComplete.linkedIn },
-  ].filter(({ value }) => Boolean(value.trim()));
-
-  return <>
-    <PageHero eyebrow="Contact / 09" title={<>A clear way to <em>connect.</em></>} text="Verified contact details for P3 Health Lab / HELTH Lab." className="p3-purple-hero" />
-    <section className="section" data-reveal="up">
-      <div className="container-wide contact-profile-grid">
-        <div>
-          <span className="eyebrow">Faculty contact</span>
-          <h2>{contactName || "P3 Health Lab"}</h2>
-          {profile?.appointment && <div className="intro-stat"><b>01</b><span>{profile.appointment}</span></div>}
-          {profile?.directorRole && <div className="intro-stat" style={{ marginTop: 24 }}><b>02</b><span>{profile.directorRole}</span></div>}
-        </div>
-        <div>
-          <p className="intro-copy">Connect with <mark>the lab.</mark></p>
-          <p className="tiny-copy">Use the verified contact information below.</p>
-          {isLoading && !contactRows.length && <p className="contact-loading" role="status">Loading contact information…</p>}
-          {contactRows.length > 0 && <dl className="contact-detail-list">
-            {contactRows.map(({ label, value, href }) => <div key={label}>
-              <dt>{label}</dt>
-              <dd>{href
-                ? <a href={href} target="_blank" rel="noopener noreferrer">{value} <ExternalLink size={13} aria-hidden="true" /></a>
-                : label === "Email" ? <a href={`mailto:${value}`} data-testid="link-contact-email">{value}</a> : value}</dd>
-            </div>)}
-          </dl>}
-          {!isLoading && !contactRows.length && <p className="contact-loading" role="status">Contact information is not currently available.</p>}
-          {profile?.labEmail && <p className="general-lab-contact">General lab inquiries: <a href={`mailto:${profile.labEmail}`}>{profile.labEmail}</a></p>}
-        </div>
-      </div>
-    </section>
-    {contactAddress && <section className="section contact-location-section" aria-labelledby="contact-location-title" data-reveal="up">
-      <div className="container-wide contact-location-grid">
-        <div className="contact-location-copy">
-          <span className="eyebrow">Visit the lab</span>
-          <h2 id="contact-location-title">Office location</h2>
-          <address>{contactAddress}</address>
-          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contactAddress)}`} target="_blank" rel="noopener noreferrer">Open in Google Maps <ArrowUpRight size={14} aria-hidden="true" /></a>
-        </div>
-        <div className="contact-map-frame">
-          <iframe src={`https://www.google.com/maps?q=${encodeURIComponent(contactAddress)}&output=embed`} title={`Map showing ${contactAddress}`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
-        </div>
-      </div>
-    </section>}
-  </>;
+  return <ContactPageSection />;
 }
 
 function Teaching() {

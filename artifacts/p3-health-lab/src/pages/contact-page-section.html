@@ -1,0 +1,400 @@
+﻿<!--
+  CONTACT PAGE: complete, ready-made section.
+  HOW TO USE: replace everything inside <main> of the Contact page with this file's content
+  (keep the site header and footer). Files needed:
+    img/contact-western-building.jpg   (building photo)
+    img/portrait.jpg                   (Dr. Kalisa portrait, already on the site)
+  Edit ONLY the CONTACT_DATA, CONTACT_CONFIG and LINKS objects at the bottom.
+-->
+<style>
+.ct{--ct-purple:#5B3F7D;--ct-purple-d:#43295f;--ct-navy:#183247;--ct-ivory:#F7F5F0;--ct-teal:#236B67;--ct-slate:#29343D;--ct-line:#ddd6e6;--ct-lilac:#EFE9F6;
+  font-family:var(--f-body,"Public Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif);color:var(--ct-slate);font-size:18px;line-height:1.6;background:var(--ct-ivory)}
+.ct *{box-sizing:border-box}
+.ct h1,.ct h2,.ct h3{font-family:var(--f-display,"Newsreader",Georgia,serif);font-weight:500;line-height:1.1;margin:0;color:var(--ct-navy);letter-spacing:-.01em}
+.ct-wrap{width:min(1200px,100% - 48px);margin-inline:auto}
+.ct-eyebrow{font:600 15px/1.3 var(--f-mono,"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--ct-purple);margin:0 0 12px}
+.ct-section{padding:72px 0}
+.ct-section h2{font-size:clamp(32px,3.6vw,46px);margin-bottom:14px}
+.ct-lead{font-size:20px;max-width:46em;margin:0 0 36px}
+.ct a:focus-visible,.ct button:focus-visible,.ct input:focus-visible,.ct select:focus-visible,.ct textarea:focus-visible,.ct summary:focus-visible{outline:3px solid var(--ct-purple);outline-offset:3px}
+
+/* glass card */
+.ct-glass{background:rgba(91,63,125,.80);-webkit-backdrop-filter:blur(14px) saturate(125%);backdrop-filter:blur(14px) saturate(125%);border:1px solid rgba(255,255,255,.28);border-radius:6px;box-shadow:0 20px 50px rgba(0,0,0,.28);color:#fff}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.ct-glass{background:rgba(61,36,102,.95)}}
+
+/* buttons */
+.ct-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 17px/1 var(--f-body,"Public Sans",Arial,sans-serif);padding:16px 26px;border-radius:4px;border:2px solid transparent;cursor:pointer;text-decoration:none;transition:transform .15s,background .15s,box-shadow .15s}
+.ct-btn:hover{transform:translateY(-2px)}
+.ct-btn--white{background:#fff;color:var(--ct-purple)}
+.ct-btn--white:hover{box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.ct-btn--ghost{background:transparent;color:#fff;border-color:#fff}
+.ct-btn--ghost:hover{background:rgba(255,255,255,.14)}
+.ct-btn--purple{background:var(--ct-purple);color:#fff}
+.ct-btn--purple:hover{background:var(--ct-purple-d)}
+.ct-btn--line{background:#fff;color:var(--ct-navy);border-color:var(--ct-navy)}
+.ct-btn--line:hover{background:var(--ct-lilac)}
+.ct-btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.ct-btn--sm{font-size:15px;padding:11px 16px}
+
+/* 1. hero */
+.ct-hero{position:relative;min-height:600px;display:flex;align-items:center;overflow:hidden;background:var(--ct-navy)}
+.ct-hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.ct-hero__shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(24,50,71,.55),rgba(24,50,71,0) 70%)}
+.ct-hero .ct-wrap{position:relative;padding:56px 0}
+.ct-hero__card{max-width:580px;padding:44px 44px 40px;text-align:center}
+.ct-hero__card .ct-eyebrow{color:#E4D9F2}
+.ct-hero__card h1{color:#fff;font-size:clamp(38px,4.6vw,56px);margin-bottom:18px}
+.ct-hero__card p{font-size:21px;margin:0 0 28px;color:#fff}
+.ct-hero__btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.ct-credit{position:absolute;right:16px;bottom:10px;margin:0;font-size:13px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+
+/* 2. topics */
+.ct-topics{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.ct-topic{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:2px solid var(--ct-line);border-radius:8px;padding:26px 24px;display:flex;flex-direction:column;gap:10px;transition:transform .18s,box-shadow .18s,border-color .18s,background .18s}
+.ct-topic:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(24,50,71,.12);border-color:var(--ct-purple)}
+.ct-topic:focus-visible{outline:3px solid var(--ct-purple);outline-offset:3px}
+.ct-topic[aria-pressed="true"]{border-color:var(--ct-purple);background:var(--ct-lilac)}
+.ct-topic svg{width:40px;height:40px;stroke:var(--ct-purple);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ct-topic strong{font:500 24px/1.15 var(--f-display,Georgia,serif);color:var(--ct-navy)}
+.ct-topic span{font-size:17px}
+.ct-topic em{font-style:normal;font-weight:600;color:var(--ct-purple);margin-top:auto;padding-top:8px}
+.ct-topic-note{margin:18px 0 0;font-size:17px;min-height:1.6em}
+
+/* 3. card + form */
+.ct-main{background:#fff;border-block:1px solid var(--ct-line)}
+.ct-grid{display:grid;grid-template-columns:5fr 7fr;gap:40px;align-items:start}
+.ct-card{background:var(--ct-ivory);border:1px solid var(--ct-line);border-radius:8px;padding:32px}
+.ct-person{display:flex;gap:20px;align-items:center;margin-bottom:20px}
+.ct-person img{width:132px;height:132px;border-radius:50%;object-fit:cover;object-position:center 15%;flex:none;border:3px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.ct-person h3{font-size:32px}
+.ct-roles{margin:0 0 18px;padding:0;list-style:none;font-size:17px}
+.ct-roles li{margin-bottom:4px}
+.ct-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;padding:0;list-style:none}
+.ct-chips li{background:var(--ct-lilac);color:var(--ct-purple-d);font-size:15px;font-weight:500;padding:6px 12px;border-radius:99px}
+.ct-links{margin:0 0 22px;padding:0;list-style:none;border-top:1px solid var(--ct-line)}
+.ct-links a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:12px 6px;border-bottom:1px solid var(--ct-line);color:var(--ct-navy);font-weight:600;font-size:18px;text-decoration:none;transition:background .15s,padding .15s}
+.ct-links a:hover{background:var(--ct-lilac);padding-inline:14px}
+.ct-links small{font-weight:400;color:#5b6670;font-size:15px}
+.ct-actions{display:flex;flex-wrap:wrap;gap:12px}
+
+.ct-form{background:#fff;border:1px solid var(--ct-line);border-radius:8px;padding:34px;box-shadow:0 10px 30px rgba(24,50,71,.07)}
+.ct-form h3{font-size:34px;margin-bottom:6px}
+.ct-form>.ct-sub{margin:0 0 22px;font-size:17px}
+.ct-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ct-field{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+.ct-field label{font-weight:600;font-size:16px;color:var(--ct-navy)}
+.ct-field input,.ct-field select,.ct-field textarea{font:400 18px/1.4 var(--f-body,Arial,sans-serif);padding:14px 14px;border:2px solid #c9c2d3;border-radius:4px;background:#fff;color:var(--ct-slate);width:100%}
+.ct-field textarea{min-height:160px;resize:vertical}
+.ct-field input:focus,.ct-field select:focus,.ct-field textarea:focus{border-color:var(--ct-purple);outline:none;box-shadow:0 0 0 3px rgba(91,63,125,.2)}
+.ct-field.has-error input,.ct-field.has-error select,.ct-field.has-error textarea{border-color:#b3261e}
+.ct-err{color:#b3261e;font-size:15px;min-height:1.2em;margin:0}
+.ct-count{font-size:14px;color:#5b6670;text-align:right;margin:0}
+.ct-check{display:flex;gap:12px;align-items:flex-start;margin-bottom:20px;font-size:16px}
+.ct-check input{width:22px;height:22px;margin-top:3px;accent-color:var(--ct-purple);flex:none}
+.ct-hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+.ct-form .ct-status{margin:20px 0 0;padding:14px 16px;border-radius:4px;font-size:17px;display:none}
+.ct-status.ok{display:block;background:#e6f3ee;color:#14543f;border:1px solid #b6dccd}
+.ct-status.bad{display:block;background:#fdeceb;color:#8a1c14;border:1px solid #f0bdb9}
+.ct-status.info{display:block;background:var(--ct-lilac);color:var(--ct-purple-d);border:1px solid var(--ct-line)}
+
+/* 4. map */
+.ct-tabs{display:inline-flex;border:2px solid var(--ct-purple);border-radius:4px;overflow:hidden;margin-bottom:18px}
+.ct-tabs button{font:600 16px/1 var(--f-body,Arial,sans-serif);padding:13px 20px;border:0;background:#fff;color:var(--ct-purple);cursor:pointer}
+.ct-tabs button[aria-selected="true"]{background:var(--ct-purple);color:#fff}
+.ct-map{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--ct-line);background:#e8e4ee}
+.ct-map iframe{display:block;width:100%;height:520px;border:0}
+.ct-map__card{position:absolute;left:24px;bottom:24px;width:min(400px,100% - 48px);padding:26px 26px 22px}
+.ct-map__card h3{color:#fff;font-size:28px;margin-bottom:8px}
+.ct-map__card p{margin:0 0 4px;font-size:17px;color:#fff}
+.ct-map__btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.ct-map__live{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* 5. faq */
+.ct-faq{max-width:900px}
+.ct-faq details{background:#fff;border:1px solid var(--ct-line);border-radius:6px;margin-bottom:12px}
+.ct-faq summary{cursor:pointer;list-style:none;padding:20px 24px;font:600 19px/1.3 var(--f-body,Arial,sans-serif);color:var(--ct-navy);display:flex;justify-content:space-between;gap:16px;align-items:center}
+.ct-faq summary::-webkit-details-marker{display:none}
+.ct-faq summary::after{content:"+";font-size:28px;line-height:1;color:var(--ct-purple);flex:none}
+.ct-faq details[open] summary::after{content:"\2212"}
+.ct-faq details[open]{border-color:var(--ct-purple)}
+.ct-faq .ct-ans{padding:0 24px 22px;font-size:18px}
+.ct-faq .ct-ans a{color:var(--ct-purple);font-weight:600}
+
+@media (max-width:1000px){.ct-topics{grid-template-columns:1fr 1fr}.ct-grid{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .ct{font-size:17px}.ct-section{padding:52px 0}.ct-topics{grid-template-columns:1fr}.ct-row{grid-template-columns:1fr;gap:0}
+  .ct-hero{min-height:0;display:block}.ct-hero__img{position:relative;height:240px}.ct-hero__shade{display:none}
+  .ct-hero .ct-wrap{padding:0;margin-top:-60px;width:min(100% - 32px,560px)}.ct-hero__card{padding:30px 24px}
+  .ct-credit{top:10px;bottom:auto;right:12px}.ct-form,.ct-card{padding:24px 20px}.ct-person{flex-direction:column;align-items:flex-start}
+  .ct-map iframe{height:340px}.ct-map__card{position:static;width:100%;border-radius:0;box-shadow:none}
+}
+@media (prefers-reduced-motion:reduce){.ct *{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="ct" id="ct-top">
+
+  <!-- 1. HERO: photo + frosted purple glass card -->
+  <section class="ct-hero" aria-labelledby="ct-h1">
+    <img class="ct-hero__img" src="/img/contact-western-building.jpg" width="880" height="300" alt="Western University building with stone and glass facade, London, Ontario">
+    <div class="ct-hero__shade"></div>
+    <div class="ct-wrap">
+      <div class="ct-glass ct-hero__card">
+        <p class="ct-eyebrow">Contact</p>
+        <h1 id="ct-h1">Connect with the P3 Health Lab</h1>
+        <p>Tell us what you are working on. Choose how you would like to reach us.</p>
+        <div class="ct-hero__btns">
+          <a class="ct-btn ct-btn--white" href="#ct-form-wrap" data-scroll>Send a message</a>
+          <a class="ct-btn ct-btn--ghost" href="#ct-campus" data-scroll>Find us on campus</a>
+        </div>
+      </div>
+    </div>
+    <p class="ct-credit">Photo: Western University</p>
+  </section>
+
+  <!-- 2. HOW CAN WE HELP -->
+  <section class="ct-section" aria-labelledby="ct-h-help">
+    <div class="ct-wrap">
+      <p class="ct-eyebrow">How can we help?</p>
+      <h2 id="ct-h-help">Choose what brings you here</h2>
+      <p class="ct-lead">Pick a topic and we will prepare the message form for you.</p>
+      <div class="ct-topics" role="group" aria-label="Contact topics">
+        <button type="button" class="ct-topic" data-topic="Join the lab" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-5 9 5-9 5-9-5z"/><path d="M7 11.5V16c0 1.5 2.2 3 5 3s5-1.5 5-3v-4.5"/></svg>
+          <strong>Join the lab</strong><span>Students, postdoctoral fellows and interns.</span><em>Write to us &rarr;</em>
+        </button>
+        <button type="button" class="ct-topic" data-topic="Research collaboration" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M2.5 19c.5-3 2.7-4.5 5.5-4.5s5 1.5 5.5 4.5"/><path d="M14.5 15c2.6-.3 4.6.8 5.5 3.5"/></svg>
+          <strong>Research collaboration</strong><span>Joint projects, data sharing and partnerships.</span><em>Write to us &rarr;</em>
+        </button>
+        <button type="button" class="ct-topic" data-topic="Schools and HumekaNeza" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V11"/><path d="M12 11c0-4 3-6.5 7-6.5 0 4-2.5 6.5-7 6.5z"/><path d="M12 14c0-3-2.2-5-5.5-5 0 3 2 5 5.5 5z"/></svg>
+          <strong>Schools and HumekaNeza</strong><span>Clean-air work with schools in Kigali.</span><em>Write to us &rarr;</em>
+        </button>
+        <button type="button" class="ct-topic" data-topic="Media, speaking and partnerships" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg>
+          <strong>Media and speaking</strong><span>Interviews, talks, events and partnerships.</span><em>Write to us &rarr;</em>
+        </button>
+      </div>
+      <p class="ct-topic-note" id="ct-topic-note" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- 3. FACULTY CARD + FORM -->
+  <section class="ct-section ct-main" id="ct-form-wrap" aria-labelledby="ct-h-faculty">
+    <div class="ct-wrap ct-grid">
+      <article class="ct-card">
+        <p class="ct-eyebrow" id="ct-h-faculty">Faculty contact</p>
+        <div class="ct-person">
+          <img src="/images/design-reference/portrait.jpg" width="132" height="132" alt="Portrait of Dr. Egide Kalisa" loading="lazy">
+          <h3>Dr. Egide Kalisa</h3>
+        </div>
+        <ul class="ct-roles">
+          <li>Assistant Professor, Epidemiology &amp; Biostatistics</li>
+          <li>Schulich School of Medicine &amp; Dentistry, Western University</li>
+          <li>Director, P3 Health Lab (HELTH Lab)</li>
+        </ul>
+        <ul class="ct-chips" aria-label="Research focus">
+          <li>Environmental health</li><li>Air pollution</li><li>Climate change</li><li>Children&rsquo;s health</li><li>Environmental justice</li><li>One Health</li><li>Exposure science</li>
+        </ul>
+        <ul class="ct-links" id="ct-links"></ul>
+        <div class="ct-actions">
+          <button type="button" class="ct-btn ct-btn--purple ct-btn--sm" id="ct-vcf">Save contact (.vcf)</button>
+          <button type="button" class="ct-btn ct-btn--line ct-btn--sm" data-copy>Copy campus address</button>
+        </div>
+      </article>
+
+      <form class="ct-form" id="ct-form" novalidate>
+        <h3>Send a message</h3>
+        <p class="ct-sub">Fields marked * are required.</p>
+        <div class="ct-row">
+          <div class="ct-field"><label for="ct-name">Full name *</label><input id="ct-name" name="name" type="text" autocomplete="name" required><p class="ct-err" data-err="name"></p></div>
+          <div class="ct-field"><label for="ct-email">Email *</label><input id="ct-email" name="email" type="email" autocomplete="email" required><p class="ct-err" data-err="email"></p></div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-field"><label for="ct-org">Organisation</label><input id="ct-org" name="organisation" type="text" autocomplete="organization"></div>
+          <div class="ct-field"><label for="ct-topic">Topic *</label>
+            <select id="ct-topic" name="topic" required>
+              <option value="">Choose a topic</option>
+              <option>Join the lab</option><option>Research collaboration</option><option>Schools and HumekaNeza</option><option>Media, speaking and partnerships</option><option>Other</option>
+            </select><p class="ct-err" data-err="topic"></p></div>
+        </div>
+        <div class="ct-field"><label for="ct-msg">Message *</label><textarea id="ct-msg" name="message" maxlength="1500" required></textarea><p class="ct-count"><span id="ct-count">0</span> / 1500</p><p class="ct-err" data-err="message"></p></div>
+        <div class="ct-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="company_site" tabindex="-1" autocomplete="off"></label></div>
+        <label class="ct-check"><input type="checkbox" id="ct-consent" name="consent" required><span>I agree that my message will be used to reply to me.</span></label>
+        <p class="ct-err" data-err="consent"></p>
+        <button type="submit" class="ct-btn ct-btn--purple" id="ct-send">Send message</button>
+        <p class="ct-status" id="ct-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- 4. CAMPUS MAP + GLASS ADDRESS CARD -->
+  <section class="ct-section" id="ct-campus" aria-labelledby="ct-h-map">
+    <div class="ct-wrap">
+      <p class="ct-eyebrow">Where to find us</p>
+      <h2 id="ct-h-map">Visit or plan a trip</h2>
+      <div class="ct-tabs" role="tablist" aria-label="Locations">
+        <button type="button" role="tab" id="ct-tab-london" aria-selected="true" data-loc="london">London campus</button>
+        <button type="button" role="tab" id="ct-tab-kigali" aria-selected="false" data-loc="kigali">Field work in Kigali</button>
+      </div>
+      <div class="ct-map">
+        <iframe id="ct-iframe" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=1151+Richmond+St,+London,+ON+N6A+3K7,+Canada&output=embed"></iframe>
+        <div class="ct-glass ct-map__card">
+          <h3 id="ct-map-title">Western University</h3>
+          <p id="ct-map-l1">Schulich School of Medicine &amp; Dentistry</p>
+          <p id="ct-map-l2">1151 Richmond St, London, ON N6A 3K7, Canada</p>
+          <div class="ct-map__btns">
+            <a class="ct-btn ct-btn--white ct-btn--sm" id="ct-dir" target="_blank" rel="noopener" href="#">Get directions</a>
+            <a class="ct-btn ct-btn--ghost ct-btn--sm" id="ct-open" target="_blank" rel="noopener" href="#">Open in Maps</a>
+            <button type="button" class="ct-btn ct-btn--ghost ct-btn--sm" data-copy>Copy address</button>
+          </div>
+        </div>
+        <span class="ct-map__live" id="ct-live" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. BEFORE YOU WRITE -->
+  <section class="ct-section" style="padding-top:0" aria-labelledby="ct-h-faq">
+    <div class="ct-wrap">
+     <div class="ct-faq">
+      <p class="ct-eyebrow">Before you write</p>
+      <h2 id="ct-h-faq">Quick answers</h2>
+      <details name="ct-faq"><summary>I want to join the lab</summary><div class="ct-ans">See current openings and how to apply on the <a data-link="opportunity" href="#">Opportunity page</a>, then use the form above with the topic &ldquo;Join the lab&rdquo;.</div></details>
+      <details name="ct-faq"><summary>I want to collaborate</summary><div class="ct-ans">Read about our work on the <a data-link="research" href="#">Research Project page</a>, then send us a message with the topic &ldquo;Research collaboration&rdquo;.</div></details>
+      <details name="ct-faq"><summary>I am a school or teacher in Rwanda</summary><div class="ct-ans">Learn about the school air-quality programme on the <a data-link="humekaneza" href="#">HumekaNeza page</a>, then write to us with the topic &ldquo;Schools and HumekaNeza&rdquo;.</div></details>
+      <details name="ct-faq"><summary>I am a journalist or event organiser</summary><div class="ct-ans">Use the form above with the topic &ldquo;Media, speaking and partnerships&rdquo; and describe your request.</div></details>
+     </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  /* ===== EDIT ONLY THESE THREE OBJECTS ===== */
+  const CONTACT_DATA={
+    name:"Dr. Egide Kalisa",
+    title:"Assistant Professor, Epidemiology & Biostatistics",
+    unit:"Schulich School of Medicine & Dentistry",
+    institution:"Western University",
+    street:"1151 Richmond St", city:"London", region:"ON", postal:"N6A 3K7", country:"Canada",
+    facultyUrl:"https://www.schulich.uwo.ca/epibio/people/faculty/core_faculty/dr_egide_kalisa.html",
+    linkedinUrl:"https://www.linkedin.com/in/egide-kalisa-1b8b40321/",
+    website:"https://egidekalisa.com",
+    email:"",   /* fill when the client confirms; the row appears only when not empty */
+    phone:""    /* fill when the client confirms; the row appears only when not empty */
+  };
+  const CONTACT_CONFIG={ endpoint:"", mailto:"" }; /* endpoint: Formspree/Netlify URL; mailto: confirmed email. Leave both empty until the client confirms. */
+  const LINKS={ opportunity:"/opportunity", research:"/research-project", humekaneza:"/humekaneza", publications:"/publications" };
+  /* ========================================== */
+
+  const $=(s,r)=> (r||document).querySelector(s), $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
+  const addr=`${CONTACT_DATA.street}, ${CONTACT_DATA.city}, ${CONTACT_DATA.region} ${CONTACT_DATA.postal}, ${CONTACT_DATA.country}`;
+  const q=encodeURIComponent(addr);
+
+  // internal links
+  $$('[data-link]').forEach(a=>a.href=LINKS[a.dataset.link]||'#');
+  // smooth scroll
+  $$('[data-scroll]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const t=$(a.getAttribute('href'));if(t){t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'});}}));
+
+  // contact action list
+  const rows=[
+    ["Western faculty profile","schulich.uwo.ca",CONTACT_DATA.facultyUrl,true],
+    ["LinkedIn","Dr. Egide Kalisa",CONTACT_DATA.linkedinUrl,true],
+    ["Publications","On this website",LINKS.publications,false],
+    ["Website","egidekalisa.com",CONTACT_DATA.website,true]
+  ];
+  if(CONTACT_DATA.email) rows.unshift(["Email",CONTACT_DATA.email,"mailto:"+CONTACT_DATA.email,false]);
+  if(CONTACT_DATA.phone) rows.splice(CONTACT_DATA.email?1:0,0,["Phone",CONTACT_DATA.phone,"tel:"+CONTACT_DATA.phone.replace(/[^+\d]/g,''),false]);
+  const ul=$('#ct-links');
+  rows.forEach(([label,sub,href,ext])=>{
+    const li=document.createElement('li'),a=document.createElement('a');
+    a.href=href; if(ext){a.target="_blank";a.rel="noopener noreferrer";}
+    a.innerHTML=`<span>${label}<br><small>${sub}</small></span><span aria-hidden="true">${ext?"\u2197":"\u2192"}</span>`;
+    li.appendChild(a); ul.appendChild(li);
+  });
+
+  // vCard
+  const esc=s=>String(s).replace(/([,;\\])/g,'\\$1');
+  $('#ct-vcf').addEventListener('click',()=>{
+    const v=["BEGIN:VCARD","VERSION:3.0","N:Kalisa;Egide;;Dr.;","FN:"+esc(CONTACT_DATA.name),
+      "ORG:"+esc(CONTACT_DATA.institution)+";"+esc(CONTACT_DATA.unit),"TITLE:"+esc(CONTACT_DATA.title),
+      `ADR;TYPE=WORK:;;${esc(CONTACT_DATA.street)};${esc(CONTACT_DATA.city)};${CONTACT_DATA.region};${CONTACT_DATA.postal};${CONTACT_DATA.country}`,
+      "URL:"+CONTACT_DATA.facultyUrl,"URL:"+CONTACT_DATA.linkedinUrl];
+    if(CONTACT_DATA.email) v.push("EMAIL;TYPE=WORK:"+CONTACT_DATA.email);
+    if(CONTACT_DATA.phone) v.push("TEL;TYPE=WORK:"+CONTACT_DATA.phone);
+    v.push("END:VCARD");
+    const blob=new Blob([v.join("\r\n")],{type:"text/vcard"}),a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);a.download="egide-kalisa.vcf";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  });
+
+  // copy address (both buttons)
+  const live=$('#ct-live');
+  $$('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{
+    const text=b.closest('.ct-map__card')&&current==='kigali'?"Kigali, Rwanda":addr;
+    try{await navigator.clipboard.writeText(text);}catch(e){const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();}
+    const old=b.textContent;b.textContent="Copied";live.textContent="Address copied";setTimeout(()=>{b.textContent=old;live.textContent="";},2000);
+  }));
+
+  // topic cards
+  const sel=$('#ct-topic'),note=$('#ct-topic-note');
+  function pick(topic){
+    $$('.ct-topic').forEach(b=>b.setAttribute('aria-pressed',b.dataset.topic===topic?'true':'false'));
+    sel.value=topic;
+    note.innerHTML=topic==="Join the lab"?`Topic selected: ${topic}. See open positions on the <a data-link="opportunity" href="${LINKS.opportunity}" style="color:#5B3F7D;font-weight:600">Opportunity page</a>.`:`Topic selected: ${topic}.`;
+  }
+  $$('.ct-topic').forEach(b=>b.addEventListener('click',()=>{pick(b.dataset.topic);$('#ct-form-wrap').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});setTimeout(()=>$('#ct-name').focus({preventScroll:true}),450);}));
+  sel.addEventListener('change',()=>{$$('.ct-topic').forEach(b=>b.setAttribute('aria-pressed',b.dataset.topic===sel.value?'true':'false'));});
+
+  // form
+  const form=$('#ct-form'),msg=$('#ct-msg'),count=$('#ct-count'),status=$('#ct-status'),send=$('#ct-send');
+  msg.addEventListener('input',()=>count.textContent=msg.value.length);
+  const rules={name:v=>v.trim()?"":"Please enter your name.",email:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())?"":"Please enter a valid email address.",topic:v=>v?"":"Please choose a topic.",message:v=>v.trim().length>=10?"":"Please write at least 10 characters."};
+  function validate(){
+    let ok=true;
+    Object.keys(rules).forEach(k=>{const el=form.elements[k],e=rules[k](el.value);$(`[data-err="${k}"]`).textContent=e;el.closest('.ct-field').classList.toggle('has-error',!!e);if(e)ok=false;});
+    const c=form.elements.consent.checked;$('[data-err="consent"]').textContent=c?"":"Please tick the box to continue.";if(!c)ok=false;
+    return ok;
+  }
+  function show(type,text){status.className="ct-status "+type;status.textContent=text;}
+  if(!CONTACT_CONFIG.endpoint&&!CONTACT_CONFIG.mailto){send.disabled=true;show("info","Messaging is being set up. Please use the Western faculty profile or LinkedIn buttons for now.");}
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(form.elements.company_site.value) return; // honeypot
+    if(!validate()){const f=$('.has-error input,.has-error select,.has-error textarea',form);if(f)f.focus();return;}
+    const d=Object.fromEntries(new FormData(form).entries());delete d.company_site;
+    const subject=`[P3 Health Lab website] ${d.topic}`;
+    send.disabled=true;send.textContent="Sendingâ€¦";
+    try{
+      if(CONTACT_CONFIG.endpoint){
+        const r=await fetch(CONTACT_CONFIG.endpoint,{method:"POST",headers:{"Accept":"application/json","Content-Type":"application/json"},body:JSON.stringify({...d,_subject:subject})});
+        if(!r.ok) throw new Error("bad status");
+        show("ok","Thank you, your message was sent.");form.reset();count.textContent="0";$$('.ct-topic').forEach(b=>b.setAttribute('aria-pressed','false'));
+      }else{
+        const body=`Name: ${d.name}\nEmail: ${d.email}\nOrganisation: ${d.organisation||"-"}\nTopic: ${d.topic}\n\n${d.message}`;
+        window.location.href=`mailto:${CONTACT_CONFIG.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        show("ok","Your email app should open with the message ready to send.");
+      }
+    }catch(err){show("bad","Sorry, the message could not be sent. Please try again.");}
+    send.disabled=false;send.textContent="Send message";
+  });
+
+  // map tabs
+  let current='london';
+  const iframe=$('#ct-iframe');
+  const locs={
+    london:{src:`https://www.google.com/maps?q=${q}&output=embed`,title:"Western University",l1:`${CONTACT_DATA.unit}`,l2:addr,dir:`https://www.google.com/maps/dir/?api=1&destination=${q}`,open:`https://www.google.com/maps/search/?api=1&query=${q}`,t:"Map of Western University, London, Ontario"},
+    kigali:{src:"https://www.google.com/maps?q=Kigali,+Rwanda&output=embed",title:"Kigali, Rwanda",l1:"Field programmes, including HumekaNeza school air-quality work",l2:"",dir:"https://www.google.com/maps/dir/?api=1&destination=Kigali,+Rwanda",open:"https://www.google.com/maps/search/?api=1&query=Kigali,+Rwanda",t:"Map of Kigali, Rwanda"}
+  };
+  function setLoc(k){
+    current=k;const L=locs[k];
+    iframe.src=L.src;iframe.title=L.t;$('#ct-map-title').textContent=L.title;$('#ct-map-l1').textContent=L.l1;
+    const l2=$('#ct-map-l2');l2.textContent=L.l2;l2.style.display=L.l2?"":"none";
+    $('#ct-dir').href=L.dir;$('#ct-open').href=L.open;
+    $$('.ct-tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.loc===k?'true':'false'));
+  }
+  $$('.ct-tabs button').forEach(b=>b.addEventListener('click',()=>setLoc(b.dataset.loc)));
+  setLoc('london');
+})();
+</script>
