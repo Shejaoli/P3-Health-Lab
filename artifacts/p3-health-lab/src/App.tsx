@@ -641,8 +641,8 @@ function Home() {
   return <div className="p3-home">
     <section className="p3-home-hero" aria-labelledby="home-title">
       <div className="container-wide p3-home-hero-grid">
+        <div className="p3-home-affiliations"><span>Assistant Professor</span><i aria-hidden="true" /><span>Schulich School of Medicine &amp; Dentistry</span><i aria-hidden="true" /><span>Western University</span></div>
         <div className="p3-home-hero-copy">
-          <div className="p3-home-affiliations"><span>Assistant Professor</span><i aria-hidden="true" /><span>Schulich School of Medicine &amp; Dentistry</span><i aria-hidden="true" /><span>Western University</span></div>
           <h1 id="home-title">{director.name}</h1>
           <p className="p3-home-tagline">Research for cleaner air, healthier lives, brighter tomorrows.</p>
           <p className="p3-home-intro">I lead the P3 Health Lab, where we study what people breathe: the chemical and biological mixtures in air, from fine particles and polycyclic aromatic hydrocarbons to airborne microbes and environmental DNA. We work with communities, schools and governments across Canada and Africa to turn evidence into cleaner air and fairer health.</p>
@@ -1421,6 +1421,15 @@ function PersonName({ person }: { person: (typeof people.sections)[number]['memb
     : <PersonLinkedInName name={person.name} />;
 }
 
+function PeoplePageHero() {
+  return <section className="page-hero people-page-hero" aria-labelledby="people-page-title">
+    <div className="container-wide">
+      <span className="eyebrow">P3 Health Lab / People</span>
+      <h1 className="display" id="people-page-title">People</h1>
+    </div>
+  </section>;
+}
+
 function People() {
   const [livePeople, setLivePeople] = useState<Array<{
     id: number;
@@ -1498,9 +1507,8 @@ function People() {
 
     return (
       <div className="people-page">
+        <PeoplePageHero />
         <div className="pp">
-          <h1>People</h1>
-
           {principalInvestigator && (
             <section>
               <h2>Principal Investigator</h2>
@@ -1562,9 +1570,8 @@ function People() {
   const { director, sections, former, collaborators } = people;
   return (
     <div className="people-page">
+      <PeoplePageHero />
       <div className="pp">
-        <h1>People</h1>
-
         <section>
           <h2>Principal Investigator</h2>
           <ul className="pp-grid">
