@@ -8,6 +8,7 @@ export type MapBubble = {
   id: string;
   name: string;
   country: string;
+  status?: string;
   latitude: number;
   longitude: number;
   radius: number;
@@ -18,6 +19,7 @@ export type MapBubble = {
 };
 
 export type DatamapSelection = {
+  attr(name: string, value: string | ((bubble: MapBubble) => string)): DatamapSelection;
   style(name: string, value: string): DatamapSelection;
   on(event: string, handler: (bubble: MapBubble) => void): DatamapSelection;
 };
@@ -51,6 +53,7 @@ export type DatamapOptions = {
 };
 
 type D3V3 = {
+  event?: Event;
   geo: {
     equirectangular(): Projection;
     mercator(): Projection;

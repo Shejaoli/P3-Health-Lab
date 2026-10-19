@@ -508,3 +508,355 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.grm-jump-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 24px;
+  padding: 11px 16px;
+  border: 1px solid var(--purple);
+  border-radius: 999px;
+  color: var(--purple);
+  font-size: 1rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.grm-jump-link:hover {
+  color: var(--white);
+  background: var(--purple);
+}
+
+.grm-jump-link:focus-visible,
+.grm-map-topline button:focus-visible,
+.grm-east-africa-cluster :focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 3px;
+}
+
+#grm-interactive-map,
+#grm-east-africa {
+  scroll-margin-top: 112px;
+}
+
+.grm-legend button {
+  min-height: 42px;
+  color: var(--grm-ink);
+  background: var(--grm-card);
+  font-weight: 500;
+}
+
+.grm-legend button[aria-pressed="true"] {
+  border-color: var(--purple);
+  background: color-mix(in srgb, var(--purple) 12%, var(--grm-card));
+  font-weight: 650;
+}
+
+.grm-legend button[aria-pressed="false"] {
+  opacity: 1;
+  color: var(--grm-muted);
+  background: var(--grm-card);
+  text-decoration: none;
+}
+
+.grm-legend button[aria-pressed="true"]::after {
+  width: 6px;
+  height: 10px;
+  border-right: 2px solid var(--purple);
+  border-bottom: 2px solid var(--purple);
+  content: "";
+  transform: rotate(45deg) translateY(-2px);
+}
+
+.grm-map-topline {
+  align-items: center;
+}
+
+.grm-map-topline > span,
+.grm-map-topline-actions > span {
+  white-space: nowrap;
+}
+
+.grm-map-topline-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.grm-map-topline button {
+  padding: 6px 10px;
+  border: 1px solid var(--purple);
+  border-radius: 999px;
+  color: var(--purple);
+  background: var(--grm-card);
+  cursor: pointer;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.grm-map-topline button:hover,
+.grm-map-topline button[aria-pressed="true"] {
+  color: var(--white);
+  background: var(--purple);
+}
+
+.grm-map-stage {
+  position: relative;
+}
+
+.grm-east-africa-cluster {
+  position: absolute;
+  z-index: 4;
+  top: 57%;
+  left: 54%;
+}
+
+.grm-east-africa-cluster summary {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px 5px 6px;
+  border: 2px solid var(--purple);
+  border-radius: 999px;
+  color: var(--grm-ink);
+  background: var(--grm-card);
+  box-shadow: 0 2px 10px rgb(20 17 26 / .18);
+  cursor: pointer;
+  font-size: .8rem;
+  font-weight: 650;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.grm-east-africa-cluster summary::-webkit-details-marker {
+  display: none;
+}
+
+.grm-east-africa-cluster summary strong {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--white);
+  background: var(--purple);
+  font-size: .82rem;
+}
+
+.grm-cluster-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: min(290px, calc(100vw - 60px));
+  max-height: min(340px, 52vh);
+  overflow: auto;
+  padding: 10px 12px;
+  border: 1px solid var(--grm-line);
+  border-radius: 10px;
+  background: var(--grm-card);
+  box-shadow: 0 8px 28px rgb(20 17 26 / .2);
+}
+
+.grm-cluster-list p {
+  margin: 0 0 6px;
+  color: var(--grm-muted);
+  font-size: .85rem;
+  line-height: 1.4;
+}
+
+.grm-cluster-list button {
+  display: flex;
+  width: 100%;
+  min-height: 42px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 2px;
+  border: 0;
+  border-bottom: 1px solid var(--grm-line);
+  color: var(--grm-ink);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.grm-cluster-list button[aria-pressed="true"] {
+  color: var(--purple);
+  font-weight: 700;
+}
+
+.grm-cluster-list button small {
+  color: var(--grm-muted);
+  font-size: .8rem;
+}
+
+.grm-cluster-list > a {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--purple);
+  font-size: .85rem;
+  font-weight: 650;
+}
+
+.grm-region-grid button {
+  position: relative;
+  padding-right: 8px;
+  padding-left: 12px;
+  border-left: 4px solid transparent;
+  border-radius: 4px;
+  transition: color .16s ease, background-color .16s ease, border-color .16s ease;
+}
+
+.grm-region-grid button:hover {
+  background: color-mix(in srgb, var(--purple) 7%, var(--grm-card));
+}
+
+.grm-region-grid button.is-selected {
+  border-left-color: var(--purple);
+  color: var(--purple);
+  background: color-mix(in srgb, var(--purple) 12%, var(--grm-card));
+  font-weight: 700;
+}
+
+.grm-region-grid button.is-selected small {
+  color: var(--purple);
+  font-weight: 650;
+}
+
+.grm-world-map .datamaps-bubble:focus-visible {
+  stroke: var(--purple) !important;
+  stroke-width: 4px !important;
+  outline: none;
+}
+
+.grm-team-map-note {
+  margin: -6px 0 16px;
+  color: var(--grm-muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .grm-hero {
+    padding: 40px 0;
+  }
+
+  .grm-hero-grid {
+    gap: 20px;
+  }
+
+  .grm-hero .grm-count-note {
+    grid-column: 1;
+    margin-top: -8px;
+    margin-bottom: 0;
+    font-size: .9rem;
+  }
+
+  .grm-jump-link {
+    min-height: 44px;
+    margin-top: 16px;
+  }
+
+  .grm-legend {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .grm-legend button {
+    display: grid;
+    min-width: 0;
+    min-height: 48px;
+    grid-template-columns: 9px minmax(0, 1fr) auto;
+    justify-content: initial;
+    gap: 5px;
+    padding: 6px;
+    border-radius: 8px;
+    font-size: clamp(.7rem, 2.5vw, .86rem);
+    line-height: 1.2;
+    text-align: left;
+  }
+
+  .grm-legend button i {
+    align-self: center;
+  }
+
+  .grm-map-card {
+    padding: 12px;
+  }
+
+  .grm-map-topline {
+    gap: 6px;
+    font-size: .68rem;
+  }
+
+  .grm-map-topline-actions {
+    gap: 7px;
+  }
+
+  .grm-map-topline button {
+    min-height: 44px;
+    padding: 5px 7px;
+    font-size: .65rem;
+  }
+
+  .grm-segment button {
+    min-height: 44px;
+  }
+
+  .grm-map-stage.is-focused .grm-world-map {
+    min-height: 300px;
+  }
+
+  .grm-map-stage.is-focused .grm-east-africa-cluster {
+    top: 48%;
+    left: 47%;
+  }
+
+  .grm-east-africa-cluster summary {
+    min-height: 38px;
+    gap: 5px;
+    padding-right: 8px;
+    font-size: .72rem;
+  }
+
+  .grm-cluster-list {
+    left: auto;
+    right: 0;
+    width: min(270px, calc(100vw - 60px));
+  }
+
+  .grm-region-grid button {
+    min-height: 58px;
+  }
+}
+
+@media (max-width: 430px) {
+  .grm-legend {
+    gap: 5px;
+  }
+
+  .grm-legend button {
+    font-size: .7rem;
+  }
+
+  .grm-map-topline {
+    font-size: .61rem;
+    letter-spacing: .03em;
+  }
+
+  .grm-map-topline-actions {
+    gap: 5px;
+  }
+
+  .grm-map-topline button {
+    padding: 5px 6px;
+    font-size: .6rem;
+  }
+}
