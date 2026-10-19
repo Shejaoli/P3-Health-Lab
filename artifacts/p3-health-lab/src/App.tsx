@@ -374,6 +374,7 @@ function Shell({ children }: { children: ReactNode }) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [openMobileMenu, setOpenMobileMenu] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const adminClickRef = useRef({ count: 0, lastClick: 0 });
   const nav: { label: string; href: string; external?: boolean; children?: [string, string][] }[] = [
     { label: 'Research Project', href: '/research-project' },
@@ -431,6 +432,7 @@ function Shell({ children }: { children: ReactNode }) {
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
+        if (menuOpen) menuButtonRef.current?.focus();
         setOpenMenu(null);
         setOpenMobileMenu(null);
         setMenuOpen(false);
@@ -445,7 +447,7 @@ function Shell({ children }: { children: ReactNode }) {
       document.removeEventListener('keydown', closeOnEscape);
       document.removeEventListener('mousedown', closeOnOutsideClick);
     };
-  }, []);
+  }, [menuOpen]);
   useEffect(() => {
     const openContact = () => setContactOpen(true);
     window.addEventListener('open-contact', openContact);
@@ -486,11 +488,11 @@ function Shell({ children }: { children: ReactNode }) {
               ? <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" className="nav-link" data-testid={`link-nav-${item.label.toLowerCase()}`}>{item.label}<ExternalLink size={12} aria-hidden="true" /></a>
               : <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-nav-${item.label.toLowerCase()}`}>{item.label}</Link>)}
           </nav>
-          <button className={`menu-btn ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} data-testid="button-mobile-menu">
+          <button ref={menuButtonRef} className={`menu-btn ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="mobile-navigation" data-testid="button-mobile-menu">
             <span className="hamburger-icon" aria-hidden="true"><span /><span /><span /></span>
           </button>
         </div>
-        {menuOpen && <nav className="mobile-menu" aria-label="Mobile navigation">
+        <nav id="mobile-navigation" className="mobile-menu" aria-label="Mobile navigation" hidden={!menuOpen}>
           {nav.map((item) => item.children ? (
             <div className="mobile-dropdown" key={item.href}>
               <button className={`mobile-link mobile-trigger ${isActive(item.href) ? 'active' : ''}`} aria-expanded={openMobileMenu === item.label} onClick={() => setOpenMobileMenu(openMobileMenu === item.label ? null : item.label)}>
@@ -503,7 +505,7 @@ function Shell({ children }: { children: ReactNode }) {
           ) : item.external
             ? <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" className="mobile-link" onClick={() => setMenuOpen(false)} data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>{item.label}<ExternalLink size={13} aria-hidden="true" /></a>
             : <Link key={item.href} href={item.href} className={`mobile-link ${isActive(item.href) ? 'active' : ''}`} data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>{item.label}</Link>)}
-        </nav>}
+        </nav>
       </header>
       <main>{children}</main>
       <Footer onLogoClick={handleAdminLogoClick} />
@@ -637,11 +639,12 @@ function Home() {
           <div className="p3-home-affiliations"><span>Assistant Professor • Schulich School of Medicine &amp; Dentistry • Western University</span></div>
           <h1 id="home-title">{director.name}</h1>
           <p className="p3-home-tagline">Research for cleaner air, healthier lives, brighter tomorrows.</p>
-          <p className="p3-home-intro">I lead the P3 Health Lab, where we study what people breathe: the chemical and biological mixtures in air, from fine particles and polycyclic aromatic hydrocarbons to airborne microbes and environmental DNA. We work with communities, schools and governments across Canada and Africa to turn evidence into cleaner air and fairer health.</p>
+          <p className="p3-home-intro">I lead the P3 Health Lab’s research on what people breathe: air’s chemical and biological mixtures, from fine particles and polycyclic aromatic hydrocarbons to airborne microbes and environmental DNA. With communities, schools and governments across Canada and Africa, we turn evidence into cleaner air and fairer health.</p>
           <div className="p3-home-actions">
             <Link href="/research-project" className="p3-home-primary" data-testid="link-home-hero-research">Explore our research <ArrowUpRight size={15} aria-hidden="true" /></Link>
             <a href="#research-framework" className="p3-home-secondary">Research framework</a>
           </div>
+          <Link href="/opportunity" className="p3-home-opportunity">Prospective students &amp; collaborators <span>Explore opportunities <ArrowUpRight size={14} aria-hidden="true" /></span></Link>
           <div className="p3-home-profile-links" aria-label="Dr. Egide Kalisa profiles">
             <a href="https://www.schulich.uwo.ca/epibio/people/faculty/core_faculty/dr_egide_kalisa.html" target="_blank" rel="noopener noreferrer">Western faculty profile ↗</a>
             <a href="https://www.linkedin.com/in/egide-kalisa-1b8b40321/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
@@ -678,6 +681,7 @@ function Home() {
     <section className="p3-home-section" aria-labelledby="p3-programs-title">
       <div className="container-wide">
         <div className="p3-section-heading"><div><span className="eyebrow">Research programs</span><h2 id="p3-programs-title">Five connected programs.</h2></div><Link href="/research-project" className="p3-text-link">All projects <ArrowUpRight size={14} aria-hidden="true" /></Link></div>
+        <p className="p3-program-context">The framework above is a broad overview; these programs describe areas of research in more detail.</p>
         <div className="p3-program-rows">
           {researchPrograms.map((program, index) => <Link className="p3-program-row" href={`/research-project#${program.id}`} key={program.id}>
             <span className="p3-program-number">{['I', 'II', 'III', 'IV', 'V'][index]}</span><h3>{program.title}</h3><p>{programDescriptions[index]}</p><img src={programImages[index][0]} alt={programImages[index][1]} loading="lazy" decoding="async" />
@@ -828,6 +832,7 @@ function PageHero({ eyebrow, title, text, action, className }: { eyebrow: string
 }
 
 function ResearchProject() {
+  const [activeProjectFilter, setActiveProjectFilter] = useState(() => window.location.hash.match(/^#p([1-5])$/)?.[1] ?? 'all');
   const frameworkCards = [
     {
       number: '01',
@@ -905,20 +910,28 @@ function ResearchProject() {
       </div>
     </section>
 
-    <nav className="research-program-nav" aria-label="Research programs">
-      <div className="container-wide">
-        <ol>
-          {researchPrograms.map((program, index) => <li key={program.id}>
-            <a href={`#${program.id}`} data-testid={`link-research-anchor-${index}`}>
-              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-              {program.title}
-            </a>
-          </li>)}
-          <li><a href="#flagship-projects">Flagship projects</a></li>
-          <li><a href="#research-project-catalog">Full project catalog</a></li>
-          <li><a href="#research-methods">Methods</a></li>
-          <li><a href="#research-community-initiatives">Community and school initiatives</a></li>
-        </ol>
+    <nav className="research-program-nav" aria-label="Research page contents">
+      <div className="container-wide research-program-nav-groups">
+        <div className="research-program-nav-group">
+          <h2>Five research programs</h2>
+          <ol>
+            {researchPrograms.map((program, index) => <li key={program.id}>
+              <a href={`#${program.id}`} data-testid={`link-research-anchor-${index}`}>
+                <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                {program.title}
+              </a>
+            </li>)}
+          </ol>
+        </div>
+        <div className="research-program-nav-group">
+          <h2>Explore the project details</h2>
+          <ul>
+            <li><a href="#flagship-projects">Flagship projects</a></li>
+            <li><a href="#research-project-catalog">Full project catalog</a></li>
+            <li><a href="#project-methods">Methods and tools</a></li>
+            <li><a href="#research-community-initiatives">Community and school initiatives</a></li>
+          </ul>
+        </div>
       </div>
     </nav>
 
@@ -965,7 +978,7 @@ function ResearchProject() {
                   </ul>
                 </section>
                 <section aria-labelledby={`research-projects-title-${program.id}`}>
-                  <h3 id={`research-projects-title-${program.id}`}>Current projects</h3>
+                  <h3 id={`research-projects-title-${program.id}`}>Related project names</h3>
                   <ul className="research-project-list">
                     {program.projects.map((project, projectIndex) => <li key={project.label}>
                       {project.href
@@ -977,6 +990,7 @@ function ResearchProject() {
               </div>
             </div>
             <nav className="research-program-resources" aria-label={`Related resources for ${program.title}`}>
+              <a href={`#p${index + 1}`} onClick={() => setActiveProjectFilter(String(index + 1))} data-testid={`link-research-catalog-${program.id}`}>Full program catalog</a>
               <a href="#research-methods" data-testid={`link-research-methods-${program.id}`}>Methods</a>
               <Link href="/research-map" data-testid={`link-research-places-${program.id}`}>Study locations</Link>
               <a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" data-testid={`link-research-outputs-${program.id}`}>
@@ -1046,7 +1060,7 @@ function ResearchProject() {
         </ul>
       </div>
     </section>
-    <Projects integrated />
+    <Projects integrated activeFilter={activeProjectFilter} onFilterChange={setActiveProjectFilter} />
     <div className="p3-home research-project-support">
       <section className="p3-home-section" aria-labelledby="research-field-title">
         <div className="container-wide">
@@ -1234,8 +1248,18 @@ const programCatalog = [
   },
 ];
 
-function Projects({ integrated = false }: { integrated?: boolean } = {}) {
-  const [activeFilter, setActiveFilter] = useState('all');
+function Projects({
+  integrated = false,
+  activeFilter: providedActiveFilter,
+  onFilterChange,
+}: {
+  integrated?: boolean;
+  activeFilter?: string;
+  onFilterChange?: (filter: string) => void;
+} = {}) {
+  const [internalActiveFilter, setInternalActiveFilter] = useState('all');
+  const activeFilter = providedActiveFilter ?? internalActiveFilter;
+  const updateActiveFilter = onFilterChange ?? setInternalActiveFilter;
   const filters = [
     ['all', 'All programs', ''],
     ['1', 'Air we breathe', 'I'],
@@ -1279,12 +1303,12 @@ function Projects({ integrated = false }: { integrated?: boolean } = {}) {
       </div>
     </section>}
     <nav className="p3-project-filters" aria-label="Filter projects by program">
-      <div className="container-wide p3-project-filters-inner">{filters.map(([id, label, number]) => <button type="button" key={id} aria-pressed={activeFilter === id} onClick={() => setActiveFilter(id)}>{number && <span>{number}</span>}{label}</button>)}</div>
+      <div className="container-wide p3-project-filters-inner">{filters.map(([id, label, number]) => <button type="button" key={id} aria-pressed={activeFilter === id} onClick={() => updateActiveFilter(id)}>{number && <span>{number}</span>}{label}</button>)}</div>
     </nav>
 
     <section className="p3-projects-section" id="flagship-projects" aria-labelledby="p3-flagships-title">
       <div className="container-wide">
-        <div className="p3-section-heading"><div><span className="eyebrow">Flagship projects</span><h2 id="p3-flagships-title">Where our work is moving fastest.</h2></div><p aria-live="polite">Showing {visibleFlagships.length} flagship {visibleFlagships.length === 1 ? 'project' : 'projects'}.</p></div>
+        <div className="p3-section-heading"><div><span className="eyebrow">Flagship project snapshots</span><h2 id="p3-flagships-title">Selected work across the programs.</h2></div><p aria-live="polite">Showing {visibleFlagships.length} flagship {visibleFlagships.length === 1 ? 'project' : 'projects'}.</p></div>
         <div className="p3-flagships-grid">
           {visibleFlagships.map((project) => <article className="p3-flagship" key={project.title}>
             {project.image && <img className={project.contain ? 'is-contain' : ''} src={`/images/design-reference/${project.image}`} alt={project.alt ?? ''} loading="lazy" decoding="async" />}
@@ -1299,7 +1323,7 @@ function Projects({ integrated = false }: { integrated?: boolean } = {}) {
 
     <section className="p3-projects-section p3-program-catalog" id={integrated ? 'research-project-catalog' : undefined} aria-labelledby="p3-catalog-title">
       <div className="container-wide">
-        <div className="p3-section-heading"><div><span className="eyebrow">{integrated ? 'Distinct projects' : 'All projects by program'}</span><h2 id="p3-catalog-title">{integrated ? 'Additional projects across the five programs.' : 'Five programs, one framework.'}</h2></div><p>The full program portfolio, organized across connected research areas.</p></div>
+        <div className="p3-section-heading"><div><span className="eyebrow">{integrated ? 'Full project catalog' : 'All projects by program'}</span><h2 id="p3-catalog-title">{integrated ? 'Browse additional project records by program.' : 'Five programs, one framework.'}</h2></div><p>{integrated ? 'The catalog adds project descriptions to the related names in each program overview.' : 'The full program portfolio, organized across connected research areas.'}</p></div>
         {programCatalog.map((program) => <section className="p3-catalog-program" id={program.id} key={program.id} hidden={activeFilter !== 'all' && activeFilter !== program.id.slice(1)}>
           <div className="p3-catalog-heading"><span className="p3-catalog-number">{program.number}</span><h3>{program.title}</h3>{!integrated && <><p>{program.intro}</p><img src={`/images/design-reference/${program.image}`} alt={program.alt} loading="lazy" decoding="async" /></>}</div>
           <div className="p3-catalog-items">{program.items.filter(([title]) => !integrated || !researchPrograms.some((researchProgram) => researchProgram.projects.some((project) => project.label.toLowerCase() === title.toLowerCase()))).map(([title, text]) => <article className="p3-catalog-item" key={title}><h4>{title}</h4><p>{text}</p></article>)}</div>
@@ -1307,7 +1331,7 @@ function Projects({ integrated = false }: { integrated?: boolean } = {}) {
       </div>
     </section>
 
-    <section className="p3-projects-section" aria-labelledby="p3-methods-title">
+    <section className="p3-projects-section" id="project-methods" aria-labelledby="p3-methods-title">
       <div className="container-wide">
         <div className="p3-section-heading"><div><span className="eyebrow">Methods and tools</span><h2 id="p3-methods-title">How we measure.</h2></div></div>
         <div className="p3-methods-grid">
@@ -1322,7 +1346,7 @@ function Projects({ integrated = false }: { integrated?: boolean } = {}) {
 
     {visibleDetailedProjects.length > 0 && <section className="p3-projects-section p3-current-projects" id={integrated ? 'research-community-initiatives' : undefined} aria-labelledby="p3-current-projects-title">
       <div className="container-wide">
-        <div className="p3-section-heading"><div><span className="eyebrow">Current project records</span><h2 id="p3-current-projects-title">Detailed community and school initiatives.</h2></div><p>These existing project descriptions and activities are retained alongside the new program portfolio.</p></div>
+        <div className="p3-section-heading"><div><span className="eyebrow">Community project details</span><h2 id="p3-current-projects-title">Detailed community and school initiatives.</h2></div><p>Project descriptions and activities for community- and school-based initiatives.</p></div>
         <div className="projects-list">
           {visibleDetailedProjects.map((project) => <article className="project-entry" id={project.slug} key={project.id} data-testid={`project-${project.slug}`}>
             <div className="project-entry-index" aria-hidden="true">{String(projects.indexOf(project) + 1).padStart(2, '0')}</div>
@@ -1465,6 +1489,16 @@ function PeoplePageHero() {
   </section>;
 }
 
+function PeopleSectionNav({ items }: { items: Array<{ id: string; label: string }> }) {
+  return <nav className="pp-section-nav" aria-label="People sections">
+    {items.map(({ id, label }) => <a key={id} href={`#${id}`}>{label}</a>)}
+  </nav>;
+}
+
+function peopleGridClass(count: number) {
+  return count === 1 ? 'pp-grid pp-grid--single' : count < 4 ? 'pp-grid pp-grid--few' : 'pp-grid';
+}
+
 function People() {
   const [livePeople, setLivePeople] = useState<Array<{
     id: number;
@@ -1547,37 +1581,47 @@ function People() {
       }
     });
     const alumniMembers = [...alumniByName.values()];
+    const sectionLinks = [
+      { id: 'principal-investigator', label: 'Principal Investigator' },
+      ...(currentMembers.length ? [{ id: 'current-team', label: 'Current team' }] : []),
+      ...(alumniMembers.length ? [{ id: 'former-students-and-alumni', label: 'Former students and alumni' }] : []),
+    ];
 
     return (
       <div className="people-page">
         <PeoplePageHero />
         <div className="pp">
+          <PeopleSectionNav items={sectionLinks} />
           {principalInvestigator && (
-            <section>
+            <section id="principal-investigator" className="pp-section">
               <h2>Principal Investigator</h2>
-              <ul className="pp-grid">
+              <ul className={peopleGridClass(1)}>
                 <li className="pp-member">
                   <PersonAvatar name={principalInvestigator.name} photo={principalInvestigator.photo} />
-                  <PersonLinkedInName name={principalInvestigator.name} href={principalInvestigator.linkedinUrl} />
-                  {principalInvestigator.role && <span className="pp-role">{principalInvestigator.role}</span>}
-                  {principalInvestigator.institution && <span className="pp-aff">{principalInvestigator.institution}</span>}
-                  {principalInvestigator.researchFocus && <p className="pp-focus">{principalInvestigator.researchFocus}</p>}
+                  <div className="pp-copy">
+                    <PersonLinkedInName name={principalInvestigator.name} href={principalInvestigator.linkedinUrl} />
+                    {principalInvestigator.role && <span className="pp-role">{principalInvestigator.role}</span>}
+                    {principalInvestigator.institution && <span className="pp-aff">{principalInvestigator.institution}</span>}
+                    {principalInvestigator.researchFocus && <p className="pp-focus">{principalInvestigator.researchFocus}</p>}
+                  </div>
                 </li>
               </ul>
             </section>
           )}
 
           {currentMembers.length > 0 && (
-            <section>
+            <section id="current-team" className="pp-section">
               <h2>Current team</h2>
-              <ul className="pp-grid">
+              <ul className={peopleGridClass(currentMembers.length)}>
                 {currentMembers.map((person) => (
                   <li className="pp-member" key={person.id}>
                     <PersonAvatar name={person.name} photo={person.photo} />
-                    <PersonLinkedInName name={person.name} href={person.linkedinUrl} />
-                    {person.role && <span className="pp-role">{person.role}</span>}
-                    {person.institution && <span className="pp-aff">{person.institution}</span>}
-                    {person.researchFocus && <p className="pp-focus">{person.researchFocus}</p>}
+                    <div className="pp-copy">
+                      <PersonLinkedInName name={person.name} href={person.linkedinUrl} />
+                      {person.role && <span className="pp-role">{person.role}</span>}
+                      {person.institution && <span className="pp-aff">{person.institution}</span>}
+                      {person.researchFocus && <p className="pp-focus">{person.researchFocus}</p>}
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -1585,15 +1629,17 @@ function People() {
           )}
 
           {alumniMembers.length > 0 && (
-            <section>
+            <section id="former-students-and-alumni" className="pp-section">
               <h2>Former students and alumni</h2>
-              <ul className="pp-grid">
+              <ul className={peopleGridClass(alumniMembers.length)}>
                 {alumniMembers.map((person) => (
                   <li className="pp-member" key={person.id || person.name}>
                     <PersonAvatar name={person.name} photo={person.photo} />
-                    <PersonLinkedInName name={person.name} href={person.linkedinUrl} />
-                    {person.role && <span className="pp-role">{person.role}</span>}
-                    {person.institution && <span className="pp-aff">{person.institution}</span>}
+                    <div className="pp-copy">
+                      <PersonLinkedInName name={person.name} href={person.linkedinUrl} />
+                      {person.role && <span className="pp-role">{person.role}</span>}
+                      {person.institution && <span className="pp-aff">{person.institution}</span>}
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -1605,36 +1651,47 @@ function People() {
   }
 
   const { director, sections, former, collaborators } = people;
+  const sectionLinks = [
+    { id: 'principal-investigator', label: 'Principal Investigator' },
+    ...sections.map((section) => ({ id: section.id, label: section.title })),
+    ...(collaborators.length ? [{ id: 'collaborating-groups', label: 'Collaborating groups and centres' }] : []),
+    ...(former.length ? [{ id: 'former-students-and-alumni', label: 'Former students and alumni' }] : []),
+  ];
   return (
     <div className="people-page">
       <PeoplePageHero />
       <div className="pp">
-        <section>
+        <PeopleSectionNav items={sectionLinks} />
+        <section id="principal-investigator" className="pp-section">
           <h2>Principal Investigator</h2>
-          <ul className="pp-grid">
+          <ul className={peopleGridClass(1)}>
             <li className="pp-member">
               <PersonAvatar name={director.name} photo={director.photo} />
-              <PersonName person={director} />
-              {director.role && <span className="pp-role">{director.role}</span>}
-              {director.affiliation && <span className="pp-aff">{director.affiliation}</span>}
-              {director.focus && <p className="pp-focus">{director.focus}</p>}
+              <div className="pp-copy">
+                <PersonName person={director} />
+                {director.role && <span className="pp-role">{director.role}</span>}
+                {director.affiliation && <span className="pp-aff">{director.affiliation}</span>}
+                {director.focus && <p className="pp-focus">{director.focus}</p>}
+              </div>
             </li>
           </ul>
         </section>
 
         {sections.map((section) => (
-          <section key={section.id} id={section.id}>
+          <section key={section.id} id={section.id} className="pp-section">
             <h2>{section.title}</h2>
-            <ul className="pp-grid">
+            <ul className={peopleGridClass(section.members.length)}>
               {section.members.map((person) => (
                 <li className="pp-member" key={person.name}>
                   <PersonAvatar name={person.name} photo={person.photo} />
-                  <PersonName person={person} />
-                  {person.role && <span className="pp-role">{person.role}</span>}
-                  {(person.institution || person.country) && (
-                    <span className="pp-aff">{[person.institution, person.country].filter(Boolean).join(', ')}</span>
-                  )}
-                  {person.researchFocus && <p className="pp-focus">{person.researchFocus}</p>}
+                  <div className="pp-copy">
+                    <PersonName person={person} />
+                    {person.role && <span className="pp-role">{person.role}</span>}
+                    {(person.institution || person.country) && (
+                      <span className="pp-aff">{[person.institution, person.country].filter(Boolean).join(', ')}</span>
+                    )}
+                    {person.researchFocus && <p className="pp-focus">{person.researchFocus}</p>}
+                  </div>
                 </li>
               ))}
             </ul>
@@ -1642,22 +1699,24 @@ function People() {
         ))}
 
         {collaborators.length > 0 && (
-          <section>
+          <section id="collaborating-groups" className="pp-section">
             <h2>Collaborating groups and centres</h2>
             {collaborators.map((collaborator) => <p key={collaborator.name}><strong>{collaborator.name}.</strong> {collaborator.description}</p>)}
           </section>
         )}
 
         {former.length > 0 && (
-          <section>
+          <section id="former-students-and-alumni" className="pp-section">
             <h2>Former students and alumni</h2>
-            <ul className="pp-grid">
+            <ul className={peopleGridClass(former.length)}>
               {former.map((person) => (
                 <li className="pp-member" key={person.name}>
                   <PersonAvatar name={person.name} photo={person.photo} />
-                  <PersonName person={person} />
-                  {person.role && <span className="pp-role">{person.role}</span>}
-                  {(person.now || person.institution || person.country) && <span className="pp-aff">{person.now ?? [person.institution, person.country].filter(Boolean).join(', ')}</span>}
+                  <div className="pp-copy">
+                    <PersonName person={person} />
+                    {person.role && <span className="pp-role">{person.role}</span>}
+                    {(person.now || person.institution || person.country) && <span className="pp-aff">{person.now ?? [person.institution, person.country].filter(Boolean).join(', ')}</span>}
+                  </div>
                 </li>
               ))}
             </ul>
