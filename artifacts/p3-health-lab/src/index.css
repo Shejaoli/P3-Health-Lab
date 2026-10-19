@@ -6501,3 +6501,7 @@ body :is(.site-shell, .humeka-site, .global-research-map) :is(button, label, inp
     gap: 24px;
   }
 }
+
+.research-program-content.has-no-image {
+  grid-template-columns: minmax(0, 1fr);
+}

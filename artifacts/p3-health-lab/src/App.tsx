@@ -68,8 +68,8 @@ const researchPrograms: {
   id: string;
   title: string;
   text: string;
-  image: string;
-  imageAlt: string;
+  image?: string;
+  imageAlt?: string;
   gallery: ResearchImage[];
   questions: string[];
   projects: { label: string; href?: string; logo?: string }[];
@@ -102,11 +102,8 @@ const researchPrograms: {
     id: 'children-schools-exposure',
     title: 'Children, Schools & Personal Exposure',
     text: 'Studying children’s exposure across the school day, in classrooms, and along routes to school.',
-    image: 'research-children-exposure.jpg',
-    imageAlt: 'A researcher demonstrates air-quality monitoring equipment to children indoors.',
     gallery: [
       { src: 'p3/research/program-2-children-schools/school-neighbourhood-traffic-illustration.jpg', alt: 'Illustration of traffic and exposure around a school neighbourhood.', width: 856, height: 609, fit: 'contain' },
-      { src: 'p3/research/program-2-children-schools/home-to-school-route-sensors.jpg', alt: 'Sensors measure air quality along a home-to-school route.', width: 1833, height: 1033 },
       { src: 'p3/research/program-2-children-schools/indoor-exposure-house-model.jpg', alt: 'Model illustrating indoor exposure across different parts of a home.', width: 4093, height: 2894, fit: 'contain' },
     ],
     questions: [
@@ -168,8 +165,6 @@ const researchPrograms: {
     id: 'citizen-science-environmental-justice',
     title: 'Citizen Science & Environmental Justice',
     text: 'Supporting meaningful community participation in environmental-health research and action.',
-    image: 'p3/projects/02-i-am-an-air-quality-scientist/students-measuring-experiment.jpg',
-    imageAlt: 'Students take part in an air-quality science experiment.',
     gallery: [],
     questions: [
       'How can citizen science make environmental exposures visible and useful to communities?',
@@ -228,7 +223,6 @@ const projects: Project[] = [
     ],
     closing: 'The campaign transforms schools into living environmental-health laboratories where children learn by observing, measuring, communicating, and acting.',
     images: [
-      { src: '/images/p3/projects/01-humekaneza-school-campaign/orange-room-workshop.jpg', alt: 'A teacher leads students in an air-quality workshop in a classroom.', width: 1920, height: 1280 },
       { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-enough-is-enough.jpg', alt: 'A child-created poster calling attention to air pollution.', width: 1920, height: 1280 },
       { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-stop-cutting-trees.jpg', alt: 'A child-created poster encouraging protection of trees.', width: 1920, height: 1281 },
     ],
@@ -241,9 +235,7 @@ const projects: Project[] = [
       'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities.',
       'The initiative introduces children to environmental-health science while building scientific literacy, curiosity, confidence, and practical understanding of environmental data.',
     ],
-    images: [
-      { src: '/images/p3/projects/02-i-am-an-air-quality-scientist/students-measuring-experiment.jpg', alt: 'Students take part in an air-quality science experiment.', width: 1833, height: 1033 },
-    ],
+    images: [],
   },
   {
     id: 'one-sensor-per-school',
@@ -268,7 +260,6 @@ const projects: Project[] = [
     images: [
       { src: '/images/p3/projects/04-classroom-clean-air/classroom-air-purifier-diagram.jpg', alt: 'Diagram showing an air purifier cleaning air in a classroom.', width: 1448, height: 1086, fit: 'contain' },
       { src: '/images/p3/projects/04-classroom-clean-air/green-classroom-illustration.jpg', alt: 'Illustration of a greener, more sustainable classroom.', width: 1833, height: 1033, fit: 'contain' },
-      { src: '/images/p3/projects/04-classroom-clean-air/green-classroom-students-sign.jpg', alt: 'Students display a classroom sign about cleaner, greener schools.', width: 1833, height: 1033, fit: 'contain' },
     ],
   },
   {
@@ -633,7 +624,7 @@ function Home() {
   ];
   const programImages = [
     ['/images/design-reference/sampler-illus.jpg', 'Illustration of a researcher deploying a passive air sampler.'],
-    ['/images/design-reference/sensors-kids.jpg', 'Illustration of children using air sensors in class.'],
+    ['/images/p3/research/program-2-children-schools/indoor-exposure-house-model.jpg', 'Model illustrating indoor exposure across different parts of a home.'],
     ['/images/design-reference/house.jpg', 'Illustration of a home and indoor air pathways.'],
     ['/images/design-reference/ebus.jpg', 'Illustration of electric and diesel school buses.'],
     ['/images/design-reference/global-classroom.jpg', 'Illustration of students in Canada and Africa connected through a global classroom.'],
@@ -923,6 +914,10 @@ function ResearchProject() {
               {program.title}
             </a>
           </li>)}
+          <li><a href="#flagship-projects">Flagship projects</a></li>
+          <li><a href="#research-project-catalog">Full project catalog</a></li>
+          <li><a href="#research-methods">Methods</a></li>
+          <li><a href="#research-community-initiatives">Community and school initiatives</a></li>
         </ol>
       </div>
     </nav>
@@ -936,19 +931,19 @@ function ResearchProject() {
           </header>
           <div className="research-program-main">
             <p className="research-program-summary">{program.text}</p>
-            <div className="research-program-content">
-              <div className="research-program-media">
-                <figure className="research-program-figure">
+            <div className={`research-program-content${program.image ? '' : ' has-no-image'}`}>
+              {(program.image || program.gallery.length > 0) && <div className="research-program-media">
+                {program.image && <figure className="research-program-figure">
                   <img
                     src={`${import.meta.env.BASE_URL}images/${program.image}`}
-                    alt={program.imageAlt}
+                    alt={program.imageAlt ?? ''}
                     width="1040"
                     height="720"
                     loading="lazy"
                     decoding="async"
                     data-testid={`img-research-${program.id}`}
                   />
-                </figure>
+                </figure>}
                 {program.gallery.length > 0 && <div className="research-program-gallery" aria-label={`Images related to ${program.title}`}>
                   {program.gallery.map((image) => <figure className={`research-program-gallery-image${image.fit === 'contain' ? ' is-diagram' : ''}`} key={image.src}>
                     <img
@@ -961,7 +956,7 @@ function ResearchProject() {
                     />
                   </figure>)}
                 </div>}
-              </div>
+              </div>}
               <div className="research-program-details">
                 <section aria-labelledby={`research-questions-title-${program.id}`}>
                   <h3 id={`research-questions-title-${program.id}`}>Research questions</h3>
@@ -1012,7 +1007,7 @@ function ResearchProject() {
       </div>
     </section>
 
-    <section className="research-context" aria-labelledby="research-context-title">
+    <section className="research-context" id="research-methods" aria-labelledby="research-context-title">
       <div className="container-wide">
         <h2 id="research-context-title">Research domains, methods &amp; health outcomes</h2>
         <div className="research-context-grid">
@@ -1023,7 +1018,7 @@ function ResearchProject() {
               <li>Biological exposures</li><li>Climate &amp; environmental change</li><li>One Health / global health</li>
             </ul>
           </div>
-          <div id="research-methods">
+          <div>
             <h3>Methods</h3>
             <ul className="research-context-list">
               <li>Exposure assessment</li><li>Mixture analysis</li><li>Risk assessment</li>
@@ -1077,7 +1072,17 @@ function ResearchProject() {
   </div>;
 }
 
-const flagshipProjects = [
+const flagshipProjects: {
+  programs: string[];
+  tags: string[];
+  title: string;
+  text: string;
+  image?: string;
+  alt?: string;
+  contain?: boolean;
+  details: [string, string][];
+  href?: string;
+}[] = [
   {
     programs: ['1'],
     tags: ['I · Air we breathe', 'Aerobiome · eDNA'],
@@ -1147,8 +1152,6 @@ const flagshipProjects = [
     tags: ['II · Children & schools', 'V · Citizen science'],
     title: 'HumekaNeza: Breathe Easy',
     text: 'A school clean-air program in Kigali, Rwanda. Students learn about air quality, work with monitors and the Air Quality Flag, and take part in practical school-community activities.',
-    image: 'workshop.jpg',
-    alt: 'HumekaNeza workshop with students in Kigali.',
     details: [['Where', 'Kigali, Rwanda']],
     href: '/humekaneza',
   },
@@ -1279,12 +1282,12 @@ function Projects({ integrated = false }: { integrated?: boolean } = {}) {
       <div className="container-wide p3-project-filters-inner">{filters.map(([id, label, number]) => <button type="button" key={id} aria-pressed={activeFilter === id} onClick={() => setActiveFilter(id)}>{number && <span>{number}</span>}{label}</button>)}</div>
     </nav>
 
-    <section className="p3-projects-section" aria-labelledby="p3-flagships-title">
+    <section className="p3-projects-section" id="flagship-projects" aria-labelledby="p3-flagships-title">
       <div className="container-wide">
         <div className="p3-section-heading"><div><span className="eyebrow">Flagship projects</span><h2 id="p3-flagships-title">Where our work is moving fastest.</h2></div><p aria-live="polite">Showing {visibleFlagships.length} flagship {visibleFlagships.length === 1 ? 'project' : 'projects'}.</p></div>
         <div className="p3-flagships-grid">
           {visibleFlagships.map((project) => <article className="p3-flagship" key={project.title}>
-            <img className={project.contain ? 'is-contain' : ''} src={`/images/design-reference/${project.image}`} alt={project.alt} loading="lazy" decoding="async" />
+            {project.image && <img className={project.contain ? 'is-contain' : ''} src={`/images/design-reference/${project.image}`} alt={project.alt ?? ''} loading="lazy" decoding="async" />}
             <div className="p3-flagship-body"><div className="p3-flagship-meta">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div><h3>{project.title}</h3><p>{project.text}</p>
               {project.details.length > 0 && <dl>{project.details.map(([term, description]) => <Fragment key={term}><dt>{term}</dt><dd>{description}</dd></Fragment>)}</dl>}
               {project.href && <Link className="p3-text-link" href={project.href}>Visit the HumekaNeza page <ArrowUpRight size={14} aria-hidden="true" /></Link>}
@@ -1294,7 +1297,7 @@ function Projects({ integrated = false }: { integrated?: boolean } = {}) {
       </div>
     </section>
 
-    <section className="p3-projects-section p3-program-catalog" aria-labelledby="p3-catalog-title">
+    <section className="p3-projects-section p3-program-catalog" id={integrated ? 'research-project-catalog' : undefined} aria-labelledby="p3-catalog-title">
       <div className="container-wide">
         <div className="p3-section-heading"><div><span className="eyebrow">{integrated ? 'Distinct projects' : 'All projects by program'}</span><h2 id="p3-catalog-title">{integrated ? 'Additional projects across the five programs.' : 'Five programs, one framework.'}</h2></div><p>The full program portfolio, organized across connected research areas.</p></div>
         {programCatalog.map((program) => <section className="p3-catalog-program" id={program.id} key={program.id} hidden={activeFilter !== 'all' && activeFilter !== program.id.slice(1)}>
@@ -1310,14 +1313,14 @@ function Projects({ integrated = false }: { integrated?: boolean } = {}) {
         <div className="p3-methods-grid">
           <figure><img src="/images/design-reference/field-samplers-garden.jpg" alt="Passive air samplers, including an opened unit showing the foam disk." loading="lazy" decoding="async" /><figcaption><strong>Passive samplers</strong>Electricity-free PUF disks for chemicals, microbes and eDNA.</figcaption></figure>
           <figure><img src="/images/design-reference/field-cruiser.jpg" alt="Environment and Climate Change Canada mobile air-quality laboratory." loading="lazy" decoding="async" /><figcaption><strong>Mobile labs</strong>The WUM-AIR trailer and ECCC’s CRUISER.</figcaption></figure>
-          <figure><img src="/images/design-reference/shear-upas.jpg" alt="Family members in rural Rwanda wearing personal air monitors." loading="lazy" decoding="async" /><figcaption><strong>Wearable monitors</strong>Personal PM2.5 sensors worn through the day.</figcaption></figure>
+          <figure className="p3-methods-text"><div aria-hidden="true">PM₂.₅</div><figcaption><strong>Wearable monitors</strong>Personal PM2.5 sensors worn through the day.</figcaption></figure>
           <figure><img src="/images/design-reference/field-calibrate.jpg" alt="Calibrating reference air-monitoring instruments." loading="lazy" decoding="async" /><figcaption><strong>Reference instruments</strong>Regulatory-grade analyzers for calibration.</figcaption></figure>
         </div>
         <div className="p3-toolkit" aria-label="Lab and analysis toolkit"><span>GPS &amp; GIS</span><span>Air-quality models &amp; machine learning</span><span>Low-cost sensors</span><span>Passive &amp; active samplers</span><span>PCR &amp; next-generation sequencing</span><span>UPLC, GC/MS &amp; Orbitrap</span><span>Satellite data</span></div>
       </div>
     </section>
 
-    {visibleDetailedProjects.length > 0 && <section className="p3-projects-section p3-current-projects" aria-labelledby="p3-current-projects-title">
+    {visibleDetailedProjects.length > 0 && <section className="p3-projects-section p3-current-projects" id={integrated ? 'research-community-initiatives' : undefined} aria-labelledby="p3-current-projects-title">
       <div className="container-wide">
         <div className="p3-section-heading"><div><span className="eyebrow">Current project records</span><h2 id="p3-current-projects-title">Detailed community and school initiatives.</h2></div><p>These existing project descriptions and activities are retained alongside the new program portfolio.</p></div>
         <div className="projects-list">
@@ -1325,11 +1328,11 @@ function Projects({ integrated = false }: { integrated?: boolean } = {}) {
             <div className="project-entry-index" aria-hidden="true">{String(projects.indexOf(project) + 1).padStart(2, '0')}</div>
             <div className="project-entry-content">
               <div className="project-entry-heading"><div><h2>{project.title}</h2>{project.subtitle && <p className="project-subtitle">{project.subtitle}</p>}</div>{project.location && <span className="project-location">{project.location}</span>}</div>
-              <div className="project-entry-layout">
-                <div className="project-entry-media">
+              <div className={`project-entry-layout${project.images.length ? '' : ' no-media'}`}>
+                {project.images.length > 0 && <div className="project-entry-media">
                   {project.images.slice(0, 1).map((image) => <figure className={`project-entry-image${image.fit === 'contain' ? ' is-diagram' : ''}`} key={image.src}><img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" /></figure>)}
                   {project.images.length > 1 && <div className="project-entry-image-strip">{project.images.slice(1).map((image) => <figure className={`project-entry-image${image.fit === 'contain' ? ' is-diagram' : ''}`} key={image.src}><img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" /></figure>)}</div>}
-                </div>
+                </div>}
                 <div className={`project-entry-body${project.activities || project.focus ? '' : ' is-single-column'}`}>
                   <div>{project.description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
                   {(project.activities || project.focus) && <div className="project-focus"><h3>{project.activities ? 'Activities' : 'Focus'}</h3><ul>{(project.activities ?? project.focus)?.map((item) => <li key={item}>{item}</li>)}</ul></div>}
@@ -1829,9 +1832,19 @@ function Contact() {
 
 function Teaching() {
   const teachingQuery = useGetPublicTeaching();
+  const [slowLoading, setSlowLoading] = useState(false);
   const courses = teachingQuery.data?.courses ?? [];
   const academicYears = Array.from(new Set(courses.map(({ academicYear }) => academicYear)));
   const [currentAcademicYear, ...previousAcademicYears] = academicYears;
+
+  useEffect(() => {
+    if (!teachingQuery.isLoading) {
+      setSlowLoading(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setSlowLoading(true), 10000);
+    return () => window.clearTimeout(timer);
+  }, [teachingQuery.isLoading]);
 
   const renderYear = (year: string) => (
     <div className="teaching-year" key={year} data-reveal="up">
@@ -1864,7 +1877,7 @@ function Teaching() {
           <p>Teaching in global health and One Health connects foundational knowledge with field-based learning, interdisciplinary collaboration, and real-world environmental and population-health challenges.</p>
         </div>
         <figure className="teaching-hero-image">
-          <img src="/images/p3/global-map-banner-candidates/teacher-with-posters-classroom.jpg" alt="A teacher presents environmental-health posters to students in a classroom." width="1920" height="1280" fetchPriority="high" decoding="async" />
+          <img src="/images/design-reference/global-classroom.jpg" alt="Illustration of students in Canada and Africa connected through a global classroom." width="1920" height="1280" fetchPriority="high" decoding="async" />
           <figcaption>Knowledge grows through shared learning.</figcaption>
         </figure>
       </div>
@@ -1879,13 +1892,14 @@ function Teaching() {
           <figure><img src="/images/design-reference/teaching-global-health-classroom.png" alt="Students take part in a graduate global health class at Western University." loading="lazy" decoding="async" /></figure>
         </div>
         <div className="teaching-feature-courses">
-          <span className="eyebrow">Courses · Western University</span>
+          <span className="eyebrow">Selected courses · Western University</span>
+          <p>Course names are listed for context; current schedules and course details are not maintained here.</p>
           <ol>
-            <li><span>GHS 9100</span><div><h3>Foundations of Global Health</h3><p>MSc Global Health Systems · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
-            <li><span>GHS 9112</span><div><h3>International Field School</h3><p>Global health practicum, including fieldwork in Rwanda · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
-            <li><span>MPH 9015</span><div><h3>Issues in Global Health</h3><p>Master of Public Health · <Link href="/teaching">Course page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
-            <li><span>OH 3300A</span><div><h3>Foundations in One Health</h3><p>Undergraduate One Health program · <Link href="/teaching">Program page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
-            <li><span>OH 3600</span><div><h3>One Health in Action</h3><p>Undergraduate One Health program · <Link href="/teaching">Program page <ArrowUpRight size={12} aria-hidden="true" /></Link></p></div></li>
+            <li><span>GHS 9100</span><div><h3>Foundations of Global Health</h3><p>MSc Global Health Systems</p></div></li>
+            <li><span>GHS 9112</span><div><h3>International Field School</h3><p>Global health practicum, including fieldwork in Rwanda</p></div></li>
+            <li><span>MPH 9015</span><div><h3>Issues in Global Health</h3><p>Master of Public Health</p></div></li>
+            <li><span>OH 3300A</span><div><h3>Foundations in One Health</h3><p>Undergraduate One Health program</p></div></li>
+            <li><span>OH 3600</span><div><h3>One Health in Action</h3><p>Undergraduate One Health program</p></div></li>
           </ol>
         </div>
       </div>
@@ -1893,12 +1907,12 @@ function Teaching() {
     <section className="section teaching-courses" aria-labelledby="teaching-courses-title" data-reveal="up">
       <div className="container-wide">
         <div className="teaching-section-heading">
-          <div><span className="eyebrow">Courses</span><h2 id="teaching-courses-title">Teaching in practice.</h2></div>
+          <div><span className="eyebrow">Published course records</span><h2 id="teaching-courses-title">Teaching in practice.</h2></div>
           <p>Published course titles and codes, organized by academic year.</p>
         </div>
-        {teachingQuery.isLoading && <p className="teaching-query-message" role="status">Loading course information…</p>}
-        {teachingQuery.isError && <p className="teaching-query-message" role="alert">Course information is temporarily unavailable.</p>}
-        {!teachingQuery.isLoading && !teachingQuery.isError && courses.length === 0 && <p className="teaching-query-message">There are no published courses to display right now.</p>}
+        {teachingQuery.isLoading && <p className="teaching-query-message" role="status">{slowLoading ? 'Course information is taking longer than expected.' : 'Loading course information…'} {slowLoading && <button type="button" onClick={() => { setSlowLoading(false); void teachingQuery.refetch(); }}>Try again</button>}</p>}
+        {teachingQuery.isError && <p className="teaching-query-message" role="alert">Course information is temporarily unavailable. <button type="button" onClick={() => { void teachingQuery.refetch(); }}>Try again</button></p>}
+        {!teachingQuery.isLoading && !teachingQuery.isError && courses.length === 0 && <p className="teaching-query-message">No academic-year course records are currently published in the directory above.</p>}
         {currentAcademicYear && <div className="teaching-course-block teaching-current">{renderYear(currentAcademicYear)}</div>}
         {previousAcademicYears.length > 0 && <div className="teaching-course-block">
           <div className="teaching-section-heading"><div><span className="eyebrow">Course archive</span><h2>Previous courses.</h2></div></div>
@@ -1933,10 +1947,20 @@ const opportunityCategories = [
 ];
 
 function Opportunity() {
-  const { data, isLoading, isError } = useGetPublicOpportunities();
+  const { data, isLoading, isError, refetch } = useGetPublicOpportunities();
   const { data: profileData } = useGetPublicProfile();
   const opportunities = data?.opportunities ?? [];
   const generalEmail = profileData?.contact.labEmail ?? profileData?.contact.contactEmail;
+  const [slowLoading, setSlowLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setSlowLoading(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setSlowLoading(true), 10000);
+    return () => window.clearTimeout(timer);
+  }, [isLoading]);
 
   return <>
     <PageHero eyebrow="Opportunity" title={<>Opportunity at the <em>P3 Health Lab.</em></>} text="Become part of the P3 Health Lab. We welcome MSc and PhD students, postdoctoral fellows, global health interns, undergraduate researchers and visiting scholars." className="p3-purple-hero" />
@@ -1946,15 +1970,16 @@ function Opportunity() {
           <div><span className="eyebrow">Prospective members</span><h2>Opportunities</h2></div>
           <p>Only published, current listings appear here.</p>
         </div>
-        {isLoading && <p className="opportunities-empty" role="status">Loading opportunity information…</p>}
-        {isError && <p className="opportunities-empty" role="alert">Opportunity information could not be loaded. Please check again later.</p>}
-        <div className="opportunity-category-list">
+        {isLoading && <p className="opportunities-empty" role="status">{slowLoading ? 'Opportunity information is taking longer than expected.' : 'Loading opportunity information…'} {slowLoading && <button type="button" onClick={() => { void refetch(); }}>Try again</button>}</p>}
+        {isError && <p className="opportunities-empty" role="alert">Opportunity information could not be loaded. <button type="button" onClick={() => { void refetch(); }}>Try again</button></p>}
+        {!isLoading && !isError && opportunities.length === 0 && <p className="opportunities-empty" role="status">No current openings are published. For general inquiries, see the <Link href="/contact">contact options</Link>.</p>}
+        {!isLoading && !isError && opportunities.length > 0 && <div className="opportunity-category-list">
           {opportunityCategories.map((category, index) => {
             const categoryOpportunities = opportunities.filter((opportunity) => opportunity.category === category);
             return <section className="opportunity-category" key={category} data-testid={`card-opportunity-${index}`}>
               <h3>{category}</h3>
               <div className="opportunity-record-list">
-                {categoryOpportunities.length > 0 ? categoryOpportunities.map((opportunity, opportunityIndex) => (
+                {categoryOpportunities.map((opportunity, opportunityIndex) => (
                   <article className="opportunity-record" key={`${opportunity.title}-${opportunityIndex}`}>
                     <div className="opportunity-record-heading">
                       <h4>{opportunity.title}</h4>
@@ -1969,11 +1994,11 @@ function Opportunity() {
                       {opportunity.applicationUrl && <a href={opportunity.applicationUrl} target="_blank" rel="noreferrer">View application details <ArrowUpRight size={14} aria-hidden="true" /></a>}
                     </div>}
                   </article>
-                )) : !isLoading && !isError && <p className="opportunities-empty" role="status">Opportunity information will be posted here when available.</p>}
+                ))}
               </div>
             </section>;
           })}
-        </div>
+        </div>}
       </div>
     </section>
     <section className="contact-band" id="contact" data-reveal="up">

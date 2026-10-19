@@ -39,7 +39,6 @@
 }
 
 .site-shell .ct-page-section .ct .ct-topic span,
-.site-shell .ct-page-section .ct .ct-topic-note,
 .site-shell .ct-page-section .ct .ct-roles,
 .site-shell .ct-page-section .ct .ct-map__card p,
 .site-shell .ct-page-section .ct .ct-form > .ct-sub {
@@ -52,28 +51,14 @@
 
 .site-shell .ct-page-section .ct .ct-chips li,
 .site-shell .ct-page-section .ct .ct-links small,
-.site-shell .ct-page-section .ct .ct-err,
 .site-shell .ct-page-section .ct .ct-btn--sm {
   font-size: 15px !important;
 }
 
-.site-shell .ct-page-section .ct .ct-credit,
-.site-shell .ct-page-section .ct .ct-count {
+.site-shell .ct-page-section .ct .ct-credit {
   font-size: 14px !important;
 }
 
-.site-shell .ct-page-section .ct .ct-field label,
-.site-shell .ct-page-section .ct .ct-check {
-  font-size: 16px !important;
-}
-
-.site-shell .ct-page-section .ct .ct-field input,
-.site-shell .ct-page-section .ct .ct-field select,
-.site-shell .ct-page-section .ct .ct-field textarea {
-  font-size: 18px !important;
-}
-
-.site-shell .ct-page-section .ct .ct-form .ct-status,
 .site-shell .ct-page-section .ct .ct-btn {
   font-size: 17px !important;
 }
@@ -88,10 +73,6 @@
 
 .site-shell .ct-page-section .ct .ct-faq summary::after {
   font-size: 28px !important;
-}
-
-.site-shell .ct-page-section .ct-form .ct-status.info {
-  display: block;
 }
 
 @media (max-width: 640px) {
