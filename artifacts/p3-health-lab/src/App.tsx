@@ -1412,13 +1412,9 @@ const linkedInProfiles: Record<string, string> = {
 };
 
 const peopleWithoutRequestedPortrait = new Set([
-  'allison pert',
   'zoha irfan',
-  'oluwaseun bajulaye',
-  'farhana ramiza',
   'ruiming han',
   'patrick karakwende',
-  'adolphe ndikubwimana',
 ]);
 
 function normalizePersonName(name: string) {

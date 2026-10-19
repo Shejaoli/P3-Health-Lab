@@ -7,6 +7,10 @@ import francisAcquahPhoto from '@assets/Francis_N._Acquah_1790358118740.webp';
 import angeLisaIkireziPhoto from '@assets/IKIREZI_Ange_Lisa3_1790358118788.webp';
 import dioumacorFayePhoto from '@assets/Dioumacor_FAYE_(1)_1790358118917.png';
 import victoriaBurseyPhoto from '@assets/Victoria_Bursey_1790358119044.png';
+import adolpheNdikubwimanaPhoto from '@assets/Adolphe_Ndikubwimana_profile.jpg';
+import allisonPertProfilePhoto from '@assets/Allison_Pert_profile.jpg';
+import farhanaRamizaPhoto from '@assets/Farhana_Rokaiya_Ramiza_profile.jpg';
+import oluwaseunBajulayePhoto from '@assets/Oluwaseun_Bajulaye_profile.jpg';
 
 type PersonRecord = {
   name: string;
@@ -60,7 +64,7 @@ export const people: {
       id: 'phd',
       title: 'PhD Students — Western University',
       members: [
-        { name: 'Allison Pert', role: 'PhD Student', institution: 'Western University', linkedin: 'https://www.linkedin.com/in/allisonpert/' },
+        { name: 'Allison Pert', role: 'PhD Student', photo: allisonPertProfilePhoto, institution: 'Western University', linkedin: 'https://www.linkedin.com/in/allisonpert/' },
         { name: 'Augustine Omodieke', role: 'PhD Student', photo: augustineOmodiekePhoto, institution: 'Western University', researchFocus: 'Environmental epidemiology; air pollution; health economics', linkedin: 'https://www.linkedin.com/in/augustine-omodieke/' },
         { name: 'Francis Acquah', role: 'PhD Student', photo: francisAcquahPhoto, institution: 'Western University', linkedin: 'https://www.linkedin.com/in/francis-n-acquah-a39aa1219/' },
         { name: 'Daniel Twum', role: 'PhD Student', photo: '/img/people/daniel-twum.jpg', institution: 'Western University', linkedin: 'https://www.linkedin.com/in/dr-daniel-twum-mbbs-pt-msc-cic-17025b189/' },
@@ -72,8 +76,8 @@ export const people: {
       title: 'MSc Students — Western University',
       members: [
         { name: 'Zoha Irfan', role: 'MSc Student', institution: 'Western University', researchFocus: 'PAHs; air pollution; exposure science', linkedin: 'https://www.linkedin.com/in/zoha-irfan-296062308/' },
-        { name: 'Oluwaseun Bajulaye', role: 'MSc Student', institution: 'Western University', linkedin: 'https://www.linkedin.com/in/oyinbajulaye/' },
-        { name: 'Farhana Ramiza', role: 'MSc Student', institution: 'Western University', linkedin: 'https://www.linkedin.com/in/farhana-rokaiya-ramiza-56b558238/' },
+        { name: 'Oluwaseun Bajulaye', role: 'MSc Student', photo: oluwaseunBajulayePhoto, institution: 'Western University', linkedin: 'https://www.linkedin.com/in/oyinbajulaye/' },
+        { name: 'Farhana Ramiza', role: 'MSc Student', photo: farhanaRamizaPhoto, institution: 'Western University', linkedin: 'https://www.linkedin.com/in/farhana-rokaiya-ramiza-56b558238/' },
         { name: 'Ignatius Atuguba', role: 'MSc Student', photo: '/img/people/ignatius-atuguba.jpg', institution: 'Western University', linkedin: 'https://www.linkedin.com/in/ignatiusatuguba/' },
       ],
     },
@@ -107,7 +111,7 @@ export const people: {
       title: 'International / Externally Co-supervised PhD Students',
       members: [
         { name: 'Patrick Karakwende', role: 'PhD Student', linkedin: 'https://www.linkedin.com/in/patrick-karakwende-984440144/' },
-        { name: 'Adolphe Ndikubwimana', role: 'PhD Student', institution: 'University of Rwanda', country: 'Rwanda', linkedin: 'https://www.linkedin.com/in/adolphe-atuhire-140847116/' },
+        { name: 'Adolphe Ndikubwimana', role: 'PhD Student', photo: adolpheNdikubwimanaPhoto, institution: 'University of Rwanda', country: 'Rwanda', linkedin: 'https://www.linkedin.com/in/adolphe-atuhire-140847116/' },
         { name: 'Deborah', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria' },
         { name: 'Nibagwire', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria' },
         { name: 'Franck Kwabe', role: 'PhD Student', institution: 'ISP Bukavu', country: 'DR Congo' },
@@ -129,7 +133,7 @@ export const people: {
     { name: 'Victoria Bursey', role: 'Undergraduate Researcher', photo: victoriaBurseyPhoto, currentPosition: 'MSc Public Health, University of Toronto', now: 'MSc Public Health, University of Toronto', status: 'Alumni', href: 'https://www.linkedin.com/in/victoria-bursey-1b4871237' },
     { name: 'Emily Airhart', role: 'Undergraduate Researcher', photo: emilyAirhartPhoto, currentPosition: 'MSc Student, University of Toronto', now: 'MSc Student, University of Toronto', status: 'Alumni', href: 'https://www.linkedin.com/in/emily-airhart-443799a5' },
     { name: 'Shagun Chander', role: 'Undergraduate Researcher', photo: '/images/alumni/shagun-chander.jpg', status: 'Alumni', href: 'https://www.linkedin.com/in/shagunchander/' },
-    { name: 'Allison Pert', role: 'MSc Student', now: 'PhD Student at Western University, P3 Health Lab', status: 'Alumni', linkedin: 'https://www.linkedin.com/in/allisonpert/' },
+    { name: 'Allison Pert', role: 'MSc Student', photo: allisonPertProfilePhoto, now: 'PhD Student at Western University, P3 Health Lab', status: 'Alumni', linkedin: 'https://www.linkedin.com/in/allisonpert/' },
     { name: 'Augustine Omodieke', role: 'MSc Student', photo: augustineOmodiekePhoto, now: 'PhD Student at Western University, P3 Health Lab', status: 'Alumni', linkedin: 'https://www.linkedin.com/in/augustine-omodieke/' },
   ],
   collaborators: [],
