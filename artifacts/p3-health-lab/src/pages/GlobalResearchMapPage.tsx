@@ -134,6 +134,10 @@ export function GlobalResearchMapPage() {
     eastAfrica: EAST_AFRICA.length,
     continents: new Set(researchMapSites.filter((site) => site.status !== 'Planned').map((site) => site.continent)).size,
   }), []);
+  const visibleSites = useMemo(
+    () => researchMapSites.filter((site) => enabledThemes.has(site.theme)),
+    [enabledThemes],
+  );
 
   const selectSite = useCallback((siteId: string) => setSelectedId(siteId), []);
 
@@ -196,11 +200,12 @@ export function GlobalResearchMapPage() {
             <p>Explore research sites, collaborations and the communities connected to our work around the world.</p>
           </div>
           <div className="grm-stats" aria-label="Map statistics">
-            <div><strong>{counts.sites}</strong><span>Research sites</span></div>
-            <div><strong>{counts.countries}</strong><span>Countries</span></div>
+            <div><strong>{counts.sites}</strong><span>Non-planned locations</span></div>
+            <div><strong>{counts.countries}</strong><span>Country and territory labels</span></div>
             <div><strong>{counts.eastAfrica}</strong><span>East African sampling sites</span></div>
             <div><strong>{counts.continents}</strong><span>Continents</span></div>
           </div>
+          <p className="grm-count-note">Totals exclude planned locations and follow the country, territory and continent labels recorded in the map dataset.</p>
         </div>
       </section>
 
@@ -231,15 +236,25 @@ export function GlobalResearchMapPage() {
 
       <section className="grm-section grm-regions">
         <div className="container-wide">
-          <div className="grm-section-heading"><span className="grm-eyebrow">Explore by region</span><h2>Sites by region</h2></div>
-          <div className="grm-region-grid">
-            {REGIONS.map((region) => <section key={region} aria-labelledby={`grm-region-${REGIONS.indexOf(region)}`}>
-              <h3 id={`grm-region-${REGIONS.indexOf(region)}`}>{region}</h3>
-              <div>{researchMapSites.filter((site) => site.region === region).map((site) => <button key={site.id} type="button" className={site.id === selectedId ? 'is-selected' : ''} onClick={() => selectSite(site.id)}>
-                <span>{site.name}</span><small>{site.country}</small>
-              </button>)}</div>
-            </section>)}
-          </div>
+          {view === 'sites' ? <>
+            <div className="grm-section-heading"><span className="grm-eyebrow">Explore by region</span><h2>Sites by region</h2></div>
+            <p className="grm-list-status" role="status">Showing {visibleSites.length} of {researchMapSites.length} listed locations. Theme filters above apply to both this list and the map.</p>
+            <div className="grm-region-grid">
+              {REGIONS.map((region, index) => {
+                const sites = visibleSites.filter((site) => site.region === region);
+                if (sites.length === 0) return null;
+                return <section key={region} aria-labelledby={`grm-region-${index}`}>
+                  <h3 id={`grm-region-${index}`}>{region}</h3>
+                  <div>{sites.map((site) => <button key={site.id} type="button" aria-pressed={site.id === selectedId} className={site.id === selectedId ? 'is-selected' : ''} onClick={() => selectSite(site.id)}>
+                    <span>{site.name}</span><small>{site.country} · {site.status}</small>
+                  </button>)}</div>
+                </section>;
+              })}
+            </div>
+          </> : <>
+            <div className="grm-section-heading"><span className="grm-eyebrow">Team connections</span><h2>Countries represented in team profiles</h2></div>
+            <ul className="grm-team-country-list">{researchMapTeamCountries.map(({ country }) => <li key={country}>{country}</li>)}</ul>
+          </>}
         </div>
       </section>
     </div>

@@ -1058,6 +1058,16 @@
   background: #fff;
 }
 
+.p3-methods-grid .p3-methods-text > div {
+  display: grid;
+  min-height: 178px;
+  place-items: center;
+  color: var(--purple);
+  background: color-mix(in srgb, var(--ivory) 75%, var(--purple));
+  font-family: var(--app-font-serif);
+  font-size: clamp(2.5rem, 4vw, 4rem);
+}
+
 .p3-methods-grid img {
   width: 100%;
   aspect-ratio: 1.35;
@@ -1142,6 +1152,10 @@
   grid-template-columns: minmax(220px, .75fr) minmax(0, 1.25fr);
   gap: 25px;
   margin-top: 20px;
+}
+
+.p3-current-projects .project-entry-layout.no-media {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .p3-current-projects .project-entry-image img {

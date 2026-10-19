@@ -4,7 +4,7 @@
   (keep the site header and footer). Files needed:
     img/contact-western-building.jpg   (building photo)
     img/portrait.jpg                   (Dr. Kalisa portrait, already on the site)
-  Edit ONLY the CONTACT_DATA, CONTACT_CONFIG and LINKS objects at the bottom.
+  Keep unconfirmed email and phone details blank; LINKS contains internal page paths.
 -->
 <style>
 .ct{--ct-purple:#5B3F7D;--ct-purple-d:#43295f;--ct-navy:#183247;--ct-ivory:#F7F5F0;--ct-teal:#236B67;--ct-slate:#29343D;--ct-line:#ddd6e6;--ct-lilac:#EFE9F6;
@@ -50,15 +50,13 @@
 
 /* 2. topics */
 .ct-topics{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.ct-topic{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:2px solid var(--ct-line);border-radius:8px;padding:26px 24px;display:flex;flex-direction:column;gap:10px;transition:transform .18s,box-shadow .18s,border-color .18s,background .18s}
+.ct-topic{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:2px solid var(--ct-line);border-radius:8px;padding:26px 24px;display:flex;flex-direction:column;gap:10px;text-decoration:none;transition:transform .18s,box-shadow .18s,border-color .18s,background .18s}
 .ct-topic:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(24,50,71,.12);border-color:var(--ct-purple)}
 .ct-topic:focus-visible{outline:3px solid var(--ct-purple);outline-offset:3px}
-.ct-topic[aria-pressed="true"]{border-color:var(--ct-purple);background:var(--ct-lilac)}
 .ct-topic svg{width:40px;height:40px;stroke:var(--ct-purple);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .ct-topic strong{font:500 24px/1.15 var(--f-display,Georgia,serif);color:var(--ct-navy)}
 .ct-topic span{font-size:17px}
 .ct-topic em{font-style:normal;font-weight:600;color:var(--ct-purple);margin-top:auto;padding-top:8px}
-.ct-topic-note{margin:18px 0 0;font-size:17px;min-height:1.6em}
 
 /* 3. card + form */
 .ct-main{background:#fff;border-block:1px solid var(--ct-line)}
@@ -80,22 +78,6 @@
 .ct-form{background:#fff;border:1px solid var(--ct-line);border-radius:8px;padding:34px;box-shadow:0 10px 30px rgba(24,50,71,.07)}
 .ct-form h3{font-size:34px;margin-bottom:6px}
 .ct-form>.ct-sub{margin:0 0 22px;font-size:17px}
-.ct-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.ct-field{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
-.ct-field label{font-weight:600;font-size:16px;color:var(--ct-navy)}
-.ct-field input,.ct-field select,.ct-field textarea{font:400 18px/1.4 var(--f-body,Arial,sans-serif);padding:14px 14px;border:2px solid #c9c2d3;border-radius:4px;background:#fff;color:var(--ct-slate);width:100%}
-.ct-field textarea{min-height:160px;resize:vertical}
-.ct-field input:focus,.ct-field select:focus,.ct-field textarea:focus{border-color:var(--ct-purple);outline:none;box-shadow:0 0 0 3px rgba(91,63,125,.2)}
-.ct-field.has-error input,.ct-field.has-error select,.ct-field.has-error textarea{border-color:#b3261e}
-.ct-err{color:#b3261e;font-size:15px;min-height:1.2em;margin:0}
-.ct-count{font-size:14px;color:#5b6670;text-align:right;margin:0}
-.ct-check{display:flex;gap:12px;align-items:flex-start;margin-bottom:20px;font-size:16px}
-.ct-check input{width:22px;height:22px;margin-top:3px;accent-color:var(--ct-purple);flex:none}
-.ct-hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
-.ct-form .ct-status{margin:20px 0 0;padding:14px 16px;border-radius:4px;font-size:17px;display:none}
-.ct-status.ok{display:block;background:#e6f3ee;color:#14543f;border:1px solid #b6dccd}
-.ct-status.bad{display:block;background:#fdeceb;color:#8a1c14;border:1px solid #f0bdb9}
-.ct-status.info{display:block;background:var(--ct-lilac);color:var(--ct-purple-d);border:1px solid var(--ct-line)}
 
 /* 4. map */
 .ct-tabs{display:inline-flex;border:2px solid var(--ct-purple);border-radius:4px;overflow:hidden;margin-bottom:18px}
@@ -122,7 +104,7 @@
 
 @media (max-width:1000px){.ct-topics{grid-template-columns:1fr 1fr}.ct-grid{grid-template-columns:1fr}}
 @media (max-width:640px){
-  .ct{font-size:17px}.ct-section{padding:52px 0}.ct-topics{grid-template-columns:1fr}.ct-row{grid-template-columns:1fr;gap:0}
+  .ct{font-size:17px}.ct-section{padding:52px 0}.ct-topics{grid-template-columns:1fr}
   .ct-hero{min-height:0;display:block}.ct-hero__img{position:relative;height:240px}.ct-hero__shade{display:none}
   .ct-hero .ct-wrap{padding:0;margin-top:-60px;width:min(100% - 32px,560px)}.ct-hero__card{padding:30px 24px}
   .ct-credit{top:10px;bottom:auto;right:12px}.ct-form,.ct-card{padding:24px 20px}.ct-person{flex-direction:column;align-items:flex-start}
@@ -141,9 +123,9 @@
       <div class="ct-glass ct-hero__card">
         <p class="ct-eyebrow">Contact</p>
         <h1 id="ct-h1">Connect with the P3 Health Lab</h1>
-        <p>Tell us what you are working on. Choose how you would like to reach us.</p>
+        <p>Choose a direct route to explore opportunities, research collaborations, school programmes or general academic contact.</p>
         <div class="ct-hero__btns">
-          <a class="ct-btn ct-btn--white" href="#ct-form-wrap" data-scroll>Send a message</a>
+          <a class="ct-btn ct-btn--white" href="https://www.schulich.uwo.ca/epibio/people/faculty/core_faculty/dr_egide_kalisa.html" target="_blank" rel="noopener noreferrer">Western faculty profile</a>
           <a class="ct-btn ct-btn--ghost" href="#ct-campus" data-scroll>Find us on campus</a>
         </div>
       </div>
@@ -156,31 +138,30 @@
     <div class="ct-wrap">
       <p class="ct-eyebrow">How can we help?</p>
       <h2 id="ct-h-help">Choose what brings you here</h2>
-      <p class="ct-lead">Pick a topic and we will prepare the message form for you.</p>
+      <p class="ct-lead">Choose a page or verified profile link for the information you need.</p>
       <div class="ct-topics" role="group" aria-label="Contact topics">
-        <button type="button" class="ct-topic" data-topic="Join the lab" aria-pressed="false">
+        <a class="ct-topic" data-link="opportunity" href="#">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-5 9 5-9 5-9-5z"/><path d="M7 11.5V16c0 1.5 2.2 3 5 3s5-1.5 5-3v-4.5"/></svg>
-          <strong>Join the lab</strong><span>Students, postdoctoral fellows and interns.</span><em>Write to us &rarr;</em>
-        </button>
-        <button type="button" class="ct-topic" data-topic="Research collaboration" aria-pressed="false">
+          <strong>Join the lab</strong><span>See published opportunities and application details.</span><em>View opportunities &rarr;</em>
+        </a>
+        <a class="ct-topic" data-link="research" href="#">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M2.5 19c.5-3 2.7-4.5 5.5-4.5s5 1.5 5.5 4.5"/><path d="M14.5 15c2.6-.3 4.6.8 5.5 3.5"/></svg>
-          <strong>Research collaboration</strong><span>Joint projects, data sharing and partnerships.</span><em>Write to us &rarr;</em>
-        </button>
-        <button type="button" class="ct-topic" data-topic="Schools and HumekaNeza" aria-pressed="false">
+          <strong>Research collaboration</strong><span>Explore the lab’s research programmes and projects.</span><em>Explore research &rarr;</em>
+        </a>
+        <a class="ct-topic" data-link="humekaneza" href="#">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V11"/><path d="M12 11c0-4 3-6.5 7-6.5 0 4-2.5 6.5-7 6.5z"/><path d="M12 14c0-3-2.2-5-5.5-5 0 3 2 5 5.5 5z"/></svg>
-          <strong>Schools and HumekaNeza</strong><span>Clean-air work with schools in Kigali.</span><em>Write to us &rarr;</em>
-        </button>
-        <button type="button" class="ct-topic" data-topic="Media, speaking and partnerships" aria-pressed="false">
+          <strong>Schools and HumekaNeza</strong><span>Learn about the school air-quality programme.</span><em>Visit HumekaNeza &rarr;</em>
+        </a>
+        <a class="ct-topic" href="https://www.schulich.uwo.ca/epibio/people/faculty/core_faculty/dr_egide_kalisa.html" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg>
-          <strong>Media and speaking</strong><span>Interviews, talks, events and partnerships.</span><em>Write to us &rarr;</em>
-        </button>
+          <strong>Media, speaking and partnerships</strong><span>Use the verified Western University faculty profile for academic contact.</span><em>Open faculty profile &rarr;</em>
+        </a>
       </div>
-      <p class="ct-topic-note" id="ct-topic-note" aria-live="polite"></p>
     </div>
   </section>
 
-  <!-- 3. FACULTY CARD + FORM -->
-  <section class="ct-section ct-main" id="ct-form-wrap" aria-labelledby="ct-h-faculty">
+  <!-- 3. FACULTY CARD + DIRECT CONTACT -->
+  <section class="ct-section ct-main" id="ct-contact-options" aria-labelledby="ct-h-faculty">
     <div class="ct-wrap ct-grid">
       <article class="ct-card">
         <p class="ct-eyebrow" id="ct-h-faculty">Faculty contact</p>
@@ -203,28 +184,14 @@
         </div>
       </article>
 
-      <form class="ct-form" id="ct-form" novalidate>
-        <h3>Send a message</h3>
-        <p class="ct-sub">Fields marked * are required.</p>
-        <div class="ct-row">
-          <div class="ct-field"><label for="ct-name">Full name *</label><input id="ct-name" name="name" type="text" autocomplete="name" required><p class="ct-err" data-err="name"></p></div>
-          <div class="ct-field"><label for="ct-email">Email *</label><input id="ct-email" name="email" type="email" autocomplete="email" required><p class="ct-err" data-err="email"></p></div>
+      <aside class="ct-form" aria-labelledby="ct-contact-method-title">
+        <h3 id="ct-contact-method-title">Contact by verified profile</h3>
+        <p class="ct-sub">No message is collected or sent through this website. Use the verified Western University faculty profile or LinkedIn to contact Dr. Kalisa directly.</p>
+        <div class="ct-actions">
+          <a class="ct-btn ct-btn--purple" href="https://www.schulich.uwo.ca/epibio/people/faculty/core_faculty/dr_egide_kalisa.html" target="_blank" rel="noopener noreferrer">Open Western faculty profile</a>
+          <a class="ct-btn ct-btn--line" href="https://www.linkedin.com/in/egide-kalisa-1b8b40321/" target="_blank" rel="noopener noreferrer">Open LinkedIn profile</a>
         </div>
-        <div class="ct-row">
-          <div class="ct-field"><label for="ct-org">Organisation</label><input id="ct-org" name="organisation" type="text" autocomplete="organization"></div>
-          <div class="ct-field"><label for="ct-topic">Topic *</label>
-            <select id="ct-topic" name="topic" required>
-              <option value="">Choose a topic</option>
-              <option>Join the lab</option><option>Research collaboration</option><option>Schools and HumekaNeza</option><option>Media, speaking and partnerships</option><option>Other</option>
-            </select><p class="ct-err" data-err="topic"></p></div>
-        </div>
-        <div class="ct-field"><label for="ct-msg">Message *</label><textarea id="ct-msg" name="message" maxlength="1500" required></textarea><p class="ct-count"><span id="ct-count">0</span> / 1500</p><p class="ct-err" data-err="message"></p></div>
-        <div class="ct-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="company_site" tabindex="-1" autocomplete="off"></label></div>
-        <label class="ct-check"><input type="checkbox" id="ct-consent" name="consent" required><span>I agree that my message will be used to reply to me.</span></label>
-        <p class="ct-err" data-err="consent"></p>
-        <button type="submit" class="ct-btn ct-btn--purple" id="ct-send">Send message</button>
-        <p class="ct-status" id="ct-status" role="status" aria-live="polite"></p>
-      </form>
+      </aside>
     </div>
   </section>
 
@@ -234,10 +201,10 @@
       <p class="ct-eyebrow">Where to find us</p>
       <h2 id="ct-h-map">Visit or plan a trip</h2>
       <div class="ct-tabs" role="tablist" aria-label="Locations">
-        <button type="button" role="tab" id="ct-tab-london" aria-selected="true" data-loc="london">London campus</button>
-        <button type="button" role="tab" id="ct-tab-kigali" aria-selected="false" data-loc="kigali">Field work in Kigali</button>
+        <button type="button" role="tab" id="ct-tab-london" aria-controls="ct-map-panel" aria-selected="true" tabindex="0" data-loc="london">London campus</button>
+        <button type="button" role="tab" id="ct-tab-kigali" aria-controls="ct-map-panel" aria-selected="false" tabindex="-1" data-loc="kigali">Field work in Kigali</button>
       </div>
-      <div class="ct-map">
+      <div class="ct-map" id="ct-map-panel" role="tabpanel" tabindex="0" aria-labelledby="ct-tab-london">
         <iframe id="ct-iframe" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
           src="https://www.google.com/maps?q=1151+Richmond+St,+London,+ON+N6A+3K7,+Canada&output=embed"></iframe>
         <div class="ct-glass ct-map__card">
@@ -261,10 +228,10 @@
      <div class="ct-faq">
       <p class="ct-eyebrow">Before you write</p>
       <h2 id="ct-h-faq">Quick answers</h2>
-      <details name="ct-faq"><summary>I want to join the lab</summary><div class="ct-ans">See current openings and how to apply on the <a data-link="opportunity" href="#">Opportunity page</a>, then use the form above with the topic &ldquo;Join the lab&rdquo;.</div></details>
-      <details name="ct-faq"><summary>I want to collaborate</summary><div class="ct-ans">Read about our work on the <a data-link="research" href="#">Research Project page</a>, then send us a message with the topic &ldquo;Research collaboration&rdquo;.</div></details>
-      <details name="ct-faq"><summary>I am a school or teacher in Rwanda</summary><div class="ct-ans">Learn about the school air-quality programme on the <a data-link="humekaneza" href="#">HumekaNeza page</a>, then write to us with the topic &ldquo;Schools and HumekaNeza&rdquo;.</div></details>
-      <details name="ct-faq"><summary>I am a journalist or event organiser</summary><div class="ct-ans">Use the form above with the topic &ldquo;Media, speaking and partnerships&rdquo; and describe your request.</div></details>
+      <details name="ct-faq"><summary>I want to join the lab</summary><div class="ct-ans">See published openings and application details on the <a data-link="opportunity" href="#">Opportunity page</a>. For general academic contact, use the Western University faculty profile above.</div></details>
+      <details name="ct-faq"><summary>I want to collaborate</summary><div class="ct-ans">Read about the lab’s work on the <a data-link="research" href="#">Research Project page</a>. For academic contact, use the Western University faculty profile above.</div></details>
+      <details name="ct-faq"><summary>I am a school or teacher in Rwanda</summary><div class="ct-ans">Learn about the school air-quality programme on the <a data-link="humekaneza" href="#">HumekaNeza page</a>. For academic contact, use the Western University faculty profile above.</div></details>
+      <details name="ct-faq"><summary>I am a journalist or event organiser</summary><div class="ct-ans">Use the verified Western University faculty profile or LinkedIn profile above for academic contact.</div></details>
      </div>
     </div>
   </section>
@@ -285,7 +252,6 @@
     email:"",   /* fill when the client confirms; the row appears only when not empty */
     phone:""    /* fill when the client confirms; the row appears only when not empty */
   };
-  const CONTACT_CONFIG={ endpoint:"", mailto:"" }; /* endpoint: Formspree/Netlify URL; mailto: confirmed email. Leave both empty until the client confirms. */
   const LINKS={ opportunity:"/opportunity", research:"/research-project", humekaneza:"/humekaneza", publications:"/publications" };
   /* ========================================== */
 
@@ -337,49 +303,6 @@
     const old=b.textContent;b.textContent="Copied";live.textContent="Address copied";setTimeout(()=>{b.textContent=old;live.textContent="";},2000);
   }));
 
-  // topic cards
-  const sel=$('#ct-topic'),note=$('#ct-topic-note');
-  function pick(topic){
-    $$('.ct-topic').forEach(b=>b.setAttribute('aria-pressed',b.dataset.topic===topic?'true':'false'));
-    sel.value=topic;
-    note.innerHTML=topic==="Join the lab"?`Topic selected: ${topic}. See open positions on the <a data-link="opportunity" href="${LINKS.opportunity}" style="color:#5B3F7D;font-weight:600">Opportunity page</a>.`:`Topic selected: ${topic}.`;
-  }
-  $$('.ct-topic').forEach(b=>b.addEventListener('click',()=>{pick(b.dataset.topic);$('#ct-form-wrap').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});setTimeout(()=>$('#ct-name').focus({preventScroll:true}),450);}));
-  sel.addEventListener('change',()=>{$$('.ct-topic').forEach(b=>b.setAttribute('aria-pressed',b.dataset.topic===sel.value?'true':'false'));});
-
-  // form
-  const form=$('#ct-form'),msg=$('#ct-msg'),count=$('#ct-count'),status=$('#ct-status'),send=$('#ct-send');
-  msg.addEventListener('input',()=>count.textContent=msg.value.length);
-  const rules={name:v=>v.trim()?"":"Please enter your name.",email:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())?"":"Please enter a valid email address.",topic:v=>v?"":"Please choose a topic.",message:v=>v.trim().length>=10?"":"Please write at least 10 characters."};
-  function validate(){
-    let ok=true;
-    Object.keys(rules).forEach(k=>{const el=form.elements[k],e=rules[k](el.value);$(`[data-err="${k}"]`).textContent=e;el.closest('.ct-field').classList.toggle('has-error',!!e);if(e)ok=false;});
-    const c=form.elements.consent.checked;$('[data-err="consent"]').textContent=c?"":"Please tick the box to continue.";if(!c)ok=false;
-    return ok;
-  }
-  function show(type,text){status.className="ct-status "+type;status.textContent=text;}
-  if(!CONTACT_CONFIG.endpoint&&!CONTACT_CONFIG.mailto){send.disabled=true;show("info","Messaging is being set up. Please use the Western faculty profile or LinkedIn buttons for now.");}
-  form.addEventListener('submit',async e=>{
-    e.preventDefault();
-    if(form.elements.company_site.value) return; // honeypot
-    if(!validate()){const f=$('.has-error input,.has-error select,.has-error textarea',form);if(f)f.focus();return;}
-    const d=Object.fromEntries(new FormData(form).entries());delete d.company_site;
-    const subject=`[P3 Health Lab website] ${d.topic}`;
-    send.disabled=true;send.textContent="Sendingâ€¦";
-    try{
-      if(CONTACT_CONFIG.endpoint){
-        const r=await fetch(CONTACT_CONFIG.endpoint,{method:"POST",headers:{"Accept":"application/json","Content-Type":"application/json"},body:JSON.stringify({...d,_subject:subject})});
-        if(!r.ok) throw new Error("bad status");
-        show("ok","Thank you, your message was sent.");form.reset();count.textContent="0";$$('.ct-topic').forEach(b=>b.setAttribute('aria-pressed','false'));
-      }else{
-        const body=`Name: ${d.name}\nEmail: ${d.email}\nOrganisation: ${d.organisation||"-"}\nTopic: ${d.topic}\n\n${d.message}`;
-        window.location.href=`mailto:${CONTACT_CONFIG.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        show("ok","Your email app should open with the message ready to send.");
-      }
-    }catch(err){show("bad","Sorry, the message could not be sent. Please try again.");}
-    send.disabled=false;send.textContent="Send message";
-  });
-
   // map tabs
   let current='london';
   const iframe=$('#ct-iframe');
@@ -392,9 +315,25 @@
     iframe.src=L.src;iframe.title=L.t;$('#ct-map-title').textContent=L.title;$('#ct-map-l1').textContent=L.l1;
     const l2=$('#ct-map-l2');l2.textContent=L.l2;l2.style.display=L.l2?"":"none";
     $('#ct-dir').href=L.dir;$('#ct-open').href=L.open;
-    $$('.ct-tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.loc===k?'true':'false'));
+    $$('.ct-tabs button').forEach(b=>{
+      const selected=b.dataset.loc===k;
+      b.setAttribute('aria-selected',selected?'true':'false');
+      b.tabIndex=selected?0:-1;
+    });
+    $('#ct-map-panel').setAttribute('aria-labelledby',`ct-tab-${k}`);
   }
-  $$('.ct-tabs button').forEach(b=>b.addEventListener('click',()=>setLoc(b.dataset.loc)));
+  const mapTabs=$$('.ct-tabs button');
+  mapTabs.forEach(button=>button.addEventListener('click',()=>setLoc(button.dataset.loc)));
+  $('.ct-tabs').addEventListener('keydown',event=>{
+    const index=mapTabs.indexOf(document.activeElement);
+    if(index<0) return;
+    const direction=event.key==='ArrowRight'?1:event.key==='ArrowLeft'?-1:0;
+    if(!direction) return;
+    event.preventDefault();
+    const next=mapTabs[(index+direction+mapTabs.length)%mapTabs.length];
+    setLoc(next.dataset.loc);
+    next.focus();
+  });
   setLoc('london');
 })();
 </script>
