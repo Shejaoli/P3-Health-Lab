@@ -105,7 +105,6 @@ const detailedInitiatives: DetailedInitiative[] = [
     ],
     images: [
       { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-enough-is-enough.jpg', alt: 'A student-created poster calling for action on air pollution.' },
-      { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-stop-cutting-trees.jpg', alt: 'A student-created poster encouraging tree protection.' },
     ],
   },
   {
@@ -113,7 +112,7 @@ const detailedInitiatives: DetailedInitiative[] = [
     title: 'I Am an Air Quality Scientist',
     description: 'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities. The initiative introduces children to environmental-health science while building scientific literacy, curiosity, confidence, and practical understanding of environmental data.',
     images: [
-      { src: '/images/p3/projects/03-one-sensor-per-school/school-courtyard-sensor-trees.jpg', alt: 'Air-quality monitoring equipment in a tree-lined school courtyard.' },
+      { src: '/images/design-reference/il-smoke-walk.jpg', alt: 'Illustration of schoolchildren walking through smoky air.' },
     ],
   },
   {
