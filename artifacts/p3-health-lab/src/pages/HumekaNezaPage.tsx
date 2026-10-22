@@ -23,26 +23,36 @@ const programs: {
     title: 'Air Quality Flag Program',
     label: 'Learn · Protect',
     text: 'The green and red flag activity helps schools connect air-quality information with outdoor play decisions.',
+    image: '/images/humekaneza/air-quality-flag-program.jpg',
+    alt: 'Students hold an Air Quality Flag during an outdoor school activity.',
   },
   {
     title: 'Anti-idling at the gate',
     label: 'Act',
     text: 'School communities discuss how idling vehicles contribute to pollution around drop-off and pick-up.',
+    image: '/images/humekaneza/anti-idling-at-the-gate.jpg',
+    alt: 'Students speak with a driver at a school gate as part of an anti-idling activity.',
   },
   {
     title: 'One tree per student',
     label: 'Act · Protect',
     text: 'Tree planting is part of the initiative’s vision for greener school environments.',
+    image: '/images/humekaneza/one-tree-per-student.jpg',
+    alt: 'Illustration of students planting trees in a school yard beside a busy road.',
   },
   {
     title: 'Cleaner classrooms',
     label: 'Measure · Protect',
     text: 'School-based learning connects indoor air, practical monitoring and cleaner classroom environments.',
+    image: '/images/humekaneza/cleaner-classrooms.jpg',
+    alt: 'Illustration of students learning in a classroom with an air-quality monitor.',
   },
   {
     title: 'Cleaner routes to school',
     label: 'Move · Act',
     text: 'Children explore how everyday routes and travel choices shape the air they breathe.',
+    image: '/images/humekaneza/cleaner-routes-to-school.jpg',
+    alt: 'Illustration of a child walking a road between home and school with air-quality monitors.',
   },
 ];
 
