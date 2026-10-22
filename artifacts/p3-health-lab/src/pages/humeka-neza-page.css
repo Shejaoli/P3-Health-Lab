@@ -1676,3 +1676,26 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+
+.hn-detailed-initiative-images img.is-diagram {
+  object-fit: contain;
+  object-position: center;
+  background: #f7f5f1;
+}
+
+.hn-initiative-subtitle,
+.hn-initiative-location {
+  margin-top: -4px;
+  color: var(--hn-muted);
+  font-size: .95rem;
+  line-height: 1.5;
+}
+
+.hn-initiative-process {
+  margin-top: 18px;
+  color: var(--hn-purple);
+  font-family: var(--app-font-mono, monospace);
+  font-size: .82rem !important;
+  letter-spacing: .08em;
+}

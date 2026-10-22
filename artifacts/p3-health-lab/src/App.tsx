@@ -923,7 +923,7 @@ function ResearchProject() {
             <li><a href="#flagship-projects">Flagship projects</a></li>
             <li><a href="#research-project-catalog">Full project catalog</a></li>
             <li><a href="#project-methods">Methods and tools</a></li>
-            <li><a href="#research-community-initiatives">Community and school initiatives</a></li>
+            <li><a href="/humekaneza#detailed-initiatives">Community and school initiatives on HumekaNeza</a></li>
           </ul>
         </div>
       </div>
@@ -1356,7 +1356,7 @@ function Projects({
       </div>
     </section>
 
-    {visibleDetailedProjects.length > 0 && <section className="p3-projects-section p3-current-projects" id={integrated ? 'research-community-initiatives' : undefined} aria-labelledby="p3-current-projects-title">
+    {!integrated && visibleDetailedProjects.length > 0 && <section className="p3-projects-section p3-current-projects" id={integrated ? 'research-community-initiatives' : undefined} aria-labelledby="p3-current-projects-title">
       <div className="container-wide">
         <div className="p3-section-heading"><div><span className="eyebrow">Community project details</span><h2 id="p3-current-projects-title">Detailed community and school initiatives.</h2></div><p>Project descriptions and activities for community- and school-based initiatives.</p></div>
         <div className="projects-list">
@@ -1678,7 +1678,7 @@ function Publications() {
     label: 'Google Scholar',
     url: 'https://scholar.google.co.nz/citations?user=yAPiYq8AAAAJ&hl=en',
   };
-  const orcid = getExternalLink('ORCID');
+  const orcid = getExternalLink('ORCID') ?? { label: 'ORCID', url: 'https://orcid.org/0000-0001-9906-583X' };
   const additionalProfileLinks = externalLinks.filter(({ label }) => ['CV', 'Publication Profile', 'CV / Publication Profile'].includes(label));
   const newestFirstPublications = [...publications].sort((a, b) => b.date.localeCompare(a.date));
 

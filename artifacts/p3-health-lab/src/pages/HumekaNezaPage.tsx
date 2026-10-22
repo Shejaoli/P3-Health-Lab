@@ -74,7 +74,20 @@ const videos = [
   },
 ];
 
-const detailedInitiatives = [
+type DetailedInitiative = {
+  slug: string;
+  title: string;
+  subtitle?: string;
+  location?: string;
+  description: string;
+  activities?: string[];
+  focus?: string[];
+  process?: string;
+  closing?: string;
+  images: { src: string; alt: string; fit?: 'contain' }[];
+};
+
+const detailedInitiatives: DetailedInitiative[] = [
   {
     slug: 'school-air-quality-campaign',
     title: 'HumekaNeza School Air-Quality Campaign',
@@ -115,7 +128,47 @@ const detailedInitiatives = [
       { src: '/images/p3/projects/04-classroom-clean-air/green-classroom-illustration.jpg', alt: 'Illustration of a greener, more sustainable classroom.' },
     ],
   },
-];
+
+  {
+    slug: 'clean-air-school-zones',
+    title: 'Clean Air School Zones',
+    description: 'This initiative focuses on reducing traffic-related air pollution around schools.',
+    activities: ['anti-idling campaigns', 'safer school travel', 'awareness around drop-off and pick-up emissions', 'low-emission school zones', 'engagement with parents and school communities'],
+    images: [
+      { src: '/images/p3/projects/05-clean-air-school-zones/school-zone-traffic-sensors.jpg', alt: 'Air-quality sensors monitor traffic near a school zone.' },
+      { src: '/images/p3/projects/05-clean-air-school-zones/children-walking-to-school-guide.jpg', alt: 'Illustrated guide to children walking to school by a cleaner route.', fit: 'contain' },
+      { src: '/images/p3/projects/05-clean-air-school-zones/school-bus-drop-off.jpg', alt: 'School bus drop-off area near a school.' },
+      { src: '/images/p3/projects/05-clean-air-school-zones/ebus-vs-diesel-school-bus.jpg', alt: 'Illustration comparing an electric school bus with a diesel bus.', fit: 'contain' },
+    ],
+  },
+  {
+    slug: 'shared-skies',
+    title: 'Shared Skies',
+    description: 'Shared Skies connects students across countries through environmental-health education and citizen science. Students collect and compare air-quality information from their communities and share findings through virtual exchanges, presentations, and Global Classroom activities. The initiative helps children recognize that air pollution is both a local and global challenge.',
+    images: [{ src: '/images/p3/projects/06-shared-skies/canada-rwanda-global-classroom.png', alt: 'Graphic connecting a Canada–Rwanda classroom exchange.', fit: 'contain' }],
+  },
+  {
+    slug: 'making-the-invisible-visible',
+    title: 'Making the Invisible Visible',
+    subtitle: "Engaging African, Caribbean and Black Children and Youth in Canada's Chemicals Management Plan",
+    description: "Making the Invisible Visible strengthens the knowledge, capacity, and meaningful participation of African, Caribbean and Black children and youth in understanding chemicals, health, and Canada's Chemicals Management Plan.",
+    activities: ['ACB Youth CMP Advisory and Knowledge Translation Council', 'Youth CMP Knowledge Ambassador training', 'behaviour-change workshops', '"I Am a CMP Scientist" activities', 'From Sample to Decision learning experiences', 'family and community dialogue', 'Global Classroom activities', 'youth-created knowledge-translation products', 'Ontario Youth CMP Conference'],
+    process: 'LISTEN → LEARN → SEE → TRANSLATE → SHARE → ACT → FEEDBACK',
+    images: [{ src: '/images/p3/projects/07-making-the-invisible-visible/school-interventions-circle.png', alt: 'Illustrated overview of school-based air-quality interventions.', fit: 'contain' }],
+  },
+  {
+    slug: 'equitable-air-quality-communication',
+    title: 'Equitable Air-Quality Communication & Preparedness',
+    subtitle: 'Supporting Black Youth and Families in Hamilton and London',
+    location: 'Hamilton and London',
+    description: 'This community-engaged initiative works with Black youth, families, and community partners to understand how people experience, access, interpret, trust, and act on air-quality information.',
+    focus: ['lived experiences of poor air quality and wildfire smoke', 'access to and understanding of AQHI and wildfire-smoke messaging', 'trust in environmental-health information', 'environmental justice', 'social, cultural, and structural barriers to protective action', 'co-designed communication and preparedness strategies'],
+    closing: 'The project centres community voices and aims to make air-quality information more relevant, accessible, trusted, and actionable.',
+    images: [
+      { src: '/images/p3/projects/08-equitable-air-quality-communication/children-walking-in-smoke.jpg', alt: 'Children walk along a road on a smoky day.' },
+      { src: '/images/p3/projects/08-equitable-air-quality-communication/smoky-industry-illustration.jpg', alt: 'Illustration of industrial air pollution and exposure risks.', fit: 'contain' },
+    ],
+  },];
 
 export function HumekaNezaPage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -257,7 +310,7 @@ export function HumekaNezaPage() {
           </div>
         </section>
 
-        <section className="hn-section hn-detailed-initiatives" aria-labelledby="hn-detailed-initiatives-title">
+        <section id="detailed-initiatives" className="hn-section hn-detailed-initiatives" aria-labelledby="hn-detailed-initiatives-title">
           <div className="hn-container">
             <div className="hn-section-heading">
               <span className="hn-eyebrow">Detailed community and school initiatives</span>
@@ -265,8 +318,8 @@ export function HumekaNezaPage() {
             </div>
             <div className="hn-detailed-initiative-list">
               {detailedInitiatives.map((initiative) => <article id={initiative.slug} className="hn-detailed-initiative" key={initiative.slug}>
-                <div><h3>{initiative.title}</h3><p>{initiative.description}</p>{initiative.activities && <ul>{initiative.activities.map((activity) => <li key={activity}>{activity}</li>)}</ul>}</div>
-                {initiative.images.length > 0 && <div className="hn-detailed-initiative-images">{initiative.images.map((image) => <img src={image.src} alt={image.alt} loading="lazy" decoding="async" key={image.src} />)}</div>}
+                <div><h3>{initiative.title}</h3>{initiative.subtitle && <p className="hn-initiative-subtitle">{initiative.subtitle}</p>}{initiative.location && <p className="hn-initiative-location">{initiative.location}</p>}<p>{initiative.description}</p>{initiative.activities && <ul>{initiative.activities.map((activity) => <li key={activity}>{activity}</li>)}</ul>}{initiative.focus && <><strong>Focus</strong><ul>{initiative.focus.map((item) => <li key={item}>{item}</li>)}</ul></>}{initiative.process && <p className="hn-initiative-process">{initiative.process}</p>}{initiative.closing && <p>{initiative.closing}</p>}</div>
+                {initiative.images.length > 0 && <div className="hn-detailed-initiative-images">{initiative.images.map((image) => <img className={image.fit === 'contain' ? 'is-diagram' : undefined} src={image.src} alt={image.alt} loading="lazy" decoding="async" key={image.src} />)}</div>}
               </article>)}
             </div>
           </div>
