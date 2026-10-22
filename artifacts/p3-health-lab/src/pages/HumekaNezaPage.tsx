@@ -103,13 +103,18 @@ const detailedInitiatives: DetailedInitiative[] = [
       'tree planting and greener school environments',
       'creative communication through posters and letters to families',
     ],
-    images: [],
+    images: [
+      { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-enough-is-enough.jpg', alt: 'A student-created poster calling for action on air pollution.' },
+      { src: '/images/p3/projects/01-humekaneza-school-campaign/child-poster-stop-cutting-trees.jpg', alt: 'A student-created poster encouraging tree protection.' },
+    ],
   },
   {
     slug: 'i-am-an-air-quality-scientist',
     title: 'I Am an Air Quality Scientist',
     description: 'Students become citizen scientists by using air-quality monitors and other scientific tools to investigate pollution in their schools and communities. The initiative introduces children to environmental-health science while building scientific literacy, curiosity, confidence, and practical understanding of environmental data.',
-    images: [],
+    images: [
+      { src: '/images/p3/projects/03-one-sensor-per-school/school-courtyard-sensor-trees.jpg', alt: 'Air-quality monitoring equipment in a tree-lined school courtyard.' },
+    ],
   },
   {
     slug: 'one-sensor-per-school',
