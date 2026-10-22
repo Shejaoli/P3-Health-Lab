@@ -75,7 +75,7 @@ export const people: {
       id: 'masters',
       title: 'MSc Students — Western University',
       members: [
-        { name: 'Zoha Irfan', role: 'MSc Student', institution: 'Western University', researchFocus: 'PAHs; air pollution; exposure science', linkedin: 'https://www.linkedin.com/in/zoha-irfan-296062308/' },
+        { name: 'Zoha Irfan', role: 'MSc Student', photo: '/img/people/zoha-irfan.jpg', institution: 'Western University', researchFocus: 'PAHs; air pollution; exposure science', linkedin: 'https://www.linkedin.com/in/zoha-irfan-296062308/' },
         { name: 'Oluwaseun Bajulaye', role: 'MSc Student', photo: oluwaseunBajulayePhoto, institution: 'Western University', linkedin: 'https://www.linkedin.com/in/oyinbajulaye/' },
         { name: 'Farhana Ramiza', role: 'MSc Student', photo: farhanaRamizaPhoto, institution: 'Western University', linkedin: 'https://www.linkedin.com/in/farhana-rokaiya-ramiza-56b558238/' },
         { name: 'Ignatius Atuguba', role: 'MSc Student', photo: '/img/people/ignatius-atuguba.jpg', institution: 'Western University', linkedin: 'https://www.linkedin.com/in/ignatiusatuguba/' },
@@ -112,9 +112,8 @@ export const people: {
       members: [
         { name: 'Patrick Karakwende', role: 'PhD Student', linkedin: 'https://www.linkedin.com/in/patrick-karakwende-984440144/' },
         { name: 'Adolphe Ndikubwimana', role: 'PhD Student', photo: adolpheNdikubwimanaPhoto, institution: 'University of Rwanda', country: 'Rwanda', linkedin: 'https://www.linkedin.com/in/adolphe-atuhire-140847116/' },
-        { name: 'Deborah', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria' },
-        { name: 'Nibagwire', role: 'PhD Student', institution: 'University of Ibadan', country: 'Nigeria' },
-        { name: 'Franck Kwabe', role: 'PhD Student', institution: 'ISP Bukavu', country: 'DR Congo' },
+        { name: 'Deborah Nibagwire', role: 'PhD Student', photo: '/img/people/deborah-nibagwire.jpg', institution: 'University of Ibadan', country: 'Nigeria' },
+        { name: 'Franck Kwabe', role: 'PhD Student', photo: '/img/people/franck-kwabe.jpg', institution: 'ISP Bukavu', country: 'DR Congo' },
       ],
     },
     {

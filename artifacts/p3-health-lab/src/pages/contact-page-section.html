@@ -78,6 +78,10 @@
 .ct-form{background:#fff;border:1px solid var(--ct-line);border-radius:8px;padding:34px;box-shadow:0 10px 30px rgba(24,50,71,.07)}
 .ct-form h3{font-size:34px;margin-bottom:6px}
 .ct-form>.ct-sub{margin:0 0 22px;font-size:17px}
+.ct-form-fields{display:grid;gap:16px}
+.ct-form-fields label{display:grid;gap:6px;font-size:15px;font-weight:600;color:var(--ct-navy)}
+.ct-form-fields input,.ct-form-fields textarea{width:100%;padding:12px;border:1px solid var(--ct-line);border-radius:4px;background:#fff;color:var(--ct-slate);font:400 16px/1.5 var(--f-body,"Public Sans",Arial,sans-serif)}
+.ct-form-fields textarea{min-height:140px;resize:vertical}
 
 /* 4. map */
 .ct-tabs{display:inline-flex;border:2px solid var(--ct-purple);border-radius:4px;overflow:hidden;margin-bottom:18px}
@@ -185,12 +189,14 @@
       </article>
 
       <aside class="ct-form" aria-labelledby="ct-contact-method-title">
-        <h3 id="ct-contact-method-title">Contact by verified profile</h3>
-        <p class="ct-sub">No message is collected or sent through this website. Use the verified Western University faculty profile or LinkedIn to contact Dr. Kalisa directly.</p>
-        <div class="ct-actions">
-          <a class="ct-btn ct-btn--purple" href="https://www.schulich.uwo.ca/epibio/people/faculty/core_faculty/dr_egide_kalisa.html" target="_blank" rel="noopener noreferrer">Open Western faculty profile</a>
-          <a class="ct-btn ct-btn--line" href="https://www.linkedin.com/in/egide-kalisa-1b8b40321/" target="_blank" rel="noopener noreferrer">Open LinkedIn profile</a>
-        </div>
+        <h3 id="ct-contact-method-title">Email Dr. Kalisa</h3>
+        <p class="ct-sub">Submitting opens your email app with a message draft; this website does not collect or send your message.</p>
+        <form id="ct-email-form" class="ct-form-fields">
+          <label for="ct-email-name">Name<input id="ct-email-name" name="name" autocomplete="name" required></label>
+          <label for="ct-email-reply">Your email<input id="ct-email-reply" name="replyEmail" type="email" autocomplete="email" required></label>
+          <label for="ct-email-message">Message<textarea id="ct-email-message" name="message" required></textarea></label>
+          <button class="ct-btn ct-btn--purple" type="submit">Open email app</button>
+        </form>
       </aside>
     </div>
   </section>
@@ -206,11 +212,11 @@
       </div>
       <div class="ct-map" id="ct-map-panel" role="tabpanel" tabindex="0" aria-labelledby="ct-tab-london">
         <iframe id="ct-iframe" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps?q=1151+Richmond+St,+London,+ON+N6A+3K7,+Canada&output=embed"></iframe>
+          src="https://www.google.com/maps?q=1465+Richmond+Street,+London,+ON+N6G+2M1,+Canada&output=embed"></iframe>
         <div class="ct-glass ct-map__card">
           <h3 id="ct-map-title">Western University</h3>
           <p id="ct-map-l1">Schulich School of Medicine &amp; Dentistry</p>
-          <p id="ct-map-l2">1151 Richmond St, London, ON N6A 3K7, Canada</p>
+          <p id="ct-map-l2">1465 Richmond Street, PHFM 3129, London, ON N6G 2M1, Canada</p>
           <div class="ct-map__btns">
             <a class="ct-btn ct-btn--white ct-btn--sm" id="ct-dir" target="_blank" rel="noopener" href="#">Get directions</a>
             <a class="ct-btn ct-btn--ghost ct-btn--sm" id="ct-open" target="_blank" rel="noopener" href="#">Open in Maps</a>
@@ -240,24 +246,26 @@
 <script>
 (function(){
   /* ===== EDIT ONLY THESE THREE OBJECTS ===== */
+  const CONTACT_CONFIG={mailto:"ekalisa2@uwo.ca"};
   const CONTACT_DATA={
     name:"Dr. Egide Kalisa",
     title:"Assistant Professor, Epidemiology & Biostatistics",
     unit:"Schulich School of Medicine & Dentistry",
     institution:"Western University",
-    street:"1151 Richmond St", city:"London", region:"ON", postal:"N6A 3K7", country:"Canada",
+    street:"1465 Richmond Street, PHFM 3129", city:"London", region:"ON", postal:"N6G 2M1", country:"Canada",
     facultyUrl:"https://www.schulich.uwo.ca/epibio/people/faculty/core_faculty/dr_egide_kalisa.html",
     linkedinUrl:"https://www.linkedin.com/in/egide-kalisa-1b8b40321/",
+    orcidUrl:"https://orcid.org/0000-0001-9906-583X",
     website:"https://egidekalisa.com",
-    email:"",   /* fill when the client confirms; the row appears only when not empty */
-    phone:""    /* fill when the client confirms; the row appears only when not empty */
+    email:CONTACT_CONFIG.mailto
   };
   const LINKS={ opportunity:"/opportunity", research:"/research-project", humekaneza:"/humekaneza", publications:"/publications" };
   /* ========================================== */
 
   const $=(s,r)=> (r||document).querySelector(s), $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
   const addr=`${CONTACT_DATA.street}, ${CONTACT_DATA.city}, ${CONTACT_DATA.region} ${CONTACT_DATA.postal}, ${CONTACT_DATA.country}`;
-  const q=encodeURIComponent(addr);
+  const mapAddress=`1465 Richmond Street, ${CONTACT_DATA.city}, ${CONTACT_DATA.region} ${CONTACT_DATA.postal}, ${CONTACT_DATA.country}`;
+  const q=encodeURIComponent(mapAddress);
 
   // internal links
   $$('[data-link]').forEach(a=>a.href=LINKS[a.dataset.link]||'#');
@@ -268,11 +276,11 @@
   const rows=[
     ["Western faculty profile","schulich.uwo.ca",CONTACT_DATA.facultyUrl,true],
     ["LinkedIn","Dr. Egide Kalisa",CONTACT_DATA.linkedinUrl,true],
+    ["ORCID","0000-0001-9906-583X",CONTACT_DATA.orcidUrl,true],
     ["Publications","On this website",LINKS.publications,false],
     ["Website","egidekalisa.com",CONTACT_DATA.website,true]
   ];
   if(CONTACT_DATA.email) rows.unshift(["Email",CONTACT_DATA.email,"mailto:"+CONTACT_DATA.email,false]);
-  if(CONTACT_DATA.phone) rows.splice(CONTACT_DATA.email?1:0,0,["Phone",CONTACT_DATA.phone,"tel:"+CONTACT_DATA.phone.replace(/[^+\d]/g,''),false]);
   const ul=$('#ct-links');
   rows.forEach(([label,sub,href,ext])=>{
     const li=document.createElement('li'),a=document.createElement('a');
@@ -287,12 +295,19 @@
     const v=["BEGIN:VCARD","VERSION:3.0","N:Kalisa;Egide;;Dr.;","FN:"+esc(CONTACT_DATA.name),
       "ORG:"+esc(CONTACT_DATA.institution)+";"+esc(CONTACT_DATA.unit),"TITLE:"+esc(CONTACT_DATA.title),
       `ADR;TYPE=WORK:;;${esc(CONTACT_DATA.street)};${esc(CONTACT_DATA.city)};${CONTACT_DATA.region};${CONTACT_DATA.postal};${CONTACT_DATA.country}`,
-      "URL:"+CONTACT_DATA.facultyUrl,"URL:"+CONTACT_DATA.linkedinUrl];
+      "URL:"+CONTACT_DATA.facultyUrl,"URL:"+CONTACT_DATA.linkedinUrl,"URL:"+CONTACT_DATA.orcidUrl];
     if(CONTACT_DATA.email) v.push("EMAIL;TYPE=WORK:"+CONTACT_DATA.email);
-    if(CONTACT_DATA.phone) v.push("TEL;TYPE=WORK:"+CONTACT_DATA.phone);
     v.push("END:VCARD");
     const blob=new Blob([v.join("\r\n")],{type:"text/vcard"}),a=document.createElement('a');
     a.href=URL.createObjectURL(blob);a.download="egide-kalisa.vcf";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  });
+
+  $('#ct-email-form').addEventListener('submit',event=>{
+    event.preventDefault();
+    const form=new FormData(event.currentTarget);
+    const subject=encodeURIComponent("P3 Health Lab enquiry");
+    const body=encodeURIComponent(`Name: ${form.get("name")}\nReply email: ${form.get("replyEmail")}\n\n${form.get("message")}`);
+    window.location.href=`mailto:${CONTACT_CONFIG.mailto}?subject=${subject}&body=${body}`;
   });
 
   // copy address (both buttons)

@@ -7,8 +7,8 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AdminGate, AdminLoginPanel, AdminUploadGate } from '@/admin/AdminApp';
 import { useGetPublicOpportunities, useGetPublicProfile, useGetPublicTeaching } from '@workspace/api-client-react';
-import { HomeResearchMap } from '@/components/home-research-map';
 import { people } from '@/data/people';
+import { publications } from '@/data/publications';
 import { HumekaNezaPage } from '@/pages/HumekaNezaPage';
 import { GlobalResearchMapPage } from '@/pages/GlobalResearchMapPage';
 import { ContactPageSection } from '@/pages/ContactPageSection';
@@ -690,13 +690,6 @@ function Home() {
       </div>
     </section>
 
-    <section className="p3-home-section p3-map-section" aria-labelledby="p3-map-title">
-      <div className="container-wide p3-map-grid">
-        <div className="p3-map-copy"><span className="eyebrow">Where we work</span><h2 id="p3-map-title">From London, Ontario to Kigali, and beyond.</h2><p>Field sites and collaborations span four continents. Our research and students bring perspectives from communities around the world.</p><Link href="/research-map" className="p3-text-link">Explore the global research map <ArrowUpRight size={14} aria-hidden="true" /></Link><ul className="p3-chip-list"><li>Canada</li><li>Rwanda</li><li>Uganda</li><li>Tanzania</li><li>Burundi</li><li>DR Congo</li><li>Ghana</li><li>Senegal</li><li>French Guiana</li><li>England</li><li>Japan</li><li>New Zealand</li></ul></div>
-        <HomeResearchMap />
-      </div>
-    </section>
-
     <section className="p3-home-section" aria-labelledby="p3-updates-title">
       <div className="container-wide p3-home-scholar-grid">
         <div className="p3-scholar-copy"><span className="eyebrow">Publications</span><h2 id="p3-updates-title">Research and updates.</h2><p>Find the current list of publications, citations, and scholarly activity through Google Scholar.</p><a href={googleScholarUrl} target="_blank" rel="noopener noreferrer" className="p3-text-link" data-testid="link-home-publications">View Google Scholar <ExternalLink size={14} aria-hidden="true" /></a>
@@ -833,6 +826,7 @@ function PageHero({ eyebrow, title, text, action, className }: { eyebrow: string
 
 function ResearchProject() {
   const [activeProjectFilter, setActiveProjectFilter] = useState(() => window.location.hash.match(/^#p([1-5])$/)?.[1] ?? 'all');
+  const recentPublication = [...publications].sort((a, b) => b.date.localeCompare(a.date))[0];
   const frameworkCards = [
     {
       number: '01',
@@ -1001,6 +995,24 @@ function ResearchProject() {
         </article>)}
       </div>
     </section>
+
+    {recentPublication && <section className="section research-recent-publication" aria-labelledby="research-recent-publication-title">
+      <div className="container-wide">
+        <div className="section-head">
+          <div><span className="eyebrow">Recent publication</span><h2 id="research-recent-publication-title">Selected output</h2></div>
+        </div>
+        <ul className="publication-list" data-testid="list-research-recent-publications">
+          <li className="publication-row">
+            <span className="publication-year">{recentPublication.year}</span>
+            <div>
+              <h3><a href={recentPublication.url} target="_blank" rel="noopener noreferrer">{recentPublication.title}</a></h3>
+              <p>{recentPublication.authors.join(', ')} · <em>{recentPublication.journal}</em>, Article {recentPublication.articleNumber}. DOI: {recentPublication.doi}</p>
+            </div>
+            <a href={recentPublication.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${recentPublication.title} on ScienceDirect`}>View article <ArrowUpRight size={14} aria-hidden="true" /></a>
+          </li>
+        </ul>
+      </div>
+    </section>}
 
     <section className="research-wum-air section" aria-labelledby="research-wum-air-title">
       <div className="container-wide">
@@ -1412,7 +1424,6 @@ const linkedInProfiles: Record<string, string> = {
 };
 
 const peopleWithoutRequestedPortrait = new Set([
-  'zoha irfan',
   'ruiming han',
   'patrick karakwende',
 ]);
@@ -1425,6 +1436,14 @@ function normalizePersonName(name: string) {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
+}
+
+function requestedPersonName(name: string) {
+  const normalizedName = normalizePersonName(name);
+  if (normalizedName === 'zoha irfan') return 'Zoha Irfan';
+  if (['deborah', 'nibagwire', 'deborah nibagwire'].includes(normalizedName)) return 'Deborah Nibagwire';
+  if (['franck kwabe', 'kwabe franck'].includes(normalizedName)) return 'Franck Kwabe';
+  return null;
 }
 
 function personPhoto(name: string, photo: string | null | undefined, fallback?: { photo?: string }) {
@@ -1515,7 +1534,7 @@ function People() {
       .then((response) => response.ok ? response.json() as Promise<{ people?: Array<Record<string, unknown>> }> : Promise.reject(new Error('People unavailable')))
       .then((result) => {
         if (!active) return;
-        const nextPeople = Array.isArray(result.people)
+        let nextPeople = Array.isArray(result.people)
           ? result.people.map((person) => ({
               id: Number(person.id ?? 0),
               name: String(person.name ?? 'Unnamed person'),
@@ -1528,14 +1547,39 @@ function People() {
               linkedinUrl: typeof person.linkedinUrl === 'string' ? person.linkedinUrl : null,
             })).filter((person) => person.id > 0)
             .map((person) => {
-              const staticPerson = staticPersonForName(person.name);
+              const displayName = requestedPersonName(person.name) ?? person.name;
+              const staticPerson = staticPersonForName(displayName);
               return {
                 ...person,
-                photo: personPhoto(person.name, person.photo, staticPerson),
+                name: displayName,
+                photo: personPhoto(displayName, person.photo, staticPerson),
                 linkedinUrl: staticPerson?.linkedin ?? staticPerson?.href ?? person.linkedinUrl,
               };
             })
           : [];
+        const requestedNames = ['Zoha Irfan', 'Deborah Nibagwire', 'Franck Kwabe'];
+        requestedNames.forEach((name, index) => {
+          const matchingPeople = nextPeople.filter((person) => normalizePersonName(person.name) === normalizePersonName(name));
+          const staticPerson = staticPersonForName(name);
+          const staticSection = people.sections.find((section) => section.members.some((member) => normalizePersonName(member.name) === normalizePersonName(name)));
+          const existingPerson = matchingPeople[0];
+          nextPeople = nextPeople.filter((person) => normalizePersonName(person.name) !== normalizePersonName(name));
+          if (staticPerson) {
+            nextPeople.push({
+              id: existingPerson?.id ?? -300000 - index,
+              name,
+              role: staticPerson.role,
+              institution: [staticPerson.institution, staticPerson.country].filter(Boolean).join(', '),
+              researchFocus: staticPerson.researchFocus ?? existingPerson?.researchFocus ?? '',
+              status: 'current',
+              category: staticSection?.title ?? 'Current team',
+              photo: personPhoto(name, existingPerson?.photo, staticPerson),
+              linkedinUrl: matchingPeople.find((person) => person.linkedinUrl)?.linkedinUrl ?? staticPerson.linkedin ?? staticPerson.href ?? null,
+            });
+          } else {
+            nextPeople.push(...matchingPeople);
+          }
+        });
         setLivePeople(nextPeople);
       })
       .catch(() => {
@@ -1830,6 +1874,7 @@ function Publications() {
   };
   const orcid = getExternalLink('ORCID');
   const additionalProfileLinks = externalLinks.filter(({ label }) => ['CV', 'Publication Profile', 'CV / Publication Profile'].includes(label));
+  const newestFirstPublications = [...publications].sort((a, b) => b.date.localeCompare(a.date));
 
   return <div className="publications-page">
     <PageHero
@@ -1841,6 +1886,23 @@ function Publications() {
     <section className="section publications-content" data-reveal="up">
       <div className="container-wide">
         <p className="publications-intro">Our work spans observational studies, exposure assessment, laboratory and field-based research, randomized controlled trials, community-engaged research, and interdisciplinary collaborations.</p>
+        <section className="publication-records" aria-labelledby="publication-records-title">
+          <div className="section-head">
+            <div><span className="eyebrow">Newest first</span><h2 id="publication-records-title">Recent publications</h2></div>
+          </div>
+          <ul className="publication-list" data-testid="list-publications">
+            {newestFirstPublications.map((publication) => (
+              <li className="publication-row" key={publication.doi}>
+                <span className="publication-year">{publication.year}</span>
+                <div>
+                  <h3><a href={publication.url} target="_blank" rel="noopener noreferrer">{publication.title}</a></h3>
+                  <p>{publication.authors.join(', ')} · <em>{publication.journal}</em>, Article {publication.articleNumber}. DOI: {publication.doi}</p>
+                </div>
+                <a href={publication.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${publication.title} on ScienceDirect`}>View article <ArrowUpRight size={14} aria-hidden="true" /></a>
+              </li>
+            ))}
+          </ul>
+        </section>
         <div className="publication-profile-grid">
           <article className="publication-profile-record">
             <span className="eyebrow">Google Scholar</span>
@@ -2018,7 +2080,37 @@ function Opportunity() {
   }, [isLoading]);
 
   return <>
-    <PageHero eyebrow="Opportunity" title={<>Opportunity at the <em>P3 Health Lab.</em></>} text="Become part of the P3 Health Lab. We welcome MSc and PhD students, postdoctoral fellows, global health interns, undergraduate researchers and visiting scholars." className="p3-purple-hero" />
+    <PageHero eyebrow="Opportunity" title={<>Opportunity at the <em>P3 Health Lab.</em></>} text="Explore current openings, research areas and contact details for prospective lab members." className="p3-purple-hero" />
+    <section className="section opportunity-research" aria-labelledby="opportunity-research-title" data-reveal="up">
+      <div className="container-wide">
+        <div className="opportunity-interest">
+          <span className="eyebrow">Prospective researchers</span>
+          <h2 id="opportunity-research-title">Interdisciplinary research opportunities</h2>
+          <p>I am accepting qualified postdoctoral researchers, research assistants and graduate students (PhD and MSc) interested in interdisciplinary work in statistics, GIS and related methods, with research at the intersection of:</p>
+          <ul className="opportunity-research-areas">
+            <li>Environmental Health and Air Pollution</li>
+            <li>Climate Change: Wildfires, Heatwaves and Extreme Events</li>
+            <li>Children's Environmental Health</li>
+            <li>Environmental Justice and Health Equity</li>
+            <li>Black, African and Caribbean Communities</li>
+            <li>Immigrant and Newcomer Health</li>
+            <li>Global Health, One Health and Antimicrobial Resistance (AMR)</li>
+            <li>E-mobility, Sustainable Transport and Healthy Cities</li>
+            <li>Chemical and Biological Exposures</li>
+            <li>School-Based Environmental Health Interventions</li>
+            <li>Behaviour Change and Risk Communication</li>
+            <li>Citizen Science and Community-Engaged Research</li>
+            <li>AI and Machine Learning</li>
+          </ul>
+          <address className="opportunity-contact">
+            <strong>Contact: Egide Kalisa, PhD</strong>
+            <a href="mailto:ekalisa2@uwo.ca">ekalisa2@uwo.ca</a>
+            <a href="https://orcid.org/0000-0001-9906-583X" target="_blank" rel="noopener noreferrer">ORCID profile <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <span>Schulich School of Medicine &amp; Dentistry, Western University, 1465 Richmond Street, PHFM 3129, London, Ontario, Canada N6G 2M1</span>
+          </address>
+        </div>
+      </div>
+    </section>
     <section className="section" id="opportunities" data-reveal="up">
       <div className="container-wide">
         <div className="section-head">
