@@ -1917,7 +1917,8 @@ function Opportunity() {
         </div>
       </div>
     </section>
-    <section className="section" id="opportunities" data-reveal="up">
+    {(isLoading || isError || opportunities.length > 0) && (
+      <section className="section" id="opportunities" data-reveal="up">
       <div className="container-wide">
         <div className="section-head">
           <div><span className="eyebrow">Prospective members</span><h2>Opportunities</h2></div>
@@ -1953,7 +1954,8 @@ function Opportunity() {
           })}
         </div>}
       </div>
-    </section>
+      </section>
+    )}
     <section className="contact-band" id="contact" data-reveal="up">
       <div className="container-wide contact-grid">
         <div><span className="eyebrow">General inquiries</span><h2>Ask about getting involved.</h2><p>For general questions about joining or collaborating, contact P3 Health Lab.</p></div>
