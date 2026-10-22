@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap");
 .research-editorial-page{
-  --bg:#18141f; --card:#211b2a; --ink:#f2edf7; --muted:#b7aec2; --line:#393142;
-  --purple:#c5a8ef; --purple-2:#d7c2f5; --tint:#30253d; --on-purple:#ffffff;
+  --bg:#f6f3ee; --card:#ffffff; --ink:#1f1b26; --muted:#635d6c; --line:#e3ddd3;
+  --purple:#4f2683; --purple-2:#6a4aa0; --tint:#efe9f6; --on-purple:#ffffff;
   --f-display:"Newsreader", Georgia, serif;
   --f-body:"Public Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
