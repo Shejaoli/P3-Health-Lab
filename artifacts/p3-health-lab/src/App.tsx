@@ -1617,7 +1617,13 @@ function Opportunity() {
   }, [isLoading]);
 
   return <>
-    <PageHero eyebrow="Opportunity" title={<>Opportunity at the <em>P3 Health Lab.</em></>} text="Explore current openings, research areas and contact details for prospective lab members." className="p3-purple-hero" />
+    <section className="opportunity-page-hero" aria-labelledby="opportunity-page-title">
+      <div className="container-wide">
+        <span className="eyebrow">P3 Health Lab · Western University</span>
+        <h1 id="opportunity-page-title">Research with purpose.<br /><em>Build healthier futures.</em></h1>
+        <p>Explore current openings and join interdisciplinary research connecting exposure science, communities and health.</p>
+      </div>
+    </section>
     <section className="section opportunity-research" aria-labelledby="opportunity-research-title" data-reveal="up">
       <div className="container-wide">
         <div className="opportunity-interest">
@@ -1655,12 +1661,63 @@ function Opportunity() {
           <div><span className="eyebrow">Prospective members</span><h2>Opportunities</h2></div>
           <p>Only published, current listings appear here.</p>
         </div>
+        {(() => {
+          const recruitment = opportunities.find((item) => item.category === "Graduate Students" && /fully funded graduate positions/i.test(item.title));
+          if (!recruitment) return null;
+          const deadlineLabel = recruitment.deadline
+            ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(`${recruitment.deadline}T12:00:00`))
+            : "To be announced";
+          return <article className="opportunity-recruitment" aria-labelledby="graduate-recruitment-title">
+            <div className="opportunity-recruitment-topline">
+              <span className="opportunity-recruitment-brand">P3 Health Lab <i aria-hidden="true">·</i> Western University</span>
+              <span className="opportunity-recruitment-open"><span aria-hidden="true" />{recruitment.status}</span>
+            </div>
+            <p className="opportunity-recruitment-kicker">We’re recruiting</p>
+            <div className="opportunity-recruitment-title-row">
+              <h3 id="graduate-recruitment-title">Fully funded<br className="opportunity-title-break" /> graduate positions</h3>
+              <div className="opportunity-recruitment-deadline">
+                <span>Applications open until</span>
+                <strong>{deadlineLabel}</strong>
+              </div>
+            </div>
+            <div className="opportunity-position-counts" aria-label="Available positions">
+              <span className="opportunity-count opportunity-count-primary"><strong>1</strong> PhD</span>
+              <span className="opportunity-count"><strong>3</strong> MSc</span>
+            </div>
+            {recruitment.shortDescription.trim() && <p className="opportunity-recruitment-lede">{recruitment.shortDescription}</p>}
+            <div className="opportunity-focus-grid" aria-label="Research areas">
+              <div><span className="opportunity-focus-icon" aria-hidden="true">⌂</span><p><strong>Indoor–outdoor air infiltration</strong><span>Homes and school buses · NSERC</span></p></div>
+              <div><span className="opportunity-focus-icon" aria-hidden="true">♨</span><p><strong>Wildfire smoke &amp; transport</strong><span>Atmospheric transport modelling</span></p></div>
+              <div><span className="opportunity-focus-icon" aria-hidden="true">⌬</span><p><strong>Bioaerosol bioinformatics</strong><span>Airborne microbes &amp; eDNA sequencing</span></p></div>
+              <div><span className="opportunity-focus-icon" aria-hidden="true">◎</span><p><strong>ML &amp; spatial exposure</strong><span>Prediction with R, Python &amp; GIS</span></p></div>
+            </div>
+            <div className="opportunity-skills">
+              <span className="eyebrow">Strong background in</span>
+              <div>{["Machine learning", "Air pollution modelling", "Statistics", "GIS / spatial analysis", "Bioinformatics"].map((skill) => <span key={skill}>{skill}</span>)}</div>
+            </div>
+            <div className="opportunity-requirements">
+              <span className="opportunity-requirements-icon" aria-hidden="true">▤</span>
+              <div><span className="eyebrow">Requirements &amp; how to apply</span>
+                <p>{recruitment.applicationInstructions || "Applicants should have a grade of 80% or higher in statistics, biostatistics, research methods, or quantitative analysis. Email your CV with evidence of relevant skills, such as first-author publications or your thesis."}</p>
+              </div>
+            </div>
+            {recruitment.fullDetails.trim() && <details className="opportunity-more-details"><summary>More position details</summary><p>{recruitment.fullDetails}</p></details>}
+            <div className="opportunity-recruitment-footer">
+              <div><span className="eyebrow">Supervisor</span><strong>Dr. Egide Kalisa</strong><span>Epidemiology &amp; Biostatistics · Western University</span></div>
+              <div className="opportunity-apply"><span>Expected start: September 2027</span>
+                {recruitment.applicationEmail && <a href={`mailto:${recruitment.applicationEmail}`}>Apply: {recruitment.applicationEmail} <ArrowUpRight size={15} aria-hidden="true" /></a>}
+                {recruitment.applicationUrl && <a href={recruitment.applicationUrl} target="_blank" rel="noreferrer">Application details <ArrowUpRight size={15} aria-hidden="true" /></a>}
+              </div>
+            </div>
+          </article>;
+        })()}
         {isLoading && <p className="opportunities-empty" role="status">{slowLoading ? 'Opportunity information is taking longer than expected.' : 'Loading opportunity information…'} {slowLoading && <button type="button" onClick={() => { void refetch(); }}>Try again</button>}</p>}
         {isError && <p className="opportunities-empty" role="alert">Opportunity information could not be loaded. <button type="button" onClick={() => { void refetch(); }}>Try again</button></p>}
         {!isLoading && !isError && opportunities.length === 0 && <p className="opportunities-empty" role="status">No current openings are published. For general inquiries, see the <Link href="/contact">contact options</Link>.</p>}
         {!isLoading && !isError && opportunities.length > 0 && <div className="opportunity-category-list">
           {opportunityCategories.map((category, index) => {
-            const categoryOpportunities = opportunities.filter((opportunity) => opportunity.category === category);
+            const categoryOpportunities = opportunities.filter((opportunity) => opportunity.category === category && !(/fully funded graduate positions/i.test(opportunity.title) && category === "Graduate Students"));
+            if (categoryOpportunities.length === 0) return null;
             return <section className="opportunity-category" key={category} data-testid={`card-opportunity-${index}`}>
               <h3>{category}</h3>
               <div className="opportunity-record-list">
