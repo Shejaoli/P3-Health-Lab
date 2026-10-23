@@ -554,7 +554,10 @@ function Footer({ onLogoClick }: { onLogoClick: (event: ReactMouseEvent<HTMLAnch
       </nav>
     </div>
     <div className="container-wide footer-bottom">
-      <span>© {new Date().getFullYear()} P3 Health Lab, Western University</span>
+      <div className="footer-bottom-credit">
+        <span>© {new Date().getFullYear()} P3 Health Lab, Western University. All rights reserved.</span>
+        <span>Powered by <a href="https://ysota.com/" target="_blank" rel="noopener noreferrer">YSOTA</a></span>
+      </div>
       <span>Research for cleaner air, healthier lives, brighter tomorrows.</span>
     </div>
   </footer>;
