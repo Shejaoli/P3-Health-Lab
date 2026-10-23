@@ -1667,9 +1667,11 @@ function Opportunity() {
         {(() => {
           const recruitment = opportunities.find((item) => item.category === "Graduate Students" && /fully funded graduate positions/i.test(item.title));
           if (!recruitment) return null;
-          const deadlineLabel = recruitment.deadline
-            ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(`${recruitment.deadline}T12:00:00`))
-            : "To be announced";
+          const deadlineText = typeof recruitment.deadline === "string" ? recruitment.deadline.slice(0, 10) : "";
+          const deadlineParts = deadlineText.match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+          const deadlineLabel = deadlineParts
+            ? `${new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" }).format(new Date(Date.UTC(Number(deadlineParts[1]), Number(deadlineParts[2]) - 1, 1)))} ${Number(deadlineParts[3])}, ${deadlineParts[1]}`
+            : (typeof recruitment.deadline === "string" && recruitment.deadline ? recruitment.deadline : "To be announced");
           return <article className="opportunity-recruitment" aria-labelledby="graduate-recruitment-title">
             <div className="opportunity-recruitment-topline">
               <span className="opportunity-recruitment-brand">P3 Health Lab <i aria-hidden="true">·</i> Western University</span>
