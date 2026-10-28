@@ -104,7 +104,7 @@ export const people: {
         { name: 'Shaikh Sumeet Jamil', role: 'Research Assistant', photo: '/img/people/sumeet-jamil.jpg', institution: 'Western University', linkedin: 'https://www.linkedin.com/in/sumeet-jamil-1a28ba233/' },
         { name: 'Sharika Jalali', role: 'Research Assistant', photo: '/img/people/sharika-jalali.jpg', institution: 'Western University', linkedin: 'https://www.linkedin.com/in/sharikajalali/' },
         { name: 'Innocent Twagirayezu', role: 'Research Assistant, PhD', photo: '/img/people/innocent-twagirayezu.jpg', institution: 'Western University', linkedin: 'https://www.linkedin.com/in/innocent-twagirayezu-6277141b7/' },
-        { name: 'Yves Ujeneza', role: 'Research Assistant', photo: '/img/people/yves-ujeneza.jpg', institution: 'University of Rwanda' },
+        { name: 'Yves Ujeneza', role: 'Research Assistant', photo: '/img/people/yves-ujeneza.jpg', institution: 'Rwanda' },
       ],
     },
     {
