@@ -186,6 +186,9 @@ export function HumekaNezaPage() {
             <img src="/images/design-reference/logo-humekaneza.png" alt="" width="72" height="72" />
             <span><strong>HumekaNeza</strong><small>Breathe Easy</small></span>
           </a>
+          <Link href="/" className="hn-p3-lab hn-p3-lab-desktop" aria-label="Back to the P3 Health Lab home page" onClick={closeMenu}>
+            <span aria-hidden="true">←</span> P3 Lab
+          </Link>
           <button
             className="hn-menu-button"
             type="button"
@@ -203,6 +206,9 @@ export function HumekaNezaPage() {
             <a href="#videos" onClick={closeMenu}>Videos</a>
             <a href="#journey" onClick={closeMenu}>Our journey</a>
             <a href="#stories" onClick={closeMenu}>Stories</a>
+            <Link href="/" className="hn-p3-lab hn-p3-lab-mobile" aria-label="Back to the P3 Health Lab home page" onClick={closeMenu}>
+              <span aria-hidden="true">←</span> P3 Lab
+            </Link>
           </nav>
           <a className="hn-nav-cta" href="#get-involved" onClick={closeMenu}>Get involved <ArrowUpRight size={15} aria-hidden="true" /></a>
         </div>
